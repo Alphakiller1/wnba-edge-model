@@ -10,6 +10,7 @@ from .espnanalytics import fetch_box, write_box
 from .features import build_player_features, load_jsonl
 from .herhoopstats import fetch_research_table, write_table
 from .market_data import best_price_player_prop
+from .projections import build_game_projections, load_schedule, write_default_schedule
 from .season import build_season_tables, scrape_season_snapshot
 from .wnbanalytics import scrape_players, write_jsonl
 
@@ -61,6 +62,10 @@ def main() -> None:
 
     espn = subparsers.add_parser("scrape-espnanalytics-box")
     espn.add_argument("--id", required=True, help="ESPN Analytics box id, e.g. 20250811-1022500204")
+
+    game_proj = subparsers.add_parser("build-game-projections")
+    game_proj.add_argument("--season", default="2026-27")
+    game_proj.add_argument("--schedule", default=None)
 
     args = parser.parse_args()
 
@@ -159,6 +164,16 @@ def main() -> None:
         print(f"player_action rows: {len(box.player_actions)}")
         for name, path in paths.items():
             print(f"{name}: {path}")
+
+    elif args.command == "build-game-projections":
+        teams_path = DATA / "processed" / f"teams_season_{args.season}.csv"
+        schedule_path = Path(args.schedule) if args.schedule else DATA / "raw" / f"upcoming_schedule_{args.season}.csv"
+        if not schedule_path.exists():
+            write_default_schedule(schedule_path)
+        projections = build_game_projections(pd.read_csv(teams_path), load_schedule(schedule_path))
+        out_path = DATA / "processed" / f"game_projections_{args.season}.csv"
+        projections.to_csv(out_path, index=False)
+        print(f"wrote {len(projections)} game projections to {out_path}")
 
 
 def load_features_csv(path: Path):

@@ -3,7 +3,7 @@ import { dashboardData } from "./model-data";
 const formatPlus = (value: number) => `${value > 0 ? "+" : ""}${value.toFixed(1)}`;
 
 export default function Home() {
-  const { summary, edgeBoard, teams, recentGames, leaders } = dashboardData;
+  const { summary, edgeBoard, gameProjections, teams, recentGames, leaders } = dashboardData;
   const topEdge = edgeBoard[0];
 
   return (
@@ -27,13 +27,34 @@ export default function Home() {
           <div className="grid gap-3 sm:grid-cols-2">
             <Metric label="Players" value={summary.players.toString()} />
             <Metric label="Games" value={summary.games.toString()} />
+            <Metric label="Projected" value={summary.gameProjections.toString()} />
             <Metric label="Player Logs" value={summary.playerLogs.toLocaleString()} />
-            <Metric label="Model Inputs" value={`${summary.modelColumns} cols`} />
           </div>
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-7xl gap-5 px-5 py-6 lg:grid-cols-[1.5fr_0.8fr] lg:px-8">
+      <section className="mx-auto max-w-7xl px-5 py-6 lg:px-8">
+        <div className="rounded-md border border-[#cbd5c7] bg-white">
+          <div className="flex flex-wrap items-end justify-between gap-3 border-b border-[#d8dfd5] px-4 py-3">
+            <div>
+              <h2 className="text-lg font-semibold">Game Projections</h2>
+              <p className="text-sm text-[#66756d]">Baseline projected score, spread, total, pace, and confidence.</p>
+            </div>
+            <div className="flex flex-wrap gap-2 text-xs">
+              <Legend color="bg-[#dff3e5] text-[#17643a]" label="Strong / positive" />
+              <Legend color="bg-[#fff1c7] text-[#7c5a00]" label="Review" />
+              <Legend color="bg-[#ffe1dd] text-[#9d2f25]" label="Risk / weak" />
+            </div>
+          </div>
+          <div className="grid gap-0 md:grid-cols-2 xl:grid-cols-3">
+            {gameProjections.map((game) => (
+              <ProjectionCard key={`${game.date}-${game.away}-${game.home}`} game={game} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto grid max-w-7xl gap-5 px-5 pb-6 lg:grid-cols-[1.5fr_0.8fr] lg:px-8">
         <div className="rounded-md border border-[#cbd5c7] bg-white">
           <div className="flex flex-wrap items-end justify-between gap-3 border-b border-[#d8dfd5] px-4 py-3">
             <div>
@@ -179,11 +200,121 @@ function Metric({ label, value }: { label: string; value: string }) {
   );
 }
 
+function Legend({ color, label }: { color: string; label: string }) {
+  return <span className={`rounded px-2 py-1 font-medium ${color}`}>{label}</span>;
+}
+
 function Mini({ label, value }: { label: string; value: string }) {
   return (
     <div>
       <div className="text-[#7b877f]">{label}</div>
       <div className="font-mono font-semibold">{value}</div>
+    </div>
+  );
+}
+
+function ProjectionCard({
+  game,
+}: {
+  game: {
+    date: string;
+    time: string;
+    away: string;
+    home: string;
+    awayPts: number;
+    homePts: number;
+    total: number;
+    homeSpread: number;
+    pace: number;
+    confidence: number;
+    favorite: string;
+    awayNet: number;
+    homeNet: number;
+    note: string;
+  };
+}) {
+  const confidenceTone =
+    game.confidence >= 75
+      ? "bg-[#dff3e5] text-[#17643a] border-[#9ccfae]"
+      : game.confidence >= 62
+        ? "bg-[#fff1c7] text-[#7c5a00] border-[#e4c66a]"
+        : "bg-[#ffe1dd] text-[#9d2f25] border-[#efaaa1]";
+  const totalTone =
+    game.total >= 174
+      ? "bg-[#dff3e5] text-[#17643a]"
+      : game.total <= 168
+        ? "bg-[#e7ecf7] text-[#314a73]"
+        : "bg-[#f1f4ee] text-[#526158]";
+  const paceTone =
+    game.pace >= 82
+      ? "text-[#17643a]"
+      : game.pace <= 79
+        ? "text-[#314a73]"
+        : "text-[#526158]";
+  const spreadAbs = Math.abs(game.homeSpread);
+  const spreadTone =
+    spreadAbs >= 6
+      ? "bg-[#dff3e5] text-[#17643a]"
+      : spreadAbs <= 2
+        ? "bg-[#fff1c7] text-[#7c5a00]"
+        : "bg-[#f1f4ee] text-[#526158]";
+  const homeFavored = game.homeSpread >= 0;
+  const spreadLabel = homeFavored
+    ? `${game.home} -${spreadAbs.toFixed(1)}`
+    : `${game.away} -${spreadAbs.toFixed(1)}`;
+
+  return (
+    <article className="border-b border-r border-[#edf1e9] p-4">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <div className="font-mono text-xs text-[#6b7870]">
+          {game.date.slice(5)} · {game.time}
+        </div>
+        <span className={`rounded border px-2 py-1 text-xs font-semibold ${confidenceTone}`}>
+          {game.confidence.toFixed(0)} conf
+        </span>
+      </div>
+      <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
+        <TeamProjection abbr={game.away} points={game.awayPts} net={game.awayNet} active={game.favorite === game.away} />
+        <div className="text-center text-xs uppercase text-[#7b877f]">@</div>
+        <TeamProjection abbr={game.home} points={game.homePts} net={game.homeNet} active={game.favorite === game.home} align="right" />
+      </div>
+      <div className="mt-4 grid grid-cols-3 gap-2 text-xs">
+        <div className={`rounded px-2 py-2 ${spreadTone}`}>
+          <div className="uppercase opacity-70">Spread</div>
+          <div className="font-mono font-semibold">{spreadLabel}</div>
+        </div>
+        <div className={`rounded px-2 py-2 ${totalTone}`}>
+          <div className="uppercase opacity-70">Total</div>
+          <div className="font-mono font-semibold">{game.total.toFixed(1)}</div>
+        </div>
+        <div className="rounded bg-[#f1f4ee] px-2 py-2">
+          <div className="uppercase text-[#7b877f]">Pace</div>
+          <div className={`font-mono font-semibold ${paceTone}`}>{game.pace.toFixed(1)}</div>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function TeamProjection({
+  abbr,
+  points,
+  net,
+  active,
+  align = "left",
+}: {
+  abbr: string;
+  points: number;
+  net: number;
+  active: boolean;
+  align?: "left" | "right";
+}) {
+  const netTone = net >= 4 ? "text-[#17643a]" : net <= -4 ? "text-[#9d2f25]" : "text-[#7c5a00]";
+  return (
+    <div className={align === "right" ? "text-right" : "text-left"}>
+      <div className={`text-xl font-semibold ${active ? "text-[#17643a]" : "text-[#18211f]"}`}>{abbr}</div>
+      <div className="font-mono text-3xl font-semibold">{points.toFixed(1)}</div>
+      <div className={`font-mono text-xs ${netTone}`}>{formatPlus(net)} net</div>
     </div>
   );
 }
