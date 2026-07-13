@@ -1,0 +1,6 @@
+source,research_type,player,date,team,loc,opp,result,gm,gs,mp,pts,fgm,fga,fgpct,2pm,2pa,2ppct,3pm,3pa,3ppct,ftm,fta,ftpct,orb,drb,trb,ast,tov,stl,blk,pf,espn,fanduel,draftkings,mp_decimal
+herhoopstats,player_single_games,Marina Mabrey,2026-06-25,TOR,,LAS,W 125-97,REG,1,1921,53,17,28,0.607143,8,10,0.8,9,18,0.5,10,12,0.833333,2,4,6,2,3,0,0,2,70,60.2,66.5,19.35
+herhoopstats,player_single_games,A'ja Wilson,2026-05-15,LVA,@,CON,W 101-94,REG,1,1933,45,15,18,0.833333,13,16,0.8125,2,2,1.0,13,13,1.0,0,3,3,3,3,1,2,2,59,59.1,58.75,19.55
+herhoopstats,player_single_games,Kelsey Plum,2026-06-13,LAS,@,PHX,W 111-102 OT,REG,1,2216,43,14,26,0.538462,9,15,0.6,5,11,0.454545,10,12,0.833333,0,2,2,7,5,0,0,3,57,50.9,56.0,22.267
+herhoopstats,player_single_games,Kahleah Copper,2026-06-13,PHX,,LAS,L 102-111 OT,REG,1,2253,41,16,30,0.533333,10,16,0.625,6,14,0.428571,3,6,0.5,3,7,10,1,5,0,0,2,58,49.5,57.0,22.883
+herhoopstats,player_single_games,Kelsey Plum,2026-05-23,LAS,@,LVA,W 101-95,REG,1,2219,38,12,17,0.705882,6,10,0.6,6,7,0.857143,8,8,1.0,0,4,4,9,3,1,0,4,59,56.3,60.0,22.317
