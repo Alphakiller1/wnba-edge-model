@@ -3,3 +3,7 @@ __pycache__/
 *.egg-info/
 .venv/
 .pytest_cache/
+site/node_modules/
+site/dist/
+site/.wrangler/
+deploy/
