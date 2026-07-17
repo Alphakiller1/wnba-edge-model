@@ -1,4 +1,9 @@
-"""Self-contained static dashboard for GitHub Pages.
+"""Self-contained static dashboard for GitHub Pages — Chase Analytics design contract.
+
+Visual identity is vendored verbatim from the Chase Analytics design system
+(mlbma-pipeline / mlb-model `chase_tokens.css`): deep-navy surfaces, violet brand
+family, gold eyebrow labels, DM Sans body + Roboto Condensed display + Oswald
+wordmark, glassy boards with violet glow. Do not invent new token values here.
 
 Layers are explicitly separated so a visitor can always tell what they are
 looking at: (1) model projections, (2) market snapshot, (3) edge watchboard
@@ -40,19 +45,22 @@ def build_site(root: Path, season: str, out: Path) -> Path:
     summary = results_summary(root)
 
     data_date, stale_days = _freshness(game_results, projections)
-    built_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    built_at = datetime.now(timezone.utc).strftime("%b %d · %H:%M UTC")
+    fresh = stale_days is None or stale_days <= 1
 
     body = f"""
+{_nav(fresh, data_date)}
 <header class="hero">
   <div class="wrap">
-    <div class="eyebrow">Chase Analytics &middot; Model Lab</div>
-    <h1>WNBA Edge Model</h1>
-    <p class="sub">Research dashboard: game projections, a player watchboard, market snapshots,
-    and a graded prediction record. Analytics research &mdash; not betting advice.</p>
-    <div class="meta">
+    <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span>CHASE ANALYTICS&ensp;|&ensp;WNBA INTELLIGENCE</div>
+    <h1 class="hero-title">The WNBA slate,<br>modeled and graded.</h1>
+    <p class="hero-sub">Game projections, a player watchboard, market snapshots, and a fully
+    graded prediction record &mdash; fit on real outcomes, honest about uncertainty.
+    Research software, not betting advice.</p>
+    <div class="hero-meta">
       <span class="pill">data through {esc(data_date or "n/a")}</span>
       {_stale_badge(stale_days)}
-      <span class="pill dim">built {esc(built_at)}</span>
+      <span class="pill pill-dim">built {esc(built_at)}</span>
     </div>
     {_summary_tiles(features, game_results, player_logs, projections)}
   </div>
@@ -66,12 +74,16 @@ def build_site(root: Path, season: str, out: Path) -> Path:
 </main>
 <footer>
   <div class="wrap">
-    <p><strong>Chase Analytics &mdash; WNBA Edge Model</strong> is research and analytics software.
+    <p><b>Chase Analytics &mdash; WNBA Edge Model</b> is research and analytics software.
     It does not provide betting advice, does not guarantee outcomes, and no output is a wager
     instruction. Model limitations are documented in the
     <a href="https://github.com/Alphakiller1/wnba-edge-model/blob/main/METHODOLOGY.md">methodology</a>.
     If you or someone you know has a gambling problem, call 1-800-GAMBLER.</p>
-    <p class="dim">Source: <a href="https://github.com/Alphakiller1/wnba-edge-model">github.com/Alphakiller1/wnba-edge-model</a></p>
+    <p class="foot-links">
+      <a href="https://github.com/Alphakiller1/wnba-edge-model">Source</a><span>&middot;</span>
+      <a href="https://alphakiller1.github.io/mlb-model/">MLB Model</a><span>&middot;</span>
+      <a href="https://chase-analytics.com/">chase-analytics.com</a>
+    </p>
   </div>
 </footer>
 """
@@ -79,6 +91,44 @@ def build_site(root: Path, season: str, out: Path) -> Path:
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(document, encoding="utf-8")
     return out
+
+
+# ── chrome ────────────────────────────────────────────────────────────────────
+
+_LOGO_SVG = (
+    '<svg viewBox="0 0 36 36" width="30" height="30" aria-hidden="true">'
+    '<path d="M18 5 C21 13 24 20 33 31 L3 31 C12 20 15 13 18 5 Z" fill="#7C4DFF"/>'
+    "</svg>"
+)
+
+
+def _nav(fresh: bool, data_date: str | None) -> str:
+    dot = "dot-ok" if fresh else "dot-warn"
+    label = esc(data_date or "no data")
+    links = "".join(
+        f'<a class="nav-link" href="#{anchor}">{text}</a>'
+        for anchor, text in (
+            ("projections", "Projections"),
+            ("market", "Market"),
+            ("watchboard", "Watchboard"),
+            ("results", "Results"),
+            ("methodology", "Methodology"),
+        )
+    )
+    return f"""
+<header class="chase-header">
+  <nav class="chase-nav wrap">
+    <a href="https://chase-analytics.com" class="chase-logo" title="Chase Analytics">
+      {_LOGO_SVG}
+      <span class="chase-wordmark">CHASE&nbsp;<em>ANALYTICS</em></span>
+    </a>
+    <div class="nav-links">{links}</div>
+    <div class="chase-status">
+      <span class="product-tag">WNBA MODEL</span>
+      <span class="chase-timestamp"><span class="pipeline-dot {dot}"></span>{label}</span>
+    </div>
+  </nav>
+</header>"""
 
 
 def _freshness(game_results: pd.DataFrame | None, projections: pd.DataFrame | None):
@@ -99,144 +149,210 @@ def _freshness(game_results: pd.DataFrame | None, projections: pd.DataFrame | No
 
 def _stale_badge(stale_days) -> str:
     if stale_days is None or stale_days <= 1:
-        return '<span class="pill ok">fresh</span>'
-    return f'<span class="pill warn">STALE &mdash; last refresh {stale_days} days ago</span>'
+        return '<span class="pill pill-ok">fresh</span>'
+    return f'<span class="pill pill-warn">STALE &mdash; last refresh {stale_days} days ago</span>'
 
 
 def _summary_tiles(features, game_results, player_logs, projections) -> str:
     tiles = [
-        ("Players", len(features) if features is not None else 0),
+        ("Players modeled", len(features) if features is not None else 0),
         ("Finished games", len(game_results) if game_results is not None else 0),
         ("Player game logs", len(player_logs) if player_logs is not None else 0),
-        ("Projected games", len(projections) if projections is not None else 0),
+        ("Games projected", len(projections) if projections is not None else 0),
     ]
     cells = "".join(
-        f'<div class="tile"><div class="tile-v">{value:,}</div><div class="tile-l">{esc(label)}</div></div>'
+        f'<div class="tile"><span class="tile-v">{value:,}</span><span class="tile-l">{esc(label)}</span></div>'
         for label, value in tiles
     )
     return f'<div class="tiles">{cells}</div>'
 
 
+def _section_head(anchor: str, number: str, title: str, kicker: str, blurb: str) -> str:
+    return f"""
+<div class="sec-head" id="{anchor}">
+  <div class="sec-eyebrow">{esc(kicker)} &middot; {esc(number)} / 4</div>
+  <h2 class="sec-title">{esc(title)}</h2>
+  <p class="sec-blurb">{blurb}</p>
+</div>"""
+
+
+# ── layer 1 · projections ────────────────────────────────────────────────────
+
 def _projections_section(projections: pd.DataFrame | None) -> str:
     head = _section_head(
-        "1", "Game Projections", "Model layer",
-        "Baseline score, spread, total and pace from team efficiency ratings; "
-        "home-win probability is fit on finished games.",
+        "projections", "1", "Game Projections", "Model layer",
+        "Baseline score, spread, total and pace from team efficiency ratings. "
+        "The home-win probability is a logistic fit on this season's finished games "
+        "&mdash; the basis and sample size are always shown.",
     )
     if projections is None:
-        return f"""{head}<div class="empty">No game projections yet. Run
-        <code>wnba-edges build-game-projections</code> after a season refresh.</div>"""
+        return f"""<section>{head}<div class="empty">No game projections yet. Run
+        <code>wnba-edges build-game-projections</code> after a season refresh.</div></section>"""
     basis = esc(projections.iloc[0].get("win_prob_basis", ""))
     hc = esc(projections.iloc[0].get("home_court_pts", ""))
     cards = "".join(_projection_card(game) for _, game in projections.iterrows())
-    return f"""{head}
-<p class="note">Win probability: {basis} &middot; home court: {hc} pts</p>
-<div class="cards">{cards}</div>"""
+    return f"""<section>{head}
+<p class="basis-note">Win probability: {basis} &nbsp;&middot;&nbsp; home court: {hc} pts</p>
+<div class="matrix">{cards}</div></section>"""
 
 
 def _projection_card(game: pd.Series) -> str:
     win = pd.to_numeric(game.get("home_win_prob"), errors="coerce")
-    win_txt = f"{win * 100:.0f}%" if pd.notna(win) else "&ndash;"
-    fav_home = pd.notna(win) and win >= 0.5
+    home_fav = pd.notna(win) and win >= 0.5
+    win_pct = float(win) * 100 if pd.notna(win) else None
+    away_pct = 100 - win_pct if win_pct is not None else None
     spread = pd.to_numeric(game.get("projected_home_spread"), errors="coerce")
     spread_txt = f"{spread:+.1f}" if pd.notna(spread) else "&ndash;"
+    time_txt = _tipoff(str(game.get("time", "")))
+    fav_side = "home" if home_fav else "away"
+    prob_label = (
+        f'{esc(game["home" if home_fav else "away"])} {(win_pct if home_fav else away_pct):.0f}%'
+        if win_pct is not None else "&ndash;"
+    )
+    bar = ""
+    if win_pct is not None:
+        bar = f"""
+  <div class="wp-row" title="Home win probability {win_pct:.0f}%">
+    <span class="wp-team{' is-fav' if not home_fav else ''}">{esc(game["away"])}</span>
+    <div class="wp-track"><i class="wp-fill" style="width:{win_pct:.1f}%"></i><s class="wp-mid"></s></div>
+    <span class="wp-team{' is-fav' if home_fav else ''}">{esc(game["home"])}</span>
+  </div>"""
     return f"""
-<article class="card">
-  <div class="card-top"><span>{esc(game.get("date", ""))}</span><span class="dim">{esc(str(game.get("time", ""))[:16])}</span></div>
-  <div class="teams">
-    <div class="team {'is-fav' if not fav_home else ''}">
-      <div class="abbr">{esc(game["away"])}</div>
-      <div class="pts">{esc(game["projected_away_pts"])}</div>
-      <div class="net dim">net {esc(game.get("away_net", ""))}</div>
+<article class="mx-card">
+  <div class="mx-top"><span class="mx-date">{esc(game.get("date", ""))}</span><span class="mx-time">{esc(time_txt)}</span></div>
+  <div class="mx-teams">
+    <div class="mx-team{' is-fav' if not home_fav else ''}">
+      <span class="mx-abbr">{esc(game["away"])}</span>
+      <span class="mx-pts">{esc(game["projected_away_pts"])}</span>
+      <span class="mx-net">net {esc(game.get("away_net", ""))}</span>
     </div>
-    <div class="at">@</div>
-    <div class="team {'is-fav' if fav_home else ''}">
-      <div class="abbr">{esc(game["home"])}</div>
-      <div class="pts">{esc(game["projected_home_pts"])}</div>
-      <div class="net dim">net {esc(game.get("home_net", ""))}</div>
+    <div class="mx-at">@</div>
+    <div class="mx-team{' is-fav' if home_fav else ''}">
+      <span class="mx-abbr">{esc(game["home"])}</span>
+      <span class="mx-pts">{esc(game["projected_home_pts"])}</span>
+      <span class="mx-net">net {esc(game.get("home_net", ""))}</span>
     </div>
   </div>
-  <div class="statrow">
-    <div><span class="lbl">Home win</span><span class="val">{win_txt}</span></div>
-    <div><span class="lbl">Spread</span><span class="val">{spread_txt}</span></div>
-    <div><span class="lbl">Total</span><span class="val">{esc(game["projected_total"])}</span></div>
-    <div><span class="lbl">Pace</span><span class="val">{esc(game["projected_pace"])}</span></div>
+  {bar}
+  <div class="mx-stats">
+    <div class="mx-stat mx-stat--{fav_side}"><i>Win</i><b>{prob_label}</b></div>
+    <div class="mx-stat"><i>Spread</i><b>{spread_txt}</b></div>
+    <div class="mx-stat"><i>Total</i><b>{esc(game["projected_total"])}</b></div>
+    <div class="mx-stat"><i>Pace</i><b>{esc(game["projected_pace"])}</b></div>
   </div>
 </article>"""
 
 
+def _tipoff(raw: str) -> str:
+    """Compact tip-off label from either an ISO instant or a preformatted string."""
+    raw = raw.strip()
+    if "T" in raw:
+        try:
+            when = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+            return when.strftime("%H:%M UTC")
+        except ValueError:
+            pass
+    return raw[:16]
+
+
+# ── layer 2 · market ─────────────────────────────────────────────────────────
+
 def _market_section(odds: pd.DataFrame | None) -> str:
     head = _section_head(
-        "2", "Market Snapshot", "Market layer",
-        "Stored odds with book attribution and quote timestamps. Edges are only priced "
-        "against de-vigged market probabilities from these snapshots.",
+        "market", "2", "Market Snapshot", "Market layer",
+        "Stored odds with book attribution and quote timestamps. Edges are only ever priced "
+        "against de-vigged market probabilities from these snapshots &mdash; a model number "
+        "without a market price is a projection, not an edge.",
     )
     if odds is None:
-        return f"""{head}<div class="empty">No odds snapshot stored. Fetch one with
-        <code>python -m wnba_edges.market_data --fetch-game AWY@HOM --props</code>
-        (requires <code>ODDS_API_KEY</code>). Model probabilities without a market
-        price are projections, not edges &mdash; nothing here pretends otherwise.</div>"""
+        return f"""<section>{head}<div class="empty"><b>No odds snapshot stored.</b><br>
+        Fetch one with <code>python -m wnba_edges.market_data --fetch-game AWY@HOM --props</code>
+        (requires <code>ODDS_API_KEY</code>). Nothing on this page pretends to be an edge
+        without a price.</div></section>"""
     fetched = odds["fetched_at"].astype(str).max()
     by_market = odds.groupby("market").size().sort_values(ascending=False)
     rows = "".join(
-        f"<tr><td>{esc(market)}</td><td class='num'>{count}</td></tr>"
+        f'<tr><td>{esc(market)}</td><td class="num">{count}</td></tr>'
         for market, count in by_market.items()
     )
     books = odds["book"].nunique()
-    return f"""{head}
-<p class="note">Latest snapshot: {esc(fetched)} &middot; {books} book(s) &middot; {len(odds)} quotes</p>
-<div class="tablewrap"><table>
+    return f"""<section>{head}
+<p class="basis-note">Latest snapshot {esc(fetched)} &nbsp;&middot;&nbsp; {books} book(s) &nbsp;&middot;&nbsp; {len(odds)} quotes</p>
+<div class="board"><div class="tablewrap"><table>
 <thead><tr><th>Market</th><th class="num">Quotes</th></tr></thead>
-<tbody>{rows}</tbody></table></div>"""
+<tbody>{rows}</tbody></table></div></div></section>"""
 
+
+# ── layer 3 · watchboard ─────────────────────────────────────────────────────
 
 def _board_section(features: pd.DataFrame | None) -> str:
     head = _section_head(
-        "3", "Edge Watchboard", "Review queue",
-        "A ranked review queue of usage, minutes, and form signals &mdash; these are "
-        "research candidates to price against a market, not bets. Players under the "
-        f"sample floor (GP &lt; {MIN_GAMES_FOR_BOARD} or MPG &lt; {MIN_MPG_FOR_BOARD:g}) are excluded.",
+        "watchboard", "3", "Edge Watchboard", "Review queue",
+        "A ranked review queue of usage, minutes, and form signals &mdash; research candidates "
+        "to price against a market line, never bets by themselves. Players under the sample "
+        f"floor (GP &lt; {MIN_GAMES_FOR_BOARD} or MPG &lt; {MIN_MPG_FOR_BOARD:g}) are excluded.",
     )
     if features is None:
-        return f"""{head}<div class="empty">No feature board yet. Run
-        <code>wnba-edges build-features</code> after a season refresh.</div>"""
+        return f"""<section>{head}<div class="empty">No feature board yet. Run
+        <code>wnba-edges build-features</code> after a season refresh.</div></section>"""
     total = len(features)
     eligible = board_eligible(features)
     excluded = total - len(eligible)
     top = eligible.head(15)
-    rows = "".join(
-        f"""<tr><td class="rank">{i + 1}</td><td>{esc(row["name"])}</td>
-<td class="dim">{esc(row["team"])}</td><td class="dim">{esc(row.get("pos", "-"))}</td>
-<td class="num">{float(row["edge_score"]):.2f}</td>
-<td class="num dim">{esc(row.get("ppg", ""))}</td><td class="num dim">{esc(row.get("mpg", ""))}</td>
-<td class="reason">{esc(row["watch_reason"])}</td></tr>"""
-        for i, (_, row) in enumerate(top.iterrows())
-    )
-    return f"""{head}
-<p class="note">{len(eligible)} of {total} players pass the sample floor ({excluded} excluded as low-sample).</p>
-<div class="tablewrap"><table>
-<thead><tr><th></th><th>Player</th><th>Team</th><th>Pos</th><th class="num">Score</th>
+    max_score = max(
+        (float(row["edge_score"]) for _, row in top.iterrows() if pd.notna(row["edge_score"])),
+        default=1.0,
+    ) or 1.0
+    rows = []
+    for i, (_, row) in enumerate(top.iterrows()):
+        score = float(row["edge_score"])
+        width = max(4.0, score / max_score * 100)
+        rows.append(f"""<tr>
+<td class="rank">{i + 1:02d}</td>
+<td class="player">{esc(row["name"])}<span class="player-sub">{esc(row["team"])} &middot; {esc(row.get("pos", "-"))}</span></td>
+<td class="scorebar"><div class="sb-track"><i style="width:{width:.1f}%"></i></div></td>
+<td class="num score">{score:.2f}</td>
+<td class="num dim">{esc(row.get("ppg", ""))}</td>
+<td class="num dim">{esc(row.get("mpg", ""))}</td>
+<td class="reason">{_reason_chips(str(row["watch_reason"]))}</td>
+</tr>""")
+    return f"""<section>{head}
+<p class="basis-note">{len(eligible)} of {total} players pass the sample floor &nbsp;&middot;&nbsp; {excluded} excluded as low-sample</p>
+<div class="board"><div class="tablewrap"><table class="wb">
+<thead><tr><th></th><th>Player</th><th>Signal</th><th class="num">Score</th>
 <th class="num">PPG</th><th class="num">MPG</th><th>Watch reason</th></tr></thead>
-<tbody>{rows}</tbody></table></div>"""
+<tbody>{"".join(rows)}</tbody></table></div></div></section>"""
 
+
+def _reason_chips(reason: str) -> str:
+    parts = [p.strip() for p in reason.split(",") if p.strip()]
+    return "".join(
+        f'<span class="rchip{" rchip-warn" if p.lower() in {"low confidence", "low sample"} else ""}">{esc(p)}</span>'
+        for p in parts[:4]
+    )
+
+
+# ── layer 4 · results ────────────────────────────────────────────────────────
 
 def _results_section(summary: dict) -> str:
     head = _section_head(
-        "4", "Graded Results", "Results layer",
-        "Every logged prediction is graded against finished games; ungradeable rows carry "
-        "an explicit reason code. An empty record means nothing has been predicted yet — "
-        "not hidden losses.",
+        "results", "4", "Graded Results", "Results layer",
+        "Every logged prediction is graded against finished games; ungradeable rows carry an "
+        "explicit reason code. An empty record means nothing has resolved yet &mdash; never "
+        "hidden losses.",
     )
     props = {k: v for k, v in summary.get("props", {}).items() if not k.startswith("_")}
     games = summary.get("games", {})
     has_games = bool(games.get("n"))
     if not props and not has_games:
         pending = summary.get("props", {}).get("_pending", 0) + games.get("_pending", 0)
-        pending_note = f" {pending} prediction(s) await grading." if pending else ""
-        return f"""{head}<div class="empty">No graded predictions yet.{pending_note}
-        Predictions logged by <code>evaluate-player-prop</code> and
-        <code>build-game-projections</code> are graded by <code>wnba-edges grade-predictions</code>
-        once games finish.</div>"""
+        pending_note = (
+            f'<span class="pill pill-dim">{pending} prediction(s) awaiting grading</span>'
+            if pending else ""
+        )
+        return f"""<section>{head}<div class="empty"><b>No graded predictions yet.</b> {pending_note}<br>
+        Predictions logged by <code>evaluate-player-prop</code> and <code>build-game-projections</code>
+        are graded by <code>wnba-edges grade-predictions</code> once games finish.</div></section>"""
     prop_rows = "".join(
         f"""<tr><td>{esc(market)}</td>
 <td class="num">{record["wins"]}-{record["losses"]}-{record["pushes"]}</td>
@@ -244,60 +360,61 @@ def _results_section(summary: dict) -> str:
         for market, record in sorted(props.items())
     )
     prop_table = (
-        f"""<div class="tablewrap"><table>
+        f"""<div class="board"><div class="tablewrap"><table>
 <thead><tr><th>Market</th><th class="num">W-L-P</th><th class="num">Hit rate</th></tr></thead>
-<tbody>{prop_rows}</tbody></table></div>"""
-        if props
-        else '<p class="note">No graded props yet.</p>'
+<tbody>{prop_rows}</tbody></table></div></div>"""
+        if props else ""
     )
     game_block = ""
     if has_games:
-        game_block = f"""<p class="note">Game projections: n={games["n"]} &middot;
-winner hit rate {games["winner_hit_rate"]}% &middot; spread MAE {games["spread_mae"]} &middot;
-total MAE {games["total_mae"]} &middot; Brier {games["brier"]}</p>"""
-    return f"{head}{prop_table}{game_block}"
+        game_block = f"""
+<div class="tiles tiles-results">
+  <div class="tile"><span class="tile-v">{games["n"]}</span><span class="tile-l">Games graded</span></div>
+  <div class="tile"><span class="tile-v">{games["winner_hit_rate"]}%</span><span class="tile-l">Winner hit rate</span></div>
+  <div class="tile"><span class="tile-v">{games["spread_mae"]}</span><span class="tile-l">Spread MAE</span></div>
+  <div class="tile"><span class="tile-v">{games["brier"]}</span><span class="tile-l">Brier score</span></div>
+</div>"""
+    return f"<section>{head}{game_block}{prop_table}</section>"
 
+
+# ── methodology ──────────────────────────────────────────────────────────────
 
 def _methodology_section(sigmas: pd.DataFrame | None) -> str:
     if sigmas is None or sigmas.empty:
         sigma_note = (
-            "Per-market sigmas not yet fitted — evaluations fall back to labeled priors "
+            "Per-market sigmas not yet fitted &mdash; evaluations fall back to labeled priors "
             "until <code>wnba-edges fit-sigma</code> runs."
         )
     else:
-        parts = ", ".join(
-            f"{esc(row['market']).replace('player_', '')} {float(row['sigma']):.1f}"
+        parts = " &nbsp;".join(
+            f'<span class="sigchip">{esc(row["market"]).replace("player_", "")}'
+            f' <b>{float(row["sigma"]):.2f}</b></span>'
             for _, row in sigmas.iterrows()
         )
-        sigma_note = f"Fitted per-market game-to-game sigma: {parts}."
+        n = int(sigmas.iloc[0].get("n_games", 0) or 0)
+        sigma_note = f"Per-market game-to-game sigma, fitted on {n:,} player-games: {parts}"
     return f"""
 <section>
-  <div class="sec-head"><div><span class="kicker">Methodology</span>
-  <h2>How to read this page</h2></div></div>
-  <div class="prose">
-    <p><strong>Tiers:</strong> Lean (edge &ge; 2 pts), Standard (&ge; 4.5 pts), Strong (&ge; 8 pts).
-    Edges &ge; 15 pts are flagged <strong>REVIEW</strong> — implausibly large edges are treated as
-    input errors, never as bets. Edges are measured against de-vigged (vig-free) market
-    probabilities whenever both sides of a line are stored.</p>
-    <p>{sigma_note}</p>
-    <p><strong>Known limitations:</strong> projections are team-efficiency baselines without
-    injury or lineup adjustments; player projections are season rates with a minutes adjustment;
-    the watchboard is a screening tool. Full details:
+  <div class="sec-head" id="methodology">
+    <div class="sec-eyebrow">Methodology</div>
+    <h2 class="sec-title">How to read this page</h2>
+  </div>
+  <div class="board prose">
+    <p><b>Tiers.</b> Lean (edge &ge; 2 pts) &middot; Standard (&ge; 4.5 pts) &middot; Strong (&ge; 8 pts).
+    Edges &ge; 15 pts flag <b class="warn">REVIEW</b> &mdash; implausibly large edges are treated as
+    input errors, never as bets. Edges are measured against de-vigged market probabilities
+    whenever both sides of a line are stored.</p>
+    <p><b>Volatility.</b> {sigma_note}</p>
+    <p><b>Known limitations.</b> Projections are team-efficiency baselines without injury or
+    lineup adjustments; player projections are season rates with a minutes adjustment; the
+    watchboard is a screening tool. Full details:
     <a href="https://github.com/Alphakiller1/wnba-edge-model/blob/main/METHODOLOGY.md">METHODOLOGY.md</a>.</p>
   </div>
 </section>"""
 
 
-def _section_head(number: str, title: str, kicker: str, blurb: str) -> str:
-    return f"""
-<section>
-<div class="sec-head">
-  <div><span class="kicker">{esc(kicker)} &middot; {esc(number)}/4</span>
-  <h2>{esc(title)}</h2>
-  <p class="blurb">{blurb}</p></div>
-</div>
-</section>"""
-
+# ── template ─────────────────────────────────────────────────────────────────
+# Tokens vendored verbatim from the Chase Analytics design system (chase_tokens.css).
 
 _TEMPLATE = """<!doctype html>
 <html lang="en">
@@ -307,59 +424,161 @@ _TEMPLATE = """<!doctype html>
 <title>WNBA Edge Model — Chase Analytics</title>
 <meta name="description" content="WNBA research dashboard: game projections, player watchboard, market snapshots, and a graded prediction record.">
 <style>
-:root{--bg:#0d1117;--panel:#161b22;--panel2:#1c2330;--line:#2a3240;--text:#e6e9ee;--dim:#8b96a5;
---gold:#e8b45a;--blue:#5aa2e8;--green:#4cc38a;--red:#e5645f;--amber:#e8c55a;}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-a{color:var(--blue)}
-.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
-.hero{background:linear-gradient(180deg,#11161f,#0d1117);border-bottom:1px solid var(--line);padding:40px 0 28px}
-.eyebrow{color:var(--gold);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px}
-h1{font-size:34px;letter-spacing:-.01em}
-.sub{color:var(--dim);max-width:640px;margin-top:8px}
-.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.pill{border:1px solid var(--line);border-radius:999px;padding:3px 12px;font-size:12px;background:var(--panel)}
-.pill.ok{color:var(--green);border-color:#2b4a3c}
-.pill.warn{color:#161b22;background:var(--amber);border-color:var(--amber);font-weight:700}
-.pill.dim{color:var(--dim)}
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:20px}
-.tile{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px}
-.tile-v{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums}
-.tile-l{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
-main{padding:10px 0 30px}
-section{margin-top:34px}
-.kicker{color:var(--gold);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
-h2{font-size:22px;margin-top:4px}
-.blurb{color:var(--dim);max-width:680px;margin-top:6px;font-size:14px}
-.note{color:var(--dim);font-size:13px;margin:10px 0 4px}
-.empty{background:var(--panel);border:1px dashed var(--line);border-radius:10px;padding:18px;color:var(--dim);margin-top:12px;font-size:14px}
-code{background:var(--panel2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:12.5px}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:12px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px}
-.card-top{display:flex;justify-content:space-between;font-size:12px;color:var(--dim);margin-bottom:10px}
-.teams{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;text-align:center}
-.abbr{font-weight:700;font-size:15px}
-.pts{font-size:26px;font-weight:700;font-variant-numeric:tabular-nums}
-.team.is-fav .pts{color:var(--gold)}
-.net{font-size:11px}
-.at{color:var(--dim)}
-.statrow{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
-.statrow .lbl{display:block;font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
-.statrow .val{font-weight:600;font-variant-numeric:tabular-nums;font-size:14px}
-.tablewrap{overflow-x:auto;margin-top:12px;border:1px solid var(--line);border-radius:10px}
-table{width:100%;border-collapse:collapse;background:var(--panel);font-size:14px}
-th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
-th{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Oswald:wght@600;700&family=Roboto+Condensed:wght@400;500;600;700;800&display=swap');
+:root{
+  color-scheme:dark;
+  --bg:#08090F; --bg-2:#0E1018; --bg-3:#12141D; --bg-4:#181B26; --raised:#20232F;
+  --border:#262A38; --border-2:#363B4D; --border-soft:rgba(255,255,255,.06);
+  --border-violet:rgba(124,77,255,.32);
+  --text:#F5F6FA; --text-2:#A4A8B6; --text-3:#6E7383;
+  --ca-purple:#9A6BFF; --v-light:#C4B0FF; --v-mid:#7C4DFF; --v-deep:#5B2BE0;
+  --v-grad:linear-gradient(135deg,#9A6BFF 0%,#5B2BE0 100%);
+  --gold:#E8C24A; --green:#3CCB7F; --red:#F2545B;
+  --ca-panel-border:rgba(154,107,255,.41);
+  --board-top:#181A2A; --board-bottom:#05060C;
+  --card-shadow:0 4px 24px rgba(0,0,0,.35);
+  --glow:0 0 0 1px rgba(196,176,255,.13),0 0 30px rgba(124,77,255,.18),0 28px 78px rgba(0,0,0,.7);
+  --sans:'DM Sans',system-ui,-apple-system,sans-serif;
+  --display:'Roboto Condensed','DM Sans',system-ui,sans-serif;
+  --wordmark:'Oswald','Arial Narrow',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{background:var(--bg);color:var(--text);font:15px/1.55 var(--sans);
+background-image:radial-gradient(1100px 480px at 78% -12%,rgba(124,77,255,.16),transparent 62%),
+radial-gradient(900px 420px at 8% 4%,rgba(91,43,224,.10),transparent 55%),
+linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
+linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
+background-size:auto,auto,26px 26px,26px 26px}
+a{color:var(--v-light);text-decoration:none}a:hover{text-decoration:underline}
+b{font-weight:700}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.num{font-variant-numeric:tabular-nums;text-align:right}
+.dim{color:var(--text-2)}
+/* ── nav ── */
+.chase-header{position:sticky;top:0;z-index:50;background:rgba(8,9,15,.82);backdrop-filter:blur(14px);
+border-bottom:1px solid var(--border-soft)}
+.chase-nav{display:flex;align-items:center;gap:26px;height:64px}
+.chase-logo{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+.chase-wordmark{font-family:var(--wordmark);font-weight:700;font-size:19px;letter-spacing:.04em;color:var(--text);font-style:italic}
+.chase-wordmark em{font-style:italic;background:linear-gradient(90deg,var(--v-light),var(--ca-purple));
+-webkit-background-clip:text;background-clip:text;color:transparent}
+.nav-links{display:flex;gap:4px;flex:1;justify-content:center}
+.nav-link{padding:7px 13px;border-radius:9px;color:var(--text-2);font-size:13.5px;font-weight:600}
+.nav-link:hover{color:var(--text);background:rgba(124,77,255,.12);text-decoration:none}
+.chase-status{display:flex;align-items:center;gap:12px;flex:0 0 auto}
+.product-tag{font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:.14em;color:var(--v-light);
+border:1px solid var(--border-violet);border-radius:999px;padding:4px 11px}
+.chase-timestamp{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--text-2)}
+.pipeline-dot{width:8px;height:8px;border-radius:50%}
+.dot-ok{background:var(--green);box-shadow:0 0 8px rgba(60,203,127,.8)}
+.dot-warn{background:var(--gold);box-shadow:0 0 8px rgba(232,194,74,.8)}
+/* ── hero ── */
+.hero{padding:58px 0 44px;border-bottom:1px solid var(--border-soft)}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:9px;color:var(--gold);font-family:var(--display);
+font-weight:700;font-size:12px;letter-spacing:.2em;border:1px solid var(--border-2);
+border-radius:999px;padding:7px 15px;background:rgba(14,16,24,.6)}
+.hero-eyebrow-dot{width:7px;height:7px;border-radius:50%;background:var(--v-mid);box-shadow:0 0 10px var(--v-mid)}
+.hero-title{font-family:var(--display);font-weight:800;font-size:clamp(38px,6vw,64px);line-height:1.02;
+letter-spacing:-.015em;text-transform:uppercase;margin:22px 0 14px;max-width:820px}
+.hero-sub{color:var(--text-2);max-width:640px;font-size:16px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.pill{border:1px solid var(--border-2);border-radius:999px;padding:4px 13px;font-size:12.5px;background:var(--bg-2);color:var(--text-2)}
+.pill-ok{color:var(--green);border-color:rgba(60,203,127,.35)}
+.pill-warn{color:#0B0C12;background:var(--gold);border-color:var(--gold);font-weight:700}
+.pill-dim{color:var(--text-3)}
+/* ── stat tiles ── */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-top:28px}
+.tile{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--board-top),var(--board-bottom));
+border:1px solid var(--border-soft);border-radius:16px;padding:18px 18px 15px;box-shadow:var(--card-shadow)}
+.tile::before{content:"";position:absolute;inset:0 0 auto 0;height:2px;background:var(--v-grad);opacity:.75}
+.tile-v{display:block;font-family:var(--display);font-weight:800;font-size:34px;line-height:1;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.tile-l{display:block;color:var(--text-3);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;margin-top:7px}
+.tiles-results{margin:4px 0 16px}
+/* ── sections ── */
+main{padding:14px 0 40px}
+section{margin-top:52px}
+.sec-eyebrow{color:var(--gold);font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.2em;text-transform:uppercase}
+.sec-title{font-family:var(--display);font-weight:800;font-size:clamp(26px,3.4vw,36px);text-transform:uppercase;
+letter-spacing:-.01em;line-height:1.05;margin:8px 0 10px}
+.sec-blurb{color:var(--text-2);max-width:700px;font-size:14.5px}
+.basis-note{color:var(--text-3);font-size:13px;margin:14px 0 2px;font-variant-numeric:tabular-nums}
+.empty{background:linear-gradient(180deg,var(--board-top),var(--board-bottom));border:1px dashed var(--border-2);
+border-radius:16px;padding:22px;color:var(--text-2);margin-top:16px;font-size:14px;line-height:1.7}
+code{background:var(--bg-4);border:1px solid var(--border-soft);border-radius:6px;padding:1.5px 7px;
+font:12.5px var(--display);color:var(--v-light)}
+/* ── projection matrix ── */
+.matrix{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:14px;margin-top:14px}
+.mx-card{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--board-top),var(--board-bottom));
+border:1px solid var(--border-soft);border-radius:16px;padding:15px 16px 13px;box-shadow:var(--card-shadow);
+transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease}
+.mx-card:hover{transform:translateY(-3px);border-color:var(--border-violet);box-shadow:var(--glow)}
+.mx-top{display:flex;justify-content:space-between;font-size:11.5px;color:var(--text-3);
+font-family:var(--display);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px;font-variant-numeric:tabular-nums}
+.mx-teams{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px;text-align:center}
+.mx-abbr{display:block;font-family:var(--display);font-weight:700;font-size:14px;letter-spacing:.08em;color:var(--text-2)}
+.mx-pts{display:block;font-family:var(--display);font-weight:800;font-size:33px;line-height:1.06;
+letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.mx-team.is-fav .mx-pts{color:var(--v-light)}
+.mx-team.is-fav .mx-abbr{color:var(--v-light)}
+.mx-net{display:block;font-size:10.5px;color:var(--text-3);margin-top:2px;font-variant-numeric:tabular-nums}
+.mx-at{color:var(--text-3);font-size:12px}
+.wp-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;margin:12px 0 2px}
+.wp-team{font-family:var(--display);font-weight:700;font-size:10.5px;letter-spacing:.08em;color:var(--text-3)}
+.wp-team.is-fav{color:var(--v-light)}
+.wp-track{position:relative;height:7px;border-radius:4px;background:var(--bg-4);overflow:hidden;direction:rtl}
+.wp-fill{position:absolute;right:0;top:0;height:100%;background:var(--v-grad);border-radius:4px}
+.wp-mid{position:absolute;left:50%;top:-1px;bottom:-1px;width:2px;background:rgba(245,246,250,.28)}
+.mx-stats{display:grid;grid-template-columns:1.35fr 1fr 1fr 1fr;gap:4px;margin-top:12px;
+border-top:1px solid var(--border-soft);padding-top:11px}
+.mx-stat i{display:block;font-style:normal;font-size:9.5px;font-weight:700;color:var(--text-3);
+text-transform:uppercase;letter-spacing:.1em}
+.mx-stat b{display:block;font-family:var(--display);font-weight:700;font-size:14.5px;margin-top:2px;font-variant-numeric:tabular-nums}
+.mx-stat--home b,.mx-stat--away b{color:var(--v-light)}
+/* ── boards & tables ── */
+.board{background:linear-gradient(180deg,var(--board-top),var(--board-bottom));border:1px solid var(--border-soft);
+border-radius:16px;box-shadow:var(--card-shadow);margin-top:14px;overflow:hidden}
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+thead th{font-family:var(--display);font-weight:700;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+color:var(--text-3);text-align:left;padding:12px 14px 9px;border-bottom:1px solid var(--border-soft);white-space:nowrap}
+thead th.num{text-align:right}
+tbody td{padding:10px 14px;border-bottom:1px solid var(--border-soft);white-space:nowrap;font-variant-numeric:tabular-nums}
 tbody tr:last-child td{border-bottom:none}
-td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
-td.rank{color:var(--dim)}
-td.reason{white-space:normal;min-width:200px;color:var(--dim);font-size:13px}
-.dim{color:var(--dim)}
-.prose{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-top:12px;font-size:14px}
-.prose p+p{margin-top:10px}
-footer{border-top:1px solid var(--line);margin-top:40px;padding:22px 0 34px;font-size:13px;color:var(--dim)}
-footer p+p{margin-top:8px}
-@media (max-width:600px){h1{font-size:26px}.statrow{grid-template-columns:repeat(2,1fr);row-gap:10px}}
+tbody tr:hover{background:rgba(124,77,255,.05)}
+.wb .rank{font-family:var(--display);color:var(--text-3);width:34px;font-size:12.5px}
+.wb .player{font-weight:600}
+.player-sub{display:block;font-size:11px;color:var(--text-3);font-weight:500;letter-spacing:.04em}
+.wb .scorebar{width:170px;min-width:120px}
+.sb-track{height:7px;border-radius:4px;background:var(--bg-4);overflow:hidden}
+.sb-track i{display:block;height:100%;background:var(--v-grad);border-radius:4px}
+.wb .score{font-family:var(--display);font-weight:800;font-size:15px;color:var(--v-light)}
+.reason{white-space:normal;min-width:220px}
+.rchip{display:inline-block;font-size:10.5px;font-weight:600;color:var(--text-2);background:var(--bg-4);
+border:1px solid var(--border-soft);border-radius:999px;padding:2px 9px;margin:2px 3px 2px 0;letter-spacing:.02em}
+.rchip-warn{color:var(--gold);border-color:rgba(232,194,74,.3)}
+.sigchip{display:inline-block;background:var(--bg-4);border:1px solid var(--border-soft);border-radius:8px;
+padding:3px 9px;font-size:12.5px;color:var(--text-2);margin:2px 2px 2px 0}
+.sigchip b{color:var(--v-light);font-family:var(--display)}
+/* ── prose / footer ── */
+.prose{padding:20px 22px;font-size:14px;color:var(--text-2);line-height:1.7}
+.prose p+p{margin-top:12px}
+.prose b{color:var(--text)}
+.warn{color:var(--gold)}
+footer{border-top:1px solid var(--border-soft);margin-top:56px;padding:26px 0 40px;font-size:13px;color:var(--text-3);line-height:1.7}
+footer b{color:var(--text-2)}
+footer p+p{margin-top:10px}
+.foot-links{display:flex;gap:10px}
+.foot-links span{color:var(--text-3)}
+/* ── responsive ── */
+@media (max-width:860px){.nav-links{display:none}.chase-nav{justify-content:space-between}}
+@media (max-width:480px){.chase-timestamp{display:none}}
+@media (max-width:600px){
+  .hero{padding:40px 0 32px}
+  .wb .scorebar{min-width:90px;width:90px}
+  .mx-stats{grid-template-columns:repeat(2,1fr);row-gap:10px}
+  .tile-v{font-size:28px}
+}
 </style>
 </head>
 <body>
