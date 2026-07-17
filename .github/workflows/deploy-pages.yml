@@ -36,6 +36,11 @@ jobs:
           for key in ('Game Projections', 'Market Snapshot', 'Edge Watchboard',
                       'Graded Results', 'not betting advice', '1-800-GAMBLER'):
               assert key in html, key
+          # The features/projections CSVs are committed — a build that renders
+          # their empty states means the data root was not resolved (regression
+          # guard: non-editable installs used to point ROOT into site-packages).
+          assert 'No feature board yet' not in html, 'features data not found at build time'
+          assert 'No game projections yet' not in html, 'projections data not found at build time'
           print(f"OK: {len(html)//1024} KB")
           EOF
       - name: Configure Pages

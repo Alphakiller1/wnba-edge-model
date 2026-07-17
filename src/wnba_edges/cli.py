@@ -23,7 +23,11 @@ from .season import build_season_tables, scrape_season_snapshot
 from .sigma import fit_market_sigmas, load_market_sigmas, market_sigma_path, resolve_sigma
 from .wnbanalytics import scrape_players, write_jsonl
 
-ROOT = Path(__file__).resolve().parents[2]
+# Repo root when running from a source checkout (editable install); for a
+# regular install __file__ resolves into site-packages, so fall back to the
+# working directory — CI installs with `pip install .` and runs from the repo.
+_PKG_ROOT = Path(__file__).resolve().parents[2]
+ROOT = _PKG_ROOT if (_PKG_ROOT / "data").exists() else Path.cwd()
 DATA = ROOT / "data"
 
 
