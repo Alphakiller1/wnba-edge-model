@@ -4,7 +4,6 @@ from pathlib import Path
 
 import pandas as pd
 
-
 CORE_COLUMNS = [
     "id",
     "name",
@@ -41,6 +40,15 @@ CORE_COLUMNS = [
 ]
 
 
+# Low-sample gate: players below either floor are flagged and excluded from the
+# default edge board. Rate stats on a handful of minutes z-score into huge fake
+# signals (a 65% usage rate over 1 minute of floor time is noise, not an edge).
+MIN_GAMES_FOR_BOARD = 5
+MIN_MPG_FOR_BOARD = 10.0
+# Shrinkage prior in total minutes: sample_weight = minutes / (minutes + this).
+SHRINK_PRIOR_MINUTES = 150.0
+
+
 def build_player_features(players: pd.DataFrame) -> pd.DataFrame:
     frame = players.copy()
     if "playerId" in frame.columns and "id" not in frame.columns:
@@ -54,15 +62,31 @@ def build_player_features(players: pd.DataFrame) -> pd.DataFrame:
         frame[column] = pd.to_numeric(frame[column], errors="coerce")
 
     out = frame[CORE_COLUMNS].copy()
-    out["minutes_signal"] = zscore(out["projectedMinutes"].fillna(out["mpg"]) - out["mpg"].fillna(0))
-    out["usage_signal"] = zscore(out["usg"]) + zscore(out["creationLoad"])
-    out["impact_signal"] = zscore(out["rapm"]) + 0.5 * zscore(out["cvi"]) + 0.25 * zscore(out["bpm"])
-    out["scoring_signal"] = zscore(out["projectedPoints"].fillna(out["ppg"])) + 0.35 * zscore(out["rimPressureIndex"])
+
+    # Empirical-Bayes-style shrinkage toward the league mean (0 in z-space),
+    # weighted by total minutes played, so tiny samples cannot dominate the board.
+    total_minutes = (out["gp"].fillna(0) * out["mpg"].fillna(0)).clip(lower=0)
+    sample_weight = total_minutes / (total_minutes + SHRINK_PRIOR_MINUTES)
+    out["sample_weight"] = sample_weight.round(4)
+    out["low_sample"] = (out["gp"].fillna(0) < MIN_GAMES_FOR_BOARD) | (
+        out["mpg"].fillna(0) < MIN_MPG_FOR_BOARD
+    )
+
+    out["minutes_signal"] = (
+        zscore(out["projectedMinutes"].fillna(out["mpg"]) - out["mpg"].fillna(0)) * sample_weight
+    )
+    out["usage_signal"] = (zscore(out["usg"]) + zscore(out["creationLoad"])) * sample_weight
+    out["impact_signal"] = (
+        zscore(out["rapm"]) + 0.5 * zscore(out["cvi"]) + 0.25 * zscore(out["bpm"])
+    ) * sample_weight
+    out["scoring_signal"] = (
+        zscore(out["projectedPoints"].fillna(out["ppg"])) + 0.35 * zscore(out["rimPressureIndex"])
+    ) * sample_weight
     out["role_signal"] = zscore(out["roleTrustScore"]) + 0.5 * zscore(out["projectionConfidence"])
-    out["recent_minutes_signal"] = zscore(_optional(frame, "last5_min_delta"))
-    out["recent_usage_signal"] = zscore(_optional(frame, "last5_usage_proxy_delta"))
-    out["recent_scoring_signal"] = zscore(_optional(frame, "last5_pts_delta"))
-    out["recent_pra_signal"] = zscore(_optional(frame, "last5_pra_delta"))
+    out["recent_minutes_signal"] = zscore(_optional(frame, "last5_min_delta")) * sample_weight
+    out["recent_usage_signal"] = zscore(_optional(frame, "last5_usage_proxy_delta")) * sample_weight
+    out["recent_scoring_signal"] = zscore(_optional(frame, "last5_pts_delta")) * sample_weight
+    out["recent_pra_signal"] = zscore(_optional(frame, "last5_pra_delta")) * sample_weight
     out["volatility_penalty"] = zscore(_optional(frame, "pra_std")).clip(lower=0)
     out["confidence_penalty"] = (100 - out["projectionConfidence"].fillna(50)).clip(lower=0) / 100
 
@@ -80,6 +104,16 @@ def build_player_features(players: pd.DataFrame) -> pd.DataFrame:
     )
     out["watch_reason"] = out.apply(_watch_reason, axis=1)
     return out.sort_values("edge_score", ascending=False).reset_index(drop=True)
+
+
+def board_eligible(features: pd.DataFrame) -> pd.DataFrame:
+    """Rows that pass the low-sample gate — what the public edge board shows."""
+    if "low_sample" not in features.columns:
+        return features
+    mask = features["low_sample"].astype(str).str.lower().isin({"true", "1"}) | (
+        features["low_sample"] == True  # noqa: E712 — CSV round-trips booleans as strings
+    )
+    return features[~mask]
 
 
 def load_jsonl(path: Path) -> pd.DataFrame:
@@ -118,4 +152,6 @@ def _watch_reason(row: pd.Series) -> str:
         reasons.append("recent PRA")
     if row.get("confidence_penalty", 1) >= 0.55:
         reasons.append("low confidence")
+    if row.get("low_sample"):
+        reasons.append("LOW SAMPLE")
     return ", ".join(reasons) if reasons else "baseline profile"

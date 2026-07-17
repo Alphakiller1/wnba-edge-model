@@ -1,117 +1,108 @@
 # WNBA Edge Model
 
-Early WNBA betting/research pipeline focused on the things that usually move props first:
+WNBA **research and analytics** pipeline from the Chase Analytics model lab:
+game projections, a player watchboard, market snapshots, and a fully graded
+prediction record.
 
-- player usage and minutes stability
-- pace and team environment
-- advanced impact metrics
-- expected minutes / expected points
-- injury/news flags
-- splits and recent form
+> Research software, not betting advice. No output is a wager instruction, and
+> nothing here promises profit. See [METHODOLOGY.md](METHODOLOGY.md) for what
+> every number means and its known limitations.
 
-The first live scraper targets WNBAnalytics because its rendered app payload currently exposes a rich player board with projected minutes, expected points, RAPM, usage, shot mix, role trust, and confidence fields. The WNBA Stats client is included for official stats endpoints, but those endpoints can rate-limit or timeout, so treat it as a second source and cache aggressively.
+**Live dashboard:** https://alphakiller1.github.io/wnba-edge-model/ — rebuilt by
+GitHub Pages on every push to `main` from the committed processed data.
 
-Betting logic follows the Chase Analytics Brain / Betting Brain pattern:
+## Where this fits in Chase Analytics
 
-- odds -> implied probability
-- model probability -> edge
-- expected value per unit
-- fair odds
-- full and quarter Kelly
-- confidence tiers: Lean, Standard, Strong
-- implausibly large edges become REVIEW, not auto-bets
-- odds snapshots can support best-price shopping and closing-line value tracking
+- **[mlb-model](https://github.com/Alphakiller1/mlb-model)** — the MLB decision-support
+  engine (expected-runs model, promotion gates, paper portfolio).
+- **wnba-edge-model (this repo)** — the WNBA product: earlier-stage, same standards:
+  de-vigged market probabilities, timestamped + graded predictions, honest empty states.
+- **chase-analytics.com** — the consumer MLB research dashboard (MLBMA pipeline).
 
-## Quick Start
+## What the model does
+
+1. **Scrape + validate** — WNBAnalytics players/teams/games/box scores behind light
+   schema contracts that fail loudly on upstream drift; finished box scores are
+   cached, never re-downloaded.
+2. **Features** — usage/minutes/form/impact signals, z-scored and **shrunk by sample
+   size** so 1-minute players cannot top the board; low-sample players are flagged
+   and excluded from the public watchboard.
+3. **Game projections** — team-efficiency baseline with an **empirical home court**
+   and a **logistic home-win probability fit on finished games** (basis and n are
+   always displayed).
+4. **Prop pricing** — Normal approximation with **per-market sigma fitted from real
+   game logs** (per-player where the sample allows), minutes-adjusted projections,
+   **pairwise de-vigged** market probabilities, tiers (Lean / Standard / Strong),
+   and a REVIEW flag for implausibly large edges.
+5. **Prediction log + grading** — every evaluation is persisted with a prediction id,
+   run id, and UTC timestamp; `grade-predictions` settles them against game logs and
+   final scores with explicit reason codes for anything ungradeable.
+
+## Quick start
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-pip install -e .
+pip install -e ".[dev]"
 
-python -m wnba_edges.cli scrape-wnbanalytics --season 2026-27
-python -m wnba_edges.cli build-features --season 2026-27
-python -m wnba_edges.cli edge-board --season 2026-27 --top 25
+# Refresh the season (scrape + tables + sigma fit + grading)
+wnba-edges refresh-season --season 2026-27
 
-python -m wnba_edges.cli refresh-season --season 2026-27
-python -m wnba_edges.cli build-features --season 2026-27
+# Features + watchboard (low-sample players excluded by default)
+wnba-edges build-features --season 2026-27
+wnba-edges edge-board --season 2026-27 --top 25
 
-python -m wnba_edges.cli evaluate-player-prop --player "A'ja Wilson" --market player_points --side over --line 24.5 --odds -110
-python -m wnba_edges.cli scrape-herhoopstats --research-type player_single_games --min-season 2026 --max-season 2026
-python -m wnba_edges.cli scrape-espnanalytics-box --id 20250811-1022500204
-```
+# Upcoming slate projections (schedule fetched live from ESPN)
+wnba-edges build-game-projections --season 2026-27
 
-After editable install, `wnba-edges ...` is also available if your Python Scripts directory is on PATH.
+# Fit per-market prop volatility from real game logs
+wnba-edges fit-sigma --season 2026-27
 
-## Odds Snapshots
-
-The odds module mirrors the Betting Brain evaluator approach but uses WNBA markets.
-
-```powershell
+# Price a prop (evaluation is logged for grading; quotes >12h old are refused)
 $env:ODDS_API_KEY = "your_key"
 python -m wnba_edges.market_data --fetch-game "MIN@PHX" --props
-python -m wnba_edges.cli evaluate-player-prop --player "A'ja Wilson" --market player_points --side over --line 24.5 --use-market
+wnba-edges evaluate-player-prop --player "A'ja Wilson" --market player_points `
+  --side over --line 24.5 --use-market
+
+# Grade everything that has finished, then view the record
+wnba-edges grade-predictions
+wnba-edges results
+
+# Build the public dashboard
+wnba-edges build-site --season 2026-27
 ```
 
-Odds snapshots are stored in:
+## Verify
 
-- `data/odds/odds_latest.csv`
-- `data/odds/odds_history.csv`
+```bash
+ruff check src tests
+pytest -q
+```
 
-Outputs land in:
+CI runs both plus a dashboard build smoke on every push.
 
-- `data/raw/wnbanalytics_players_2026-27.jsonl`
-- `data/raw/wnbanalytics_games_2026-27.jsonl`
-- `data/raw/wnbanalytics_game_details_2026-27.jsonl`
-- `data/raw/herhoopstats_player_single_games_2026_2026_traditional.csv`
-- `data/raw/espnanalytics_YYYYMMDD_GAMEID_player_box.csv`
-- `data/raw/espnanalytics_YYYYMMDD_GAMEID_player_actions.csv`
-- `data/raw/espnanalytics_YYYYMMDD_GAMEID_team_box.csv`
-- `data/raw/espnanalytics_YYYYMMDD_GAMEID_four_factors.csv`
-- `data/processed/player_features_2026-27.csv`
-- `data/processed/edge_board_2026-27.csv`
+## Outputs
 
-Season refresh adds:
+| Path | Contents |
+|---|---|
+| `data/raw/…` | validated scrape snapshots (JSONL/CSV) |
+| `data/processed/…` | season tables, splits, model inputs, `market_sigma_*.csv`, projections |
+| `data/predictions/…` | timestamped prop + game prediction logs with grades and reason codes |
+| `data/odds/…` | odds snapshots with book attribution and fetch timestamps (not committed) |
+| `docs/index.html` | the generated public dashboard |
 
-- `data/processed/game_results_2026-27.csv`: every completed game outcome, score, pace, total, margin.
-- `data/processed/team_game_logs_2026-27.csv`: one row per team-game with box totals and pace context.
-- `data/processed/player_game_logs_2026-27.csv`: one row per player-game with minutes, starter flag, box stats, PRA, usage proxy, and fantasy-simple score.
-- `data/processed/player_splits_2026-27.csv`: player splits by overall, home/away, W/L, starter/bench, opponent, team, position, month, last 3, last 5, last 10.
-- `data/processed/team_splits_2026-27.csv`: team splits by overall, home/away, W/L, opponent, month.
-- `data/processed/player_model_inputs_2026-27.csv`: wide modeling table joining season advanced metrics, usage, recent form, splits, volatility, and deltas.
+## Grading rules
 
-## Source Notes
+- Props grade against the player's first game log in a ±1/+2-day window around the
+  slate date; exact-line results are pushes.
+- Games grade against final scores matched on date + matchup.
+- Anything ungradeable is voided with a reason code
+  (`player_not_found_in_game_logs`, `void_no_game_within_window`,
+  `market_unsupported`, …) — never silently dropped.
+- `wnba-edges results` prints W-L-P by market, winner hit rate, spread/total MAE,
+  and Brier score.
 
-Suggested source tiers:
+## License
 
-1. WNBAnalytics: rich player board, expected stats, RAPM, shot mix, role trust.
-2. ESPN Analytics advanced box: Net Points, offensive/defensive usage, WPA, assisted-shot roles, four-factor net points, and player action-level contribution rows. Strong for player role quality and prop-context features.
-3. Her Hoop Stats reSEARCH: long-horizon WNBA player/team history, fantasy scoring, advanced criteria, and shot-detail surfaces. Anonymous access appears preview-limited, so use logged-in exports or CSVs for full historical backfill.
-4. WNBA Stats: official player/team dashboards and injury report pages.
-5. SportsDataverse/wehoop: daily refreshed ESPN/NBA Stats data repositories.
-6. Paid or gated sources such as BBall Index and Hoopology: use exports/API access where permitted; do not scrape gated content without permission.
-
-## Model Direction
-
-This scaffold is not a blind betting bot. It is a data engine for surfacing review candidates:
-
-- `minutes_signal`: projected role versus season MPG.
-- `usage_signal`: high-usage players with stable minutes.
-- `recent_minutes_signal`: last-5 minutes movement from player game logs.
-- `recent_usage_signal`: last-5 usage-proxy movement from player game logs.
-- `recent_pra_signal`: last-5 PRA movement from player game logs.
-- `pace_signal`: team/game environment once schedules and team pace are joined.
-- `impact_signal`: RAPM/CVI/BPM blend where available.
-- `volatility_penalty`: discounts high-PRA volatility until market-specific errors are calibrated.
-- `confidence_penalty`: discounts low-sample or unstable projections.
-- `edge_score`: weighted rank for manual odds comparison.
-- `value_layer`: Betting Brain-style price check after a market line is supplied.
-
-Next useful additions:
-
-- odds ingestion by book/market/player
-- injury report snapshots with timestamps
-- game schedule join with opponent pace/defense
-- player prop projection model trained on game logs
-- closing-line value tracking
+All rights reserved — published for transparency and research review. See
+[LICENSE](LICENSE).

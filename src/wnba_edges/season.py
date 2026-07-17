@@ -11,7 +11,6 @@ import pandas as pd
 from .http import HttpClient
 from .wnbanalytics import scrape_game_detail, scrape_games, scrape_players, scrape_teams, write_jsonl
 
-
 ROLLING_WINDOWS = (3, 5, 10)
 
 
@@ -20,15 +19,22 @@ def slugify_player(name: str) -> str:
     return slug.replace("a-ja", "aja")
 
 
-def scrape_season_snapshot(root: Path, season: str = "2026-27", pause_seconds: float = 0.05) -> dict[str, Path]:
-    """Fetch season-level players, teams, games, and every detailed box score."""
+def scrape_season_snapshot(root: Path, season: str = "2026-27", pause_seconds: float = 0.5) -> dict[str, Path]:
+    """Fetch season-level players, teams, games, and detailed box scores.
+
+    Incremental: finished games whose detail is already stored are not
+    re-downloaded — completed box scores never change, and re-fetching the whole
+    season every refresh hammers the source for nothing.
+    """
+    from .contracts import validate_rows
+
     client = HttpClient(timeout=45, retries=3, pause_seconds=1.5)
     raw_dir = root / "data" / "raw"
     raw_dir.mkdir(parents=True, exist_ok=True)
 
-    players = scrape_players(season=season, client=client)
-    teams = scrape_teams(season=season, client=client)
-    games = scrape_games(season=season, client=client)
+    players = validate_rows(scrape_players(season=season, client=client), "wnbanalytics_players")
+    teams = validate_rows(scrape_teams(season=season, client=client), "wnbanalytics_teams")
+    games = validate_rows(scrape_games(season=season, client=client), "wnbanalytics_games")
 
     paths = {
         "players": raw_dir / f"wnbanalytics_players_{season}.jsonl",
@@ -40,13 +46,28 @@ def scrape_season_snapshot(root: Path, season: str = "2026-27", pause_seconds: f
     write_jsonl(teams, paths["teams"])
     write_jsonl(games, paths["games"])
 
+    existing: dict[int, dict[str, Any]] = {}
+    if paths["game_details"].exists():
+        for detail in load_raw_jsonl(paths["game_details"]):
+            game_id = ((detail.get("game") or {}).get("id"))
+            if game_id is not None:
+                existing[int(game_id)] = detail
+
     details: list[dict[str, Any]] = []
-    for index, game in enumerate(games, start=1):
-        detail = scrape_game_detail(int(game["id"]), client=client)
+    fetched = 0
+    for game in games:
+        game_id = int(game["id"])
+        cached = existing.get(game_id)
+        if cached is not None and game.get("winner"):
+            details.append(cached)
+            continue
+        if fetched and pause_seconds:
+            sleep(pause_seconds)
+        detail = scrape_game_detail(game_id, client=client)
         detail["season"] = season
         details.append(detail)
-        if pause_seconds and index < len(games):
-            sleep(pause_seconds)
+        fetched += 1
+    print(f"game details: {fetched} fetched, {len(details) - fetched} reused from cache")
     write_jsonl(details, paths["game_details"])
     return paths
 

@@ -8,7 +8,6 @@ import pandas as pd
 
 from .http import HttpClient
 
-
 BASE_URL = "https://wnbanalytics.com"
 
 
@@ -53,10 +52,13 @@ def scrape_player_detail(slug: str, season: str, player_id: int, client: HttpCli
 
 
 def write_jsonl(rows: list[dict[str, Any]], path: Path) -> None:
+    """Atomic write: a mid-run failure must never leave a half-written snapshot."""
     path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf-8") as handle:
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    with tmp.open("w", encoding="utf-8") as handle:
         for row in rows:
             handle.write(json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n")
+    tmp.replace(path)
 
 
 def extract_react_payload(html: str, key: str) -> Any:

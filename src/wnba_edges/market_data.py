@@ -12,6 +12,7 @@ from typing import Any
 
 import pandas as pd
 
+from .teams import TEAM_NAME_TO_ABBR, team_abbr  # noqa: F401 — re-exported for compat
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = ROOT / "data"
@@ -31,23 +32,9 @@ ODDS_PROP_MARKETS = os.getenv(
     "player_points,player_rebounds,player_assists,player_threes,player_blocks,player_steals",
 )
 
-TEAM_NAME_TO_ABBR = {
-    "Atlanta Dream": "ATL",
-    "Chicago Sky": "CHI",
-    "Connecticut Sun": "CON",
-    "Dallas Wings": "DAL",
-    "Golden State Valkyries": "GSV",
-    "Indiana Fever": "IND",
-    "Las Vegas Aces": "LVA",
-    "Los Angeles Sparks": "LAS",
-    "Minnesota Lynx": "MIN",
-    "New York Liberty": "NYL",
-    "Phoenix Mercury": "PHX",
-    "Portland Fire": "PDX",
-    "Seattle Storm": "SEA",
-    "Toronto Tempo": "TOR",
-    "Washington Mystics": "WAS",
-}
+# Quotes older than this are refused unless the caller explicitly allows stale
+# prices; a fresh model against days-old odds manufactures phantom edges.
+MAX_QUOTE_AGE_HOURS = 12.0
 
 COLUMNS = [
     "fetched_at",
@@ -64,13 +51,6 @@ COLUMNS = [
 ]
 
 _LAST_USAGE: dict[str, str] = {}
-
-
-def team_abbr(name: str) -> str:
-    n = str(name).strip()
-    if n.upper() in set(TEAM_NAME_TO_ABBR.values()):
-        return n.upper()
-    return TEAM_NAME_TO_ABBR.get(n, n.upper()[:3])
 
 
 def _get(path: str, params: dict[str, Any]) -> Any:
@@ -196,10 +176,17 @@ def store(rows: list[dict]) -> None:
     print(f"Stored {len(frame)} WNBA odds rows across {frame.groupby(['away', 'home']).ngroups} game(s).")
 
 
-def best_price_player_prop(player: str, market: str, side: str, line: float | None = None) -> dict | None:
-    if not ODDS_LATEST_CSV.exists():
+def _quote_age_hours(fetched_at: str) -> float | None:
+    try:
+        fetched = datetime.fromisoformat(str(fetched_at))
+    except (TypeError, ValueError):
         return None
-    frame = pd.read_csv(ODDS_LATEST_CSV, dtype=str).fillna("")
+    if fetched.tzinfo is None:
+        fetched = fetched.replace(tzinfo=timezone.utc)
+    return (datetime.now(timezone.utc) - fetched).total_seconds() / 3600.0
+
+
+def _prop_rows(frame: pd.DataFrame, player: str, market: str, side: str, line: float | None) -> pd.DataFrame:
     rows = frame[
         (frame["market"] == market)
         & (frame["player"].str.lower() == player.lower())
@@ -207,17 +194,62 @@ def best_price_player_prop(player: str, market: str, side: str, line: float | No
     ]
     if line is not None:
         rows = rows[rows["line"].apply(lambda value: _same_line(value, line))]
-    rows = rows.assign(odds_num=pd.to_numeric(rows["odds"], errors="coerce")).dropna(subset=["odds_num"])
+    return rows.assign(odds_num=pd.to_numeric(rows["odds"], errors="coerce")).dropna(subset=["odds_num"])
+
+
+def best_price_player_prop(
+    player: str,
+    market: str,
+    side: str,
+    line: float | None = None,
+    *,
+    max_age_hours: float = MAX_QUOTE_AGE_HOURS,
+    allow_stale: bool = False,
+) -> dict | None:
+    """Best stored price for a prop, with freshness enforced and a paired de-vig quote.
+
+    Returns odds/book plus `age_hours` and, when the opposite side of the same
+    line is stored for the same book, `opposite_odds` so the caller can compute
+    a vig-free implied probability. Raises SystemExit on stale quotes unless
+    `allow_stale` is set — a fresh model against old odds is a phantom edge.
+    """
+    if not ODDS_LATEST_CSV.exists():
+        return None
+    frame = pd.read_csv(ODDS_LATEST_CSV, dtype=str).fillna("")
+    rows = _prop_rows(frame, player, market, side, line)
     if rows.empty:
         return None
     best = rows.loc[rows["odds_num"].idxmax()]
+
+    age = _quote_age_hours(best["fetched_at"])
+    if age is None or age > max_age_hours:
+        age_label = f"{age:.1f}h old" if age is not None else "of unknown age"
+        if not allow_stale:
+            raise SystemExit(
+                f"Stored quote for {player} {market} {side} is {age_label} "
+                f"(max {max_age_hours:.0f}h). Re-fetch odds or pass --allow-stale."
+            )
+
+    opposite_side = "under" if side.lower() == "over" else "over"
+    used_line = float(best["line"]) if best["line"] != "" else line
+    opposite_odds = None
+    opposite = _prop_rows(frame, player, market, opposite_side, used_line)
+    same_book = opposite[opposite["book"] == best["book"]]
+    if not same_book.empty:
+        opposite_odds = int(same_book.iloc[0]["odds_num"])
+    elif not opposite.empty:
+        opposite_odds = int(opposite.loc[opposite["odds_num"].idxmax()]["odds_num"])
+
     return {
         "odds": int(best["odds_num"]),
         "book": best["book"],
-        "line": float(best["line"]) if best["line"] != "" else None,
+        "line": used_line,
         "away": best["away"],
         "home": best["home"],
         "n_books": int(rows["book"].nunique()),
+        "age_hours": round(age, 2) if age is not None else None,
+        "fetched_at": best["fetched_at"],
+        "opposite_odds": opposite_odds,
     }
 
 

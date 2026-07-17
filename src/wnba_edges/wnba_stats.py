@@ -6,7 +6,6 @@ import pandas as pd
 
 from .http import HttpClient
 
-
 BASE_URL = "https://stats.wnba.com/stats"
 
 STATS_HEADERS = {

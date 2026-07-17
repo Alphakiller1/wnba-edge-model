@@ -1,15 +1,14 @@
 from __future__ import annotations
 
-from pathlib import Path
 import html as html_lib
 import re
+from pathlib import Path
 from typing import Any
 
 import pandas as pd
 from bs4 import BeautifulSoup
 
 from .http import HttpClient
-
 
 BASE_URL = "https://herhoopstats.com"
 

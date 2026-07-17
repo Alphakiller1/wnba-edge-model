@@ -1,0 +1,77 @@
+# Methodology — WNBA Edge Model
+
+Chase Analytics research software. This document explains what each number on the
+dashboard means, how it is produced, and what its known limitations are.
+
+**This is analytics research, not betting advice.** No output is a wager
+instruction, and nothing here guarantees an outcome.
+
+## The four layers
+
+1. **Game projections (model layer).** Baseline score, spread, total, and pace from
+   team offensive/defensive efficiency ratings and blended pace. Home court is
+   estimated empirically from finished games (mean home margin, clamped to 0–4 pts;
+   a 1.5-pt prior is used until 20+ games exist). The home-win probability is a
+   logistic regression of home wins on the net-rating gap, fit on the season's
+   finished games; the dashboard always states the fit basis and sample size.
+   *Limitations:* no injury, lineup, or rest adjustments yet; the rating gap uses
+   current season-to-date ratings for historical games (mild look-ahead in the fit).
+
+2. **Market snapshot (market layer).** Odds stored from The Odds API with book
+   attribution and a `fetched_at` timestamp. Quotes older than 12 hours are refused
+   by the evaluator unless explicitly overridden — a fresh model against stale odds
+   manufactures phantom edges. When both sides of a line are stored, the implied
+   probability is **de-vigged pairwise** (proportional method); a raw single-price
+   implied probability is never labeled vig-free.
+
+3. **Edge watchboard (review queue).** A ranked screen over usage, minutes, form,
+   and impact signals. Signals are z-scores shrunk toward the league mean by total
+   minutes played (prior: 150 minutes), and players under the sample floor
+   (fewer than 5 games or under 10 MPG) are flagged `LOW SAMPLE` and excluded from
+   the public board. **Watchboard rank is not a bet** — it is a queue of players
+   whose role or form is moving, to be priced against a market line.
+
+4. **Graded results (results layer).** Every prop evaluation and game-projection run
+   is persisted with a prediction id, run id, and UTC timestamp, then graded against
+   player game logs and final scores. Ungradeable predictions carry an explicit
+   reason code (e.g. `player_not_found_in_game_logs`, `void_no_game_within_window`)
+   and are voided — never silently dropped. Game projections report winner hit rate,
+   spread/total MAE, and Brier score.
+
+## Prop pricing
+
+- **Projection:** season rate (or the source's projected points where trusted),
+  adjusted by projected-vs-season minutes when a projected role exists.
+- **Distribution:** Normal approximation with a **per-market sigma fitted from real
+  player game logs** (pooled within-player game-to-game deviation). Per-player sigma
+  is used when the player has 3+ logged games, shrunk toward the league value.
+  The evaluator always prints which sigma was used and where it came from.
+- **Value:** edge = model probability − (de-vigged) market probability; EV and
+  full/quarter Kelly are reported for reference.
+
+## Confidence tiers
+
+| Tier | Edge vs market | Suggested review size |
+|---|---|---|
+| Lean | ≥ 2.0 pts | 0.25–0.5u |
+| Standard | ≥ 4.5 pts | 0.5–1.0u |
+| Strong | ≥ 8.0 pts | 1.0–2.0u |
+| **REVIEW** | ≥ 15 pts | verify inputs — treated as an input error, not a bet |
+
+## Data sources and contracts
+
+WNBAnalytics (player board, games, box scores), ESPN Analytics (advanced box),
+Her Hoop Stats (historical research), ESPN scoreboard (upcoming schedule),
+The Odds API (market snapshots). Scrapes are validated against light schema
+contracts (required fields, minimum row counts) and fail loudly on upstream drift.
+Finished-game box scores are cached and never re-downloaded.
+
+## Known limitations
+
+- No injury/news ingestion; a player ruled out after a projection is graded as void
+  (`no game within window`), not silently excluded.
+- Game projections have no travel/rest/back-to-back adjustments.
+- The logistic win-probability fit uses current ratings for past games.
+- Prop projections are rate-based; they do not model matchup or usage redistribution.
+- Sample sizes are small early in a season; the dashboard labels every fitted
+  quantity with its basis and n.

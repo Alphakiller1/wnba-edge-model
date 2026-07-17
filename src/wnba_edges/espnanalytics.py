@@ -6,7 +6,6 @@ from pathlib import Path
 
 import pandas as pd
 
-
 REGION = "us-east-1"
 IDENTITY_POOL_ID = "us-east-1:7b073343-561b-4a8f-bf2a-765958c3aaaa"
 BUCKET = "espnsportsanalytics.com"
