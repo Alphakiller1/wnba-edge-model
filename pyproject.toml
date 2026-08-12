@@ -26,6 +26,11 @@ wnba-edges = "wnba_edges.cli:main"
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+# Vendored Chase design tokens + the shared board kernel stylesheet must ship with the
+# wheel; the Pages build installs the package rather than running from the checkout.
+"wnba_edges" = ["static/*.css"]
+
 [tool.ruff]
 line-length = 120
 target-version = "py310"

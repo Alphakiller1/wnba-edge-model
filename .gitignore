@@ -3,6 +3,14 @@ __pycache__/
 *.egg-info/
 .venv/
 .pytest_cache/
+.ruff_cache/
+
+# secrets — ODDS_API_KEY lives here and must never be committed
+.env
+.env.*
+
+# local refresh logs
+*_run_log.txt
 site/node_modules/
 site/dist/
 site/.wrangler/

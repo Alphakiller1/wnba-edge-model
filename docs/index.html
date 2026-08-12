@@ -6,24 +6,816 @@
 <title>WNBA Edge Model — Chase Analytics</title>
 <meta name="description" content="WNBA research dashboard: game projections, player watchboard, market snapshots, and a graded prediction record.">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Oswald:wght@600;700&family=Roboto+Condensed:wght@400;500;600;700;800&display=swap');
-:root{
-  color-scheme:dark;
-  --bg:#08090F; --bg-2:#0E1018; --bg-3:#12141D; --bg-4:#181B26; --raised:#20232F;
-  --border:#262A38; --border-2:#363B4D; --border-soft:rgba(255,255,255,.06);
-  --border-violet:rgba(124,77,255,.32);
-  --text:#F5F6FA; --text-2:#A4A8B6; --text-3:#6E7383;
-  --ca-purple:#9A6BFF; --v-light:#C4B0FF; --v-mid:#7C4DFF; --v-deep:#5B2BE0;
-  --v-grad:linear-gradient(135deg,#9A6BFF 0%,#5B2BE0 100%);
-  --gold:#E8C24A; --green:#3CCB7F; --red:#F2545B;
-  --ca-panel-border:rgba(154,107,255,.41);
-  --board-top:#181A2A; --board-bottom:#05060C;
-  --card-shadow:0 4px 24px rgba(0,0,0,.35);
-  --glow:0 0 0 1px rgba(196,176,255,.13),0 0 30px rgba(124,77,255,.18),0 28px 78px rgba(0,0,0,.7);
-  --sans:'DM Sans',system-ui,-apple-system,sans-serif;
-  --display:'Roboto Condensed','DM Sans',system-ui,sans-serif;
-  --wordmark:'Oswald','Arial Narrow',system-ui,sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&family=Oswald:ital,wght@0,600;0,700;0,900;1,600;1,700;1,900&family=Roboto+Condensed:wght@400;500;600;700;800&display=swap');/*
+ * Chase Analytics design tokens — vendored, canonical copy.
+ *
+ * Source of truth: mlbma-pipeline/dashboard/mlbma_design_system.css (+ chase_nav.css for the
+ * nav-specific values). Do not invent new values here or redefine a token differently than
+ * that file. If MLBMA's tokens change, resync this file by hand — it intentionally has no
+ * runtime dependency on the mlbma-pipeline repo so this product stays independently deployable.
+ */
+:root {
+  color-scheme: dark;
+
+  /* Page & surfaces (mlbma_design_system.css :root) */
+  --bg: #08090F;
+  --bg-2: #0E1018;
+  --bg-3: #12141D;
+  --bg-4: #181B26;
+  --raised: #20232F;
+  --border: #262A38;
+  --border-2: #363B4D;
+  --border-soft: rgba(255, 255, 255, 0.06);
+  --border-violet: rgba(124, 77, 255, 0.32);
+  --card: #12141D;
+  --card-2: #181B26;
+
+  --text: #F5F6FA;
+  --text-2: #A4A8B6;
+  --text-3: #6E7383;
+  --text-4: #4C5161;
+
+  /* Brand purple family */
+  --ca-purple: #9A6BFF;
+  --ca-purple-dark: #5B2BE0;
+  --ca-purple-heading: #6D28D9;
+  --ca-purple-light: #C4B0FF;
+  --ca-purple-glow: rgba(124, 77, 255, 0.32);
+  --ca-brand: #9A6BFF;
+  --ca-brand-dim: rgba(124, 77, 255, 0.11);
+  --ca-brand-border: rgba(124, 77, 255, 0.32);
+  --v-grad: linear-gradient(135deg, #9A6BFF 0%, #5B2BE0 100%);
+  --v-light: #C4B0FF;
+  --v-mid: #7C4DFF;
+  --v-deep: #5B2BE0;
+
+  /* Semantic status colors (not primary grade) */
+  --ca-green: #3CCB7F;
+  --ca-teal: #86D76F;
+  --ca-amber: #E8C24A;
+  --ca-red: #F2545B;
+  --gold: #E8C24A;
+  --teal: #2DD4BF;
+  --green: #3CCB7F;
+  --red: #F2545B;
+  --side: #C4B0FF;
+
+  /* 7-step metric grade gradient (league-relative percentile) */
+  --metric-very-weak: #F2545B;
+  --metric-weak: #F0935B;
+  --metric-below: #E8C24A;
+  --metric-neutral: #A1A1AA;
+  --metric-above: #86D76F;
+  --metric-strong: #4ADE80;
+  --metric-elite: #22C55E;
+
+  /* Card / board surface treatment */
+  --ca-card-radius: 16px;
+  --ca-card-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+  --ca-panel-border: rgba(154, 107, 255, 0.41);
+  --ca-panel-glass: linear-gradient(180deg, #1A1D2D 0%, #0D101B 54%, #06070D 100%);
+  --ca-board-top: #181A2A;
+  --ca-board-bottom: #05060C;
+  --ca-glow-violet: 0 0 0 1px rgba(196, 176, 255, 0.13), 0 0 30px rgba(124, 77, 255, 0.24),
+    0 28px 78px rgba(0, 0, 0, 0.86), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  /* Typography */
+  --font-primary: 'DM Sans', system-ui, -apple-system, sans-serif;
+  --font-body: var(--font-primary);
+  --font-display: 'Roboto Condensed', 'DM Sans', system-ui, sans-serif;
+  --sans: var(--font-primary);
+  --display: var(--font-display);
+  --mono: var(--font-display);
+  --font-wordmark: 'Oswald', 'Arial Narrow', system-ui, sans-serif;
+  --ca-editorial-caps: 0.1em;
+
+  /* MLB Model type scale — dense broadcast UI, bumped up ~1-2px per step for legibility
+     (floor raised 10->11, body 13->15). Change these tokens to rescale the whole report. */
+  --mm-text-2xs: 11px;
+  --mm-text-xs: 12px;
+  --mm-text-sm: 13px;
+  --mm-text-base: 15px;
+  --mm-text-md: 16px;
+  --mm-text-lg: 17px;
+  --mm-text-xl: 19px;
+  --mm-text-2xl: 22px;
+  --mm-text-3xl: 27px;
+  --mm-text-display: 31px;
+  --mm-text-hero: 36px;
+
+  /* Nav (chase_nav.css) */
+  --chase-nav-height: 68px;
+  --chase-nav-max-width: 1400px;
 }
+
+*, *::before, *::after { box-sizing: border-box; }
+
+.num, td, th, .chip, .mval { font-variant-numeric: tabular-nums; }
+.pos { color: var(--ca-green); }
+.neg { color: var(--ca-red); }
+.warnc { color: var(--gold); }
+.side { color: var(--side); }
+.mut { color: var(--text-2); }
+
+/* Percentile grade chips — the Chase 5(+2)-tier scale, exact token colors */
+.c-elite { color: #4ADE80; }
+.c-good  { color: #7BDC5A; }
+.c-mid   { color: #FBBF24; }
+.c-weak  { color: #FB923C; }
+.c-poor  { color: #F87171; }
+.c-na    { color: var(--text-2); }
+
+:root{
+  --sans:var(--font-primary);
+  --display:var(--font-display);
+  --wordmark:var(--font-wordmark);
+  --card-shadow:var(--ca-card-shadow);
+  --glow:var(--ca-glow-violet);
+  --board-top:var(--ca-board-top);
+  --board-bottom:var(--ca-board-bottom);
+}
+/*
+ * Board kernel styles — the shared slate surface (see report/board.py).
+ *
+ * Vendored verbatim alongside board.py into every sport model. Every value here comes
+ * from chase_tokens.css; do not introduce new colours or fonts. Elevation is hairline
+ * borders + layered shadow, never a uniform violet outline.
+ */
+
+.bd {
+  --bd-gap: 14px;
+  --bd-card-min: 340px;
+  display: block;
+}
+
+/* ── header ─────────────────────────────────────────────────────────────── */
+
+.bd-head {
+  padding: 4px 0 18px;
+  border-bottom: 1px solid var(--border-soft);
+  margin-bottom: 18px;
+}
+
+.bd-head__title {
+  display: flex;
+  align-items: flex-end;
+  gap: 26px;
+  flex-wrap: wrap;
+}
+
+.bd-wordmark {
+  font-family: var(--font-wordmark);
+  font-size: var(--mm-text-hero);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin: 0;
+  line-height: 1;
+}
+
+.bd-wordmark em {
+  font-style: italic;
+  background: var(--v-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.bd-counters {
+  display: flex;
+  gap: 22px;
+  padding-bottom: 3px;
+}
+
+.bd-counter {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.bd-counter__v {
+  font-family: var(--font-display);
+  font-size: var(--mm-text-2xl);
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+
+.bd-counter.is-gem .bd-counter__v {
+  color: var(--ca-green);
+}
+
+.bd-counter__k {
+  font-family: var(--font-display);
+  font-size: var(--mm-text-2xs);
+  font-weight: 600;
+  letter-spacing: var(--ca-editorial-caps);
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.bd-head__meta {
+  margin-top: 10px;
+  font-family: var(--font-display);
+  font-size: var(--mm-text-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.bd-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.bd-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.bd-filter {
+  font-family: var(--font-display);
+  font-size: var(--mm-text-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  background: var(--bg-3);
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  padding: 7px 15px;
+  cursor: pointer;
+}
+
+.bd-filter:hover {
+  color: var(--text);
+  border-color: var(--border-2);
+}
+
+.bd-filter.on {
+  color: #fff;
+  background: var(--v-grad);
+  border-color: transparent;
+  box-shadow: 0 2px 12px var(--ca-purple-glow);
+}
+
+.bd-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: var(--mm-text-2xs);
+  font-weight: 600;
+  letter-spacing: var(--ca-editorial-caps);
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.bd-sort select {
+  font-family: var(--font-primary);
+  font-size: var(--mm-text-xs);
+  color: var(--text);
+  background: var(--bg-3);
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  padding: 6px 10px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* ── grid ───────────────────────────────────────────────────────────────── */
+
+.bd-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--bd-card-min), 1fr));
+  gap: var(--bd-gap);
+  /* stretch, not start: cards in a row share a baseline so the market shelves line up
+     across the row and the eye can scan one market family horizontally. */
+  align-items: stretch;
+}
+
+/* ── card ───────────────────────────────────────────────────────────────── */
+
+.bd-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--ca-panel-glass);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--ca-card-radius);
+  box-shadow: var(--ca-card-shadow);
+  overflow: hidden;
+}
+
+.bd-card:hover {
+  border-color: var(--border-2);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.45);
+}
+
+.bd-card__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border-soft);
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.bd-card__league {
+  font-family: var(--font-display);
+  font-size: var(--mm-text-2xs);
+  font-weight: 700;
+  letter-spacing: var(--ca-editorial-caps);
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.bd-card__start {
+  font-family: var(--font-display);
+  font-size: var(--mm-text-2xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.bd-card__counts {
+  margin-left: auto;
+  display: flex;
+  gap: 6px;
+}
+
+.bd-count {
+  min-width: 24px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: var(--mm-text-2xs);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--v-light);
+  background: var(--ca-brand-dim);
+  border: 1px solid var(--ca-brand-border);
+  border-radius: 6px;
+  padding: 2px 7px;
+}
+
+.bd-count.is-gem {
+  color: var(--ca-green);
+  background: rgba(60, 203, 127, 0.1);
+  border-color: rgba(60, 203, 127, 0.32);
+}
+
+.bd-status {
+  font-family: var(--font-display);
+  font-size: var(--mm-text-2xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+
+.bd-status.is-pos { color: var(--ca-green); }
+.bd-status.is-neg { color: var(--ca-red); }
+.bd-status.is-warnc { color: var(--gold); }
+.bd-status.is-side { color: var(--side); }
+
+/* headline / primary action */
+
+.bd-headline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 14px;
+  border: 0;
+  border-bottom: 1px solid var(--border-soft);
+  background: rgba(124, 77, 255, 0.06);
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-display);
+  font-size: var(--mm-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--v-light);
+}
+
+.bd-headline:hover {
+  background: rgba(124, 77, 255, 0.12);
+}
+
+.bd-headline.is-pos { color: var(--ca-green); background: rgba(60, 203, 127, 0.07); }
+.bd-headline.is-pos:hover { background: rgba(60, 203, 127, 0.13); }
+.bd-headline.is-mut { color: var(--text-2); background: rgba(255, 255, 255, 0.02); }
+
+.bd-headline__cta {
+  font-size: var(--mm-text-2xs);
+  color: var(--text-3);
+  white-space: nowrap;
+}
+
+/* score row */
+
+.bd-score {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 14px;
+}
+
+.bd-score__vs {
+  font-family: var(--font-display);
+  font-size: var(--mm-text-2xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-4);
+}
+
+.bd-side {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+}
+
+.bd-side--home {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+/* Team marks carry their own colours, and the dark ones (navy, black) disappear against
+   the navy ground. A faint disc lifts every mark without tinting it. */
+.bd-side__logo {
+  flex: none;
+  display: inline-flex;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: inset 0 0 0 1px var(--border-soft);
+}
+
+.bd-side__logo img,
+.bd-side__logo svg {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
+
+.bd-side__fallback {
+  font-family: var(--font-display);
+  font-size: var(--mm-text-2xs);
+  font-weight: 700;
+  color: var(--text-3);
+  background: var(--bg-4);
+  border-radius: 6px;
+  padding: 5px 4px;
+  width: 30px;
+  text-align: center;
+}
+
+.bd-side__body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 1px;
+}
+
+.bd-side__abbr {
+  font-family: var(--font-display);
+  font-size: var(--mm-text-md);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--text);
+  line-height: 1.1;
+}
+
+.bd-side__detail {
+  font-size: var(--mm-text-2xs);
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bd-side__score {
+  margin-left: auto;
+  font-family: var(--font-display);
+  font-size: var(--mm-text-2xl);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-2);
+  line-height: 1;
+}
+
+.bd-side--home .bd-side__score {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.bd-side.is-fav .bd-side__score {
+  color: var(--v-light);
+}
+
+/* principals */
+
+.bd-principals {
+  padding: 0 14px 13px;
+}
+
+.bd-principals__label {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: var(--ca-editorial-caps);
+  text-transform: uppercase;
+  color: var(--text-4);
+  margin-bottom: 7px;
+}
+
+.bd-principals__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bd-principals__vs {
+  font-family: var(--font-display);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-4);
+  flex: none;
+}
+
+.bd-principal {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  flex: 1 1 0;
+}
+
+.bd-principal__body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.bd-principal__name {
+  font-size: var(--mm-text-xs);
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bd-principal__team,
+.bd-principal__stat {
+  font-size: 10px;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.bd-face,
+.bd-principal img {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--bg-4);
+  border: 1px solid var(--border-soft);
+}
+
+.bd-face--na {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: var(--mm-text-2xs);
+  font-weight: 700;
+  color: var(--text-3);
+}
+
+/* market groups */
+
+.bd-card__groups {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--border-soft);
+  border-top: 1px solid var(--border-soft);
+  margin-top: auto;
+}
+
+.bd-group {
+  background: var(--bg-2);
+  padding: 11px 14px 12px;
+}
+
+.bd-group__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 9px;
+}
+
+.bd-group__label {
+  position: relative;
+  padding-left: 9px;
+  font-family: var(--font-display);
+  font-size: var(--mm-text-2xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.bd-group__label::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 1px;
+  bottom: 1px;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--v-grad);
+}
+
+.bd-group__state {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.bd-group__count {
+  margin-left: auto;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  background: var(--bg-4);
+  border-radius: 5px;
+  padding: 2px 7px;
+  white-space: nowrap;
+}
+
+.bd-group__tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: 7px;
+}
+
+.bd-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 9px 7px;
+  background: var(--bg-3);
+  border: 1px solid var(--border-soft);
+  border-radius: 9px;
+  min-width: 0;
+}
+
+.bd-tile__label {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bd-tile__value {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+  font-family: var(--font-display);
+  font-size: var(--mm-text-md);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  line-height: 1.15;
+}
+
+.bd-tile__gem {
+  font-size: 9px;
+  color: var(--ca-green);
+}
+
+/* Wraps rather than truncating: "BOS -1.5 · MONITOR" clipped to "BOS -1.5 · MONIT…"
+   loses the state, which is the half that says whether to act. */
+.bd-tile__state {
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.3;
+  text-transform: uppercase;
+  color: var(--text-4);
+  overflow-wrap: anywhere;
+}
+
+.bd-tile.is-pos .bd-tile__value { color: var(--ca-green); }
+.bd-tile.is-neg .bd-tile__value { color: var(--ca-red); }
+.bd-tile.is-warnc .bd-tile__value { color: var(--gold); }
+.bd-tile.is-side .bd-tile__value { color: var(--side); }
+.bd-tile.is-mut .bd-tile__value { color: var(--text-2); }
+
+.bd-tile.is-gem {
+  border-color: rgba(60, 203, 127, 0.32);
+  background: rgba(60, 203, 127, 0.06);
+}
+
+.bd-tile.is-idle {
+  opacity: 0.5;
+}
+
+.bd-tile.is-idle .bd-tile__value {
+  color: var(--text-3);
+}
+
+/* footer */
+
+.bd-card__footer {
+  width: 100%;
+  padding: 10px 14px;
+  border: 0;
+  border-top: 1px solid var(--border-soft);
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-display);
+  font-size: var(--mm-text-2xs);
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--v-light);
+}
+
+.bd-card__footer:hover {
+  background: rgba(124, 77, 255, 0.08);
+}
+
+/* empty states */
+
+.bd-empty {
+  padding: 16px;
+  border: 1px dashed var(--border-2);
+  border-radius: 10px;
+  color: var(--text-3);
+  font-size: var(--mm-text-sm);
+  background: rgba(255, 255, 255, 0.012);
+  margin: 12px 14px 14px;
+}
+
+.bd-empty--board {
+  grid-column: 1 / -1;
+  margin: 0;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .bd {
+    --bd-card-min: 100%;
+  }
+  .bd-head__title {
+    gap: 16px;
+  }
+  .bd-wordmark {
+    font-size: var(--mm-text-3xl);
+  }
+  .bd-counters {
+    gap: 16px;
+  }
+}
+
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:76px}
 body{background:var(--bg);color:var(--text);font:15px/1.55 var(--sans);
@@ -175,7 +967,7 @@ footer p+p{margin-top:10px}
     <div class="nav-links"><a class="nav-link" href="#projections">Projections</a><a class="nav-link" href="#market">Market</a><a class="nav-link" href="#watchboard">Watchboard</a><a class="nav-link" href="#results">Results</a><a class="nav-link" href="#methodology">Methodology</a></div>
     <div class="chase-status">
       <span class="product-tag">WNBA MODEL</span>
-      <span class="chase-timestamp"><span class="pipeline-dot dot-ok"></span>2026-07-17</span>
+      <span class="chase-timestamp"><span class="pipeline-dot dot-ok"></span>2026-08-12</span>
     </div>
   </nav>
 </header>
@@ -187,11 +979,11 @@ footer p+p{margin-top:10px}
     graded prediction record &mdash; fit on real outcomes, honest about uncertainty.
     Research software, not betting advice.</p>
     <div class="hero-meta">
-      <span class="pill">data through 2026-07-17</span>
+      <span class="pill">data through 2026-08-12</span>
       <span class="pill pill-ok">fresh</span>
-      <span class="pill pill-dim">built Jul 17 · 02:46 UTC</span>
+      <span class="pill pill-dim">built Aug 12 · 09:24 UTC</span>
     </div>
-    <div class="tiles"><div class="tile"><span class="tile-v">214</span><span class="tile-l">Players modeled</span></div><div class="tile"><span class="tile-v">167</span><span class="tile-l">Finished games</span></div><div class="tile"><span class="tile-v">4,026</span><span class="tile-l">Player game logs</span></div><div class="tile"><span class="tile-v">20</span><span class="tile-l">Games projected</span></div></div>
+    <div class="tiles"><div class="tile"><span class="tile-v">220</span><span class="tile-l">Players modeled</span></div><div class="tile"><span class="tile-v">192</span><span class="tile-l">Finished games</span></div><div class="tile"><span class="tile-v">4,629</span><span class="tile-l">Player game logs</span></div><div class="tile"><span class="tile-v">27</span><span class="tile-l">Games projected</span></div></div>
   </div>
 </header>
 <main class="wrap">
@@ -201,568 +993,9 @@ footer p+p{margin-top:10px}
   <h2 class="sec-title">Game Projections</h2>
   <p class="sec-blurb">Baseline score, spread, total and pace from team efficiency ratings. The home-win probability is a logistic fit on this season's finished games &mdash; the basis and sample size are always shown.</p>
 </div>
-<p class="basis-note">Win probability: logistic fit on 167 games &nbsp;&middot;&nbsp; home court: 1.96 pts</p>
-<div class="matrix">
-<article class="mx-card">
-  <div class="mx-top"><span class="mx-date">2026-07-17</span><span class="mx-time">23:30 UTC</span></div>
-  <div class="mx-teams">
-    <div class="mx-team">
-      <span class="mx-abbr">SEA</span>
-      <span class="mx-pts">81.8</span>
-      <span class="mx-net">net -6.4</span>
-    </div>
-    <div class="mx-at">@</div>
-    <div class="mx-team is-fav">
-      <span class="mx-abbr">IND</span>
-      <span class="mx-pts">88.3</span>
-      <span class="mx-net">net 4.8</span>
-    </div>
-  </div>
-  
-  <div class="wp-row" title="Home win probability 78%">
-    <span class="wp-team">SEA</span>
-    <div class="wp-track"><i class="wp-fill" style="width:78.0%"></i><s class="wp-mid"></s></div>
-    <span class="wp-team is-fav">IND</span>
-  </div>
-  <div class="mx-stats">
-    <div class="mx-stat mx-stat--home"><i>Win</i><b>IND 78%</b></div>
-    <div class="mx-stat"><i>Spread</i><b>+6.5</b></div>
-    <div class="mx-stat"><i>Total</i><b>170.1</b></div>
-    <div class="mx-stat"><i>Pace</i><b>80.9</b></div>
-  </div>
-</article>
-<article class="mx-card">
-  <div class="mx-top"><span class="mx-date">2026-07-17</span><span class="mx-time">23:30 UTC</span></div>
-  <div class="mx-teams">
-    <div class="mx-team is-fav">
-      <span class="mx-abbr">ATL</span>
-      <span class="mx-pts">88.8</span>
-      <span class="mx-net">net 4.9</span>
-    </div>
-    <div class="mx-at">@</div>
-    <div class="mx-team">
-      <span class="mx-abbr">TOR</span>
-      <span class="mx-pts">87.5</span>
-      <span class="mx-net">net -3.3</span>
-    </div>
-  </div>
-  
-  <div class="wp-row" title="Home win probability 29%">
-    <span class="wp-team is-fav">ATL</span>
-    <div class="wp-track"><i class="wp-fill" style="width:28.9%"></i><s class="wp-mid"></s></div>
-    <span class="wp-team">TOR</span>
-  </div>
-  <div class="mx-stats">
-    <div class="mx-stat mx-stat--away"><i>Win</i><b>ATL 71%</b></div>
-    <div class="mx-stat"><i>Spread</i><b>-1.4</b></div>
-    <div class="mx-stat"><i>Total</i><b>176.3</b></div>
-    <div class="mx-stat"><i>Pace</i><b>81.2</b></div>
-  </div>
-</article>
-<article class="mx-card">
-  <div class="mx-top"><span class="mx-date">2026-07-17</span><span class="mx-time">23:30 UTC</span></div>
-  <div class="mx-teams">
-    <div class="mx-team">
-      <span class="mx-abbr">LAS</span>
-      <span class="mx-pts">88.0</span>
-      <span class="mx-net">net -5.1</span>
-    </div>
-    <div class="mx-at">@</div>
-    <div class="mx-team is-fav">
-      <span class="mx-abbr">CHI</span>
-      <span class="mx-pts">90.7</span>
-      <span class="mx-net">net -3.3</span>
-    </div>
-  </div>
-  
-  <div class="wp-row" title="Home win probability 55%">
-    <span class="wp-team">LAS</span>
-    <div class="wp-track"><i class="wp-fill" style="width:55.3%"></i><s class="wp-mid"></s></div>
-    <span class="wp-team is-fav">CHI</span>
-  </div>
-  <div class="mx-stats">
-    <div class="mx-stat mx-stat--home"><i>Win</i><b>CHI 55%</b></div>
-    <div class="mx-stat"><i>Spread</i><b>+2.7</b></div>
-    <div class="mx-stat"><i>Total</i><b>178.7</b></div>
-    <div class="mx-stat"><i>Pace</i><b>83.2</b></div>
-  </div>
-</article>
-<article class="mx-card">
-  <div class="mx-top"><span class="mx-date">2026-07-17</span><span class="mx-time">02:00 UTC</span></div>
-  <div class="mx-teams">
-    <div class="mx-team">
-      <span class="mx-abbr">CON</span>
-      <span class="mx-pts">81.4</span>
-      <span class="mx-net">net -8.7</span>
-    </div>
-    <div class="mx-at">@</div>
-    <div class="mx-team is-fav">
-      <span class="mx-abbr">PHX</span>
-      <span class="mx-pts">85.8</span>
-      <span class="mx-net">net -2.5</span>
-    </div>
-  </div>
-  
-  <div class="wp-row" title="Home win probability 67%">
-    <span class="wp-team">CON</span>
-    <div class="wp-track"><i class="wp-fill" style="width:66.9%"></i><s class="wp-mid"></s></div>
-    <span class="wp-team is-fav">PHX</span>
-  </div>
-  <div class="mx-stats">
-    <div class="mx-stat mx-stat--home"><i>Win</i><b>PHX 67%</b></div>
-    <div class="mx-stat"><i>Spread</i><b>+4.4</b></div>
-    <div class="mx-stat"><i>Total</i><b>167.2</b></div>
-    <div class="mx-stat"><i>Pace</i><b>79.8</b></div>
-  </div>
-</article>
-<article class="mx-card">
-  <div class="mx-top"><span class="mx-date">2026-07-18</span><span class="mx-time">00:00 UTC</span></div>
-  <div class="mx-teams">
-    <div class="mx-team">
-      <span class="mx-abbr">NYL</span>
-      <span class="mx-pts">87.5</span>
-      <span class="mx-net">net 4.8</span>
-    </div>
-    <div class="mx-at">@</div>
-    <div class="mx-team is-fav">
-      <span class="mx-abbr">IND</span>
-      <span class="mx-pts">89.4</span>
-      <span class="mx-net">net 4.8</span>
-    </div>
-  </div>
-  
-  <div class="wp-row" title="Home win probability 50%">
-    <span class="wp-team">NYL</span>
-    <div class="wp-track"><i class="wp-fill" style="width:50.3%"></i><s class="wp-mid"></s></div>
-    <span class="wp-team is-fav">IND</span>
-  </div>
-  <div class="mx-stats">
-    <div class="mx-stat mx-stat--home"><i>Win</i><b>IND 50%</b></div>
-    <div class="mx-stat"><i>Spread</i><b>+2.0</b></div>
-    <div class="mx-stat"><i>Total</i><b>176.9</b></div>
-    <div class="mx-stat"><i>Pace</i><b>81.9</b></div>
-  </div>
-</article>
-<article class="mx-card">
-  <div class="mx-top"><span class="mx-date">2026-07-18</span><span class="mx-time">00:00 UTC</span></div>
-  <div class="mx-teams">
-    <div class="mx-team">
-      <span class="mx-abbr">PDX</span>
-      <span class="mx-pts">81.8</span>
-      <span class="mx-net">net -8.6</span>
-    </div>
-    <div class="mx-at">@</div>
-    <div class="mx-team is-fav">
-      <span class="mx-abbr">MIN</span>
-      <span class="mx-pts">91.7</span>
-      <span class="mx-net">net 10.9</span>
-    </div>
-  </div>
-  
-  <div class="wp-row" title="Home win probability 90%">
-    <span class="wp-team">PDX</span>
-    <div class="wp-track"><i class="wp-fill" style="width:89.9%"></i><s class="wp-mid"></s></div>
-    <span class="wp-team is-fav">MIN</span>
-  </div>
-  <div class="mx-stats">
-    <div class="mx-stat mx-stat--home"><i>Win</i><b>MIN 90%</b></div>
-    <div class="mx-stat"><i>Spread</i><b>+9.9</b></div>
-    <div class="mx-stat"><i>Total</i><b>173.5</b></div>
-    <div class="mx-stat"><i>Pace</i><b>81.1</b></div>
-  </div>
-</article>
-<article class="mx-card">
-  <div class="mx-top"><span class="mx-date">2026-07-18</span><span class="mx-time">00:30 UTC</span></div>
-  <div class="mx-teams">
-    <div class="mx-team">
-      <span class="mx-abbr">WAS</span>
-      <span class="mx-pts">77.7</span>
-      <span class="mx-net">net -4.8</span>
-    </div>
-    <div class="mx-at">@</div>
-    <div class="mx-team is-fav">
-      <span class="mx-abbr">GSV</span>
-      <span class="mx-pts">84.4</span>
-      <span class="mx-net">net 7.1</span>
-    </div>
-  </div>
-  
-  <div class="wp-row" title="Home win probability 79%">
-    <span class="wp-team">WAS</span>
-    <div class="wp-track"><i class="wp-fill" style="width:79.3%"></i><s class="wp-mid"></s></div>
-    <span class="wp-team is-fav">GSV</span>
-  </div>
-  <div class="mx-stats">
-    <div class="mx-stat mx-stat--home"><i>Win</i><b>GSV 79%</b></div>
-    <div class="mx-stat"><i>Spread</i><b>+6.7</b></div>
-    <div class="mx-stat"><i>Total</i><b>162.1</b></div>
-    <div class="mx-stat"><i>Pace</i><b>79.3</b></div>
-  </div>
-</article>
-<article class="mx-card">
-  <div class="mx-top"><span class="mx-date">2026-07-19</span><span class="mx-time">17:00 UTC</span></div>
-  <div class="mx-teams">
-    <div class="mx-team">
-      <span class="mx-abbr">LAS</span>
-      <span class="mx-pts">85.8</span>
-      <span class="mx-net">net -5.1</span>
-    </div>
-    <div class="mx-at">@</div>
-    <div class="mx-team is-fav">
-      <span class="mx-abbr">DAL</span>
-      <span class="mx-pts">92.1</span>
-      <span class="mx-net">net 5.4</span>
-    </div>
-  </div>
-  
-  <div class="wp-row" title="Home win probability 77%">
-    <span class="wp-team">LAS</span>
-    <div class="wp-track"><i class="wp-fill" style="width:76.6%"></i><s class="wp-mid"></s></div>
-    <span class="wp-team is-fav">DAL</span>
-  </div>
-  <div class="mx-stats">
-    <div class="mx-stat mx-stat--home"><i>Win</i><b>DAL 77%</b></div>
-    <div class="mx-stat"><i>Spread</i><b>+6.2</b></div>
-    <div class="mx-stat"><i>Total</i><b>177.9</b></div>
-    <div class="mx-stat"><i>Pace</i><b>81.8</b></div>
-  </div>
-</article>
-<article class="mx-card">
-  <div class="mx-top"><span class="mx-date">2026-07-19</span><span class="mx-time">20:00 UTC</span></div>
-  <div class="mx-teams">
-    <div class="mx-team">
-      <span class="mx-abbr">CHI</span>
-      <span class="mx-pts">83.9</span>
-      <span class="mx-net">net -3.3</span>
-    </div>
-    <div class="mx-at">@</div>
-    <div class="mx-team is-fav">
-      <span class="mx-abbr">ATL</span>
-      <span class="mx-pts">89.2</span>
-      <span class="mx-net">net 4.9</span>
-    </div>
-  </div>
-  
-  <div class="wp-row" title="Home win probability 72%">
-    <span class="wp-team">CHI</span>
-    <div class="wp-track"><i class="wp-fill" style="width:71.7%"></i><s class="wp-mid"></s></div>
-    <span class="wp-team is-fav">ATL</span>
-  </div>
-  <div class="mx-stats">
-    <div class="mx-stat mx-stat--home"><i>Win</i><b>ATL 72%</b></div>
-    <div class="mx-stat"><i>Spread</i><b>+5.3</b></div>
-    <div class="mx-stat"><i>Total</i><b>173.1</b></div>
-    <div class="mx-stat"><i>Pace</i><b>81.9</b></div>
-  </div>
-</article>
-<article class="mx-card">
-  <div class="mx-top"><span class="mx-date">2026-07-19</span><span class="mx-time">23:00 UTC</span></div>
-  <div class="mx-teams">
-    <div class="mx-team">
-      <span class="mx-abbr">CON</span>
-      <span class="mx-pts">81.4</span>
-      <span class="mx-net">net -8.7</span>
-    </div>
-    <div class="mx-at">@</div>
-    <div class="mx-team is-fav">
-      <span class="mx-abbr">PHX</span>
-      <span class="mx-pts">85.8</span>
-      <span class="mx-net">net -2.5</span>
-    </div>
-  </div>
-  
-  <div class="wp-row" title="Home win probability 67%">
-    <span class="wp-team">CON</span>
-    <div class="wp-track"><i class="wp-fill" style="width:66.9%"></i><s class="wp-mid"></s></div>
-    <span class="wp-team is-fav">PHX</span>
-  </div>
-  <div class="mx-stats">
-    <div class="mx-stat mx-stat--home"><i>Win</i><b>PHX 67%</b></div>
-    <div class="mx-stat"><i>Spread</i><b>+4.4</b></div>
-    <div class="mx-stat"><i>Total</i><b>167.2</b></div>
-    <div class="mx-stat"><i>Pace</i><b>79.8</b></div>
-  </div>
-</article>
-<article class="mx-card">
-  <div class="mx-top"><span class="mx-date">2026-07-20</span><span class="mx-time">00:00 UTC</span></div>
-  <div class="mx-teams">
-    <div class="mx-team is-fav">
-      <span class="mx-abbr">LVA</span>
-      <span class="mx-pts">88.0</span>
-      <span class="mx-net">net 4.4</span>
-    </div>
-    <div class="mx-at">@</div>
-    <div class="mx-team">
-      <span class="mx-abbr">TOR</span>
-      <span class="mx-pts">86.9</span>
-      <span class="mx-net">net -3.3</span>
-    </div>
-  </div>
-  
-  <div class="wp-row" title="Home win probability 30%">
-    <span class="wp-team is-fav">LVA</span>
-    <div class="wp-track"><i class="wp-fill" style="width:30.0%"></i><s class="wp-mid"></s></div>
-    <span class="wp-team">TOR</span>
-  </div>
-  <div class="mx-stats">
-    <div class="mx-stat mx-stat--away"><i>Win</i><b>LVA 70%</b></div>
-    <div class="mx-stat"><i>Spread</i><b>-1.1</b></div>
-    <div class="mx-stat"><i>Total</i><b>174.9</b></div>
-    <div class="mx-stat"><i>Pace</i><b>79.8</b></div>
-  </div>
-</article>
-<article class="mx-card">
-  <div class="mx-top"><span class="mx-date">2026-07-20</span><span class="mx-time">00:00 UTC</span></div>
-  <div class="mx-teams">
-    <div class="mx-team">
-      <span class="mx-abbr">NYL</span>
-      <span class="mx-pts">85.2</span>
-      <span class="mx-net">net 4.8</span>
-    </div>
-    <div class="mx-at">@</div>
-    <div class="mx-team is-fav">
-      <span class="mx-abbr">DAL</span>
-      <span class="mx-pts">87.4</span>
-      <span class="mx-net">net 5.4</span>
-    </div>
-  </div>
-  
-  <div class="wp-row" title="Home win probability 52%">
-    <span class="wp-team">NYL</span>
-    <div class="wp-track"><i class="wp-fill" style="width:52.0%"></i><s class="wp-mid"></s></div>
-    <span class="wp-team is-fav">DAL</span>
-  </div>
-  <div class="mx-stats">
-    <div class="mx-stat mx-stat--home"><i>Win</i><b>DAL 52%</b></div>
-    <div class="mx-stat"><i>Spread</i><b>+2.2</b></div>
-    <div class="mx-stat"><i>Total</i><b>172.7</b></div>
-    <div class="mx-stat"><i>Pace</i><b>80.2</b></div>
-  </div>
-</article>
-<article class="mx-card">
-  <div class="mx-top"><span class="mx-date">2026-07-20</span><span class="mx-time">02:00 UTC</span></div>
-  <div class="mx-teams">
-    <div class="mx-team">
-      <span class="mx-abbr">WAS</span>
-      <span class="mx-pts">77.7</span>
-      <span class="mx-net">net -4.8</span>
-    </div>
-    <div class="mx-at">@</div>
-    <div class="mx-team is-fav">
-      <span class="mx-abbr">GSV</span>
-      <span class="mx-pts">84.4</span>
-      <span class="mx-net">net 7.1</span>
-    </div>
-  </div>
-  
-  <div class="wp-row" title="Home win probability 79%">
-    <span class="wp-team">WAS</span>
-    <div class="wp-track"><i class="wp-fill" style="width:79.3%"></i><s class="wp-mid"></s></div>
-    <span class="wp-team is-fav">GSV</span>
-  </div>
-  <div class="mx-stats">
-    <div class="mx-stat mx-stat--home"><i>Win</i><b>GSV 79%</b></div>
-    <div class="mx-stat"><i>Spread</i><b>+6.7</b></div>
-    <div class="mx-stat"><i>Total</i><b>162.1</b></div>
-    <div class="mx-stat"><i>Pace</i><b>79.3</b></div>
-  </div>
-</article>
-<article class="mx-card">
-  <div class="mx-top"><span class="mx-date">2026-07-20</span><span class="mx-time">02:00 UTC</span></div>
-  <div class="mx-teams">
-    <div class="mx-team is-fav">
-      <span class="mx-abbr">MIN</span>
-      <span class="mx-pts">84.9</span>
-      <span class="mx-net">net 10.9</span>
-    </div>
-    <div class="mx-at">@</div>
-    <div class="mx-team">
-      <span class="mx-abbr">SEA</span>
-      <span class="mx-pts">80.0</span>
-      <span class="mx-net">net -6.4</span>
-    </div>
-  </div>
-  
-  <div class="wp-row" title="Home win probability 13%">
-    <span class="wp-team is-fav">MIN</span>
-    <div class="wp-track"><i class="wp-fill" style="width:12.8%"></i><s class="wp-mid"></s></div>
-    <span class="wp-team">SEA</span>
-  </div>
-  <div class="mx-stats">
-    <div class="mx-stat mx-stat--away"><i>Win</i><b>MIN 87%</b></div>
-    <div class="mx-stat"><i>Spread</i><b>-4.9</b></div>
-    <div class="mx-stat"><i>Total</i><b>164.9</b></div>
-    <div class="mx-stat"><i>Pace</i><b>79.7</b></div>
-  </div>
-</article>
-<article class="mx-card">
-  <div class="mx-top"><span class="mx-date">2026-07-22</span><span class="mx-time">19:00 UTC</span></div>
-  <div class="mx-teams">
-    <div class="mx-team is-fav">
-      <span class="mx-abbr">PHX</span>
-      <span class="mx-pts">87.3</span>
-      <span class="mx-net">net -2.5</span>
-    </div>
-    <div class="mx-at">@</div>
-    <div class="mx-team">
-      <span class="mx-abbr">LAS</span>
-      <span class="mx-pts">88.2</span>
-      <span class="mx-net">net -5.1</span>
-    </div>
-  </div>
-  
-  <div class="wp-row" title="Home win probability 43%">
-    <span class="wp-team is-fav">PHX</span>
-    <div class="wp-track"><i class="wp-fill" style="width:43.1%"></i><s class="wp-mid"></s></div>
-    <span class="wp-team">LAS</span>
-  </div>
-  <div class="mx-stats">
-    <div class="mx-stat mx-stat--away"><i>Win</i><b>PHX 57%</b></div>
-    <div class="mx-stat"><i>Spread</i><b>+0.9</b></div>
-    <div class="mx-stat"><i>Total</i><b>175.5</b></div>
-    <div class="mx-stat"><i>Pace</i><b>81.2</b></div>
-  </div>
-</article>
-<article class="mx-card">
-  <div class="mx-top"><span class="mx-date">2026-07-22</span><span class="mx-time">19:00 UTC</span></div>
-  <div class="mx-teams">
-    <div class="mx-team is-fav">
-      <span class="mx-abbr">MIN</span>
-      <span class="mx-pts">84.9</span>
-      <span class="mx-net">net 10.9</span>
-    </div>
-    <div class="mx-at">@</div>
-    <div class="mx-team">
-      <span class="mx-abbr">SEA</span>
-      <span class="mx-pts">80.0</span>
-      <span class="mx-net">net -6.4</span>
-    </div>
-  </div>
-  
-  <div class="wp-row" title="Home win probability 13%">
-    <span class="wp-team is-fav">MIN</span>
-    <div class="wp-track"><i class="wp-fill" style="width:12.8%"></i><s class="wp-mid"></s></div>
-    <span class="wp-team">SEA</span>
-  </div>
-  <div class="mx-stats">
-    <div class="mx-stat mx-stat--away"><i>Win</i><b>MIN 87%</b></div>
-    <div class="mx-stat"><i>Spread</i><b>-4.9</b></div>
-    <div class="mx-stat"><i>Total</i><b>164.9</b></div>
-    <div class="mx-stat"><i>Pace</i><b>79.7</b></div>
-  </div>
-</article>
-<article class="mx-card">
-  <div class="mx-top"><span class="mx-date">2026-07-22</span><span class="mx-time">23:00 UTC</span></div>
-  <div class="mx-teams">
-    <div class="mx-team">
-      <span class="mx-abbr">CHI</span>
-      <span class="mx-pts">84.1</span>
-      <span class="mx-net">net -3.3</span>
-    </div>
-    <div class="mx-at">@</div>
-    <div class="mx-team is-fav">
-      <span class="mx-abbr">NYL</span>
-      <span class="mx-pts">89.4</span>
-      <span class="mx-net">net 4.8</span>
-    </div>
-  </div>
-  
-  <div class="wp-row" title="Home win probability 71%">
-    <span class="wp-team">CHI</span>
-    <div class="wp-track"><i class="wp-fill" style="width:71.4%"></i><s class="wp-mid"></s></div>
-    <span class="wp-team is-fav">NYL</span>
-  </div>
-  <div class="mx-stats">
-    <div class="mx-stat mx-stat--home"><i>Win</i><b>NYL 71%</b></div>
-    <div class="mx-stat"><i>Spread</i><b>+5.3</b></div>
-    <div class="mx-stat"><i>Total</i><b>173.4</b></div>
-    <div class="mx-stat"><i>Pace</i><b>81.6</b></div>
-  </div>
-</article>
-<article class="mx-card">
-  <div class="mx-top"><span class="mx-date">2026-07-22</span><span class="mx-time">23:30 UTC</span></div>
-  <div class="mx-teams">
-    <div class="mx-team is-fav">
-      <span class="mx-abbr">LVA</span>
-      <span class="mx-pts">84.4</span>
-      <span class="mx-net">net 4.4</span>
-    </div>
-    <div class="mx-at">@</div>
-    <div class="mx-team">
-      <span class="mx-abbr">WAS</span>
-      <span class="mx-pts">82.7</span>
-      <span class="mx-net">net -4.8</span>
-    </div>
-  </div>
-  
-  <div class="wp-row" title="Home win probability 27%">
-    <span class="wp-team is-fav">LVA</span>
-    <div class="wp-track"><i class="wp-fill" style="width:26.6%"></i><s class="wp-mid"></s></div>
-    <span class="wp-team">WAS</span>
-  </div>
-  <div class="mx-stats">
-    <div class="mx-stat mx-stat--away"><i>Win</i><b>LVA 73%</b></div>
-    <div class="mx-stat"><i>Spread</i><b>-1.7</b></div>
-    <div class="mx-stat"><i>Total</i><b>167.1</b></div>
-    <div class="mx-stat"><i>Pace</i><b>80.0</b></div>
-  </div>
-</article>
-<article class="mx-card">
-  <div class="mx-top"><span class="mx-date">2026-07-22</span><span class="mx-time">00:00 UTC</span></div>
-  <div class="mx-teams">
-    <div class="mx-team">
-      <span class="mx-abbr">CON</span>
-      <span class="mx-pts">83.1</span>
-      <span class="mx-net">net -8.7</span>
-    </div>
-    <div class="mx-at">@</div>
-    <div class="mx-team is-fav">
-      <span class="mx-abbr">IND</span>
-      <span class="mx-pts">90.6</span>
-      <span class="mx-net">net 4.8</span>
-    </div>
-  </div>
-  
-  <div class="wp-row" title="Home win probability 82%">
-    <span class="wp-team">CON</span>
-    <div class="wp-track"><i class="wp-fill" style="width:82.0%"></i><s class="wp-mid"></s></div>
-    <span class="wp-team is-fav">IND</span>
-  </div>
-  <div class="mx-stats">
-    <div class="mx-stat mx-stat--home"><i>Win</i><b>IND 82%</b></div>
-    <div class="mx-stat"><i>Spread</i><b>+7.5</b></div>
-    <div class="mx-stat"><i>Total</i><b>173.7</b></div>
-    <div class="mx-stat"><i>Pace</i><b>82.0</b></div>
-  </div>
-</article>
-<article class="mx-card">
-  <div class="mx-top"><span class="mx-date">2026-07-22</span><span class="mx-time">02:00 UTC</span></div>
-  <div class="mx-teams">
-    <div class="mx-team is-fav">
-      <span class="mx-abbr">DAL</span>
-      <span class="mx-pts">89.1</span>
-      <span class="mx-net">net 5.4</span>
-    </div>
-    <div class="mx-at">@</div>
-    <div class="mx-team">
-      <span class="mx-abbr">PDX</span>
-      <span class="mx-pts">85.4</span>
-      <span class="mx-net">net -8.6</span>
-    </div>
-  </div>
-  
-  <div class="wp-row" title="Home win probability 18%">
-    <span class="wp-team is-fav">DAL</span>
-    <div class="wp-track"><i class="wp-fill" style="width:17.5%"></i><s class="wp-mid"></s></div>
-    <span class="wp-team">PDX</span>
-  </div>
-  <div class="mx-stats">
-    <div class="mx-stat mx-stat--away"><i>Win</i><b>DAL 82%</b></div>
-    <div class="mx-stat"><i>Spread</i><b>-3.7</b></div>
-    <div class="mx-stat"><i>Total</i><b>174.6</b></div>
-    <div class="mx-stat"><i>Pace</i><b>80.6</b></div>
-  </div>
-</article></div></section>
+<p class="basis-note">Home court: 1.91 pts &nbsp;&middot;&nbsp; a market tile only counts as a
+pick when a stored book price backs it; everything else is labelled model&nbsp;only.</p>
+<section class="bd" data-board="WNBA"><header class="bd-head"><div class="bd-head__title"><h2 class="bd-wordmark">WNBA <em>Board</em></h2><div class="bd-counters"><div class="bd-counter"><span class="bd-counter__v">0</span><span class="bd-counter__k">Picks</span></div><div class="bd-counter is-gem"><span class="bd-counter__v">0</span><span class="bd-counter__k">Gems</span></div><div class="bd-counter"><span class="bd-counter__v">27</span><span class="bd-counter__k">Games</span></div></div></div><div class="bd-head__meta">// 27 games · 2026-08-12 · logistic fit on 192 games</div><div class="bd-controls"><div class="bd-filters" role="group" aria-label="Filter board"><button type="button" class="bd-filter on" data-filter="all" onclick="boardFilter(this,'all')">All 27</button><button type="button" class="bd-filter" data-filter="gems" onclick="boardFilter(this,'gems')">◆ Gems</button><button type="button" class="bd-filter" data-filter="fullgame" onclick="boardFilter(this,'fullgame')">Full game</button></div><label class="bd-sort">Sort<select onchange="boardSort(this.value)" aria-label="Sort board"><option value="start">Start time</option><option value="picks">Priced markets</option><option value="gems">Gems</option></select></label></div></header><div class="bd-grid" id="bdGrid"><article class="bd-card" data-key="TOR@DAL" data-tags="" data-picks="0" data-gems="0"><header class="bd-card__head"><span class="bd-card__league">WNBA</span><span class="bd-card__start">8:00 PM ET</span><span class="bd-card__counts"></span></header><button type="button" class="bd-headline is-mut" onclick="location.hash='methodology'"><span class="bd-headline__text">Model projection only — no stored price</span><span class="bd-headline__cta">Methodology →</span></button><div class="bd-score"><div class="bd-side bd-side--away"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/tor.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>TOR</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">TOR</span><span class="bd-side__detail">21% win</span></span><span class="bd-side__score">86</span></div><span class="bd-score__vs">vs</span><div class="bd-side bd-side--home is-fav"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/dal.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>DAL</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">DAL</span><span class="bd-side__detail">79% win</span></span><span class="bd-side__score">92</span></div></div><div class="bd-principals"><span class="bd-principals__label">Usage leaders</span><div class="bd-principals__row"><div class="bd-principal"><span class="bd-face bd-face--na">B</span><span class="bd-principal__body"><span class="bd-principal__name">Brittney Sykes</span><span class="bd-principal__team">TOR</span><span class="bd-principal__stat">20.1 PPG · 28.6 USG</span></span></div><span class="bd-principals__vs">vs</span><div class="bd-principal"><span class="bd-face bd-face--na">P</span><span class="bd-principal__body"><span class="bd-principal__name">Paige Bueckers</span><span class="bd-principal__team">DAL</span><span class="bd-principal__stat">20.9 PPG · 25.0 USG</span></span></div></div></div><div class="bd-card__groups"><div class="bd-group"><div class="bd-group__head"><span class="bd-group__label">Full game</span><span class="bd-group__state">No price</span><span class="bd-group__count">no price</span></div><div class="bd-group__tiles"><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Moneyline</span><span class="bd-tile__value">79%</span><span class="bd-tile__state">DAL · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Spread</span><span class="bd-tile__value">DAL -6.1</span><span class="bd-tile__state">projected line · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Total</span><span class="bd-tile__value">177.7</span><span class="bd-tile__state">projected · model only</span></div></div></div></div><button type="button" class="bd-card__footer" onclick="location.hash='methodology'">How this game is modelled →</button></article><article class="bd-card" data-key="CHI@GSV" data-tags="" data-picks="0" data-gems="0"><header class="bd-card__head"><span class="bd-card__league">WNBA</span><span class="bd-card__start">10:00 PM ET</span><span class="bd-card__counts"></span></header><button type="button" class="bd-headline is-mut" onclick="location.hash='methodology'"><span class="bd-headline__text">Model projection only — no stored price</span><span class="bd-headline__cta">Methodology →</span></button><div class="bd-score"><div class="bd-side bd-side--away"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/chi.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>CHI</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">CHI</span><span class="bd-side__detail">23% win</span></span><span class="bd-side__score">81</span></div><span class="bd-score__vs">vs</span><div class="bd-side bd-side--home is-fav"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/gs.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>GSV</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">GSV</span><span class="bd-side__detail">77% win</span></span><span class="bd-side__score">86</span></div></div><div class="bd-principals"><span class="bd-principals__label">Usage leaders</span><div class="bd-principals__row"><div class="bd-principal"><span class="bd-face bd-face--na">R</span><span class="bd-principal__body"><span class="bd-principal__name">Rickea Jackson</span><span class="bd-principal__team">CHI</span><span class="bd-principal__stat">18.0 PPG · 28.9 USG</span></span></div><span class="bd-principals__vs">vs</span><div class="bd-principal"><span class="bd-face bd-face--na">G</span><span class="bd-principal__body"><span class="bd-principal__name">Gabby Williams</span><span class="bd-principal__team">GSV</span><span class="bd-principal__stat">15.1 PPG · 28.6 USG</span></span></div></div></div><div class="bd-card__groups"><div class="bd-group"><div class="bd-group__head"><span class="bd-group__label">Full game</span><span class="bd-group__state">No price</span><span class="bd-group__count">no price</span></div><div class="bd-group__tiles"><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Moneyline</span><span class="bd-tile__value">77%</span><span class="bd-tile__state">GSV · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Spread</span><span class="bd-tile__value">GSV -5.8</span><span class="bd-tile__state">projected line · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Total</span><span class="bd-tile__value">167.1</span><span class="bd-tile__state">projected · model only</span></div></div></div></div><button type="button" class="bd-card__footer" onclick="location.hash='methodology'">How this game is modelled →</button></article><article class="bd-card" data-key="MIN@PDX" data-tags="" data-picks="0" data-gems="0"><header class="bd-card__head"><span class="bd-card__league">WNBA</span><span class="bd-card__start">10:00 PM ET</span><span class="bd-card__counts"></span></header><button type="button" class="bd-headline is-mut" onclick="location.hash='methodology'"><span class="bd-headline__text">Model projection only — no stored price</span><span class="bd-headline__cta">Methodology →</span></button><div class="bd-score"><div class="bd-side bd-side--away is-fav"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/min.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>MIN</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">MIN</span><span class="bd-side__detail">89% win</span></span><span class="bd-side__score">90</span></div><span class="bd-score__vs">vs</span><div class="bd-side bd-side--home"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/por.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>PDX</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">PDX</span><span class="bd-side__detail">11% win</span></span><span class="bd-side__score">85</span></div></div><div class="bd-principals"><span class="bd-principals__label">Usage leaders</span><div class="bd-principals__row"><div class="bd-principal"><span class="bd-face bd-face--na">O</span><span class="bd-principal__body"><span class="bd-principal__name">Olivia Miles</span><span class="bd-principal__team">MIN</span><span class="bd-principal__stat">19.1 PPG · 26.3 USG</span></span></div><span class="bd-principals__vs">vs</span><div class="bd-principal"><span class="bd-face bd-face--na">B</span><span class="bd-principal__body"><span class="bd-principal__name">Bridget Carleton</span><span class="bd-principal__team">PDX</span><span class="bd-principal__stat">13.5 PPG · 19.4 USG</span></span></div></div></div><div class="bd-card__groups"><div class="bd-group"><div class="bd-group__head"><span class="bd-group__label">Full game</span><span class="bd-group__state">No price</span><span class="bd-group__count">no price</span></div><div class="bd-group__tiles"><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Moneyline</span><span class="bd-tile__value">89%</span><span class="bd-tile__state">MIN · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Spread</span><span class="bd-tile__value">MIN -4.9</span><span class="bd-tile__state">projected line · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Total</span><span class="bd-tile__value">174.6</span><span class="bd-tile__state">projected · model only</span></div></div></div></div><button type="button" class="bd-card__footer" onclick="location.hash='methodology'">How this game is modelled →</button></article><article class="bd-card" data-key="ATL@CON" data-tags="" data-picks="0" data-gems="0"><header class="bd-card__head"><span class="bd-card__league">WNBA</span><span class="bd-card__start">7:00 PM ET</span><span class="bd-card__counts"></span></header><button type="button" class="bd-headline is-mut" onclick="location.hash='methodology'"><span class="bd-headline__text">Model projection only — no stored price</span><span class="bd-headline__cta">Methodology →</span></button><div class="bd-score"><div class="bd-side bd-side--away is-fav"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/atl.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>ATL</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">ATL</span><span class="bd-side__detail">82% win</span></span><span class="bd-side__score">86</span></div><span class="bd-score__vs">vs</span><div class="bd-side bd-side--home"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/con.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>CON</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">CON</span><span class="bd-side__detail">18% win</span></span><span class="bd-side__score">83</span></div></div><div class="bd-principals"><span class="bd-principals__label">Usage leaders</span><div class="bd-principals__row"><div class="bd-principal"><span class="bd-face bd-face--na">A</span><span class="bd-principal__body"><span class="bd-principal__name">Allisha Gray</span><span class="bd-principal__team">ATL</span><span class="bd-principal__stat">19.1 PPG · 23.1 USG</span></span></div><span class="bd-principals__vs">vs</span><div class="bd-principal"><span class="bd-face bd-face--na">L</span><span class="bd-principal__body"><span class="bd-principal__name">Leila Lacan</span><span class="bd-principal__team">CON</span><span class="bd-principal__stat">12.9 PPG · 22.0 USG</span></span></div></div></div><div class="bd-card__groups"><div class="bd-group"><div class="bd-group__head"><span class="bd-group__label">Full game</span><span class="bd-group__state">No price</span><span class="bd-group__count">no price</span></div><div class="bd-group__tiles"><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Moneyline</span><span class="bd-tile__value">82%</span><span class="bd-tile__state">ATL · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Spread</span><span class="bd-tile__value">ATL -3.1</span><span class="bd-tile__state">projected line · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Total</span><span class="bd-tile__value">169.9</span><span class="bd-tile__state">projected · model only</span></div></div></div></div><button type="button" class="bd-card__footer" onclick="location.hash='methodology'">How this game is modelled →</button></article><article class="bd-card" data-key="LAS@NYL" data-tags="" data-picks="0" data-gems="0"><header class="bd-card__head"><span class="bd-card__league">WNBA</span><span class="bd-card__start">8:00 PM ET</span><span class="bd-card__counts"></span></header><button type="button" class="bd-headline is-mut" onclick="location.hash='methodology'"><span class="bd-headline__text">Model projection only — no stored price</span><span class="bd-headline__cta">Methodology →</span></button><div class="bd-score"><div class="bd-side bd-side--away"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/las.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>LAS</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">LAS</span><span class="bd-side__detail">24% win</span></span><span class="bd-side__score">86</span></div><span class="bd-score__vs">vs</span><div class="bd-side bd-side--home is-fav"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/nyl.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>NYL</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">NYL</span><span class="bd-side__detail">76% win</span></span><span class="bd-side__score">92</span></div></div><div class="bd-principals"><span class="bd-principals__label">Usage leaders</span><div class="bd-principals__row"><div class="bd-principal"><span class="bd-face bd-face--na">K</span><span class="bd-principal__body"><span class="bd-principal__name">Kelsey Plum</span><span class="bd-principal__team">LAS</span><span class="bd-principal__stat">23.9 PPG · 27.4 USG</span></span></div><span class="bd-principals__vs">vs</span><div class="bd-principal"><span class="bd-face bd-face--na">B</span><span class="bd-principal__body"><span class="bd-principal__name">Breanna Stewart</span><span class="bd-principal__team">NYL</span><span class="bd-principal__stat">20.6 PPG · 27.5 USG</span></span></div></div></div><div class="bd-card__groups"><div class="bd-group"><div class="bd-group__head"><span class="bd-group__label">Full game</span><span class="bd-group__state">No price</span><span class="bd-group__count">no price</span></div><div class="bd-group__tiles"><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Moneyline</span><span class="bd-tile__value">76%</span><span class="bd-tile__state">NYL · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Spread</span><span class="bd-tile__value">NYL -5.7</span><span class="bd-tile__state">projected line · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Total</span><span class="bd-tile__value">177.4</span><span class="bd-tile__state">projected · model only</span></div></div></div></div><button type="button" class="bd-card__footer" onclick="location.hash='methodology'">How this game is modelled →</button></article><article class="bd-card" data-key="WAS@LVA" data-tags="" data-picks="0" data-gems="0"><header class="bd-card__head"><span class="bd-card__league">WNBA</span><span class="bd-card__start">10:00 PM ET</span><span class="bd-card__counts"></span></header><button type="button" class="bd-headline is-mut" onclick="location.hash='methodology'"><span class="bd-headline__text">Model projection only — no stored price</span><span class="bd-headline__cta">Methodology →</span></button><div class="bd-score"><div class="bd-side bd-side--away"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/was.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>WAS</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">WAS</span><span class="bd-side__detail">24% win</span></span><span class="bd-side__score">80</span></div><span class="bd-score__vs">vs</span><div class="bd-side bd-side--home is-fav"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/lv.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>LVA</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">LVA</span><span class="bd-side__detail">76% win</span></span><span class="bd-side__score">86</span></div></div><div class="bd-principals"><span class="bd-principals__label">Usage leaders</span><div class="bd-principals__row"><div class="bd-principal"><span class="bd-face bd-face--na">S</span><span class="bd-principal__body"><span class="bd-principal__name">Sonia Citron</span><span class="bd-principal__team">WAS</span><span class="bd-principal__stat">17.0 PPG · 21.6 USG</span></span></div><span class="bd-principals__vs">vs</span><div class="bd-principal"><span class="bd-face bd-face--na">A</span><span class="bd-principal__body"><span class="bd-principal__name">A&#x27;ja Wilson</span><span class="bd-principal__team">LVA</span><span class="bd-principal__stat">25.5 PPG · 32.9 USG</span></span></div></div></div><div class="bd-card__groups"><div class="bd-group"><div class="bd-group__head"><span class="bd-group__label">Full game</span><span class="bd-group__state">No price</span><span class="bd-group__count">no price</span></div><div class="bd-group__tiles"><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Moneyline</span><span class="bd-tile__value">76%</span><span class="bd-tile__state">LVA · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Spread</span><span class="bd-tile__value">LVA -5.5</span><span class="bd-tile__state">projected line · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Total</span><span class="bd-tile__value">165.5</span><span class="bd-tile__state">projected · model only</span></div></div></div></div><button type="button" class="bd-card__footer" onclick="location.hash='methodology'">How this game is modelled →</button></article><article class="bd-card" data-key="DAL@IND" data-tags="" data-picks="0" data-gems="0"><header class="bd-card__head"><span class="bd-card__league">WNBA</span><span class="bd-card__start">7:30 PM ET</span><span class="bd-card__counts"></span></header><button type="button" class="bd-headline is-mut" onclick="location.hash='methodology'"><span class="bd-headline__text">Model projection only — no stored price</span><span class="bd-headline__cta">Methodology →</span></button><div class="bd-score"><div class="bd-side bd-side--away"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/dal.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>DAL</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">DAL</span><span class="bd-side__detail">48% win</span></span><span class="bd-side__score">88</span></div><span class="bd-score__vs">vs</span><div class="bd-side bd-side--home is-fav"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/ind.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>IND</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">IND</span><span class="bd-side__detail">52% win</span></span><span class="bd-side__score">91</span></div></div><div class="bd-principals"><span class="bd-principals__label">Usage leaders</span><div class="bd-principals__row"><div class="bd-principal"><span class="bd-face bd-face--na">P</span><span class="bd-principal__body"><span class="bd-principal__name">Paige Bueckers</span><span class="bd-principal__team">DAL</span><span class="bd-principal__stat">20.9 PPG · 25.0 USG</span></span></div><span class="bd-principals__vs">vs</span><div class="bd-principal"><span class="bd-face bd-face--na">K</span><span class="bd-principal__body"><span class="bd-principal__name">Kelsey Mitchell</span><span class="bd-principal__team">IND</span><span class="bd-principal__stat">23.3 PPG · 26.8 USG</span></span></div></div></div><div class="bd-card__groups"><div class="bd-group"><div class="bd-group__head"><span class="bd-group__label">Full game</span><span class="bd-group__state">No price</span><span class="bd-group__count">no price</span></div><div class="bd-group__tiles"><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Moneyline</span><span class="bd-tile__value">52%</span><span class="bd-tile__state">IND · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Spread</span><span class="bd-tile__value">IND -2.1</span><span class="bd-tile__state">projected line · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Total</span><span class="bd-tile__value">179.0</span><span class="bd-tile__state">projected · model only</span></div></div></div></div><button type="button" class="bd-card__footer" onclick="location.hash='methodology'">How this game is modelled →</button></article><article class="bd-card" data-key="PDX@SEA" data-tags="" data-picks="0" data-gems="0"><header class="bd-card__head"><span class="bd-card__league">WNBA</span><span class="bd-card__start">10:00 PM ET</span><span class="bd-card__counts"></span></header><button type="button" class="bd-headline is-mut" onclick="location.hash='methodology'"><span class="bd-headline__text">Model projection only — no stored price</span><span class="bd-headline__cta">Methodology →</span></button><div class="bd-score"><div class="bd-side bd-side--away"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/por.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>PDX</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">PDX</span><span class="bd-side__detail">49% win</span></span><span class="bd-side__score">83</span></div><span class="bd-score__vs">vs</span><div class="bd-side bd-side--home is-fav"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/sea.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>SEA</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">SEA</span><span class="bd-side__detail">51% win</span></span><span class="bd-side__score">85</span></div></div><div class="bd-principals"><span class="bd-principals__label">Usage leaders</span><div class="bd-principals__row"><div class="bd-principal"><span class="bd-face bd-face--na">B</span><span class="bd-principal__body"><span class="bd-principal__name">Bridget Carleton</span><span class="bd-principal__team">PDX</span><span class="bd-principal__stat">13.5 PPG · 19.4 USG</span></span></div><span class="bd-principals__vs">vs</span><div class="bd-principal"><span class="bd-face bd-face--na">N</span><span class="bd-principal__body"><span class="bd-principal__name">Natisha Hiedeman</span><span class="bd-principal__team">SEA</span><span class="bd-principal__stat">15.8 PPG · 24.4 USG</span></span></div></div></div><div class="bd-card__groups"><div class="bd-group"><div class="bd-group__head"><span class="bd-group__label">Full game</span><span class="bd-group__state">No price</span><span class="bd-group__count">no price</span></div><div class="bd-group__tiles"><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Moneyline</span><span class="bd-tile__value">51%</span><span class="bd-tile__state">SEA · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Spread</span><span class="bd-tile__value">SEA -1.9</span><span class="bd-tile__state">projected line · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Total</span><span class="bd-tile__value">168.1</span><span class="bd-tile__state">projected · model only</span></div></div></div></div><button type="button" class="bd-card__footer" onclick="location.hash='methodology'">How this game is modelled →</button></article><article class="bd-card" data-key="NYL@CON" data-tags="" data-picks="0" data-gems="0"><header class="bd-card__head"><span class="bd-card__league">WNBA</span><span class="bd-card__start">1:00 PM ET</span><span class="bd-card__counts"></span></header><button type="button" class="bd-headline is-mut" onclick="location.hash='methodology'"><span class="bd-headline__text">Model projection only — no stored price</span><span class="bd-headline__cta">Methodology →</span></button><div class="bd-score"><div class="bd-side bd-side--away is-fav"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/nyl.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>NYL</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">NYL</span><span class="bd-side__detail">78% win</span></span><span class="bd-side__score">86</span></div><span class="bd-score__vs">vs</span><div class="bd-side bd-side--home"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/con.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>CON</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">CON</span><span class="bd-side__detail">22% win</span></span><span class="bd-side__score">83</span></div></div><div class="bd-principals"><span class="bd-principals__label">Usage leaders</span><div class="bd-principals__row"><div class="bd-principal"><span class="bd-face bd-face--na">B</span><span class="bd-principal__body"><span class="bd-principal__name">Breanna Stewart</span><span class="bd-principal__team">NYL</span><span class="bd-principal__stat">20.6 PPG · 27.5 USG</span></span></div><span class="bd-principals__vs">vs</span><div class="bd-principal"><span class="bd-face bd-face--na">L</span><span class="bd-principal__body"><span class="bd-principal__name">Leila Lacan</span><span class="bd-principal__team">CON</span><span class="bd-principal__stat">12.9 PPG · 22.0 USG</span></span></div></div></div><div class="bd-card__groups"><div class="bd-group"><div class="bd-group__head"><span class="bd-group__label">Full game</span><span class="bd-group__state">No price</span><span class="bd-group__count">no price</span></div><div class="bd-group__tiles"><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Moneyline</span><span class="bd-tile__value">78%</span><span class="bd-tile__state">NYL · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Spread</span><span class="bd-tile__value">NYL -2.4</span><span class="bd-tile__state">projected line · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Total</span><span class="bd-tile__value">169.1</span><span class="bd-tile__state">projected · model only</span></div></div></div></div><button type="button" class="bd-card__footer" onclick="location.hash='methodology'">How this game is modelled →</button></article><article class="bd-card" data-key="LAS@WAS" data-tags="" data-picks="0" data-gems="0"><header class="bd-card__head"><span class="bd-card__league">WNBA</span><span class="bd-card__start">7:30 PM ET</span><span class="bd-card__counts"></span></header><button type="button" class="bd-headline is-mut" onclick="location.hash='methodology'"><span class="bd-headline__text">Model projection only — no stored price</span><span class="bd-headline__cta">Methodology →</span></button><div class="bd-score"><div class="bd-side bd-side--away"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/las.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>LAS</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">LAS</span><span class="bd-side__detail">43% win</span></span><span class="bd-side__score">84</span></div><span class="bd-score__vs">vs</span><div class="bd-side bd-side--home is-fav"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/was.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>WAS</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">WAS</span><span class="bd-side__detail">57% win</span></span><span class="bd-side__score">87</span></div></div><div class="bd-principals"><span class="bd-principals__label">Usage leaders</span><div class="bd-principals__row"><div class="bd-principal"><span class="bd-face bd-face--na">K</span><span class="bd-principal__body"><span class="bd-principal__name">Kelsey Plum</span><span class="bd-principal__team">LAS</span><span class="bd-principal__stat">23.9 PPG · 27.4 USG</span></span></div><span class="bd-principals__vs">vs</span><div class="bd-principal"><span class="bd-face bd-face--na">S</span><span class="bd-principal__body"><span class="bd-principal__name">Sonia Citron</span><span class="bd-principal__team">WAS</span><span class="bd-principal__stat">17.0 PPG · 21.6 USG</span></span></div></div></div><div class="bd-card__groups"><div class="bd-group"><div class="bd-group__head"><span class="bd-group__label">Full game</span><span class="bd-group__state">No price</span><span class="bd-group__count">no price</span></div><div class="bd-group__tiles"><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Moneyline</span><span class="bd-tile__value">57%</span><span class="bd-tile__state">WAS · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Spread</span><span class="bd-tile__value">WAS -2.7</span><span class="bd-tile__state">projected line · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Total</span><span class="bd-tile__value">171.8</span><span class="bd-tile__state">projected · model only</span></div></div></div></div><button type="button" class="bd-card__footer" onclick="location.hash='methodology'">How this game is modelled →</button></article><article class="bd-card" data-key="MIN@LVA" data-tags="" data-picks="0" data-gems="0"><header class="bd-card__head"><span class="bd-card__league">WNBA</span><span class="bd-card__start">8:00 PM ET</span><span class="bd-card__counts"></span></header><button type="button" class="bd-headline is-mut" onclick="location.hash='methodology'"><span class="bd-headline__text">Model projection only — no stored price</span><span class="bd-headline__cta">Methodology →</span></button><div class="bd-score"><div class="bd-side bd-side--away is-fav"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/min.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>MIN</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">MIN</span><span class="bd-side__detail">66% win</span></span><span class="bd-side__score">86</span></div><span class="bd-score__vs">vs</span><div class="bd-side bd-side--home"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/lv.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>LVA</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">LVA</span><span class="bd-side__detail">34% win</span></span><span class="bd-side__score">86</span></div></div><div class="bd-principals"><span class="bd-principals__label">Usage leaders</span><div class="bd-principals__row"><div class="bd-principal"><span class="bd-face bd-face--na">O</span><span class="bd-principal__body"><span class="bd-principal__name">Olivia Miles</span><span class="bd-principal__team">MIN</span><span class="bd-principal__stat">19.1 PPG · 26.3 USG</span></span></div><span class="bd-principals__vs">vs</span><div class="bd-principal"><span class="bd-face bd-face--na">A</span><span class="bd-principal__body"><span class="bd-principal__name">A&#x27;ja Wilson</span><span class="bd-principal__team">LVA</span><span class="bd-principal__stat">25.5 PPG · 32.9 USG</span></span></div></div></div><div class="bd-card__groups"><div class="bd-group"><div class="bd-group__head"><span class="bd-group__label">Full game</span><span class="bd-group__state">No price</span><span class="bd-group__count">no price</span></div><div class="bd-group__tiles"><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Moneyline</span><span class="bd-tile__value">66%</span><span class="bd-tile__state">MIN · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Spread</span><span class="bd-tile__value">MIN -0.4</span><span class="bd-tile__state">projected line · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Total</span><span class="bd-tile__value">171.5</span><span class="bd-tile__state">projected · model only</span></div></div></div></div><button type="button" class="bd-card__footer" onclick="location.hash='methodology'">How this game is modelled →</button></article><article class="bd-card" data-key="CHI@SEA" data-tags="" data-picks="0" data-gems="0"><header class="bd-card__head"><span class="bd-card__league">WNBA</span><span class="bd-card__start">5:00 PM ET</span><span class="bd-card__counts"></span></header><button type="button" class="bd-headline is-mut" onclick="location.hash='methodology'"><span class="bd-headline__text">Model projection only — no stored price</span><span class="bd-headline__cta">Methodology →</span></button><div class="bd-score"><div class="bd-side bd-side--away is-fav"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/chi.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>CHI</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">CHI</span><span class="bd-side__detail">62% win</span></span><span class="bd-side__score">84</span></div><span class="bd-score__vs">vs</span><div class="bd-side bd-side--home"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/sea.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>SEA</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">SEA</span><span class="bd-side__detail">38% win</span></span><span class="bd-side__score">85</span></div></div><div class="bd-principals"><span class="bd-principals__label">Usage leaders</span><div class="bd-principals__row"><div class="bd-principal"><span class="bd-face bd-face--na">R</span><span class="bd-principal__body"><span class="bd-principal__name">Rickea Jackson</span><span class="bd-principal__team">CHI</span><span class="bd-principal__stat">18.0 PPG · 28.9 USG</span></span></div><span class="bd-principals__vs">vs</span><div class="bd-principal"><span class="bd-face bd-face--na">N</span><span class="bd-principal__body"><span class="bd-principal__name">Natisha Hiedeman</span><span class="bd-principal__team">SEA</span><span class="bd-principal__stat">15.8 PPG · 24.4 USG</span></span></div></div></div><div class="bd-card__groups"><div class="bd-group"><div class="bd-group__head"><span class="bd-group__label">Full game</span><span class="bd-group__state">No price</span><span class="bd-group__count">no price</span></div><div class="bd-group__tiles"><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Moneyline</span><span class="bd-tile__value">62%</span><span class="bd-tile__state">CHI · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Spread</span><span class="bd-tile__value">SEA -0.2</span><span class="bd-tile__state">projected line · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Total</span><span class="bd-tile__value">168.9</span><span class="bd-tile__state">projected · model only</span></div></div></div></div><button type="button" class="bd-card__footer" onclick="location.hash='methodology'">How this game is modelled →</button></article><article class="bd-card" data-key="IND@ATL" data-tags="" data-picks="0" data-gems="0"><header class="bd-card__head"><span class="bd-card__league">WNBA</span><span class="bd-card__start">5:00 PM ET</span><span class="bd-card__counts"></span></header><button type="button" class="bd-headline is-mut" onclick="location.hash='methodology'"><span class="bd-headline__text">Model projection only — no stored price</span><span class="bd-headline__cta">Methodology →</span></button><div class="bd-score"><div class="bd-side bd-side--away is-fav"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/ind.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>IND</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">IND</span><span class="bd-side__detail">53% win</span></span><span class="bd-side__score">89</span></div><span class="bd-score__vs">vs</span><div class="bd-side bd-side--home"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/atl.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>ATL</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">ATL</span><span class="bd-side__detail">47% win</span></span><span class="bd-side__score">90</span></div></div><div class="bd-principals"><span class="bd-principals__label">Usage leaders</span><div class="bd-principals__row"><div class="bd-principal"><span class="bd-face bd-face--na">K</span><span class="bd-principal__body"><span class="bd-principal__name">Kelsey Mitchell</span><span class="bd-principal__team">IND</span><span class="bd-principal__stat">23.3 PPG · 26.8 USG</span></span></div><span class="bd-principals__vs">vs</span><div class="bd-principal"><span class="bd-face bd-face--na">A</span><span class="bd-principal__body"><span class="bd-principal__name">Allisha Gray</span><span class="bd-principal__team">ATL</span><span class="bd-principal__stat">19.1 PPG · 23.1 USG</span></span></div></div></div><div class="bd-card__groups"><div class="bd-group"><div class="bd-group__head"><span class="bd-group__label">Full game</span><span class="bd-group__state">No price</span><span class="bd-group__count">no price</span></div><div class="bd-group__tiles"><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Moneyline</span><span class="bd-tile__value">53%</span><span class="bd-tile__state">IND · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Spread</span><span class="bd-tile__value">ATL -1.4</span><span class="bd-tile__state">projected line · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Total</span><span class="bd-tile__value">179.0</span><span class="bd-tile__state">projected · model only</span></div></div></div></div><button type="button" class="bd-card__footer" onclick="location.hash='methodology'">How this game is modelled →</button></article><article class="bd-card" data-key="PDX@PHX" data-tags="" data-picks="0" data-gems="0"><header class="bd-card__head"><span class="bd-card__league">WNBA</span><span class="bd-card__start">7:00 PM ET</span><span class="bd-card__counts"></span></header><button type="button" class="bd-headline is-mut" onclick="location.hash='methodology'"><span class="bd-headline__text">Model projection only — no stored price</span><span class="bd-headline__cta">Methodology →</span></button><div class="bd-score"><div class="bd-side bd-side--away"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/por.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>PDX</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">PDX</span><span class="bd-side__detail">43% win</span></span><span class="bd-side__score">85</span></div><span class="bd-score__vs">vs</span><div class="bd-side bd-side--home is-fav"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/phx.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>PHX</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">PHX</span><span class="bd-side__detail">57% win</span></span><span class="bd-side__score">87</span></div></div><div class="bd-principals"><span class="bd-principals__label">Usage leaders</span><div class="bd-principals__row"><div class="bd-principal"><span class="bd-face bd-face--na">B</span><span class="bd-principal__body"><span class="bd-principal__name">Bridget Carleton</span><span class="bd-principal__team">PDX</span><span class="bd-principal__stat">13.5 PPG · 19.4 USG</span></span></div><span class="bd-principals__vs">vs</span><div class="bd-principal"><span class="bd-face bd-face--na">K</span><span class="bd-principal__body"><span class="bd-principal__name">Kahleah Copper</span><span class="bd-principal__team">PHX</span><span class="bd-principal__stat">20.5 PPG · 29.6 USG</span></span></div></div></div><div class="bd-card__groups"><div class="bd-group"><div class="bd-group__head"><span class="bd-group__label">Full game</span><span class="bd-group__state">No price</span><span class="bd-group__count">no price</span></div><div class="bd-group__tiles"><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Moneyline</span><span class="bd-tile__value">57%</span><span class="bd-tile__state">PHX · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Spread</span><span class="bd-tile__value">PHX -2.7</span><span class="bd-tile__state">projected line · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Total</span><span class="bd-tile__value">172.0</span><span class="bd-tile__state">projected · model only</span></div></div></div></div><button type="button" class="bd-card__footer" onclick="location.hash='methodology'">How this game is modelled →</button></article><article class="bd-card" data-key="DAL@GSV" data-tags="" data-picks="0" data-gems="0"><header class="bd-card__head"><span class="bd-card__league">WNBA</span><span class="bd-card__start">10:00 PM ET</span><span class="bd-card__counts"></span></header><button type="button" class="bd-headline is-mut" onclick="location.hash='methodology'"><span class="bd-headline__text">Model projection only — no stored price</span><span class="bd-headline__cta">Methodology →</span></button><div class="bd-score"><div class="bd-side bd-side--away"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/dal.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>DAL</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">DAL</span><span class="bd-side__detail">43% win</span></span><span class="bd-side__score">82</span></div><span class="bd-score__vs">vs</span><div class="bd-side bd-side--home is-fav"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/gs.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>GSV</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">GSV</span><span class="bd-side__detail">57% win</span></span><span class="bd-side__score">84</span></div></div><div class="bd-principals"><span class="bd-principals__label">Usage leaders</span><div class="bd-principals__row"><div class="bd-principal"><span class="bd-face bd-face--na">P</span><span class="bd-principal__body"><span class="bd-principal__name">Paige Bueckers</span><span class="bd-principal__team">DAL</span><span class="bd-principal__stat">20.9 PPG · 25.0 USG</span></span></div><span class="bd-principals__vs">vs</span><div class="bd-principal"><span class="bd-face bd-face--na">G</span><span class="bd-principal__body"><span class="bd-principal__name">Gabby Williams</span><span class="bd-principal__team">GSV</span><span class="bd-principal__stat">15.1 PPG · 28.6 USG</span></span></div></div></div><div class="bd-card__groups"><div class="bd-group"><div class="bd-group__head"><span class="bd-group__label">Full game</span><span class="bd-group__state">No price</span><span class="bd-group__count">no price</span></div><div class="bd-group__tiles"><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Moneyline</span><span class="bd-tile__value">57%</span><span class="bd-tile__state">GSV · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Spread</span><span class="bd-tile__value">GSV -2.7</span><span class="bd-tile__state">projected line · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Total</span><span class="bd-tile__value">166.1</span><span class="bd-tile__state">projected · model only</span></div></div></div></div><button type="button" class="bd-card__footer" onclick="location.hash='methodology'">How this game is modelled →</button></article><article class="bd-card" data-key="LAS@CON" data-tags="" data-picks="0" data-gems="0"><header class="bd-card__head"><span class="bd-card__league">WNBA</span><span class="bd-card__start">7:00 PM ET</span><span class="bd-card__counts"></span></header><button type="button" class="bd-headline is-mut" onclick="location.hash='methodology'"><span class="bd-headline__text">Model projection only — no stored price</span><span class="bd-headline__cta">Methodology →</span></button><div class="bd-score"><div class="bd-side bd-side--away is-fav"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/las.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>LAS</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">LAS</span><span class="bd-side__detail">54% win</span></span><span class="bd-side__score">86</span></div><span class="bd-score__vs">vs</span><div class="bd-side bd-side--home"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/con.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>CON</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">CON</span><span class="bd-side__detail">46% win</span></span><span class="bd-side__score">87</span></div></div><div class="bd-principals"><span class="bd-principals__label">Usage leaders</span><div class="bd-principals__row"><div class="bd-principal"><span class="bd-face bd-face--na">K</span><span class="bd-principal__body"><span class="bd-principal__name">Kelsey Plum</span><span class="bd-principal__team">LAS</span><span class="bd-principal__stat">23.9 PPG · 27.4 USG</span></span></div><span class="bd-principals__vs">vs</span><div class="bd-principal"><span class="bd-face bd-face--na">L</span><span class="bd-principal__body"><span class="bd-principal__name">Leila Lacan</span><span class="bd-principal__team">CON</span><span class="bd-principal__stat">12.9 PPG · 22.0 USG</span></span></div></div></div><div class="bd-card__groups"><div class="bd-group"><div class="bd-group__head"><span class="bd-group__label">Full game</span><span class="bd-group__state">No price</span><span class="bd-group__count">no price</span></div><div class="bd-group__tiles"><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Moneyline</span><span class="bd-tile__value">54%</span><span class="bd-tile__state">LAS · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Spread</span><span class="bd-tile__value">CON -1.3</span><span class="bd-tile__state">projected line · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Total</span><span class="bd-tile__value">173.4</span><span class="bd-tile__state">projected · model only</span></div></div></div></div><button type="button" class="bd-card__footer" onclick="location.hash='methodology'">How this game is modelled →</button></article><article class="bd-card" data-key="IND@TOR" data-tags="" data-picks="0" data-gems="0"><header class="bd-card__head"><span class="bd-card__league">WNBA</span><span class="bd-card__start">7:00 PM ET</span><span class="bd-card__counts"></span></header><button type="button" class="bd-headline is-mut" onclick="location.hash='methodology'"><span class="bd-headline__text">Model projection only — no stored price</span><span class="bd-headline__cta">Methodology →</span></button><div class="bd-score"><div class="bd-side bd-side--away is-fav"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/ind.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>IND</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">IND</span><span class="bd-side__detail">79% win</span></span><span class="bd-side__score">92</span></div><span class="bd-score__vs">vs</span><div class="bd-side bd-side--home"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/tor.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>TOR</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">TOR</span><span class="bd-side__detail">21% win</span></span><span class="bd-side__score">90</span></div></div><div class="bd-principals"><span class="bd-principals__label">Usage leaders</span><div class="bd-principals__row"><div class="bd-principal"><span class="bd-face bd-face--na">K</span><span class="bd-principal__body"><span class="bd-principal__name">Kelsey Mitchell</span><span class="bd-principal__team">IND</span><span class="bd-principal__stat">23.3 PPG · 26.8 USG</span></span></div><span class="bd-principals__vs">vs</span><div class="bd-principal"><span class="bd-face bd-face--na">B</span><span class="bd-principal__body"><span class="bd-principal__name">Brittney Sykes</span><span class="bd-principal__team">TOR</span><span class="bd-principal__stat">20.1 PPG · 28.6 USG</span></span></div></div></div><div class="bd-card__groups"><div class="bd-group"><div class="bd-group__head"><span class="bd-group__label">Full game</span><span class="bd-group__state">No price</span><span class="bd-group__count">no price</span></div><div class="bd-group__tiles"><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Moneyline</span><span class="bd-tile__value">79%</span><span class="bd-tile__state">IND · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Spread</span><span class="bd-tile__value">IND -2.6</span><span class="bd-tile__state">projected line · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Total</span><span class="bd-tile__value">182.3</span><span class="bd-tile__state">projected · model only</span></div></div></div></div><button type="button" class="bd-card__footer" onclick="location.hash='methodology'">How this game is modelled →</button></article><article class="bd-card" data-key="NYL@CHI" data-tags="" data-picks="0" data-gems="0"><header class="bd-card__head"><span class="bd-card__league">WNBA</span><span class="bd-card__start">9:00 PM ET</span><span class="bd-card__counts"></span></header><button type="button" class="bd-headline is-mut" onclick="location.hash='methodology'"><span class="bd-headline__text">Model projection only — no stored price</span><span class="bd-headline__cta">Methodology →</span></button><div class="bd-score"><div class="bd-side bd-side--away is-fav"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/nyl.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>NYL</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">NYL</span><span class="bd-side__detail">65% win</span></span><span class="bd-side__score">88</span></div><span class="bd-score__vs">vs</span><div class="bd-side bd-side--home"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/chi.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>CHI</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">CHI</span><span class="bd-side__detail">35% win</span></span><span class="bd-side__score">87</span></div></div><div class="bd-principals"><span class="bd-principals__label">Usage leaders</span><div class="bd-principals__row"><div class="bd-principal"><span class="bd-face bd-face--na">B</span><span class="bd-principal__body"><span class="bd-principal__name">Breanna Stewart</span><span class="bd-principal__team">NYL</span><span class="bd-principal__stat">20.6 PPG · 27.5 USG</span></span></div><span class="bd-principals__vs">vs</span><div class="bd-principal"><span class="bd-face bd-face--na">R</span><span class="bd-principal__body"><span class="bd-principal__name">Rickea Jackson</span><span class="bd-principal__team">CHI</span><span class="bd-principal__stat">18.0 PPG · 28.9 USG</span></span></div></div></div><div class="bd-card__groups"><div class="bd-group"><div class="bd-group__head"><span class="bd-group__label">Full game</span><span class="bd-group__state">No price</span><span class="bd-group__count">no price</span></div><div class="bd-group__tiles"><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Moneyline</span><span class="bd-tile__value">65%</span><span class="bd-tile__state">NYL · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Spread</span><span class="bd-tile__value">NYL -0.2</span><span class="bd-tile__state">projected line · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Total</span><span class="bd-tile__value">174.8</span><span class="bd-tile__state">projected · model only</span></div></div></div></div><button type="button" class="bd-card__footer" onclick="location.hash='methodology'">How this game is modelled →</button></article><article class="bd-card" data-key="ATL@LVA" data-tags="" data-picks="0" data-gems="0"><header class="bd-card__head"><span class="bd-card__league">WNBA</span><span class="bd-card__start">9:00 PM ET</span><span class="bd-card__counts"></span></header><button type="button" class="bd-headline is-mut" onclick="location.hash='methodology'"><span class="bd-headline__text">Model projection only — no stored price</span><span class="bd-headline__cta">Methodology →</span></button><div class="bd-score"><div class="bd-side bd-side--away"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/atl.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>ATL</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">ATL</span><span class="bd-side__detail">50% win</span></span><span class="bd-side__score">85</span></div><span class="bd-score__vs">vs</span><div class="bd-side bd-side--home is-fav"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/lv.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>LVA</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">LVA</span><span class="bd-side__detail">50% win</span></span><span class="bd-side__score">87</span></div></div><div class="bd-principals"><span class="bd-principals__label">Usage leaders</span><div class="bd-principals__row"><div class="bd-principal"><span class="bd-face bd-face--na">A</span><span class="bd-principal__body"><span class="bd-principal__name">Allisha Gray</span><span class="bd-principal__team">ATL</span><span class="bd-principal__stat">19.1 PPG · 23.1 USG</span></span></div><span class="bd-principals__vs">vs</span><div class="bd-principal"><span class="bd-face bd-face--na">A</span><span class="bd-principal__body"><span class="bd-principal__name">A&#x27;ja Wilson</span><span class="bd-principal__team">LVA</span><span class="bd-principal__stat">25.5 PPG · 32.9 USG</span></span></div></div></div><div class="bd-card__groups"><div class="bd-group"><div class="bd-group__head"><span class="bd-group__label">Full game</span><span class="bd-group__state">No price</span><span class="bd-group__count">no price</span></div><div class="bd-group__tiles"><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Moneyline</span><span class="bd-tile__value">50%</span><span class="bd-tile__state">LVA · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Spread</span><span class="bd-tile__value">LVA -1.9</span><span class="bd-tile__state">projected line · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Total</span><span class="bd-tile__value">171.6</span><span class="bd-tile__state">projected · model only</span></div></div></div></div><button type="button" class="bd-card__footer" onclick="location.hash='methodology'">How this game is modelled →</button></article><article class="bd-card" data-key="TOR@WAS" data-tags="" data-picks="0" data-gems="0"><header class="bd-card__head"><span class="bd-card__league">WNBA</span><span class="bd-card__start">7:30 PM ET</span><span class="bd-card__counts"></span></header><button type="button" class="bd-headline is-mut" onclick="location.hash='methodology'"><span class="bd-headline__text">Model projection only — no stored price</span><span class="bd-headline__cta">Methodology →</span></button><div class="bd-score"><div class="bd-side bd-side--away"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/tor.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>TOR</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">TOR</span><span class="bd-side__detail">47% win</span></span><span class="bd-side__score">85</span></div><span class="bd-score__vs">vs</span><div class="bd-side bd-side--home is-fav"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/was.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>WAS</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">WAS</span><span class="bd-side__detail">53% win</span></span><span class="bd-side__score">87</span></div></div><div class="bd-principals"><span class="bd-principals__label">Usage leaders</span><div class="bd-principals__row"><div class="bd-principal"><span class="bd-face bd-face--na">B</span><span class="bd-principal__body"><span class="bd-principal__name">Brittney Sykes</span><span class="bd-principal__team">TOR</span><span class="bd-principal__stat">20.1 PPG · 28.6 USG</span></span></div><span class="bd-principals__vs">vs</span><div class="bd-principal"><span class="bd-face bd-face--na">S</span><span class="bd-principal__body"><span class="bd-principal__name">Sonia Citron</span><span class="bd-principal__team">WAS</span><span class="bd-principal__stat">17.0 PPG · 21.6 USG</span></span></div></div></div><div class="bd-card__groups"><div class="bd-group"><div class="bd-group__head"><span class="bd-group__label">Full game</span><span class="bd-group__state">No price</span><span class="bd-group__count">no price</span></div><div class="bd-group__tiles"><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Moneyline</span><span class="bd-tile__value">53%</span><span class="bd-tile__state">WAS · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Spread</span><span class="bd-tile__value">WAS -2.2</span><span class="bd-tile__state">projected line · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Total</span><span class="bd-tile__value">171.5</span><span class="bd-tile__state">projected · model only</span></div></div></div></div><button type="button" class="bd-card__footer" onclick="location.hash='methodology'">How this game is modelled →</button></article><article class="bd-card" data-key="MIN@GSV" data-tags="" data-picks="0" data-gems="0"><header class="bd-card__head"><span class="bd-card__league">WNBA</span><span class="bd-card__start">10:00 PM ET</span><span class="bd-card__counts"></span></header><button type="button" class="bd-headline is-mut" onclick="location.hash='methodology'"><span class="bd-headline__text">Model projection only — no stored price</span><span class="bd-headline__cta">Methodology →</span></button><div class="bd-score"><div class="bd-side bd-side--away is-fav"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/min.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>MIN</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">MIN</span><span class="bd-side__detail">58% win</span></span><span class="bd-side__score">83</span></div><span class="bd-score__vs">vs</span><div class="bd-side bd-side--home"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/gs.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>GSV</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">GSV</span><span class="bd-side__detail">42% win</span></span><span class="bd-side__score">83</span></div></div><div class="bd-principals"><span class="bd-principals__label">Usage leaders</span><div class="bd-principals__row"><div class="bd-principal"><span class="bd-face bd-face--na">O</span><span class="bd-principal__body"><span class="bd-principal__name">Olivia Miles</span><span class="bd-principal__team">MIN</span><span class="bd-principal__stat">19.1 PPG · 26.3 USG</span></span></div><span class="bd-principals__vs">vs</span><div class="bd-principal"><span class="bd-face bd-face--na">G</span><span class="bd-principal__body"><span class="bd-principal__name">Gabby Williams</span><span class="bd-principal__team">GSV</span><span class="bd-principal__stat">15.1 PPG · 28.6 USG</span></span></div></div></div><div class="bd-card__groups"><div class="bd-group"><div class="bd-group__head"><span class="bd-group__label">Full game</span><span class="bd-group__state">No price</span><span class="bd-group__count">no price</span></div><div class="bd-group__tiles"><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Moneyline</span><span class="bd-tile__value">58%</span><span class="bd-tile__state">MIN · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Spread</span><span class="bd-tile__value">GSV -0.8</span><span class="bd-tile__state">projected line · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Total</span><span class="bd-tile__value">166.0</span><span class="bd-tile__state">projected · model only</span></div></div></div></div><button type="button" class="bd-card__footer" onclick="location.hash='methodology'">How this game is modelled →</button></article><article class="bd-card" data-key="IND@DAL" data-tags="" data-picks="0" data-gems="0"><header class="bd-card__head"><span class="bd-card__league">WNBA</span><span class="bd-card__start">8:00 PM ET</span><span class="bd-card__counts"></span></header><button type="button" class="bd-headline is-mut" onclick="location.hash='methodology'"><span class="bd-headline__text">Model projection only — no stored price</span><span class="bd-headline__cta">Methodology →</span></button><div class="bd-score"><div class="bd-side bd-side--away is-fav"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/ind.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>IND</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">IND</span><span class="bd-side__detail">51% win</span></span><span class="bd-side__score">89</span></div><span class="bd-score__vs">vs</span><div class="bd-side bd-side--home"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/dal.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>DAL</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">DAL</span><span class="bd-side__detail">49% win</span></span><span class="bd-side__score">90</span></div></div><div class="bd-principals"><span class="bd-principals__label">Usage leaders</span><div class="bd-principals__row"><div class="bd-principal"><span class="bd-face bd-face--na">K</span><span class="bd-principal__body"><span class="bd-principal__name">Kelsey Mitchell</span><span class="bd-principal__team">IND</span><span class="bd-principal__stat">23.3 PPG · 26.8 USG</span></span></div><span class="bd-principals__vs">vs</span><div class="bd-principal"><span class="bd-face bd-face--na">P</span><span class="bd-principal__body"><span class="bd-principal__name">Paige Bueckers</span><span class="bd-principal__team">DAL</span><span class="bd-principal__stat">20.9 PPG · 25.0 USG</span></span></div></div></div><div class="bd-card__groups"><div class="bd-group"><div class="bd-group__head"><span class="bd-group__label">Full game</span><span class="bd-group__state">No price</span><span class="bd-group__count">no price</span></div><div class="bd-group__tiles"><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Moneyline</span><span class="bd-tile__value">51%</span><span class="bd-tile__state">IND · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Spread</span><span class="bd-tile__value">DAL -1.7</span><span class="bd-tile__state">projected line · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Total</span><span class="bd-tile__value">179.0</span><span class="bd-tile__state">projected · model only</span></div></div></div></div><button type="button" class="bd-card__footer" onclick="location.hash='methodology'">How this game is modelled →</button></article><article class="bd-card" data-key="CON@LVA" data-tags="" data-picks="0" data-gems="0"><header class="bd-card__head"><span class="bd-card__league">WNBA</span><span class="bd-card__start">10:00 PM ET</span><span class="bd-card__counts"></span></header><button type="button" class="bd-headline is-mut" onclick="location.hash='methodology'"><span class="bd-headline__text">Model projection only — no stored price</span><span class="bd-headline__cta">Methodology →</span></button><div class="bd-score"><div class="bd-side bd-side--away"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/con.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>CON</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">CON</span><span class="bd-side__detail">17% win</span></span><span class="bd-side__score">80</span></div><span class="bd-score__vs">vs</span><div class="bd-side bd-side--home is-fav"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/lv.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>LVA</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">LVA</span><span class="bd-side__detail">83% win</span></span><span class="bd-side__score">87</span></div></div><div class="bd-principals"><span class="bd-principals__label">Usage leaders</span><div class="bd-principals__row"><div class="bd-principal"><span class="bd-face bd-face--na">L</span><span class="bd-principal__body"><span class="bd-principal__name">Leila Lacan</span><span class="bd-principal__team">CON</span><span class="bd-principal__stat">12.9 PPG · 22.0 USG</span></span></div><span class="bd-principals__vs">vs</span><div class="bd-principal"><span class="bd-face bd-face--na">A</span><span class="bd-principal__body"><span class="bd-principal__name">A&#x27;ja Wilson</span><span class="bd-principal__team">LVA</span><span class="bd-principal__stat">25.5 PPG · 32.9 USG</span></span></div></div></div><div class="bd-card__groups"><div class="bd-group"><div class="bd-group__head"><span class="bd-group__label">Full game</span><span class="bd-group__state">No price</span><span class="bd-group__count">no price</span></div><div class="bd-group__tiles"><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Moneyline</span><span class="bd-tile__value">83%</span><span class="bd-tile__state">LVA · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Spread</span><span class="bd-tile__value">LVA -6.8</span><span class="bd-tile__state">projected line · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Total</span><span class="bd-tile__value">167.1</span><span class="bd-tile__state">projected · model only</span></div></div></div></div><button type="button" class="bd-card__footer" onclick="location.hash='methodology'">How this game is modelled →</button></article><article class="bd-card" data-key="ATL@LAS" data-tags="" data-picks="0" data-gems="0"><header class="bd-card__head"><span class="bd-card__league">WNBA</span><span class="bd-card__start">10:00 PM ET</span><span class="bd-card__counts"></span></header><button type="button" class="bd-headline is-mut" onclick="location.hash='methodology'"><span class="bd-headline__text">Model projection only — no stored price</span><span class="bd-headline__cta">Methodology →</span></button><div class="bd-score"><div class="bd-side bd-side--away is-fav"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/atl.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>ATL</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">ATL</span><span class="bd-side__detail">79% win</span></span><span class="bd-side__score">90</span></div><span class="bd-score__vs">vs</span><div class="bd-side bd-side--home"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/las.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>LAS</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">LAS</span><span class="bd-side__detail">21% win</span></span><span class="bd-side__score">88</span></div></div><div class="bd-principals"><span class="bd-principals__label">Usage leaders</span><div class="bd-principals__row"><div class="bd-principal"><span class="bd-face bd-face--na">A</span><span class="bd-principal__body"><span class="bd-principal__name">Allisha Gray</span><span class="bd-principal__team">ATL</span><span class="bd-principal__stat">19.1 PPG · 23.1 USG</span></span></div><span class="bd-principals__vs">vs</span><div class="bd-principal"><span class="bd-face bd-face--na">K</span><span class="bd-principal__body"><span class="bd-principal__name">Kelsey Plum</span><span class="bd-principal__team">LAS</span><span class="bd-principal__stat">23.9 PPG · 27.4 USG</span></span></div></div></div><div class="bd-card__groups"><div class="bd-group"><div class="bd-group__head"><span class="bd-group__label">Full game</span><span class="bd-group__state">No price</span><span class="bd-group__count">no price</span></div><div class="bd-group__tiles"><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Moneyline</span><span class="bd-tile__value">79%</span><span class="bd-tile__state">ATL · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Spread</span><span class="bd-tile__value">ATL -2.6</span><span class="bd-tile__state">projected line · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Total</span><span class="bd-tile__value">178.1</span><span class="bd-tile__state">projected · model only</span></div></div></div></div><button type="button" class="bd-card__footer" onclick="location.hash='methodology'">How this game is modelled →</button></article><article class="bd-card" data-key="MIN@WAS" data-tags="" data-picks="0" data-gems="0"><header class="bd-card__head"><span class="bd-card__league">WNBA</span><span class="bd-card__start">7:30 PM ET</span><span class="bd-card__counts"></span></header><button type="button" class="bd-headline is-mut" onclick="location.hash='methodology'"><span class="bd-headline__text">Model projection only — no stored price</span><span class="bd-headline__cta">Methodology →</span></button><div class="bd-score"><div class="bd-side bd-side--away is-fav"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/min.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>MIN</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">MIN</span><span class="bd-side__detail">85% win</span></span><span class="bd-side__score">86</span></div><span class="bd-score__vs">vs</span><div class="bd-side bd-side--home"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/was.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>WAS</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">WAS</span><span class="bd-side__detail">15% win</span></span><span class="bd-side__score">82</span></div></div><div class="bd-principals"><span class="bd-principals__label">Usage leaders</span><div class="bd-principals__row"><div class="bd-principal"><span class="bd-face bd-face--na">O</span><span class="bd-principal__body"><span class="bd-principal__name">Olivia Miles</span><span class="bd-principal__team">MIN</span><span class="bd-principal__stat">19.1 PPG · 26.3 USG</span></span></div><span class="bd-principals__vs">vs</span><div class="bd-principal"><span class="bd-face bd-face--na">S</span><span class="bd-principal__body"><span class="bd-principal__name">Sonia Citron</span><span class="bd-principal__team">WAS</span><span class="bd-principal__stat">17.0 PPG · 21.6 USG</span></span></div></div></div><div class="bd-card__groups"><div class="bd-group"><div class="bd-group__head"><span class="bd-group__label">Full game</span><span class="bd-group__state">No price</span><span class="bd-group__count">no price</span></div><div class="bd-group__tiles"><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Moneyline</span><span class="bd-tile__value">85%</span><span class="bd-tile__state">MIN · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Spread</span><span class="bd-tile__value">MIN -4.1</span><span class="bd-tile__state">projected line · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Total</span><span class="bd-tile__value">168.1</span><span class="bd-tile__state">projected · model only</span></div></div></div></div><button type="button" class="bd-card__footer" onclick="location.hash='methodology'">How this game is modelled →</button></article><article class="bd-card" data-key="GSV@CHI" data-tags="" data-picks="0" data-gems="0"><header class="bd-card__head"><span class="bd-card__league">WNBA</span><span class="bd-card__start">7:30 PM ET</span><span class="bd-card__counts"></span></header><button type="button" class="bd-headline is-mut" onclick="location.hash='methodology'"><span class="bd-headline__text">Model projection only — no stored price</span><span class="bd-headline__cta">Methodology →</span></button><div class="bd-score"><div class="bd-side bd-side--away is-fav"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/gs.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>GSV</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">GSV</span><span class="bd-side__detail">76% win</span></span><span class="bd-side__score">84</span></div><span class="bd-score__vs">vs</span><div class="bd-side bd-side--home"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/chi.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>CHI</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">CHI</span><span class="bd-side__detail">24% win</span></span><span class="bd-side__score">83</span></div></div><div class="bd-principals"><span class="bd-principals__label">Usage leaders</span><div class="bd-principals__row"><div class="bd-principal"><span class="bd-face bd-face--na">G</span><span class="bd-principal__body"><span class="bd-principal__name">Gabby Williams</span><span class="bd-principal__team">GSV</span><span class="bd-principal__stat">15.1 PPG · 28.6 USG</span></span></div><span class="bd-principals__vs">vs</span><div class="bd-principal"><span class="bd-face bd-face--na">R</span><span class="bd-principal__body"><span class="bd-principal__name">Rickea Jackson</span><span class="bd-principal__team">CHI</span><span class="bd-principal__stat">18.0 PPG · 28.9 USG</span></span></div></div></div><div class="bd-card__groups"><div class="bd-group"><div class="bd-group__head"><span class="bd-group__label">Full game</span><span class="bd-group__state">No price</span><span class="bd-group__count">no price</span></div><div class="bd-group__tiles"><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Moneyline</span><span class="bd-tile__value">76%</span><span class="bd-tile__state">GSV · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Spread</span><span class="bd-tile__value">GSV -2.0</span><span class="bd-tile__state">projected line · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Total</span><span class="bd-tile__value">167.1</span><span class="bd-tile__state">projected · model only</span></div></div></div></div><button type="button" class="bd-card__footer" onclick="location.hash='methodology'">How this game is modelled →</button></article><article class="bd-card" data-key="PDX@TOR" data-tags="" data-picks="0" data-gems="0"><header class="bd-card__head"><span class="bd-card__league">WNBA</span><span class="bd-card__start">10:00 PM ET</span><span class="bd-card__counts"></span></header><button type="button" class="bd-headline is-mut" onclick="location.hash='methodology'"><span class="bd-headline__text">Model projection only — no stored price</span><span class="bd-headline__cta">Methodology →</span></button><div class="bd-score"><div class="bd-side bd-side--away"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/por.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>PDX</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">PDX</span><span class="bd-side__detail">44% win</span></span><span class="bd-side__score">88</span></div><span class="bd-score__vs">vs</span><div class="bd-side bd-side--home is-fav"><span class="bd-side__logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/tor.png" alt="" aria-hidden="true" loading="lazy" onerror="this.outerHTML=&quot;<span class=bd-side__fallback>TOR</span>&quot;"></span><span class="bd-side__body"><span class="bd-side__abbr">TOR</span><span class="bd-side__detail">56% win</span></span><span class="bd-side__score">90</span></div></div><div class="bd-principals"><span class="bd-principals__label">Usage leaders</span><div class="bd-principals__row"><div class="bd-principal"><span class="bd-face bd-face--na">B</span><span class="bd-principal__body"><span class="bd-principal__name">Bridget Carleton</span><span class="bd-principal__team">PDX</span><span class="bd-principal__stat">13.5 PPG · 19.4 USG</span></span></div><span class="bd-principals__vs">vs</span><div class="bd-principal"><span class="bd-face bd-face--na">B</span><span class="bd-principal__body"><span class="bd-principal__name">Brittney Sykes</span><span class="bd-principal__team">TOR</span><span class="bd-principal__stat">20.1 PPG · 28.6 USG</span></span></div></div></div><div class="bd-card__groups"><div class="bd-group"><div class="bd-group__head"><span class="bd-group__label">Full game</span><span class="bd-group__state">No price</span><span class="bd-group__count">no price</span></div><div class="bd-group__tiles"><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Moneyline</span><span class="bd-tile__value">56%</span><span class="bd-tile__state">TOR · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Spread</span><span class="bd-tile__value">TOR -2.6</span><span class="bd-tile__state">projected line · model only</span></div><div class="bd-tile is-mut is-idle" title="No stored book price for this market."><span class="bd-tile__label">Total</span><span class="bd-tile__value">178.0</span><span class="bd-tile__state">projected · model only</span></div></div></div></div><button type="button" class="bd-card__footer" onclick="location.hash='methodology'">How this game is modelled →</button></article></div></section></section>
   <section>
 <div class="sec-head" id="market">
   <div class="sec-eyebrow">Market layer &middot; 2 / 4</div>
@@ -778,7 +1011,7 @@ footer p+p{margin-top:10px}
   <h2 class="sec-title">Edge Watchboard</h2>
   <p class="sec-blurb">A ranked review queue of usage, minutes, and form signals &mdash; research candidates to price against a market line, never bets by themselves. Players under the sample floor (GP &lt; 5 or MPG &lt; 10) are excluded.</p>
 </div>
-<p class="basis-note">156 of 214 players pass the sample floor &nbsp;&middot;&nbsp; 58 excluded as low-sample</p>
+<p class="basis-note">152 of 220 players pass the sample floor &nbsp;&middot;&nbsp; 68 excluded as low-sample</p>
 <div class="board"><div class="tablewrap"><table class="wb">
 <thead><tr><th></th><th>Player</th><th>Signal</th><th class="num">Score</th>
 <th class="num">PPG</th><th class="num">MPG</th><th>Watch reason</th></tr></thead>
@@ -786,131 +1019,135 @@ footer p+p{margin-top:10px}
 <td class="rank">01</td>
 <td class="player">A&#x27;ja Wilson<span class="player-sub">LVA &middot; C</span></td>
 <td class="scorebar"><div class="sb-track"><i style="width:100.0%"></i></div></td>
-<td class="num score">5.98</td>
-<td class="num dim">26.1</td>
-<td class="num dim">32.1</td>
-<td class="reason"><span class="rchip">usage/creation</span><span class="rchip">scoring pressure</span><span class="rchip">impact</span><span class="rchip rchip-warn">low confidence</span></td>
+<td class="num score">9.56</td>
+<td class="num dim">25.5</td>
+<td class="num dim">31.8</td>
+<td class="reason"><span class="rchip">usage/creation</span><span class="rchip">scoring pressure</span><span class="rchip">impact</span><span class="rchip">recent usage</span></td>
 </tr><tr>
 <td class="rank">02</td>
-<td class="player">Carla Leite<span class="player-sub">PDX &middot; G</span></td>
-<td class="scorebar"><div class="sb-track"><i style="width:96.1%"></i></div></td>
-<td class="num score">5.75</td>
-<td class="num dim">15.3</td>
-<td class="num dim">25.3</td>
-<td class="reason"><span class="rchip">usage/creation</span><span class="rchip">scoring pressure</span><span class="rchip rchip-warn">low confidence</span></td>
+<td class="player">Paige Bueckers<span class="player-sub">DAL &middot; G</span></td>
+<td class="scorebar"><div class="sb-track"><i style="width:95.3%"></i></div></td>
+<td class="num score">9.11</td>
+<td class="num dim">20.9</td>
+<td class="num dim">33.4</td>
+<td class="reason"><span class="rchip">usage/creation</span><span class="rchip">scoring pressure</span><span class="rchip">impact</span><span class="rchip">recent PRA</span></td>
 </tr><tr>
 <td class="rank">03</td>
 <td class="player">Kelsey Mitchell<span class="player-sub">IND &middot; G</span></td>
-<td class="scorebar"><div class="sb-track"><i style="width:79.1%"></i></div></td>
-<td class="num score">4.73</td>
-<td class="num dim">22.5</td>
+<td class="scorebar"><div class="sb-track"><i style="width:89.4%"></i></div></td>
+<td class="num score">8.55</td>
+<td class="num dim">23.3</td>
 <td class="num dim">32.5</td>
-<td class="reason"><span class="rchip">usage/creation</span><span class="rchip">scoring pressure</span><span class="rchip">impact</span><span class="rchip">recent PRA</span></td>
-</tr><tr>
-<td class="rank">04</td>
-<td class="player">Paige Bueckers<span class="player-sub">DAL &middot; G</span></td>
-<td class="scorebar"><div class="sb-track"><i style="width:74.7%"></i></div></td>
-<td class="num score">4.47</td>
-<td class="num dim">20.6</td>
-<td class="num dim">33.4</td>
-<td class="reason"><span class="rchip">usage/creation</span><span class="rchip">impact</span><span class="rchip">recent PRA</span><span class="rchip rchip-warn">low confidence</span></td>
-</tr><tr>
-<td class="rank">05</td>
-<td class="player">Jackie Young<span class="player-sub">LVA &middot; F</span></td>
-<td class="scorebar"><div class="sb-track"><i style="width:63.5%"></i></div></td>
-<td class="num score">3.80</td>
-<td class="num dim">16.5</td>
-<td class="num dim">32.6</td>
-<td class="reason"><span class="rchip">usage/creation</span><span class="rchip">impact</span><span class="rchip rchip-warn">low confidence</span></td>
-</tr><tr>
-<td class="rank">06</td>
-<td class="player">Marina Mabrey<span class="player-sub">TOR &middot; F</span></td>
-<td class="scorebar"><div class="sb-track"><i style="width:61.7%"></i></div></td>
-<td class="num score">3.69</td>
-<td class="num dim">21.2</td>
-<td class="num dim">28.9</td>
-<td class="reason"><span class="rchip">usage/creation</span><span class="rchip">recent usage</span><span class="rchip rchip-warn">low confidence</span></td>
-</tr><tr>
-<td class="rank">07</td>
-<td class="player">Aliyah Boston<span class="player-sub">IND &middot; C</span></td>
-<td class="scorebar"><div class="sb-track"><i style="width:61.7%"></i></div></td>
-<td class="num score">3.69</td>
-<td class="num dim">17.3</td>
-<td class="num dim">27.6</td>
-<td class="reason"><span class="rchip">usage/creation</span><span class="rchip">scoring pressure</span><span class="rchip">impact</span><span class="rchip rchip-warn">low confidence</span></td>
-</tr><tr>
-<td class="rank">08</td>
-<td class="player">Breanna Stewart<span class="player-sub">NYL &middot; F</span></td>
-<td class="scorebar"><div class="sb-track"><i style="width:58.0%"></i></div></td>
-<td class="num score">3.47</td>
-<td class="num dim">20.5</td>
-<td class="num dim">32.7</td>
-<td class="reason"><span class="rchip">usage/creation</span><span class="rchip">scoring pressure</span><span class="rchip">impact</span><span class="rchip rchip-warn">low confidence</span></td>
-</tr><tr>
-<td class="rank">09</td>
-<td class="player">Dominique Malonga<span class="player-sub">SEA &middot; C</span></td>
-<td class="scorebar"><div class="sb-track"><i style="width:54.2%"></i></div></td>
-<td class="num score">3.24</td>
-<td class="num dim">15.8</td>
-<td class="num dim">25.7</td>
-<td class="reason"><span class="rchip">usage/creation</span><span class="rchip">impact</span><span class="rchip">recent PRA</span><span class="rchip rchip-warn">low confidence</span></td>
-</tr><tr>
-<td class="rank">10</td>
-<td class="player">Natisha Hiedeman<span class="player-sub">SEA &middot; G</span></td>
-<td class="scorebar"><div class="sb-track"><i style="width:52.7%"></i></div></td>
-<td class="num score">3.15</td>
-<td class="num dim">15.6</td>
-<td class="num dim">28.8</td>
-<td class="reason"><span class="rchip">usage/creation</span><span class="rchip">impact</span><span class="rchip rchip-warn">low confidence</span></td>
-</tr><tr>
-<td class="rank">11</td>
-<td class="player">Caitlin Clark<span class="player-sub">IND &middot; G</span></td>
-<td class="scorebar"><div class="sb-track"><i style="width:50.2%"></i></div></td>
-<td class="num score">3.00</td>
-<td class="num dim">20.5</td>
-<td class="num dim">30.0</td>
 <td class="reason"><span class="rchip">usage/creation</span><span class="rchip">scoring pressure</span><span class="rchip">impact</span><span class="rchip">recent usage</span></td>
 </tr><tr>
-<td class="rank">12</td>
+<td class="rank">04</td>
+<td class="player">Breanna Stewart<span class="player-sub">NYL &middot; F</span></td>
+<td class="scorebar"><div class="sb-track"><i style="width:88.2%"></i></div></td>
+<td class="num score">8.44</td>
+<td class="num dim">20.6</td>
+<td class="num dim">32.9</td>
+<td class="reason"><span class="rchip">usage/creation</span><span class="rchip">scoring pressure</span><span class="rchip">impact</span><span class="rchip">recent usage</span></td>
+</tr><tr>
+<td class="rank">05</td>
 <td class="player">Olivia Miles<span class="player-sub">MIN &middot; G</span></td>
-<td class="scorebar"><div class="sb-track"><i style="width:48.6%"></i></div></td>
-<td class="num score">2.91</td>
-<td class="num dim">18.5</td>
+<td class="scorebar"><div class="sb-track"><i style="width:81.4%"></i></div></td>
+<td class="num score">7.78</td>
+<td class="num dim">19.1</td>
 <td class="num dim">30.6</td>
-<td class="reason"><span class="rchip">usage/creation</span><span class="rchip">impact</span><span class="rchip">recent usage</span><span class="rchip rchip-warn">low confidence</span></td>
+<td class="reason"><span class="rchip">usage/creation</span><span class="rchip">scoring pressure</span><span class="rchip">impact</span></td>
+</tr><tr>
+<td class="rank">06</td>
+<td class="player">Carla Leite<span class="player-sub">PDX &middot; G</span></td>
+<td class="scorebar"><div class="sb-track"><i style="width:81.0%"></i></div></td>
+<td class="num score">7.74</td>
+<td class="num dim">15.5</td>
+<td class="num dim">25.8</td>
+<td class="reason"><span class="rchip">usage/creation</span><span class="rchip">scoring pressure</span></td>
+</tr><tr>
+<td class="rank">07</td>
+<td class="player">Kayla McBride<span class="player-sub">MIN &middot; F</span></td>
+<td class="scorebar"><div class="sb-track"><i style="width:80.1%"></i></div></td>
+<td class="num score">7.66</td>
+<td class="num dim">17.6</td>
+<td class="num dim">32.3</td>
+<td class="reason"><span class="rchip">minutes up</span><span class="rchip">scoring pressure</span><span class="rchip">impact</span><span class="rchip">recent PRA</span></td>
+</tr><tr>
+<td class="rank">08</td>
+<td class="player">Natisha Hiedeman<span class="player-sub">SEA &middot; G</span></td>
+<td class="scorebar"><div class="sb-track"><i style="width:79.4%"></i></div></td>
+<td class="num score">7.59</td>
+<td class="num dim">15.8</td>
+<td class="num dim">29.1</td>
+<td class="reason"><span class="rchip">usage/creation</span><span class="rchip">scoring pressure</span><span class="rchip">impact</span></td>
+</tr><tr>
+<td class="rank">09</td>
+<td class="player">Marina Mabrey<span class="player-sub">TOR &middot; F</span></td>
+<td class="scorebar"><div class="sb-track"><i style="width:75.3%"></i></div></td>
+<td class="num score">7.20</td>
+<td class="num dim">21.3</td>
+<td class="num dim">29.3</td>
+<td class="reason"><span class="rchip">usage/creation</span><span class="rchip">scoring pressure</span></td>
+</tr><tr>
+<td class="rank">10</td>
+<td class="player">Jackie Young<span class="player-sub">LVA &middot; F</span></td>
+<td class="scorebar"><div class="sb-track"><i style="width:71.5%"></i></div></td>
+<td class="num score">6.84</td>
+<td class="num dim">16.1</td>
+<td class="num dim">32.3</td>
+<td class="reason"><span class="rchip">usage/creation</span><span class="rchip">scoring pressure</span><span class="rchip">impact</span></td>
+</tr><tr>
+<td class="rank">11</td>
+<td class="player">Jordin Canada<span class="player-sub">ATL &middot; G</span></td>
+<td class="scorebar"><div class="sb-track"><i style="width:70.5%"></i></div></td>
+<td class="num score">6.74</td>
+<td class="num dim">11.7</td>
+<td class="num dim">31.5</td>
+<td class="reason"><span class="rchip">usage/creation</span><span class="rchip">impact</span><span class="rchip">recent minutes</span><span class="rchip">recent PRA</span></td>
+</tr><tr>
+<td class="rank">12</td>
+<td class="player">Flau&#x27;jae Johnson<span class="player-sub">SEA &middot; F</span></td>
+<td class="scorebar"><div class="sb-track"><i style="width:65.5%"></i></div></td>
+<td class="num score">6.26</td>
+<td class="num dim">13.2</td>
+<td class="num dim">28.6</td>
+<td class="reason"><span class="rchip">usage/creation</span><span class="rchip">scoring pressure</span><span class="rchip">recent usage</span><span class="rchip">recent PRA</span></td>
 </tr><tr>
 <td class="rank">13</td>
-<td class="player">Valeriane Ayayi<span class="player-sub">PHX &middot; F</span></td>
-<td class="scorebar"><div class="sb-track"><i style="width:48.1%"></i></div></td>
-<td class="num score">2.88</td>
-<td class="num dim">7.4</td>
-<td class="num dim">15.9</td>
-<td class="reason"><span class="rchip">recent minutes</span><span class="rchip">recent PRA</span><span class="rchip rchip-warn">low confidence</span></td>
+<td class="player">Caitlin Clark<span class="player-sub">IND &middot; G</span></td>
+<td class="scorebar"><div class="sb-track"><i style="width:64.3%"></i></div></td>
+<td class="num score">6.14</td>
+<td class="num dim">20.7</td>
+<td class="num dim">29.3</td>
+<td class="reason"><span class="rchip">usage/creation</span><span class="rchip">scoring pressure</span><span class="rchip">impact</span></td>
 </tr><tr>
 <td class="rank">14</td>
 <td class="player">Sydney Taylor<span class="player-sub">CHI &middot; G</span></td>
-<td class="scorebar"><div class="sb-track"><i style="width:47.6%"></i></div></td>
-<td class="num score">2.85</td>
-<td class="num dim">12.5</td>
-<td class="num dim">18.5</td>
-<td class="reason"><span class="rchip">usage/creation</span><span class="rchip">recent minutes</span><span class="rchip">recent PRA</span><span class="rchip rchip-warn">low confidence</span></td>
+<td class="scorebar"><div class="sb-track"><i style="width:62.4%"></i></div></td>
+<td class="num score">5.96</td>
+<td class="num dim">13.5</td>
+<td class="num dim">19.8</td>
+<td class="reason"><span class="rchip">usage/creation</span><span class="rchip">scoring pressure</span><span class="rchip">recent minutes</span><span class="rchip">recent PRA</span></td>
 </tr><tr>
 <td class="rank">15</td>
-<td class="player">Kahleah Copper<span class="player-sub">PHX &middot; G</span></td>
-<td class="scorebar"><div class="sb-track"><i style="width:47.5%"></i></div></td>
-<td class="num score">2.84</td>
-<td class="num dim">20.8</td>
-<td class="num dim">32.6</td>
-<td class="reason"><span class="rchip">usage/creation</span><span class="rchip">scoring pressure</span><span class="rchip">recent PRA</span><span class="rchip rchip-warn">low confidence</span></td>
+<td class="player">Jessica Shepard<span class="player-sub">DAL &middot; C</span></td>
+<td class="scorebar"><div class="sb-track"><i style="width:61.7%"></i></div></td>
+<td class="num score">5.90</td>
+<td class="num dim">14.8</td>
+<td class="num dim">33.0</td>
+<td class="reason"><span class="rchip">scoring pressure</span><span class="rchip">impact</span><span class="rchip">recent minutes</span><span class="rchip">recent PRA</span></td>
 </tr></tbody></table></div></div></section>
   <section>
 <div class="sec-head" id="results">
   <div class="sec-eyebrow">Results layer &middot; 4 / 4</div>
   <h2 class="sec-title">Graded Results</h2>
   <p class="sec-blurb">Every logged prediction is graded against finished games; ungradeable rows carry an explicit reason code. An empty record means nothing has resolved yet &mdash; never hidden losses.</p>
-</div><div class="empty"><b>No graded predictions yet.</b> <span class="pill pill-dim">20 prediction(s) awaiting grading</span><br>
-        Predictions logged by <code>evaluate-player-prop</code> and <code>build-game-projections</code>
-        are graded by <code>wnba-edges grade-predictions</code> once games finish.</div></section>
+</div>
+<div class="tiles tiles-results">
+  <div class="tile"><span class="tile-v">10</span><span class="tile-l">Games graded</span></div>
+  <div class="tile"><span class="tile-v">90.0%</span><span class="tile-l">Winner hit rate</span></div>
+  <div class="tile"><span class="tile-v">8.11</span><span class="tile-l">Spread MAE</span></div>
+  <div class="tile"><span class="tile-v">0.1324</span><span class="tile-l">Brier score</span></div>
+</div></section>
   
 <section>
   <div class="sec-head" id="methodology">
@@ -922,7 +1159,7 @@ footer p+p{margin-top:10px}
     Edges &ge; 15 pts flag <b class="warn">REVIEW</b> &mdash; implausibly large edges are treated as
     input errors, never as bets. Edges are measured against de-vigged market probabilities
     whenever both sides of a line are stored.</p>
-    <p><b>Volatility.</b> Per-market game-to-game sigma, fitted on 3,908 player-games: <span class="sigchip">points <b>5.36</b></span> &nbsp;<span class="sigchip">rebounds <b>2.20</b></span> &nbsp;<span class="sigchip">assists <b>1.56</b></span> &nbsp;<span class="sigchip">threes <b>0.96</b></span> &nbsp;<span class="sigchip">steals <b>0.85</b></span> &nbsp;<span class="sigchip">blocks <b>0.63</b></span> &nbsp;<span class="sigchip">pra <b>7.25</b></span></p>
+    <p><b>Volatility.</b> Per-market game-to-game sigma, fitted on 4,515 player-games: <span class="sigchip">points <b>5.35</b></span> &nbsp;<span class="sigchip">rebounds <b>2.19</b></span> &nbsp;<span class="sigchip">assists <b>1.56</b></span> &nbsp;<span class="sigchip">threes <b>0.95</b></span> &nbsp;<span class="sigchip">steals <b>0.84</b></span> &nbsp;<span class="sigchip">blocks <b>0.62</b></span> &nbsp;<span class="sigchip">pra <b>7.24</b></span></p>
     <p><b>Known limitations.</b> Projections are team-efficiency baselines without injury or
     lineup adjustments; player projections are season rates with a minutes adjustment; the
     watchboard is a screening tool. Full details:
@@ -945,5 +1182,6 @@ footer p+p{margin-top:10px}
   </div>
 </footer>
 
+<script>function boardFilter(btn,tag){document.querySelectorAll('.bd-filter').forEach(function(b){b.classList.toggle('on',b===btn);});document.querySelectorAll('.bd-card').forEach(function(c){var tags=(c.dataset.tags||'').split(' ');c.hidden=!(tag==='all'||tags.indexOf(tag)>=0);});var grid=document.getElementById('bdGrid');if(grid){var vis=grid.querySelectorAll('.bd-card:not([hidden])').length;var msg=document.getElementById('bdFilterEmpty');if(!vis&&!msg){msg=document.createElement('div');msg.id='bdFilterEmpty';msg.className='bd-empty bd-empty--board';msg.textContent='No games match this filter.';grid.appendChild(msg);}else if(msg){msg.remove();}}}function boardSort(key){var grid=document.getElementById('bdGrid');if(!grid)return;var cards=Array.prototype.slice.call(grid.querySelectorAll('.bd-card'));cards.sort(function(a,b){if(key==='picks')return (+b.dataset.picks)-(+a.dataset.picks);if(key==='gems')return (+b.dataset.gems)-(+a.dataset.gems);return (a.dataset.key||'').localeCompare(b.dataset.key||'');});cards.forEach(function(c){grid.appendChild(c);});}</script>
 </body>
 </html>

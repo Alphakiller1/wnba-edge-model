@@ -36,6 +36,9 @@ jobs:
           for key in ('Game Projections', 'Market Snapshot', 'Edge Watchboard',
                       'Graded Results', 'not betting advice', '1-800-GAMBLER'):
               assert key in html, key
+          # Shared brand contract: vendored Chase tokens + board kernel must reach the page.
+          for key in ('#08090F', '#9A6BFF', 'DM Sans', 'Roboto Condensed', 'bd-card'):
+              assert key in html, key
           # The features/projections CSVs are committed — a build that renders
           # their empty states means the data root was not resolved (regression
           # guard: non-editable installs used to point ROOT into site-packages).

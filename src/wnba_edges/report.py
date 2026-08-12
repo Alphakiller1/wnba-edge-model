@@ -18,9 +18,48 @@ from pathlib import Path
 
 import pandas as pd
 
+from .board import BOARD_JS, board_html
+from .board_wnba import build_board
 from .features import MIN_GAMES_FOR_BOARD, MIN_MPG_FOR_BOARD, board_eligible
 from .predictions import results_summary
 from .sigma import load_market_sigmas
+
+_STATIC = Path(__file__).resolve().parent / "static"
+
+# One font load for the whole document. Identical to mlb-model's chase_theme._FONT_IMPORT.
+_FONT_IMPORT = (
+    "@import url('https://fonts.googleapis.com/css2?"
+    "family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&"
+    "family=Oswald:ital,wght@0,600;0,700;0,900;1,600;1,700;1,900&"
+    "family=Roboto+Condensed:wght@400;500;600;700;800&display=swap');"
+)
+
+# Names this page used before the tokens were vendored. They alias onto the canonical
+# tokens rather than carrying their own values — a second literal is how a product drifts
+# off-brand. Never give one of these a colour of its own.
+_LOCAL_ALIASES = """
+:root{
+  --sans:var(--font-primary);
+  --display:var(--font-display);
+  --wordmark:var(--font-wordmark);
+  --card-shadow:var(--ca-card-shadow);
+  --glow:var(--ca-glow-violet);
+  --board-top:var(--ca-board-top);
+  --board-bottom:var(--ca-board-bottom);
+}
+"""
+
+
+def brand_css() -> str:
+    """Fonts + chase_tokens.css + the board kernel — the shared Chase identity.
+
+    chase_tokens.css and board.css are vendored byte-identical from mlb-model; a drift test
+    (tests/test_board_contract.py) fails the build if they diverge. That is what keeps the
+    MLB, WNBA and NFL products looking like one brand.
+    """
+    tokens = (_STATIC / "chase_tokens.css").read_text(encoding="utf-8")
+    board = (_STATIC / "board.css").read_text(encoding="utf-8")
+    return _FONT_IMPORT + tokens + _LOCAL_ALIASES + board
 
 
 def esc(value) -> str:
@@ -66,7 +105,7 @@ def build_site(root: Path, season: str, out: Path) -> Path:
   </div>
 </header>
 <main class="wrap">
-  {_projections_section(projections)}
+  {_projections_section(projections, features, odds, data_date)}
   {_market_section(odds)}
   {_board_section(features)}
   {_results_section(summary)}
@@ -87,7 +126,9 @@ def build_site(root: Path, season: str, out: Path) -> Path:
   </div>
 </footer>
 """
-    document = _TEMPLATE.replace("__BODY__", body)
+    document = (_TEMPLATE.replace("__TOKENS__", brand_css())
+            .replace("__BODY__", body)
+            .replace("__SCRIPT__", BOARD_JS))
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(document, encoding="utf-8")
     return out
@@ -178,7 +219,12 @@ def _section_head(anchor: str, number: str, title: str, kicker: str, blurb: str)
 
 # ── layer 1 · projections ────────────────────────────────────────────────────
 
-def _projections_section(projections: pd.DataFrame | None) -> str:
+def _projections_section(projections, features=None, odds=None, data_date=None) -> str:
+    """Layer 1 — the slate board.
+
+    Renders through the shared Board kernel, so a WNBA game card has the same anatomy as an
+    MLB or NFL one: status, expected score, principals, then the market groups it prices.
+    """
     head = _section_head(
         "projections", "1", "Game Projections", "Model layer",
         "Baseline score, spread, total and pace from team efficiency ratings. "
@@ -188,12 +234,12 @@ def _projections_section(projections: pd.DataFrame | None) -> str:
     if projections is None:
         return f"""<section>{head}<div class="empty">No game projections yet. Run
         <code>wnba-edges build-game-projections</code> after a season refresh.</div></section>"""
-    basis = esc(projections.iloc[0].get("win_prob_basis", ""))
     hc = esc(projections.iloc[0].get("home_court_pts", ""))
-    cards = "".join(_projection_card(game) for _, game in projections.iterrows())
+    board = build_board(projections, features, odds, data_date=data_date)
     return f"""<section>{head}
-<p class="basis-note">Win probability: {basis} &nbsp;&middot;&nbsp; home court: {hc} pts</p>
-<div class="matrix">{cards}</div></section>"""
+<p class="basis-note">Home court: {hc} pts &nbsp;&middot;&nbsp; a market tile only counts as a
+pick when a stored book price backs it; everything else is labelled model&nbsp;only.</p>
+{board_html(board)}</section>"""
 
 
 def _projection_card(game: pd.Series) -> str:
@@ -424,24 +470,7 @@ _TEMPLATE = """<!doctype html>
 <title>WNBA Edge Model — Chase Analytics</title>
 <meta name="description" content="WNBA research dashboard: game projections, player watchboard, market snapshots, and a graded prediction record.">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Oswald:wght@600;700&family=Roboto+Condensed:wght@400;500;600;700;800&display=swap');
-:root{
-  color-scheme:dark;
-  --bg:#08090F; --bg-2:#0E1018; --bg-3:#12141D; --bg-4:#181B26; --raised:#20232F;
-  --border:#262A38; --border-2:#363B4D; --border-soft:rgba(255,255,255,.06);
-  --border-violet:rgba(124,77,255,.32);
-  --text:#F5F6FA; --text-2:#A4A8B6; --text-3:#6E7383;
-  --ca-purple:#9A6BFF; --v-light:#C4B0FF; --v-mid:#7C4DFF; --v-deep:#5B2BE0;
-  --v-grad:linear-gradient(135deg,#9A6BFF 0%,#5B2BE0 100%);
-  --gold:#E8C24A; --green:#3CCB7F; --red:#F2545B;
-  --ca-panel-border:rgba(154,107,255,.41);
-  --board-top:#181A2A; --board-bottom:#05060C;
-  --card-shadow:0 4px 24px rgba(0,0,0,.35);
-  --glow:0 0 0 1px rgba(196,176,255,.13),0 0 30px rgba(124,77,255,.18),0 28px 78px rgba(0,0,0,.7);
-  --sans:'DM Sans',system-ui,-apple-system,sans-serif;
-  --display:'Roboto Condensed','DM Sans',system-ui,sans-serif;
-  --wordmark:'Oswald','Arial Narrow',system-ui,sans-serif;
-}
+__TOKENS__
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:76px}
 body{background:var(--bg);color:var(--text);font:15px/1.55 var(--sans);
@@ -583,6 +612,7 @@ footer p+p{margin-top:10px}
 </head>
 <body>
 __BODY__
+<script>__SCRIPT__</script>
 </body>
 </html>
 """
