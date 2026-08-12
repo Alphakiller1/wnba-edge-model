@@ -101,7 +101,12 @@ def build_game_projections(
     schedule: pd.DataFrame,
     game_results: pd.DataFrame | None = None,
 ) -> pd.DataFrame:
-    """Project each scheduled game; raises on unknown teams instead of dropping them."""
+    """Project each scheduled WNBA club game.
+
+    Exhibition / All-Star / unknown codes (e.g. TEA@TEA) are skipped with a
+    printed warning — same posture as the MLB model's All-Star skip — instead
+    of aborting the whole slate.
+    """
     team_index = teams.set_index("abbr").to_dict(orient="index")
     home_court, home_court_basis = estimate_home_court(game_results)
     b0, b1, fit_n = fit_win_probability(game_results, teams)
@@ -156,7 +161,13 @@ def build_game_projections(
             }
         )
     if unknown:
-        raise UnknownTeamsError(unknown)
+        print(
+            f"skipped {len(unknown)} non-club schedule row(s): "
+            + "; ".join(unknown)
+        )
+    if not rows and not schedule.empty:
+        # Still hard-fail if *every* row was unrecognized — that is data drift.
+        raise UnknownTeamsError(unknown or ["(empty projection after filters)"])
     return pd.DataFrame(rows)
 
 

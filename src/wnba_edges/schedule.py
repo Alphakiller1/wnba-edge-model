@@ -14,7 +14,23 @@ import pandas as pd
 from .http import HttpClient
 from .teams import team_abbr
 
-SCOREBOARD_URL = "https://site.api.espn.com/apis/site/v2/sports/basketball/wnba/scoreboard"
+# ESPN serves the SAME scoreboard payload from several hosts, and they do not fail
+# together. As of 2026-08-12 `site.api.espn.com` returns 403 to this client (even
+# with a browser User-Agent) while `site.web.api.espn.com` returns 200 on the
+# identical path. Ordered by preference; `fetch_upcoming_schedule` falls through
+# the list rather than dying on the first host that refuses us.
+SCOREBOARD_HOSTS = [
+    "https://site.web.api.espn.com",
+    "https://site.api.espn.com",
+]
+SCOREBOARD_PATH = "/apis/site/v2/sports/basketball/wnba/scoreboard"
+
+# Back-compat: callers/tests that imported the single URL still work.
+SCOREBOARD_URL = SCOREBOARD_HOSTS[0] + SCOREBOARD_PATH
+
+
+def _scoreboard_urls() -> list[str]:
+    return [h + SCOREBOARD_PATH for h in SCOREBOARD_HOSTS]
 
 
 def fetch_upcoming_schedule(
@@ -25,11 +41,27 @@ def fetch_upcoming_schedule(
     """Pre-game events for the next `days` days: date, time, away, home."""
     client = client or HttpClient(timeout=30, retries=3, pause_seconds=1.0)
     start = start or date.today()
+    urls = _scoreboard_urls()
     rows: list[dict[str, Any]] = []
+    failures: list[str] = []
     for offset in range(days):
         day = start + timedelta(days=offset)
-        payload = client.get_json(f"{SCOREBOARD_URL}?dates={day.strftime('%Y%m%d')}")
+        stamp = day.strftime("%Y%m%d")
+        payload = None
+        for base in urls:
+            try:
+                payload = client.get_json(f"{base}?dates={stamp}")
+                break
+            except Exception as exc:            # try the next host, do not abort
+                failures.append(f"{base}: {type(exc).__name__}")
+        if payload is None:
+            continue
         rows.extend(parse_scoreboard(payload, day))
+    if not rows and failures:
+        raise RuntimeError(
+            "no schedule rows; every ESPN host failed. Tried: "
+            + "; ".join(dict.fromkeys(failures))
+        )
     frame = pd.DataFrame(rows, columns=["date", "time", "away", "home"])
     return frame.drop_duplicates(subset=["date", "away", "home"]).reset_index(drop=True)
 

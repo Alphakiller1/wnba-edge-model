@@ -68,7 +68,20 @@ def test_projections_include_win_prob_and_metadata():
     assert row["run_id"] and row["generated_at"]
 
 
-def test_unknown_team_raises_instead_of_dropping():
-    schedule = pd.DataFrame([{"date": "2026-07-20", "time": "19:00", "away": "XXX", "home": "MIN"}])
+def test_unknown_team_only_slate_raises():
+    schedule = pd.DataFrame([{"date": "2026-07-20", "time": "19:00", "away": "XXX", "home": "YYY"}])
     with pytest.raises(UnknownTeamsError, match="XXX"):
         build_game_projections(_teams(), schedule, None)
+
+
+def test_unknown_exhibition_skipped_when_club_games_exist():
+    schedule = pd.DataFrame(
+        [
+            {"date": "2026-07-20", "time": "19:00", "away": "CHI", "home": "MIN"},
+            {"date": "2026-07-20", "time": "15:00", "away": "TEA", "home": "TEA"},
+        ]
+    )
+    out = build_game_projections(_teams(), schedule, _results())
+    assert len(out) == 1
+    assert out.iloc[0]["away"] == "CHI"
+    assert out.iloc[0]["home"] == "MIN"
