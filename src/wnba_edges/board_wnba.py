@@ -4,9 +4,12 @@ WNBA adapter for the shared Board kernel (``board.py``).
 The kernel is vendored byte-identical from mlb-model and owns the card anatomy, filters,
 counters and empty states. This module owns the only basketball-specific decisions:
 
-* **principals** are each side's projected usage leader — the WNBA analogue of MLB's
-  starting pitchers: the player the game is most likely to be decided through
-* **groups** are Full Game only; the WNBA board offers no first-half split today
+* **principals** are each side's biggest role change against the season anchor — the player
+  whose line is most likely to be stale. This slot used to hold the usage leader, which is
+  the most heavily bet and most efficiently priced name in the game and therefore the least
+  useful thing to point a reader at
+* **groups** are Full Game, plus a non-market "Why this projection" shelf carrying the pace,
+  efficiency and home-court inputs the projected score is built from
 * **scores** are projected points, which the model already emits per side
 
 Markets are priced against stored odds when a snapshot exists and fall back to model-only
@@ -216,39 +219,111 @@ def _cover_probability(projected_home_margin: float, posted_home_line: float) ->
 # ── principals ───────────────────────────────────────────────────────────────
 
 
-def _usage_leaders(features: pd.DataFrame | None, away: str, home: str) -> tuple[Principal, ...]:
+def _edge_movers(features: pd.DataFrame | None, away: str, home: str) -> tuple[Principal, ...]:
+    """Each side's largest gap between live role and season anchor.
+
+    This slot used to carry the usage leader, which is the same mistake the watchboard made:
+    the highest-usage player is the most heavily bet and most efficiently priced name in the
+    game, so pointing at her tells a reader nothing they can act on. The player whose minutes
+    or usage have moved away from the season baseline is where a season-anchored line is
+    most likely to be stale — which is the thing this card exists to point at.
+    """
     if features is None or features.empty:
         return ()
     principals = []
     for team in (away, home):
         squad = features[features["team"] == team]
+        if "anchor_gap" in squad.columns:
+            eligible = squad[~squad["low_sample"].astype(str).str.lower().isin({"true", "1"})]
+            squad = eligible if not eligible.empty else squad
         if squad.empty:
             principals.append(Principal(name="—", team=team, stat="no player data"))
             continue
+        if "anchor_gap" in squad.columns:
+            gaps = pd.to_numeric(squad["anchor_gap"], errors="coerce").abs()
+            if gaps.notna().any():
+                mover = squad.loc[gaps.idxmax()]
+                gap = _num(mover.get("anchor_gap")) or 0.0
+                lean = str(mover.get("lean") or "").strip()
+                direction = "role up" if gap > 0 else "role down"
+                stat = f"{direction} {gap:+.1f}"
+                if lean in {"OVER", "UNDER"}:
+                    stat += f" · {lean}"
+                principals.append(
+                    Principal(name=str(mover["name"]), team=team, stat=stat)
+                )
+                continue
+        # No anchor-gap column (older feature file): fall back to the minutes leader rather
+        # than rendering an empty slot.
         minutes = pd.to_numeric(squad.get("mpg"), errors="coerce")
-        points = pd.to_numeric(squad.get("ppg"), errors="coerce")
-        leader = squad.loc[(minutes.fillna(0) * 1.0 + points.fillna(0) * 2.0).idxmax()]
-        bits = []
-        ppg, usage = _num(leader.get("ppg")), _num(leader.get("usg"))
-        if ppg is not None:
-            bits.append(f"{ppg:.1f} PPG")
-        if usage is not None:
-            bits.append(f"{usage:.1f} USG")
+        leader = squad.loc[minutes.fillna(0).idxmax()]
         principals.append(
-            Principal(name=str(leader["name"]), team=team, stat=" · ".join(bits))
+            Principal(name=str(leader["name"]), team=team, stat="no anchor gap computed")
         )
     return tuple(principals)
+
+
+def _matchup_drivers(game: pd.Series, pace_reference: float | None) -> Group | None:
+    """What is actually driving this projection — pace, efficiency gap, home court.
+
+    Unpriced by construction: these explain the number, they are not markets, so they never
+    count toward Picks. Tagged blank so they do not become a board filter.
+    """
+    tiles: list[Tile] = []
+
+    pace = _num(game.get("projected_pace"))
+    if pace is not None:
+        if pace_reference:
+            delta = pace - pace_reference
+            detail = f"{delta:+.1f} vs slate avg {pace_reference:.1f}"
+            tone = "pos" if delta >= 1.0 else ("neg" if delta <= -1.0 else "mut")
+        else:
+            detail, tone = "possessions", "mut"
+        tiles.append(Tile(label="Pace", value=f"{pace:.1f}", state=detail, tone=tone))
+
+    home_net, away_net = _num(game.get("home_net")), _num(game.get("away_net"))
+    if home_net is not None and away_net is not None:
+        gap = home_net - away_net
+        stronger = str(game["home"]) if gap >= 0 else str(game["away"])
+        tiles.append(Tile(
+            label="Efficiency gap",
+            value=f"{abs(gap):.1f}",
+            state=f"{stronger} by net rating",
+            tone="mut",
+        ))
+
+    # No "projected total" tile here: the Full game group already carries that number, and
+    # printing it twice on one card invites the reader to think they are two measurements.
+    hca = _num(game.get("home_court_pts"))
+    if hca is not None:
+        tiles.append(Tile(
+            label="Home court",
+            value=f"+{hca:.1f}",
+            state=f"{game['home']} baseline",
+            tone="mut",
+        ))
+
+    if not tiles:
+        return None
+    return Group(
+        label="Why this projection",
+        tiles=tuple(tiles),
+        tag="",
+        state="Model inputs",
+        market=False,
+    )
 
 
 # ── assembly ─────────────────────────────────────────────────────────────────
 
 
-def build_card(game: pd.Series, features, odds) -> Card:
+def build_card(game: pd.Series, features, odds, pace_reference: float | None = None) -> Card:
     away, home = str(game["away"]), str(game["home"])
     win = _num(game.get("home_win_prob"))
     home_fav = (win or 0.5) >= 0.5
     quotes = _quotes_for(odds, away, home)
     group = _full_game_group(game, quotes)
+    drivers = _matchup_drivers(game, pace_reference)
 
     def side(abbr: str, points, net, probability) -> Side:
         # Win% only. Net rating was truncating the line at card width, and a clipped
@@ -281,9 +356,9 @@ def build_card(game: pd.Series, features, odds) -> Card:
         home=side(home, game.get("projected_home_pts"), game.get("home_net"), win),
         headline=headline,
         headline_tone=tone,
-        principals=_usage_leaders(features, away, home),
-        principal_label="Usage leaders",
-        groups=(group,),
+        principals=_edge_movers(features, away, home),
+        principal_label="Biggest role change vs season anchor",
+        groups=tuple(g for g in (group, drivers) if g is not None),
         action_label="Methodology",
         action_js="location.hash='methodology'",
         footer_label="How this game is modelled",
@@ -295,7 +370,14 @@ def build_card(game: pd.Series, features, odds) -> Card:
 def build_board(projections, features, odds, *, data_date: str | None = None) -> Board:
     cards = []
     if projections is not None and not projections.empty:
-        cards = [build_card(game, features, odds) for _, game in projections.iterrows()]
+        # Slate-mean pace, so "fast game" is stated relative to tonight rather than to a
+        # hardcoded league constant that drifts across seasons.
+        pace_series = pd.to_numeric(projections.get("projected_pace"), errors="coerce")
+        pace_reference = float(pace_series.mean()) if pace_series.notna().any() else None
+        cards = [
+            build_card(game, features, odds, pace_reference)
+            for _, game in projections.iterrows()
+        ]
 
     basis = ""
     if projections is not None and not projections.empty:

@@ -21,7 +21,7 @@ jobs:
           python - <<'EOF'
           from pathlib import Path
           html = Path('_smoke/index.html').read_text(encoding='utf-8')
-          for key in ('Game Projections', 'Market Snapshot', 'Edge Watchboard',
+          for key in ('Game Projections', 'Market Snapshot', 'Stale Anchor Board',
                       'Graded Results', 'not betting advice'):
               assert key in html, key
           # Shared brand contract: the vendored Chase tokens + board kernel must survive

@@ -90,17 +90,42 @@ def build_player_features(players: pd.DataFrame) -> pd.DataFrame:
     out["volatility_penalty"] = zscore(_optional(frame, "pra_std")).clip(lower=0)
     out["confidence_penalty"] = (100 - out["projectionConfidence"].fillna(50)).clip(lower=0) / 100
 
+    # ── the anchor gap ────────────────────────────────────────────────────────
+    # A prop line is anchored on a season baseline. Edge therefore lives where a player's
+    # CURRENT role has moved away from that baseline — not where the player is good.
+    #
+    # The previous score summed level terms (usage, scoring, impact) with change terms, and
+    # the level terms are mutually correlated, so the ranking collapsed onto "who is a star":
+    # measured against the committed season it correlated +0.76 with raw PPG and +0.71 with
+    # MPG. Those are the most heavily bet, most efficiently priced players on the slate, so
+    # the board was ranking by where an edge is *least* likely to survive the closing line.
+    #
+    # `anchor_gap` is signed: positive means the player's live role sits above the season
+    # anchor, so a season-anchored line is more likely to be set too low.
+    out["anchor_gap"] = (
+        1.20 * out["minutes_signal"].fillna(0)
+        + 1.00 * out["recent_minutes_signal"].fillna(0)
+        + 0.85 * out["recent_usage_signal"].fillna(0)
+        + 0.85 * out["recent_pra_signal"].fillna(0)
+        + 0.40 * out["recent_scoring_signal"].fillna(0)
+    )
+
+    # Level is treated as an ATTENTION proxy and penalised, not rewarded. Only positive
+    # attention is penalised, so demoting stars does not silently promote deep-bench players
+    # whose lines are thin or unposted.
+    out["market_attention"] = (
+        zscore(out["ppg"]) + zscore(out["usg"]) + zscore(out["mpg"])
+    ) / 3
+    out["attention_penalty"] = out["market_attention"].fillna(0).clip(lower=0)
+
     out["edge_score"] = (
-        1.30 * out["minutes_signal"].fillna(0)
-        + 1.10 * out["usage_signal"].fillna(0)
-        + 0.90 * out["scoring_signal"].fillna(0)
-        + 0.75 * out["impact_signal"].fillna(0)
-        + 0.60 * out["role_signal"].fillna(0)
-        + 0.70 * out["recent_minutes_signal"].fillna(0)
-        + 0.55 * out["recent_usage_signal"].fillna(0)
-        + 0.45 * out["recent_pra_signal"].fillna(0)
-        - 0.80 * out["confidence_penalty"].fillna(0.5)
+        out["anchor_gap"].abs()
+        - 0.50 * out["attention_penalty"]
+        - 0.40 * out["confidence_penalty"].fillna(0.5)
         - 0.25 * out["volatility_penalty"].fillna(0)
+    )
+    out["lean"] = out["anchor_gap"].apply(
+        lambda gap: "OVER" if gap > 0.25 else ("UNDER" if gap < -0.25 else "—")
     )
     out["watch_reason"] = out.apply(_watch_reason, axis=1)
     return out.sort_values("edge_score", ascending=False).reset_index(drop=True)
@@ -135,23 +160,33 @@ def _optional(frame: pd.DataFrame, column: str) -> pd.Series:
 
 
 def _watch_reason(row: pd.Series) -> str:
+    """Why the season anchor may be stale for this player — stated in market terms.
+
+    These read as a case against the line, not as a description of the player. "Scoring
+    pressure" on a star is not a reason to bet anything; "minutes stepped up, season line
+    lags" is.
+    """
     reasons: list[str] = []
-    if row.get("minutes_signal", 0) >= 0.75:
-        reasons.append("minutes up")
-    if row.get("usage_signal", 0) >= 1.0:
-        reasons.append("usage/creation")
-    if row.get("scoring_signal", 0) >= 1.0:
-        reasons.append("scoring pressure")
-    if row.get("impact_signal", 0) >= 1.0:
-        reasons.append("impact")
-    if row.get("recent_minutes_signal", 0) >= 0.75:
-        reasons.append("recent minutes")
-    if row.get("recent_usage_signal", 0) >= 0.75:
-        reasons.append("recent usage")
-    if row.get("recent_pra_signal", 0) >= 0.75:
-        reasons.append("recent PRA")
+
+    def moved(key: str, up: str, down: str, threshold: float = 0.75) -> None:
+        value = row.get(key, 0) or 0
+        if value >= threshold:
+            reasons.append(up)
+        elif value <= -threshold:
+            reasons.append(down)
+
+    moved("minutes_signal", "role expanding", "role shrinking")
+    moved("recent_minutes_signal", "minutes up L5", "minutes down L5")
+    moved("recent_usage_signal", "usage up L5", "usage down L5")
+    moved("recent_pra_signal", "PRA above anchor", "PRA below anchor")
+    moved("recent_scoring_signal", "scoring up L5", "scoring cooled L5")
+
+    if (row.get("attention_penalty", 0) or 0) >= 0.75:
+        reasons.append("heavily bet — priced efficiently")
     if row.get("confidence_penalty", 1) >= 0.55:
-        reasons.append("low confidence")
+        reasons.append("low projection confidence")
+    if (row.get("volatility_penalty", 0) or 0) >= 1.0:
+        reasons.append("volatile game-to-game")
     if row.get("low_sample"):
         reasons.append("LOW SAMPLE")
-    return ", ".join(reasons) if reasons else "baseline profile"
+    return ", ".join(reasons) if reasons else "no gap to the season anchor"

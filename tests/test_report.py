@@ -42,7 +42,7 @@ def test_build_site_layers_disclaimer_and_low_sample_gate(tmp_path):
     for marker in (
         "Game Projections",
         "Market Snapshot",
-        "Edge Watchboard",
+        "Stale Anchor Board",
         "Graded Results",
         "How to read this page",
         "not betting advice",

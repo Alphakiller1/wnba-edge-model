@@ -333,10 +333,14 @@ def _market_section(odds: pd.DataFrame | None) -> str:
 
 def _board_section(features: pd.DataFrame | None) -> str:
     head = _section_head(
-        "watchboard", "3", "Edge Watchboard", "Review queue",
-        "A ranked review queue of usage, minutes, and form signals &mdash; research candidates "
-        "to price against a market line, never bets by themselves. Players under the sample "
-        f"floor (GP &lt; {MIN_GAMES_FOR_BOARD} or MPG &lt; {MIN_MPG_FOR_BOARD:g}) are excluded.",
+        "watchboard", "3", "Stale Anchor Board", "Review queue",
+        "Players whose <b>current role has moved away from the season baseline a prop line "
+        "is set on</b> &mdash; ranked by the size of that gap, not by how good the player is. "
+        "High-usage stars are penalised here, not rewarded: they carry the most betting "
+        "attention and are the most efficiently priced names on the slate. Research "
+        "candidates to price against a market line, never bets by themselves. Players under "
+        f"the sample floor (GP &lt; {MIN_GAMES_FOR_BOARD} or MPG &lt; {MIN_MPG_FOR_BOARD:g}) "
+        "are excluded.",
     )
     if features is None:
         return f"""<section>{head}<div class="empty">No feature board yet. Run
@@ -353,20 +357,34 @@ def _board_section(features: pd.DataFrame | None) -> str:
     for i, (_, row) in enumerate(top.iterrows()):
         score = float(row["edge_score"])
         width = max(4.0, score / max_score * 100)
+        gap = pd.to_numeric(row.get("anchor_gap"), errors="coerce")
+        gap_cell = f"{gap:+.1f}" if pd.notna(gap) else "&ndash;"
+        lean = str(row.get("lean") or "").strip()
+        if lean == "OVER":
+            lean_cell = '<span class="lean lean-over">&#9650; Over</span>'
+        elif lean == "UNDER":
+            lean_cell = '<span class="lean lean-under">&#9660; Under</span>'
+        else:
+            lean_cell = '<span class="dim">&ndash;</span>'
         rows.append(f"""<tr>
 <td class="rank">{i + 1:02d}</td>
 <td class="player">{esc(row["name"])}<span class="player-sub">{esc(row["team"])} &middot; {esc(row.get("pos", "-"))}</span></td>
 <td class="scorebar"><div class="sb-track"><i style="width:{width:.1f}%"></i></div></td>
 <td class="num score">{score:.2f}</td>
+<td class="num">{gap_cell}</td>
+<td>{lean_cell}</td>
 <td class="num dim">{esc(row.get("ppg", ""))}</td>
 <td class="num dim">{esc(row.get("mpg", ""))}</td>
 <td class="reason">{_reason_chips(str(row["watch_reason"]))}</td>
 </tr>""")
     return f"""<section>{head}
-<p class="basis-note">{len(eligible)} of {total} players pass the sample floor &nbsp;&middot;&nbsp; {excluded} excluded as low-sample</p>
+<p class="basis-note">{len(eligible)} of {total} players pass the sample floor &nbsp;&middot;&nbsp; {excluded} excluded as low-sample
+&nbsp;&middot;&nbsp; <b>Gap</b> is the signed distance between live role and season anchor; positive means the
+season-anchored line is more likely to be set too low.</p>
 <div class="board"><div class="tablewrap"><table class="wb">
-<thead><tr><th></th><th>Player</th><th>Signal</th><th class="num">Score</th>
-<th class="num">PPG</th><th class="num">MPG</th><th>Watch reason</th></tr></thead>
+<thead><tr><th></th><th>Player</th><th>Anchor gap</th><th class="num">Score</th>
+<th class="num">Gap</th><th>Lean</th>
+<th class="num">PPG</th><th class="num">MPG</th><th>Why the anchor may be stale</th></tr></thead>
 <tbody>{"".join(rows)}</tbody></table></div></div></section>"""
 
 
@@ -586,6 +604,9 @@ tbody tr:hover{background:rgba(124,77,255,.05)}
 .rchip{display:inline-block;font-size:10.5px;font-weight:600;color:var(--text-2);background:var(--bg-4);
 border:1px solid var(--border-soft);border-radius:999px;padding:2px 9px;margin:2px 3px 2px 0;letter-spacing:.02em}
 .rchip-warn{color:var(--gold);border-color:rgba(232,194,74,.3)}
+.lean{font-family:var(--display);font-size:11.5px;font-weight:700;letter-spacing:.04em;white-space:nowrap}
+.lean-over{color:var(--ca-green)}
+.lean-under{color:var(--ca-red)}
 .sigchip{display:inline-block;background:var(--bg-4);border:1px solid var(--border-soft);border-radius:8px;
 padding:3px 9px;font-size:12.5px;color:var(--text-2);margin:2px 2px 2px 0}
 .sigchip b{color:var(--v-light);font-family:var(--display)}

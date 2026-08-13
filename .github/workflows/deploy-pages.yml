@@ -33,7 +33,7 @@ jobs:
           python - <<'EOF'
           from pathlib import Path
           html = Path('_site/index.html').read_text(encoding='utf-8')
-          for key in ('Game Projections', 'Market Snapshot', 'Edge Watchboard',
+          for key in ('Game Projections', 'Market Snapshot', 'Stale Anchor Board',
                       'Graded Results', 'not betting advice', '1-800-GAMBLER'):
               assert key in html, key
           # Shared brand contract: vendored Chase tokens + board kernel must reach the page.
