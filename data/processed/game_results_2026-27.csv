@@ -191,3 +191,69 @@ WAS,Washington Mystics,69,2026-07-18,1784332800000,30,GSV,Golden State Valkyries
 LAS,Los Angeles Sparks,82,2026-07-19,1784419200000,40,DAL,Dallas Wings,90,1022600191,LAS,8,Jul,False,81.0,2026-27,regular_season,"P. Bueckers — 25 pts, 5 ast",DAL,172,8,L,W
 CHI,Chicago Sky,91,2026-07-19,1784419200000,60,ATL,Atlanta Dream,93,1022600192,CHI,2,Jul,False,81.0,2026-27,regular_season,"A. Gray — 29 pts, 6 reb",ATL,184,2,L,W
 CON,Connecticut Sun,63,2026-07-19,1784419200000,21,PHX,Phoenix Mercury,72,1022600193,CON,9,Jul,False,77.5,2026-27,regular_season,"D. Bonner — 21 pts, 6 reb",PHX,135,9,L,W
+NYL,New York Liberty,99,2026-07-20,1784505600000,85,DAL,Dallas Wings,98,1022600183,DAL,1,Jul,True,84.0,2026-27,regular_season,"B. Stewart — 33 pts, 13 reb",NYL,197,-1,W,L
+LVA,Las Vegas Aces,109,2026-07-20,1784505600000,26,TOR,Toronto Tempo,83,1022600194,TOR,26,Jul,False,81.0,2026-27,regular_season,"I. Harrison — 26 pts, 11 reb",LVA,192,-26,W,L
+WAS,Washington Mystics,90,2026-07-20,1784505600000,33,GSV,Golden State Valkyries,82,1022600195,GSV,8,Jul,False,76.5,2026-27,regular_season,"K. Iriafen — 23 pts, 12 reb",WAS,172,-8,W,L
+MIN,Minnesota Lynx,105,2026-07-20,1784505600000,67,SEA,Seattle Storm,102,1022600196,SEA,3,Jul,False,82.5,2026-27,regular_season,"K. McBride — 33 pts, 2 reb",MIN,207,-3,W,L
+PHX,Phoenix Mercury,86,2026-07-22,1784678400000,51,LAS,Los Angeles Sparks,82,1022600197,LAS,4,Jul,False,83.0,2026-27,regular_season,"K. Copper — 21 pts, 3 ast",PHX,168,-4,W,L
+MIN,Minnesota Lynx,86,2026-07-22,1784678400000,32,SEA,Seattle Storm,76,1022600198,SEA,10,Jul,False,81.5,2026-27,regular_season,"N. Collier — 24 pts, 10 reb",MIN,162,-10,W,L
+CHI,Chicago Sky,94,2026-07-22,1784678400000,71,NYL,New York Liberty,95,1022600199,CHI,1,Jul,False,84.5,2026-27,regular_season,"S. Taylor — 31 pts, 3 reb",NYL,189,1,L,W
+LVA,Las Vegas Aces,99,2026-07-22,1784678400000,65,WAS,Washington Mystics,100,1022600200,LVA,1,Jul,False,79.0,2026-27,regular_season,"A. Wilson — 38 pts, 7 reb",WAS,199,1,L,W
+CON,Connecticut Sun,88,2026-07-22,1784678400000,38,IND,Indiana Fever,123,1022600201,CON,35,Jul,False,86.5,2026-27,regular_season,"C. Clark — 27 pts, 11 ast",IND,211,35,L,W
+DAL,Dallas Wings,101,2026-07-22,1784678400000,62,PDX,Portland Fire,97,1022600202,PDX,4,Jul,False,81.5,2026-27,regular_season,"A. Ogunbowale — 24 pts, 6 ast",DAL,198,-4,W,L
+CON,Connecticut Sun,84,2026-07-28,1785196800000,40,WAS,Washington Mystics,92,1022600203,CON,8,Jul,False,80.0,2026-27,regular_season,"S. Citron — 22 pts, 4 ast",WAS,176,8,L,W
+TOR,Toronto Tempo,93,2026-07-28,1785196800000,57,MIN,Minnesota Lynx,100,1022600204,TOR,7,Jul,False,84.0,2026-27,regular_season,"M. Mabrey — 25 pts, 8 reb",MIN,193,7,L,W
+IND,Indiana Fever,105,2026-07-28,1785196800000,46,SEA,Seattle Storm,95,1022600205,SEA,10,Jul,False,80.5,2026-27,regular_season,"N. Hiedeman — 33 pts, 6 reb",IND,200,-10,W,L
+PDX,Portland Fire,83,2026-07-28,1785196800000,24,LVA,Las Vegas Aces,98,1022600206,PDX,15,Jul,False,79.5,2026-27,regular_season,"A. Wilson — 28 pts, 14 reb",LVA,181,15,L,W
+NYL,New York Liberty,113,2026-07-28,1785196800000,70,LAS,Los Angeles Sparks,109,1022600207,LAS,4,Jul,False,86.0,2026-27,regular_season,"B. Stewart — 29 pts, 7 ast",NYL,222,-4,W,L
+ATL,Atlanta Dream,82,2026-07-29,1785283200000,56,DAL,Dallas Wings,81,1022600208,DAL,1,Jul,False,83.0,2026-27,regular_season,"A. Gray — 25 pts, 2 ast",ATL,163,-1,W,L
+GSV,Golden State Valkyries,89,2026-07-29,1785283200000,52,PHX,Phoenix Mercury,91,1022600209,GSV,2,Jul,False,77.5,2026-27,regular_season,"K. Copper — 27 pts, 4 reb",PHX,180,2,L,W
+MIN,Minnesota Lynx,104,2026-07-30,1785369600000,20,TOR,Toronto Tempo,72,1022600210,TOR,32,Jul,False,81.5,2026-27,regular_season,"L. Juskaite — 19 pts, 5 reb",MIN,176,-32,W,L
+CON,Connecticut Sun,88,2026-07-30,1785369600000,56,CHI,Chicago Sky,94,1022600211,CON,6,Jul,False,85.0,2026-27,regular_season,"K. Cardoso — 26 pts, 6 reb",CHI,182,6,L,W
+NYL,New York Liberty,99,2026-07-30,1785369600000,65,LVA,Las Vegas Aces,104,1022600212,NYL,5,Jul,False,84.0,2026-27,regular_season,"A. Wilson — 33 pts, 10 reb",LVA,203,5,L,W
+SEA,Seattle Storm,89,2026-07-31,1785456000000,53,ATL,Atlanta Dream,98,1022600213,SEA,9,Jul,False,87.5,2026-27,regular_season,"N. Hiedeman — 23 pts, 5 reb",ATL,187,9,L,W
+DAL,Dallas Wings,75,2026-07-31,1785456000000,30,WAS,Washington Mystics,81,1022600214,DAL,6,Jul,False,74.0,2026-27,regular_season,"S. Austin — 28 pts, 10 reb",WAS,156,6,L,W
+IND,Indiana Fever,112,2026-07-31,1785456000000,46,PDX,Portland Fire,98,1022600215,PDX,14,Jul,False,87.5,2026-27,regular_season,"C. Clark — 26 pts, 10 reb",IND,210,-14,W,L
+LVA,Las Vegas Aces,83,2026-08-01,1785542400000,63,CHI,Chicago Sky,84,1022600216,LVA,1,Aug,False,85.5,2026-27,regular_season,"A. Wilson — 36 pts, 12 reb",CHI,167,1,L,W
+NYL,New York Liberty,94,2026-08-01,1785542400000,63,PHX,Phoenix Mercury,92,1022600217,PHX,2,Aug,False,82.5,2026-27,regular_season,"S. Ionescu — 27 pts, 10 ast",NYL,186,-2,W,L
+IND,Indiana Fever,100,2026-08-02,1785628800000,51,MIN,Minnesota Lynx,108,1022600218,IND,8,Aug,False,80.5,2026-27,regular_season,"K. Mitchell — 37 pts, 3 ast",MIN,208,8,L,W
+LAS,Los Angeles Sparks,106,2026-08-02,1785628800000,68,PDX,Portland Fire,101,1022600219,PDX,5,Aug,False,86.5,2026-27,regular_season,"B. Carleton — 24 pts, 11 reb",LAS,207,-5,W,L
+CON,Connecticut Sun,63,2026-08-02,1785628800000,5,DAL,Dallas Wings,83,1022600220,CON,20,Aug,False,79.5,2026-27,regular_season,"D. Miller — 22 pts, 4 reb",DAL,146,20,L,W
+TOR,Toronto Tempo,79,2026-08-02,1785628800000,12,GSV,Golden State Valkyries,96,1022600221,TOR,17,Aug,False,76.0,2026-27,regular_season,"J. Salaun — 24 pts, 3 reb",GSV,175,17,L,W
+LVA,Las Vegas Aces,109,2026-08-03,1785715200000,27,ATL,Atlanta Dream,87,1022600222,ATL,22,Aug,False,80.5,2026-27,regular_season,"J. Young — 28 pts, 11 reb",LVA,196,-22,W,L
+SEA,Seattle Storm,83,2026-08-03,1785715200000,29,NYL,New York Liberty,95,1022600223,SEA,12,Aug,False,79.0,2026-27,regular_season,"F. Johnson — 25 pts, 3 reb",NYL,178,12,L,W
+PHX,Phoenix Mercury,106,2026-08-03,1785715200000,66,CHI,Chicago Sky,101,1022600224,CHI,5,Aug,False,85.0,2026-27,regular_season,"K. Copper — 31 pts, 4 reb",PHX,207,-5,W,L
+TOR,Toronto Tempo,81,2026-08-04,1785801600000,26,GSV,Golden State Valkyries,92,1022600225,TOR,11,Aug,False,75.0,2026-27,regular_season,"N. Sabally — 21 pts, 6 reb",GSV,173,11,L,W
+PHX,Phoenix Mercury,82,2026-08-05,1785888000000,31,ATL,Atlanta Dream,96,1022600226,PHX,14,Aug,False,82.5,2026-27,regular_season,"R. Howard — 23 pts, 8 ast",ATL,178,14,L,W
+SEA,Seattle Storm,86,2026-08-05,1785888000000,46,NYL,New York Liberty,92,1022600227,SEA,6,Aug,False,80.0,2026-27,regular_season,"D. Malonga — 31 pts, 10 reb",NYL,178,6,L,W
+DAL,Dallas Wings,92,2026-08-05,1785888000000,56,WAS,Washington Mystics,96,1022600228,DAL,4,Aug,False,80.5,2026-27,regular_season,"S. Austin — 27 pts, 13 reb",WAS,188,4,L,W
+LAS,Los Angeles Sparks,88,2026-08-05,1785888000000,50,CHI,Chicago Sky,95,1022600229,LAS,7,Aug,False,82.5,2026-27,regular_season,"D. Hamby — 22 pts, 14 reb",CHI,183,7,L,W
+LVA,Las Vegas Aces,86,2026-08-06,1785974400000,74,IND,Indiana Fever,84,1022600230,IND,2,Aug,True,93.0,2026-27,regular_season,"K. Mitchell — 28 pts, 4 ast",LVA,170,-2,W,L
+LAS,Los Angeles Sparks,89,2026-08-06,1785974400000,37,MIN,Minnesota Lynx,82,1022600231,MIN,7,Aug,False,78.5,2026-27,regular_season,"O. Miles — 23 pts, 8 reb",LAS,171,-7,W,L
+TOR,Toronto Tempo,83,2026-08-06,1785974400000,38,PDX,Portland Fire,97,1022600232,TOR,14,Aug,False,86.5,2026-27,regular_season,"C. Leite — 27 pts, 11 ast",PDX,180,14,L,W
+PHX,Phoenix Mercury,72,2026-08-07,1786060800000,38,CON,Connecticut Sun,75,1022600233,PHX,3,Aug,False,78.5,2026-27,regular_season,"K. Plum — 25 pts, 3 ast",CON,147,3,L,W
+ATL,Atlanta Dream,74,2026-08-07,1786060800000,47,WAS,Washington Mystics,79,1022600234,ATL,5,Aug,False,85.5,2026-27,regular_season,"A. Gray — 26 pts, 6 reb",WAS,153,5,L,W
+GSV,Golden State Valkyries,94,2026-08-07,1786060800000,9,DAL,Dallas Wings,76,1022600235,DAL,18,Aug,False,76.0,2026-27,regular_season,"V. Burton — 22 pts, 7 ast",GSV,170,-18,W,L
+LVA,Las Vegas Aces,87,2026-08-08,1786147200000,40,MIN,Minnesota Lynx,98,1022600236,LVA,11,Aug,False,82.0,2026-27,regular_season,"O. Miles — 26 pts, 7 ast",MIN,185,11,L,W
+IND,Indiana Fever,90,2026-08-08,1786147200000,49,CHI,Chicago Sky,86,1022600237,CHI,4,Aug,False,79.5,2026-27,regular_season,"K. Mitchell — 27 pts, 5 reb",IND,176,-4,W,L
+SEA,Seattle Storm,93,2026-08-08,1786147200000,53,PDX,Portland Fire,100,1022600238,SEA,7,Aug,False,81.5,2026-27,regular_season,"B. Carleton — 24 pts, 6 reb",PDX,193,7,L,W
+LVA,Las Vegas Aces,71,2026-08-09,1786233600000,22,NYL,New York Liberty,111,1022600239,LVA,40,Aug,False,81.0,2026-27,regular_season,"M. Johannes — 27 pts, 3 ast",NYL,182,40,L,W
+PHX,Phoenix Mercury,75,2026-08-09,1786233600000,15,WAS,Washington Mystics,95,1022600240,PHX,20,Aug,False,80.5,2026-27,regular_season,"S. Austin — 19 pts, 11 reb",WAS,170,20,L,W
+DAL,Dallas Wings,90,2026-08-09,1786233600000,39,MIN,Minnesota Lynx,103,1022600241,DAL,13,Aug,False,82.0,2026-27,regular_season,"K. McBride — 43 pts, 1 reb",MIN,193,13,L,W
+GSV,Golden State Valkyries,84,2026-08-09,1786233600000,33,LAS,Los Angeles Sparks,78,1022600242,LAS,6,Aug,False,71.5,2026-27,regular_season,"N. Ogwumike — 16 pts, 7 reb",GSV,162,-6,W,L
+TOR,Toronto Tempo,95,2026-08-10,1786320000000,49,ATL,Atlanta Dream,107,1022600243,TOR,12,Aug,False,84.5,2026-27,regular_season,"M. Mabrey — 36 pts, 3 ast",ATL,202,12,L,W
+CHI,Chicago Sky,88,2026-08-10,1786320000000,52,SEA,Seattle Storm,97,1022600244,CHI,9,Aug,False,86.5,2026-27,regular_season,"D. Malonga — 26 pts, 10 reb",SEA,185,9,L,W
+NYL,New York Liberty,92,2026-08-11,1786406400000,39,IND,Indiana Fever,106,1022600245,NYL,14,Aug,False,82.0,2026-27,regular_season,"K. Mitchell — 28 pts, 3 reb",IND,198,14,L,W
+WAS,Washington Mystics,76,2026-08-11,1786406400000,23,LVA,Las Vegas Aces,86,1022600246,WAS,10,Aug,False,75.0,2026-27,regular_season,"A. Wilson — 26 pts, 13 reb",LVA,162,10,L,W
+PHX,Phoenix Mercury,94,2026-08-11,1786406400000,55,LAS,Los Angeles Sparks,87,1022600247,LAS,7,Aug,False,88.5,2026-27,regular_season,"N. Brochant — 24 pts, 3 reb",PHX,181,-7,W,L
+TOR,Toronto Tempo,88,2026-08-12,1786492800000,47,DAL,Dallas Wings,94,1022600248,TOR,6,Aug,False,80.0,2026-27,regular_season,"M. Mabrey — 23 pts, 4 ast",DAL,182,6,L,W
+CHI,Chicago Sky,71,2026-08-12,1786492800000,9,GSV,Golden State Valkyries,91,1022600249,CHI,20,Aug,False,79.0,2026-27,regular_season,"T. Hayes — 22 pts, 6 reb",GSV,162,20,L,W
+MIN,Minnesota Lynx,85,2026-08-12,1786492800000,48,PDX,Portland Fire,81,1022600250,PDX,4,Aug,False,81.5,2026-27,regular_season,"N. Collier — 20 pts, 9 reb",MIN,166,-4,W,L
+ATL,Atlanta Dream,104,2026-08-13,1786579200000,11,CON,Connecticut Sun,69,1022600251,CON,35,Aug,False,77.5,2026-27,regular_season,"R. Howard — 29 pts, 5 reb",ATL,173,-35,W,L
+LAS,Los Angeles Sparks,81,2026-08-13,1786579200000,45,NYL,New York Liberty,85,1022600252,LAS,4,Aug,False,80.0,2026-27,regular_season,"R. Burrell — 28 pts, 3 reb",NYL,166,4,L,W
+WAS,Washington Mystics,76,2026-08-13,1786579200000,34,LVA,Las Vegas Aces,83,1022600253,WAS,7,Aug,False,79.5,2026-27,regular_season,"J. Young — 32 pts, 5 ast",LVA,159,7,L,W
+DAL,Dallas Wings,87,2026-08-14,1786665600000,39,IND,Indiana Fever,98,1022600254,DAL,11,Aug,False,81.0,2026-27,regular_season,"P. Bueckers — 29 pts, 6 reb",IND,185,11,L,W
+PDX,Portland Fire,84,2026-08-14,1786665600000,53,SEA,Seattle Storm,82,1022600255,SEA,2,Aug,False,82.0,2026-27,regular_season,"A. Fam — 20 pts, 9 reb",PDX,166,-2,W,L
+NYL,New York Liberty,82,2026-08-15,1786752000000,28,CON,Connecticut Sun,75,1022600256,CON,7,Aug,False,77.0,2026-27,regular_season,"J. Jones — 23 pts, 11 reb",NYL,157,-7,W,L
+LAS,Los Angeles Sparks,70,2026-08-15,1786752000000,21,WAS,Washington Mystics,80,1022600257,LAS,10,Aug,False,78.5,2026-27,regular_season,"S. Citron — 21 pts, 8 ast",WAS,150,10,L,W
+MIN,Minnesota Lynx,92,2026-08-15,1786752000000,45,LVA,Las Vegas Aces,87,1022600258,LVA,5,Aug,False,78.0,2026-27,regular_season,"A. Wilson — 32 pts, 7 reb",MIN,179,-5,W,L
