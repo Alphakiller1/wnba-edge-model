@@ -104,6 +104,10 @@ def test_game_grading_and_summary(tmp_path):
     assert summary["games"]["recent"][0]["correct"] is True
     assert summary["games"]["_records"][0]["status"] == "Correct"
     assert summary["games"]["_records"][0]["matchup"] == "CHI @ MIN"
+    assert summary["games"]["spread_correct"] == 1
+    assert summary["games"]["spread_hit_rate"] == 100.0
+    assert summary["games"]["_records"][0]["spread_side"] == "HOME"
+    assert summary["games"]["_records"][0]["spread_status"] == "True"
     assert summary["props"]["_records"] == []
 
 

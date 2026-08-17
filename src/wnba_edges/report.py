@@ -471,6 +471,8 @@ def _results_section(summary: dict) -> str:
 <div class="tiles tiles-results">
   <div class="tile"><span class="tile-v">{games["correct"]}/{games["n"]}</span><span class="tile-l">Correct winner calls</span></div>
   <div class="tile"><span class="tile-v">{games["winner_hit_rate"]}%</span><span class="tile-l">Winner hit rate</span></div>
+  <div class="tile"><span class="tile-v">{games.get("spread_correct", 0)}/{games.get("spread_n", 0)}</span><span class="tile-l">Correct spread sides</span></div>
+  <div class="tile"><span class="tile-v">{games.get("spread_hit_rate", "—")}%</span><span class="tile-l">Spread-side hit rate</span></div>
   <div class="tile"><span class="tile-v">{games["spread_mae"]}</span><span class="tile-l">Spread MAE</span></div>
   <div class="tile"><span class="tile-v">{games["total_mae"]}</span><span class="tile-l">Total MAE</span></div>
   <div class="tile"><span class="tile-v">{games["brier"]}</span><span class="tile-l">Brier score</span></div>
@@ -504,6 +506,7 @@ def _game_audit_table(records: list[dict]) -> str:
         f"<td>{esc(record['matchup'])}</td><td>{esc(record['projection'])}</td>"
         f"<td>{esc(record['favorite'])} {_audit_number(record['favorite_probability'] * 100 if record['favorite_probability'] is not None else None, 0, suffix='%')}</td>"
         f"<td>{esc(record['actual_winner'])}</td><td>{_audit_status_cell(record)}</td>"
+        f"<td>{esc(record['spread_side'])} {_spread_status_label(record['spread_status'])}</td>"
         f"<td class=\"num\">{_audit_number(abs(record['spread_error']) if record['spread_error'] is not None else None)}</td>"
         f"<td class=\"num\">{_audit_number(abs(record['total_error']) if record['total_error'] is not None else None)}</td>"
         f"<td class=\"dim\">{esc(record['run_id'][:10])}</td></tr>"
@@ -513,8 +516,18 @@ def _game_audit_table(records: list[dict]) -> str:
 <p class="basis-note">Every generated forecast is retained, including multiple runs for the same matchup.</p>
 <div class="board"><div class="tablewrap"><table>
 <thead><tr><th>Game date / logged</th><th>Matchup</th><th>Projected score</th><th>Model call</th><th>Winner</th>
-<th>Grade</th><th class="num">Spread error</th><th class="num">Total error</th><th>Run</th></tr></thead>
+<th>Grade</th><th>Spread side</th><th class="num">Spread error</th><th class="num">Total error</th><th>Run</th></tr></thead>
 <tbody>{rows}</tbody></table></div></div>"""
+
+
+def _spread_status_label(status: str) -> str:
+    if status == "True":
+        return '<span class="result-hit">✓</span>'
+    if status == "False":
+        return '<span class="result-miss">×</span>'
+    if status == "PUSH":
+        return '<span class="result-void">push</span>'
+    return '<span class="result-pending">pending</span>'
 
 
 def _prop_audit_table(records: list[dict]) -> str:

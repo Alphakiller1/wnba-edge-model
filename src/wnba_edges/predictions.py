@@ -29,7 +29,8 @@ GAME_COLUMNS = [
     "projected_away_pts", "projected_home_pts", "projected_total",
     "projected_home_spread", "home_win_prob", "win_prob_basis",
     "settled", "actual_away_pts", "actual_home_pts", "actual_winner",
-    "home_win", "winner_correct", "spread_error", "total_error",
+    "home_win", "winner_correct", "predicted_spread_side", "spread_side_correct",
+    "spread_error", "total_error",
     "ungraded_reason", "graded_at",
 ]
 
@@ -228,7 +229,13 @@ def grade_games(root: Path, game_results: pd.DataFrame, today: datetime | None =
     }
     graded = voided = pending = 0
     for idx, row in frame.iterrows():
-        if str(row.get("settled")).lower() == "true" or row.get("settled") is True:
+        is_settled = str(row.get("settled")).lower() == "true" or row.get("settled") is True
+        if is_settled:
+            # Schema upgrades must enrich historic audit rows too.  Existing settled rows
+            # already have the final score, so a spread-direction grade can be backfilled
+            # without changing their original prediction or outcome.
+            if not _audit_text(row.get("spread_side_correct")).strip():
+                _backfill_spread_grade(frame, idx, row)
             continue
         key = (str(row["date"]), str(row["away"]).upper(), str(row["home"]).upper())
         outcome = by_key.get(key)
@@ -254,12 +261,13 @@ def grade_games(root: Path, game_results: pd.DataFrame, today: datetime | None =
             idx,
             [
                 "settled", "actual_away_pts", "actual_home_pts", "actual_winner",
-                "home_win", "winner_correct", "spread_error", "total_error",
+                "home_win", "winner_correct", "predicted_spread_side", "spread_side_correct",
+                "spread_error", "total_error",
                 "ungraded_reason", "graded_at",
             ],
         ] = [
             True, away_pts, home_pts, str(outcome["winner"]),
-            home_win, winner_correct,
+            home_win, winner_correct, *_spread_grade(float(row["projected_home_spread"]), home_pts - away_pts),
             round(float(row["projected_home_spread"]) - (home_pts - away_pts), 1),
             round(float(row["projected_total"]) - (home_pts + away_pts), 1),
             "", _now_iso(),
@@ -267,6 +275,29 @@ def grade_games(root: Path, game_results: pd.DataFrame, today: datetime | None =
         graded += 1
     _save(frame, game_log_path(root))
     return {"graded": graded, "voided": voided, "pending": pending}
+
+
+def _spread_grade(projected_home_spread: float, actual_home_margin: float) -> tuple[str, str]:
+    """Grade the model's spread *side* from its projected home margin.
+
+    This is direction accuracy (the model's predicted winner/margin side), not an ATS wager
+    result: no sportsbook line is assumed unless one was captured with the prediction.
+    """
+    if projected_home_spread == 0 or actual_home_margin == 0:
+        return "PUSH", "PUSH"
+    side = "HOME" if projected_home_spread > 0 else "AWAY"
+    correct = (projected_home_spread > 0) == (actual_home_margin > 0)
+    return side, str(correct)
+
+
+def _backfill_spread_grade(frame: pd.DataFrame, idx, row: pd.Series) -> None:
+    projected = _as_float(row.get("projected_home_spread"))
+    home = _as_float(row.get("actual_home_pts"))
+    away = _as_float(row.get("actual_away_pts"))
+    if projected is None or home is None or away is None:
+        return
+    side, correct = _spread_grade(projected, home - away)
+    frame.loc[idx, ["predicted_spread_side", "spread_side_correct"]] = [side, correct]
 
 
 def results_summary(root: Path) -> dict:
@@ -356,6 +387,12 @@ def results_summary(root: Path) -> dict:
             "confidence_bands": bands,
             "recent": recent,
         }
+    settled_spread = graded_games[graded_games["spread_side_correct"].astype(str).isin(["True", "False"])]
+    if not settled_spread.empty:
+        spread_hits = int((settled_spread["spread_side_correct"].astype(str) == "True").sum())
+        summary["games"]["spread_n"] = int(len(settled_spread))
+        summary["games"]["spread_correct"] = spread_hits
+        summary["games"]["spread_hit_rate"] = round(spread_hits / len(settled_spread) * 100, 1)
     summary["games"]["_pending"] = int((games["settled"].astype(str).str.lower() != "true").sum())
     summary["games"]["_logged"] = int(len(games))
     summary["games"]["_records"] = _game_audit_records(games)
@@ -439,6 +476,8 @@ def _game_audit_records(games: pd.DataFrame) -> list[dict]:
                 "actual_winner": _audit_text(row.get("actual_winner")) or "—",
                 "spread_error": _as_float(row.get("spread_error")),
                 "total_error": _as_float(row.get("total_error")),
+                "spread_side": _audit_text(row.get("predicted_spread_side")) or "—",
+                "spread_status": _audit_text(row.get("spread_side_correct")),
                 "status": status,
                 "status_detail": detail,
                 "run_id": _audit_text(row.get("run_id")),

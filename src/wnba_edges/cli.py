@@ -287,6 +287,9 @@ def _print_results(summary: dict) -> None:
         print(f"  correct={games.get('correct', 0)}/{games['n']} | winner hit rate {games['winner_hit_rate']}% | "
               f"spread MAE {games['spread_mae']} | total MAE {games['total_mae']} | "
               f"Brier {games['brier']}")
+        if games.get("spread_n"):
+            print(f"  spread sides: {games['spread_correct']}/{games['spread_n']} "
+                  f"({games['spread_hit_rate']}%) — model direction, not ATS grading")
         print(f"  audit: {games.get('audit_runs', games['n'])} graded run(s), "
               f"{games.get('_logged', games['n'])} total logged prediction(s)")
     print(f"  pending: {games.get('_pending', 0)}")
