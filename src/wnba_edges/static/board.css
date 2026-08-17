@@ -637,10 +637,22 @@
 }
 
 .bd-tile.is-idle {
-  opacity: 0.5;
+  /* A model-only tile is informative, not disabled.  Applying opacity to the
+     whole tile compounded the already-muted token colors and made the labels
+     and methodology inputs effectively unreadable on the dark surface. */
+  background: var(--bg-3);
+  border-color: var(--border-2);
 }
 
 .bd-tile.is-idle .bd-tile__value {
+  color: var(--text-3);
+}
+
+.bd-tile.is-idle .bd-tile__label {
+  color: var(--text-2);
+}
+
+.bd-tile.is-idle .bd-tile__state {
   color: var(--text-3);
 }
 

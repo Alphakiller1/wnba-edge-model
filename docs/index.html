@@ -773,10 +773,22 @@
 }
 
 .bd-tile.is-idle {
-  opacity: 0.5;
+  /* A model-only tile is informative, not disabled.  Applying opacity to the
+     whole tile compounded the already-muted token colors and made the labels
+     and methodology inputs effectively unreadable on the dark surface. */
+  background: var(--bg-3);
+  border-color: var(--border-2);
 }
 
 .bd-tile.is-idle .bd-tile__value {
+  color: var(--text-3);
+}
+
+.bd-tile.is-idle .bd-tile__label {
+  color: var(--text-2);
+}
+
+.bd-tile.is-idle .bd-tile__state {
   color: var(--text-3);
 }
 
@@ -1003,7 +1015,7 @@ footer p+p{margin-top:10px}
     <div class="hero-meta">
       <span class="pill">data through 2026-08-17</span>
       <span class="pill pill-ok">fresh</span>
-      <span class="pill pill-dim">built Aug 17 · 20:50 UTC</span>
+      <span class="pill pill-dim">built Aug 17 · 20:52 UTC</span>
     </div>
     <div class="tiles"><div class="tile"><span class="tile-v">226</span><span class="tile-l">Players modeled</span></div><div class="tile"><span class="tile-v">258</span><span class="tile-l">Finished games</span></div><div class="tile"><span class="tile-v">6,210</span><span class="tile-l">Player game logs</span></div><div class="tile"><span class="tile-v">27</span><span class="tile-l">Games projected</span></div></div>
   </div>
