@@ -103,21 +103,33 @@ def log_prop_prediction(root: Path, row: dict) -> str:
 
 
 def log_game_projections(root: Path, projections: pd.DataFrame, season: str) -> int:
-    """Persist a game-projection run for later grading (idempotent per date+matchup+run)."""
+    """Persist every projection run, idempotently within one run and matchup.
+
+    A projection is an audit event, not merely the final forecast for a game.  Keeping each
+    run makes it possible to see how the model moved as fresh data arrived; the dashboard
+    reports headline accuracy from the latest pregame run per matchup so repeat refreshes do
+    not manufacture extra wins or losses.
+    """
     if projections.empty:
         return 0
     frame = _load(game_log_path(root), GAME_COLUMNS)
-    existing = set(zip(frame["date"].astype(str), frame["away"], frame["home"]))
+    existing = set(
+        zip(
+            frame["run_id"].astype(str), frame["date"].astype(str),
+            frame["away"].astype(str), frame["home"].astype(str),
+        )
+    )
     added = 0
     rows = []
     for _, game in projections.iterrows():
-        key = (str(game["date"]), game["away"], game["home"])
+        run_id = str(game.get("run_id", "") or "")
+        key = (run_id, str(game["date"]), str(game["away"]), str(game["home"]))
         if key in existing:
             continue
         rows.append(
             {
                 "prediction_id": uuid.uuid4().hex,
-                "run_id": game.get("run_id", ""),
+                "run_id": run_id,
                 "sport": "wnba",
                 "season": season,
                 "recorded_at": game.get("generated_at", _now_iso()),
@@ -280,18 +292,74 @@ def results_summary(root: Path) -> dict:
     summary["props"]["_reasons"] = reasons["ungraded_reason"].value_counts().to_dict()
 
     graded_games = games[games["settled"].astype(str).str.lower() == "true"]
-    scored = graded_games[graded_games["winner_correct"].astype(str).isin(["True", "False"])]
+    scored = graded_games[graded_games["winner_correct"].astype(str).isin(["True", "False"])].copy()
     if not scored.empty:
-        correct = (scored["winner_correct"].astype(str) == "True").sum()
-        win_probs = pd.to_numeric(scored["home_win_prob"], errors="coerce")
-        actual = scored["home_win"].astype(str).str.lower() == "true"
+        # Preserve every run in the CSV, but score the production record from the most
+        # recent forecast available for each actual game.  A game refreshed three times
+        # should produce three audit rows, not triple the public W-L record.
+        scored["_recorded_sort"] = pd.to_datetime(scored["recorded_at"], errors="coerce", utc=True)
+        latest = (
+            scored.sort_values(["date", "away", "home", "_recorded_sort"])
+            .drop_duplicates(["date", "away", "home"], keep="last")
+            .copy()
+        )
+        latest = latest.sort_values(["date", "_recorded_sort"], ascending=[False, False])
+        correct = (latest["winner_correct"].astype(str) == "True").sum()
+        win_probs = pd.to_numeric(latest["home_win_prob"], errors="coerce")
+        actual = latest["home_win"].astype(str).str.lower() == "true"
         brier = float(((win_probs - actual.astype(float)) ** 2).mean())
+
+        bands = []
+        confidence = pd.Series(
+            [max(prob, 1 - prob) if pd.notna(prob) else float("nan") for prob in win_probs],
+            index=latest.index,
+        )
+        for label, low, high in (("50–59%", 0.50, 0.60), ("60–69%", 0.60, 0.70), ("70%+", 0.70, 1.01)):
+            band = latest[(confidence >= low) & (confidence < high)]
+            if band.empty:
+                continue
+            hits = int((band["winner_correct"].astype(str) == "True").sum())
+            bands.append({
+                "band": label,
+                "n": int(len(band)),
+                "correct": hits,
+                "hit_rate": round(hits / len(band) * 100, 1),
+            })
+
+        recent = []
+        for _, row in latest.head(12).iterrows():
+            probability = _as_float(row.get("home_win_prob"))
+            home = str(row["home"])
+            away = str(row["away"])
+            favorite = home if probability >= 0.5 else away
+            favorite_probability = max(probability, 1 - probability) if probability is not None else None
+            recent.append({
+                "date": str(row["date"]),
+                "matchup": f"{away} @ {home}",
+                "favorite": favorite,
+                "probability": round(favorite_probability * 100, 1) if favorite_probability is not None else None,
+                "actual_winner": str(row.get("actual_winner") or "—"),
+                "correct": str(row["winner_correct"]).lower() == "true",
+                "spread_error": _as_float(row.get("spread_error")),
+                "total_error": _as_float(row.get("total_error")),
+                "run_id": str(row.get("run_id") or ""),
+            })
         summary["games"] = {
-            "n": int(len(scored)),
-            "winner_hit_rate": round(correct / len(scored) * 100, 1),
-            "spread_mae": round(pd.to_numeric(scored["spread_error"], errors="coerce").abs().mean(), 2),
-            "total_mae": round(pd.to_numeric(scored["total_error"], errors="coerce").abs().mean(), 2),
+            "n": int(len(latest)),
+            "correct": int(correct),
+            "winner_hit_rate": round(correct / len(latest) * 100, 1),
+            "spread_mae": round(pd.to_numeric(latest["spread_error"], errors="coerce").abs().mean(), 2),
+            "total_mae": round(pd.to_numeric(latest["total_error"], errors="coerce").abs().mean(), 2),
             "brier": round(brier, 4),
+            "audit_runs": int(len(scored)),
+            "confidence_bands": bands,
+            "recent": recent,
         }
     summary["games"]["_pending"] = int((games["settled"].astype(str).str.lower() != "true").sum())
+    summary["games"]["_logged"] = int(len(games))
     return summary
+
+
+def _as_float(value) -> float | None:
+    number = pd.to_numeric(value, errors="coerce")
+    return float(number) if pd.notna(number) else None

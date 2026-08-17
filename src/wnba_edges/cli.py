@@ -284,9 +284,11 @@ def _print_results(summary: dict) -> None:
     games = summary.get("games", {})
     print("== Game projections ==")
     if games.get("n"):
-        print(f"  n={games['n']} | winner hit rate {games['winner_hit_rate']}% | "
+        print(f"  correct={games.get('correct', 0)}/{games['n']} | winner hit rate {games['winner_hit_rate']}% | "
               f"spread MAE {games['spread_mae']} | total MAE {games['total_mae']} | "
               f"Brier {games['brier']}")
+        print(f"  audit: {games.get('audit_runs', games['n'])} graded run(s), "
+              f"{games.get('_logged', games['n'])} total logged prediction(s)")
     print(f"  pending: {games.get('_pending', 0)}")
 
 

@@ -431,13 +431,53 @@ def _results_section(summary: dict) -> str:
     )
     game_block = ""
     if has_games:
+        pending = int(games.get("_pending", 0))
+        audit_runs = int(games.get("audit_runs", games["n"]))
+        logged = int(games.get("_logged", games["n"]))
+        bands = games.get("confidence_bands", [])
+        band_rows = "".join(
+            f"<tr><td>{esc(band['band'])}</td><td class=\"num\">{band['correct']}-{band['n'] - band['correct']}</td>"
+            f"<td class=\"num\">{band['hit_rate']}%</td></tr>"
+            for band in bands
+        )
+        calibration = (
+            f"""<div class=\"board\"><div class=\"tablewrap\"><table>
+<thead><tr><th>Model confidence</th><th class=\"num\">W-L</th><th class=\"num\">Hit rate</th></tr></thead>
+<tbody>{band_rows}</tbody></table></div></div>"""
+            if band_rows else ""
+        )
+        recent_rows = []
+        for record in games.get("recent", []):
+            status = "✓ Correct" if record["correct"] else "× Miss"
+            row_class = "result-hit" if record["correct"] else "result-miss"
+            confidence = f"{record['favorite']} {record['probability']:.0f}%" if record["probability"] is not None else "—"
+            spread_error = f"{abs(record['spread_error']):.1f}" if record["spread_error"] is not None else "—"
+            total_error = f"{abs(record['total_error']):.1f}" if record["total_error"] is not None else "—"
+            recent_rows.append(
+                f"<tr class=\"{row_class}\"><td>{esc(record['date'])}</td><td>{esc(record['matchup'])}</td>"
+                f"<td>{esc(confidence)}</td><td>{esc(record['actual_winner'])}</td>"
+                f"<td>{status}</td><td class=\"num\">{spread_error}</td><td class=\"num\">{total_error}</td></tr>"
+            )
+        recent_table = (
+            f"""<div class=\"board\"><div class=\"tablewrap\"><table>
+<thead><tr><th>Date</th><th>Matchup</th><th>Model call</th><th>Winner</th><th>Result</th>
+<th class=\"num\">Spread error</th><th class=\"num\">Total error</th></tr></thead>
+<tbody>{''.join(recent_rows)}</tbody></table></div></div>"""
+            if recent_rows else ""
+        )
         game_block = f"""
 <div class="tiles tiles-results">
-  <div class="tile"><span class="tile-v">{games["n"]}</span><span class="tile-l">Games graded</span></div>
+  <div class="tile"><span class="tile-v">{games["correct"]}/{games["n"]}</span><span class="tile-l">Correct winner calls</span></div>
   <div class="tile"><span class="tile-v">{games["winner_hit_rate"]}%</span><span class="tile-l">Winner hit rate</span></div>
   <div class="tile"><span class="tile-v">{games["spread_mae"]}</span><span class="tile-l">Spread MAE</span></div>
+  <div class="tile"><span class="tile-v">{games["total_mae"]}</span><span class="tile-l">Total MAE</span></div>
   <div class="tile"><span class="tile-v">{games["brier"]}</span><span class="tile-l">Brier score</span></div>
 </div>"""
+        game_block += f"""
+<p class="basis-note">Headline record uses the latest forecast for each matchup: {games["n"]} graded games from
+{audit_runs} graded projection run(s) &middot; {logged} total predictions logged &middot; {pending} awaiting grading.</p>
+<h3 class="results-subtitle">Where the model is succeeding</h3>{calibration}
+<h3 class="results-subtitle">Recent graded game calls</h3>{recent_table}"""
     return f"<section>{head}{game_block}{prop_table}</section>"
 
 
@@ -601,6 +641,10 @@ tbody tr:hover{background:rgba(124,77,255,.05)}
 .sb-track i{display:block;height:100%;background:var(--v-grad);border-radius:4px}
 .wb .score{font-family:var(--display);font-weight:800;font-size:15px;color:var(--v-light)}
 .reason{white-space:normal;min-width:220px}
+.results-subtitle{font-family:var(--display);font-size:16px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+margin:26px 0 9px;color:var(--text)}
+.result-hit td:nth-child(5){color:var(--green);font-weight:700}
+.result-miss td:nth-child(5){color:var(--red);font-weight:700}
 .rchip{display:inline-block;font-size:10.5px;font-weight:600;color:var(--text-2);background:var(--bg-4);
 border:1px solid var(--border-soft);border-radius:999px;padding:2px 9px;margin:2px 3px 2px 0;letter-spacing:.02em}
 .rchip-warn{color:var(--gold);border-color:rgba(232,194,74,.3)}

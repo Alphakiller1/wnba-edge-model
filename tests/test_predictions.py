@@ -9,6 +9,7 @@ from wnba_edges.predictions import (
     grade_props,
     log_game_projections,
     log_prop_prediction,
+    game_log_path,
     prop_log_path,
     results_summary,
 )
@@ -99,3 +100,24 @@ def test_game_grading_and_summary(tmp_path):
     assert summary["games"]["winner_hit_rate"] == 100.0
     assert summary["games"]["spread_mae"] == 0.0
     assert summary["games"]["brier"] == round((0.75 - 1.0) ** 2, 4)
+    assert summary["games"]["correct"] == 1
+    assert summary["games"]["recent"][0]["correct"] is True
+
+
+def test_game_log_keeps_each_unique_projection_run(tmp_path):
+    projection = pd.DataFrame(
+        [
+            {
+                "run_id": "morning", "generated_at": "2026-07-09T12:00:00+00:00",
+                "date": "2026-07-10", "away": "CHI", "home": "MIN",
+                "projected_away_pts": 78.0, "projected_home_pts": 88.0,
+                "projected_total": 166.0, "projected_home_spread": 10.0,
+                "home_win_prob": 0.75, "win_prob_basis": "test",
+            }
+        ]
+    )
+    assert log_game_projections(tmp_path, projection, "2026-27") == 1
+    assert log_game_projections(tmp_path, projection, "2026-27") == 0
+    afternoon = projection.assign(run_id="afternoon", generated_at="2026-07-09T18:00:00+00:00")
+    assert log_game_projections(tmp_path, afternoon, "2026-27") == 1
+    assert len(pd.read_csv(game_log_path(tmp_path))) == 2

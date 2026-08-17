@@ -959,6 +959,10 @@ tbody tr:hover{background:rgba(124,77,255,.05)}
 .sb-track i{display:block;height:100%;background:var(--v-grad);border-radius:4px}
 .wb .score{font-family:var(--display);font-weight:800;font-size:15px;color:var(--v-light)}
 .reason{white-space:normal;min-width:220px}
+.results-subtitle{font-family:var(--display);font-size:16px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+margin:26px 0 9px;color:var(--text)}
+.result-hit td:nth-child(5){color:var(--green);font-weight:700}
+.result-miss td:nth-child(5){color:var(--red);font-weight:700}
 .rchip{display:inline-block;font-size:10.5px;font-weight:600;color:var(--text-2);background:var(--bg-4);
 border:1px solid var(--border-soft);border-radius:999px;padding:2px 9px;margin:2px 3px 2px 0;letter-spacing:.02em}
 .rchip-warn{color:var(--gold);border-color:rgba(232,194,74,.3)}
@@ -1015,7 +1019,7 @@ footer p+p{margin-top:10px}
     <div class="hero-meta">
       <span class="pill">data through 2026-08-17</span>
       <span class="pill pill-ok">fresh</span>
-      <span class="pill pill-dim">built Aug 17 · 20:54 UTC</span>
+      <span class="pill pill-dim">built Aug 17 · 20:58 UTC</span>
     </div>
     <div class="tiles"><div class="tile"><span class="tile-v">226</span><span class="tile-l">Players modeled</span></div><div class="tile"><span class="tile-v">258</span><span class="tile-l">Finished games</span></div><div class="tile"><span class="tile-v">6,210</span><span class="tile-l">Player game logs</span></div><div class="tile"><span class="tile-v">27</span><span class="tile-l">Games projected</span></div></div>
   </div>
@@ -1211,11 +1215,21 @@ season-anchored line is more likely to be set too low.</p>
   <p class="sec-blurb">Every logged prediction is graded against finished games; ungradeable rows carry an explicit reason code. An empty record means nothing has resolved yet &mdash; never hidden losses.</p>
 </div>
 <div class="tiles tiles-results">
-  <div class="tile"><span class="tile-v">15</span><span class="tile-l">Games graded</span></div>
+  <div class="tile"><span class="tile-v">13/15</span><span class="tile-l">Correct winner calls</span></div>
   <div class="tile"><span class="tile-v">86.7%</span><span class="tile-l">Winner hit rate</span></div>
   <div class="tile"><span class="tile-v">7.36</span><span class="tile-l">Spread MAE</span></div>
+  <div class="tile"><span class="tile-v">16.22</span><span class="tile-l">Total MAE</span></div>
   <div class="tile"><span class="tile-v">0.1441</span><span class="tile-l">Brier score</span></div>
-</div></section>
+</div>
+<p class="basis-note">Headline record uses the latest forecast for each matchup: 15 graded games from
+15 graded projection run(s) &middot; 68 total predictions logged &middot; 30 awaiting grading.</p>
+<h3 class="results-subtitle">Where the model is succeeding</h3><div class="board"><div class="tablewrap"><table>
+<thead><tr><th>Model confidence</th><th class="num">W-L</th><th class="num">Hit rate</th></tr></thead>
+<tbody><tr><td>50–59%</td><td class="num">4-1</td><td class="num">80.0%</td></tr><tr><td>60–69%</td><td class="num">2-1</td><td class="num">66.7%</td></tr><tr><td>70%+</td><td class="num">7-0</td><td class="num">100.0%</td></tr></tbody></table></div></div>
+<h3 class="results-subtitle">Recent graded game calls</h3><div class="board"><div class="tablewrap"><table>
+<thead><tr><th>Date</th><th>Matchup</th><th>Model call</th><th>Winner</th><th>Result</th>
+<th class="num">Spread error</th><th class="num">Total error</th></tr></thead>
+<tbody><tr class="result-hit"><td>2026-08-15</td><td>LAS @ WAS</td><td>WAS 57%</td><td>WAS</td><td>✓ Correct</td><td class="num">7.3</td><td class="num">21.8</td></tr><tr class="result-hit"><td>2026-08-15</td><td>MIN @ LVA</td><td>MIN 66%</td><td>MIN</td><td>✓ Correct</td><td class="num">4.6</td><td class="num">7.5</td></tr><tr class="result-hit"><td>2026-08-15</td><td>NYL @ CON</td><td>NYL 78%</td><td>NYL</td><td>✓ Correct</td><td class="num">4.6</td><td class="num">12.1</td></tr><tr class="result-hit"><td>2026-08-14</td><td>DAL @ IND</td><td>IND 52%</td><td>IND</td><td>✓ Correct</td><td class="num">8.9</td><td class="num">6.0</td></tr><tr class="result-miss"><td>2026-08-14</td><td>PDX @ SEA</td><td>SEA 51%</td><td>PDX</td><td>× Miss</td><td class="num">3.9</td><td class="num">2.1</td></tr><tr class="result-hit"><td>2026-07-19</td><td>CHI @ ATL</td><td>ATL 72%</td><td>ATL</td><td>✓ Correct</td><td class="num">3.3</td><td class="num">10.9</td></tr><tr class="result-hit"><td>2026-07-19</td><td>CON @ PHX</td><td>PHX 67%</td><td>PHX</td><td>✓ Correct</td><td class="num">4.6</td><td class="num">32.2</td></tr><tr class="result-hit"><td>2026-07-19</td><td>LAS @ DAL</td><td>DAL 77%</td><td>DAL</td><td>✓ Correct</td><td class="num">1.8</td><td class="num">5.9</td></tr><tr class="result-hit"><td>2026-07-18</td><td>NYL @ IND</td><td>IND 50%</td><td>IND</td><td>✓ Correct</td><td class="num">18.0</td><td class="num">19.1</td></tr><tr class="result-hit"><td>2026-07-18</td><td>PDX @ MIN</td><td>MIN 90%</td><td>MIN</td><td>✓ Correct</td><td class="num">1.9</td><td class="num">20.5</td></tr><tr class="result-hit"><td>2026-07-18</td><td>WAS @ GSV</td><td>GSV 79%</td><td>GSV</td><td>✓ Correct</td><td class="num">1.7</td><td class="num">19.1</td></tr><tr class="result-hit"><td>2026-07-17</td><td>ATL @ TOR</td><td>ATL 71%</td><td>ATL</td><td>✓ Correct</td><td class="num">17.6</td><td class="num">26.7</td></tr></tbody></table></div></div></section>
   
 <section>
   <div class="sec-head" id="methodology">
