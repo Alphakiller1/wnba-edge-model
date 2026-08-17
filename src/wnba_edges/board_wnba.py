@@ -91,23 +91,32 @@ def _best_pair(quotes: pd.DataFrame, market: str, side: str, opposite: str):
     normalized_market = {"h2h": "ml", "spreads": "spread", "totals": "total"}.get(market, market)
     rows = quotes[quotes["market"].astype(str).str.lower() == normalized_market]
     if rows.empty:
-        return None, None, None
+        return None, None, None, None
     sides = rows["side"].astype(str).str.lower()
     pick = rows[sides == str(side).lower()]
     other = rows[sides == str(opposite).lower()]
     if pick.empty:
-        return None, None, None
+        return None, None, None, None
     best = pick.loc[pd.to_numeric(pick["odds"], errors="coerce").idxmax()]
     opposite_odds = None
     if not other.empty:
         opposite_odds = _num(other.loc[pd.to_numeric(other["odds"], errors="coerce").idxmax()]["odds"])
-    return _num(best["odds"]), opposite_odds, _num(best.get("line"))
+    return _num(best["odds"]), opposite_odds, _num(best.get("line")), str(best.get("book") or "book")
 
 
-def _priced_tile(label: str, model_prob: float, odds, opposite_odds, detail: str) -> Tile:
+def _priced_tile(
+    label: str,
+    model_prob: float,
+    odds,
+    opposite_odds,
+    *,
+    model_display: str,
+    book_display: str,
+    book: str,
+) -> Tile:
     result = value_layer(model_prob, int(odds), int(opposite_odds) if opposite_odds else None)
-    model_read = f"{detail} {model_prob * 100:.0f}%"
-    market_read = f"market {int(odds):+d} · edge {result.edge * 100:+.1f} pts"
+    model_read = f"Model {model_display}"
+    market_read = f"Best {book}: {book_display} @ {int(odds):+d} · edge {result.edge * 100:+.1f} pts"
     if result.implausible:
         # An edge this large is treated as an input error, never as a bet.
         return Tile(
@@ -156,9 +165,13 @@ def _full_game_group(game: pd.Series, quotes: pd.DataFrame | None) -> Group:
     # Moneyline
     ml_tile = None
     if quotes is not None and win is not None:
-        odds, opposite, _ = _best_pair(quotes, "h2h", favored, away if favored == home else home)
+        odds, opposite, _, book = _best_pair(quotes, "h2h", favored, away if favored == home else home)
         if odds:
-            ml_tile = _priced_tile("Moneyline", favored_prob, odds, opposite, favored)
+            ml_tile = _priced_tile(
+                "Moneyline", favored_prob, odds, opposite,
+                model_display=f"{favored} {favored_prob * 100:.0f}%",
+                book_display=f"{favored} ML", book=book,
+            )
     tiles.append(
         ml_tile
         or _model_tile(
@@ -169,13 +182,6 @@ def _full_game_group(game: pd.Series, quotes: pd.DataFrame | None) -> Group:
     )
 
     # Spread
-    spread_tile = None
-    if quotes is not None and spread is not None:
-        odds, opposite, line = _best_pair(quotes, "spreads", home, away)
-        if odds and line is not None:
-            # Model cover probability from the projected margin against the posted line.
-            cover = _cover_probability(spread, line)
-            spread_tile = _priced_tile("Spread", cover, odds, opposite, f"{home} {line:+g}")
     # Unpriced spread reads as a betting line, not a raw margin: the stored column is the
     # projected HOME margin, so a favourite must be shown as a negative number.
     if spread is None:
@@ -184,21 +190,34 @@ def _full_game_group(game: pd.Series, quotes: pd.DataFrame | None) -> Group:
         spread_model = (f"{home} -{spread:.1f}", "projected line")
     else:
         spread_model = (f"{away} -{abs(spread):.1f}", "projected line")
+    spread_tile = None
+    if quotes is not None and spread is not None:
+        odds, opposite, line, book = _best_pair(quotes, "spreads", home, away)
+        if odds and line is not None:
+            # Model cover probability from the projected margin against the posted line.
+            cover = _cover_probability(spread, line)
+            spread_tile = _priced_tile(
+                "Spread", cover, odds, opposite,
+                model_display=spread_model[0], book_display=f"{home} {line:+g}", book=book,
+            )
     tiles.append(spread_tile or _model_tile("Spread", *spread_model))
 
     # Total
     total_tile = None
     if quotes is not None and total is not None:
-        odds, opposite, line = _best_pair(quotes, "totals", "Over", "Under")
+        odds, opposite, line, book = _best_pair(quotes, "totals", "Over", "Under")
         if odds and line is not None:
             from .betting import estimate_over_probability
 
             over = estimate_over_probability(total, line, sigma=_TOTAL_SIGMA)
             side, probability = ("Over", over) if over >= 0.5 else ("Under", 1 - over)
             if side == "Under":
-                odds, opposite, _ = _best_pair(quotes, "totals", "Under", "Over")
+                odds, opposite, _, book = _best_pair(quotes, "totals", "Under", "Over")
             if odds:
-                total_tile = _priced_tile("Total", probability, odds, opposite, f"{side} {line:g}")
+                total_tile = _priced_tile(
+                    "Total", probability, odds, opposite,
+                    model_display=f"{total:.1f}", book_display=f"{side} {line:g}", book=book,
+                )
     tiles.append(
         total_tile
         or _model_tile("Total", f"{total:.1f}" if total is not None else "—", "projected")

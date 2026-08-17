@@ -108,3 +108,9 @@ def test_full_game_group_uses_normalized_odds_snapshot_markets():
     group = _full_game_group(game, quotes)
     assert group.priced == 3
     assert all(tile.is_priced for tile in group.tiles)
+    moneyline = next(tile for tile in group.tiles if tile.label == "Moneyline")
+    spread = next(tile for tile in group.tiles if tile.label == "Spread")
+    assert moneyline.value == "Model MIN 60%"
+    assert "Best book: MIN ML @ -120" in moneyline.state
+    assert spread.value == "Model MIN -4.0"
+    assert "Best book: MIN -3.5 @ -110" in spread.state
