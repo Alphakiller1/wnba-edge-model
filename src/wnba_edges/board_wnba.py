@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import html
 import math
+import re
 
 import pandas as pd
 
@@ -105,12 +106,14 @@ def _best_pair(quotes: pd.DataFrame, market: str, side: str, opposite: str):
 
 def _priced_tile(label: str, model_prob: float, odds, opposite_odds, detail: str) -> Tile:
     result = value_layer(model_prob, int(odds), int(opposite_odds) if opposite_odds else None)
+    model_read = f"{detail} {model_prob * 100:.0f}%"
+    market_read = f"market {int(odds):+d} · edge {result.edge * 100:+.1f} pts"
     if result.implausible:
         # An edge this large is treated as an input error, never as a bet.
         return Tile(
             label=label,
-            value=f"{result.edge * 100:+.1f}",
-            state=f"{detail} · REVIEW",
+            value=model_read,
+            state=f"{market_read} · REVIEW",
             tone="warnc",
             note="Edge implausibly large — inputs suspected.",
             priced=True,
@@ -118,8 +121,8 @@ def _priced_tile(label: str, model_prob: float, odds, opposite_odds, detail: str
     verdict = result.tier
     return Tile(
         label=label,
-        value=f"{result.edge * 100:+.1f}",
-        state=f"{detail} · {verdict}".strip(" ·"),
+        value=model_read,
+        state=f"{market_read} · {verdict}".strip(" ·"),
         tone=_VERDICT_TONE.get(verdict, "mut"),
         note=f"Fair {result.fair_odds:+d} · {'de-vigged' if result.vig_free else 'raw hold'}",
         gem=result.edge >= _GEM_EDGE_FRACTION and verdict.upper() in {
@@ -161,7 +164,7 @@ def _full_game_group(game: pd.Series, quotes: pd.DataFrame | None) -> Group:
         or _model_tile(
             "Moneyline",
             f"{favored_prob * 100:.0f}%" if win is not None else "—",
-            favored,
+            f"{favored} win probability",
         )
     )
 
@@ -203,16 +206,22 @@ def _full_game_group(game: pd.Series, quotes: pd.DataFrame | None) -> Group:
 
     priced = sum(1 for tile in tiles if tile.is_priced)
     return Group(
-        label="Full game",
+        label="Model vs market",
         tiles=tuple(tiles),
         tag="fullgame",
-        state="Priced" if priced else "No price",
+        state="Comparison" if priced else "Model baseline",
     )
 
 
 # Game-total spread is far wider than a player prop; this is the team-total scale used
 # when converting a projected total into an over probability.
 _TOTAL_SIGMA = 12.0
+
+
+def _tile_edge_value(tile: Tile) -> float:
+    """Recover the labeled market edge for headline ranking without parsing display value."""
+    match = re.search(r"edge\s+([+-]?\d+(?:\.\d+)?)\s+pts", tile.state)
+    return float(match.group(1)) if match else 0.0
 
 
 def _cover_probability(projected_home_margin: float, posted_home_line: float) -> float:
@@ -282,20 +291,12 @@ def _matchup_drivers(game: pd.Series, pace_reference: float | None) -> Group | N
     away, home = str(game["away"]), str(game["home"])
 
     win = _num(game.get("home_win_prob"))
-    if win is not None:
-        favored, probability = (home, win) if win >= 0.5 else (away, 1 - win)
-        tiles.append(Tile(
-            label="Win confidence",
-            value=f"{favored} {probability * 100:.0f}%",
-            state="model win probability",
-            tone="side",
-            note="The model's estimated chance that the named team wins. Not a market price.",
-        ))
+    favored = home if win is None or win >= 0.5 else away
 
     away_ortg, home_drtg = _num(game.get("away_ortg")), _num(game.get("home_drtg"))
     if away_ortg is not None and home_drtg is not None:
         tiles.append(Tile(
-            label=f"{away} offense",
+            label=f"{away} scoring",
             value=f"{away_ortg:.1f} ORtg",
             state=f"vs {home} {home_drtg:.1f} DRtg",
             tone="mut",
@@ -305,7 +306,7 @@ def _matchup_drivers(game: pd.Series, pace_reference: float | None) -> Group | N
     home_ortg, away_drtg = _num(game.get("home_ortg")), _num(game.get("away_drtg"))
     if home_ortg is not None and away_drtg is not None:
         tiles.append(Tile(
-            label=f"{home} offense",
+            label=f"{home} scoring",
             value=f"{home_ortg:.1f} ORtg",
             state=f"vs {away} {away_drtg:.1f} DRtg",
             tone="mut",
@@ -316,20 +317,21 @@ def _matchup_drivers(game: pd.Series, pace_reference: float | None) -> Group | N
     if pace is not None:
         if pace_reference:
             delta = pace - pace_reference
-            detail = f"{delta:+.1f} vs slate avg {pace_reference:.1f}"
+            direction = "faster" if delta > 0 else "slower"
+            detail = f"{abs(delta):.1f} {direction} than slate avg"
             tone = "pos" if delta >= 1.0 else ("neg" if delta <= -1.0 else "mut")
         else:
             detail, tone = "possessions", "mut"
-        tiles.append(Tile(label="Pace", value=f"{pace:.1f}", state=detail, tone=tone))
+        tiles.append(Tile(label="Game pace", value=f"{pace:.1f}", state=detail, tone=tone))
 
     home_net, away_net = _num(game.get("home_net")), _num(game.get("away_net"))
     if home_net is not None and away_net is not None:
         gap = home_net - away_net
         stronger = home if gap >= 0 else away
         tiles.append(Tile(
-            label="Net rating edge",
+            label="Net edge",
             value=f"{stronger} +{abs(gap):.1f}",
-            state="season margin per 100",
+            state="team-strength edge per 100",
             tone="side",
             note="Net rating is offensive rating minus defensive rating, expressed per 100 possessions.",
         ))
@@ -339,9 +341,9 @@ def _matchup_drivers(game: pd.Series, pace_reference: float | None) -> Group | N
     hca = _num(game.get("home_court_pts"))
     if hca is not None:
         tiles.append(Tile(
-            label="Home-court lift",
+            label="Home boost",
             value=f"+{hca:.1f}",
-            state=f"{home} empirical baseline",
+            state=f"{home} home-court adjustment",
             tone="mut",
             note="Historical home-court adjustment learned from completed games in this season's data.",
         ))
@@ -349,10 +351,10 @@ def _matchup_drivers(game: pd.Series, pace_reference: float | None) -> Group | N
     if not tiles:
         return None
     return Group(
-        label="Matchup breakdown",
+        label=f"Why {favored}",
         tiles=tuple(tiles),
         tag="",
-        state="Model inputs · per 100 where noted",
+        state="Ratings · pace · venue",
         market=False,
     )
 
@@ -383,7 +385,7 @@ def build_card(game: pd.Series, features, odds, pace_reference: float | None = N
 
     priced = [tile for tile in group.tiles if tile.is_priced]
     if priced:
-        top = max(priced, key=lambda tile: float(tile.value.rstrip("%") or 0))
+        top = max(priced, key=_tile_edge_value)
         headline = f"{top.label} {top.state}"
         tone = "pos" if top.gem else "side"
     else:

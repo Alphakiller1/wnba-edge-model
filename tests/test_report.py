@@ -80,13 +80,12 @@ def test_matchup_breakdown_explains_the_projection_inputs():
         pace_reference=80.0,
     )
     assert group is not None
-    assert group.label == "Matchup breakdown"
+    assert group.label == "Why MIN"
     tiles = {tile.label: tile for tile in group.tiles}
-    assert tiles["Win confidence"].value == "MIN 72%"
-    assert tiles["CHI offense"].state == "vs MIN 102.0 DRtg"
-    assert tiles["MIN offense"].state == "vs CHI 109.0 DRtg"
-    assert tiles["Net rating edge"].value == "MIN +15.0"
-    assert tiles["Home-court lift"].value == "+1.9"
+    assert tiles["CHI scoring"].state == "vs MIN 102.0 DRtg"
+    assert tiles["MIN scoring"].state == "vs CHI 109.0 DRtg"
+    assert tiles["Net edge"].value == "MIN +15.0"
+    assert tiles["Home boost"].value == "+1.9"
 
 
 def test_full_game_group_uses_normalized_odds_snapshot_markets():
