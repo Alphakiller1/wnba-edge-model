@@ -8,8 +8,8 @@ counters and empty states. This module owns the only basketball-specific decisio
   whose line is most likely to be stale. This slot used to hold the usage leader, which is
   the most heavily bet and most efficiently priced name in the game and therefore the least
   useful thing to point a reader at
-* **groups** are Full Game, plus a non-market "Why this projection" shelf carrying the pace,
-  efficiency and home-court inputs the projected score is built from
+* **groups** are Full Game, plus a non-market matchup breakdown that makes the efficiency,
+  tempo and home-court inputs behind the projection visible on every card
 * **scores** are projected points, which the model already emits per side
 
 Markets are priced against stored odds when a snapshot exists and fall back to model-only
@@ -81,12 +81,19 @@ def _quotes_for(odds: pd.DataFrame | None, away: str, home: str) -> pd.DataFrame
 
 
 def _best_pair(quotes: pd.DataFrame, market: str, side: str, opposite: str):
-    """Best available price for `side` plus its paired opposite, for de-vigging."""
-    rows = quotes[quotes["market"] == market]
+    """Best available price for ``side`` plus its paired opposite, for de-vigging.
+
+    ``market_data`` deliberately stores provider-independent labels (``ml``, ``spread``,
+    ``total``), while the first board implementation still queried The Odds API's raw
+    labels.  Accept both forms here so a stored snapshot actually reaches the cards.
+    """
+    normalized_market = {"h2h": "ml", "spreads": "spread", "totals": "total"}.get(market, market)
+    rows = quotes[quotes["market"].astype(str).str.lower() == normalized_market]
     if rows.empty:
         return None, None, None
-    pick = rows[rows["side"] == side]
-    other = rows[rows["side"] == opposite]
+    sides = rows["side"].astype(str).str.lower()
+    pick = rows[sides == str(side).lower()]
+    other = rows[sides == str(opposite).lower()]
     if pick.empty:
         return None, None, None
     best = pick.loc[pd.to_numeric(pick["odds"], errors="coerce").idxmax()]
@@ -264,12 +271,46 @@ def _edge_movers(features: pd.DataFrame | None, away: str, home: str) -> tuple[P
 
 
 def _matchup_drivers(game: pd.Series, pace_reference: float | None) -> Group | None:
-    """What is actually driving this projection — pace, efficiency gap, home court.
+    """Show the observable inputs that are driving a game's projection.
 
-    Unpriced by construction: these explain the number, they are not markets, so they never
-    count toward Picks. Tagged blank so they do not become a board filter.
+    This is intentionally a readable model explanation rather than a verdict.  It makes the
+    two offense-versus-defense matchups, team-quality gap, expected tempo and home-court
+    baseline explicit, so readers can assess *why* the model prefers a side before comparing
+    it with an independently sourced price.  These are not markets and never count as Picks.
     """
     tiles: list[Tile] = []
+    away, home = str(game["away"]), str(game["home"])
+
+    win = _num(game.get("home_win_prob"))
+    if win is not None:
+        favored, probability = (home, win) if win >= 0.5 else (away, 1 - win)
+        tiles.append(Tile(
+            label="Win confidence",
+            value=f"{favored} {probability * 100:.0f}%",
+            state="model win probability",
+            tone="side",
+            note="The model's estimated chance that the named team wins. Not a market price.",
+        ))
+
+    away_ortg, home_drtg = _num(game.get("away_ortg")), _num(game.get("home_drtg"))
+    if away_ortg is not None and home_drtg is not None:
+        tiles.append(Tile(
+            label=f"{away} offense",
+            value=f"{away_ortg:.1f} ORtg",
+            state=f"vs {home} {home_drtg:.1f} DRtg",
+            tone="mut",
+            note="Season offensive rating versus opponent defensive rating; both are points per 100 possessions.",
+        ))
+
+    home_ortg, away_drtg = _num(game.get("home_ortg")), _num(game.get("away_drtg"))
+    if home_ortg is not None and away_drtg is not None:
+        tiles.append(Tile(
+            label=f"{home} offense",
+            value=f"{home_ortg:.1f} ORtg",
+            state=f"vs {away} {away_drtg:.1f} DRtg",
+            tone="mut",
+            note="Season offensive rating versus opponent defensive rating; both are points per 100 possessions.",
+        ))
 
     pace = _num(game.get("projected_pace"))
     if pace is not None:
@@ -284,12 +325,13 @@ def _matchup_drivers(game: pd.Series, pace_reference: float | None) -> Group | N
     home_net, away_net = _num(game.get("home_net")), _num(game.get("away_net"))
     if home_net is not None and away_net is not None:
         gap = home_net - away_net
-        stronger = str(game["home"]) if gap >= 0 else str(game["away"])
+        stronger = home if gap >= 0 else away
         tiles.append(Tile(
-            label="Efficiency gap",
-            value=f"{abs(gap):.1f}",
-            state=f"{stronger} by net rating",
-            tone="mut",
+            label="Net rating edge",
+            value=f"{stronger} +{abs(gap):.1f}",
+            state="season margin per 100",
+            tone="side",
+            note="Net rating is offensive rating minus defensive rating, expressed per 100 possessions.",
         ))
 
     # No "projected total" tile here: the Full game group already carries that number, and
@@ -297,19 +339,20 @@ def _matchup_drivers(game: pd.Series, pace_reference: float | None) -> Group | N
     hca = _num(game.get("home_court_pts"))
     if hca is not None:
         tiles.append(Tile(
-            label="Home court",
+            label="Home-court lift",
             value=f"+{hca:.1f}",
-            state=f"{game['home']} baseline",
+            state=f"{home} empirical baseline",
             tone="mut",
+            note="Historical home-court adjustment learned from completed games in this season's data.",
         ))
 
     if not tiles:
         return None
     return Group(
-        label="Why this projection",
+        label="Matchup breakdown",
         tiles=tuple(tiles),
         tag="",
-        state="Model inputs",
+        state="Model inputs · per 100 where noted",
         market=False,
     )
 

@@ -1,5 +1,6 @@
 import pandas as pd
 
+from wnba_edges.board_wnba import _full_game_group, _matchup_drivers
 from wnba_edges.report import build_site
 
 
@@ -63,3 +64,48 @@ def test_build_site_handles_missing_everything(tmp_path):
     html = out.read_text(encoding="utf-8")
     assert "No game projections yet" in html
     assert "No feature board yet" in html
+
+
+def test_matchup_breakdown_explains_the_projection_inputs():
+    group = _matchup_drivers(
+        pd.Series(
+            {
+                "away": "CHI", "home": "MIN", "home_win_prob": 0.72,
+                "away_ortg": 104.0, "away_drtg": 109.0,
+                "home_ortg": 112.0, "home_drtg": 102.0,
+                "away_net": -5.0, "home_net": 10.0,
+                "projected_pace": 82.0, "home_court_pts": 1.9,
+            }
+        ),
+        pace_reference=80.0,
+    )
+    assert group is not None
+    assert group.label == "Matchup breakdown"
+    tiles = {tile.label: tile for tile in group.tiles}
+    assert tiles["Win confidence"].value == "MIN 72%"
+    assert tiles["CHI offense"].state == "vs MIN 102.0 DRtg"
+    assert tiles["MIN offense"].state == "vs CHI 109.0 DRtg"
+    assert tiles["Net rating edge"].value == "MIN +15.0"
+    assert tiles["Home-court lift"].value == "+1.9"
+
+
+def test_full_game_group_uses_normalized_odds_snapshot_markets():
+    game = pd.Series(
+        {
+            "away": "CHI", "home": "MIN", "home_win_prob": 0.60,
+            "projected_home_spread": 4.0, "projected_total": 166.0,
+        }
+    )
+    quotes = pd.DataFrame(
+        [
+            {"market": "ml", "side": "MIN", "odds": -120},
+            {"market": "ml", "side": "CHI", "odds": 100},
+            {"market": "spread", "side": "MIN", "line": -3.5, "odds": -110},
+            {"market": "spread", "side": "CHI", "line": 3.5, "odds": -110},
+            {"market": "total", "side": "over", "line": 165.5, "odds": -110},
+            {"market": "total", "side": "under", "line": 165.5, "odds": -110},
+        ]
+    )
+    group = _full_game_group(game, quotes)
+    assert group.priced == 3
+    assert all(tile.is_priced for tile in group.tiles)
