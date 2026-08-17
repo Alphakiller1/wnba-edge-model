@@ -102,6 +102,9 @@ def test_game_grading_and_summary(tmp_path):
     assert summary["games"]["brier"] == round((0.75 - 1.0) ** 2, 4)
     assert summary["games"]["correct"] == 1
     assert summary["games"]["recent"][0]["correct"] is True
+    assert summary["games"]["_records"][0]["status"] == "Correct"
+    assert summary["games"]["_records"][0]["matchup"] == "CHI @ MIN"
+    assert summary["props"]["_records"] == []
 
 
 def test_game_log_keeps_each_unique_projection_run(tmp_path):

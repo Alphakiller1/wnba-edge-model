@@ -290,6 +290,7 @@ def results_summary(root: Path) -> dict:
     summary["props"]["_pending"] = int((props["settled"].astype(str).str.lower() != "true").sum())
     reasons = props[props["ungraded_reason"].astype(str).str.len() > 0]
     summary["props"]["_reasons"] = reasons["ungraded_reason"].value_counts().to_dict()
+    summary["props"]["_records"] = _prop_audit_records(props)
 
     graded_games = games[games["settled"].astype(str).str.lower() == "true"]
     scored = graded_games[graded_games["winner_correct"].astype(str).isin(["True", "False"])].copy()
@@ -357,9 +358,91 @@ def results_summary(root: Path) -> dict:
         }
     summary["games"]["_pending"] = int((games["settled"].astype(str).str.lower() != "true").sum())
     summary["games"]["_logged"] = int(len(games))
+    summary["games"]["_records"] = _game_audit_records(games)
     return summary
 
 
 def _as_float(value) -> float | None:
     number = pd.to_numeric(value, errors="coerce")
     return float(number) if pd.notna(number) else None
+
+
+def _audit_text(value) -> str:
+    return "" if pd.isna(value) else str(value)
+
+
+def _audit_status(row: pd.Series, correctness_column: str) -> tuple[str, str]:
+    settled = _audit_text(row.get("settled")).lower() == "true"
+    reason = _audit_text(row.get("ungraded_reason"))
+    if not settled:
+        return ("Pending", reason or "awaiting result")
+    if reason:
+        return ("Voided", reason)
+    correct = _audit_text(row.get(correctness_column)).lower() == "true"
+    return ("Correct" if correct else "Miss", "")
+
+
+def _prop_audit_records(props: pd.DataFrame) -> list[dict]:
+    records = []
+    ordered = props.copy()
+    ordered["_sort"] = pd.to_datetime(ordered["recorded_at"], errors="coerce", utc=True)
+    for _, row in ordered.sort_values("_sort", ascending=False).iterrows():
+        status, detail = _audit_status(row, "won")
+        records.append(
+            {
+                "recorded_at": _audit_text(row.get("recorded_at")),
+                "game_date": _audit_text(row.get("game_date")),
+                "player": _audit_text(row.get("player")),
+                "market": _audit_text(row.get("market")),
+                "side": _audit_text(row.get("side")),
+                "line": _as_float(row.get("line")),
+                "odds": _as_float(row.get("odds")),
+                "projection": _as_float(row.get("projection")),
+                "model_prob": _as_float(row.get("model_prob")),
+                "edge": _as_float(row.get("edge")),
+                "actual": _as_float(row.get("actual")),
+                "status": status,
+                "status_detail": detail,
+                "prediction_id": _audit_text(row.get("prediction_id")),
+            }
+        )
+    return records
+
+
+def _game_audit_records(games: pd.DataFrame) -> list[dict]:
+    records = []
+    ordered = games.copy()
+    ordered["_sort"] = pd.to_datetime(ordered["recorded_at"], errors="coerce", utc=True)
+    for _, row in ordered.sort_values(["date", "_sort"], ascending=[False, False]).iterrows():
+        status, detail = _audit_status(row, "winner_correct")
+        home_probability = _as_float(row.get("home_win_prob"))
+        home = _audit_text(row.get("home"))
+        away = _audit_text(row.get("away"))
+        favorite = home if home_probability is not None and home_probability >= 0.5 else away
+        favorite_probability = (
+            max(home_probability, 1 - home_probability) if home_probability is not None else None
+        )
+        records.append(
+            {
+                "recorded_at": _audit_text(row.get("recorded_at")),
+                "date": _audit_text(row.get("date")),
+                "matchup": f"{away} @ {home}",
+                "projection": (
+                    f"{_as_float(row.get('projected_away_pts')):.1f}–"
+                    f"{_as_float(row.get('projected_home_pts')):.1f}"
+                    if _as_float(row.get("projected_away_pts")) is not None
+                    and _as_float(row.get("projected_home_pts")) is not None
+                    else "—"
+                ),
+                "favorite": favorite,
+                "favorite_probability": favorite_probability,
+                "actual_winner": _audit_text(row.get("actual_winner")) or "—",
+                "spread_error": _as_float(row.get("spread_error")),
+                "total_error": _as_float(row.get("total_error")),
+                "status": status,
+                "status_detail": detail,
+                "run_id": _audit_text(row.get("run_id")),
+                "prediction_id": _audit_text(row.get("prediction_id")),
+            }
+        )
+    return records

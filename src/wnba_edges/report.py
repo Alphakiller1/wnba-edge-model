@@ -407,8 +407,10 @@ def _results_section(summary: dict) -> str:
     )
     props = {k: v for k, v in summary.get("props", {}).items() if not k.startswith("_")}
     games = summary.get("games", {})
+    prop_records = summary.get("props", {}).get("_records", [])
+    game_records = games.get("_records", [])
     has_games = bool(games.get("n"))
-    if not props and not has_games:
+    if not props and not has_games and not prop_records and not game_records:
         pending = summary.get("props", {}).get("_pending", 0) + games.get("_pending", 0)
         pending_note = (
             f'<span class="pill pill-dim">{pending} prediction(s) awaiting grading</span>'
@@ -478,7 +480,63 @@ def _results_section(summary: dict) -> str:
 {audit_runs} graded projection run(s) &middot; {logged} total predictions logged &middot; {pending} awaiting grading.</p>
 <h3 class="results-subtitle">Where the model is succeeding</h3>{calibration}
 <h3 class="results-subtitle">Recent graded game calls</h3>{recent_table}"""
-    return f"<section>{head}{game_block}{prop_table}</section>"
+    return f"""<section>{head}{game_block}{prop_table}
+{_game_audit_table(game_records)}{_prop_audit_table(prop_records)}</section>"""
+
+
+def _audit_status_cell(record: dict) -> str:
+    tone = {"Correct": "result-hit", "Miss": "result-miss", "Pending": "result-pending", "Voided": "result-void"}.get(
+        record.get("status"), ""
+    )
+    detail = f'<span class="player-sub">{esc(record["status_detail"])}</span>' if record.get("status_detail") else ""
+    return f'<span class="{tone}">{esc(record.get("status", "—"))}</span>{detail}'
+
+
+def _audit_number(value, digits: int = 1, *, suffix: str = "") -> str:
+    return f"{float(value):.{digits}f}{suffix}" if value is not None else "—"
+
+
+def _game_audit_table(records: list[dict]) -> str:
+    if not records:
+        return ""
+    rows = "".join(
+        f"<tr><td>{esc(record['date'])}<span class=\"player-sub\">{esc(record['recorded_at'])}</span></td>"
+        f"<td>{esc(record['matchup'])}</td><td>{esc(record['projection'])}</td>"
+        f"<td>{esc(record['favorite'])} {_audit_number(record['favorite_probability'] * 100 if record['favorite_probability'] is not None else None, 0, suffix='%')}</td>"
+        f"<td>{esc(record['actual_winner'])}</td><td>{_audit_status_cell(record)}</td>"
+        f"<td class=\"num\">{_audit_number(abs(record['spread_error']) if record['spread_error'] is not None else None)}</td>"
+        f"<td class=\"num\">{_audit_number(abs(record['total_error']) if record['total_error'] is not None else None)}</td>"
+        f"<td class=\"dim\">{esc(record['run_id'][:10])}</td></tr>"
+        for record in records
+    )
+    return f"""<h3 class="results-subtitle">All game-projection audit rows ({len(records)})</h3>
+<p class="basis-note">Every generated forecast is retained, including multiple runs for the same matchup.</p>
+<div class="board"><div class="tablewrap"><table>
+<thead><tr><th>Game date / logged</th><th>Matchup</th><th>Projected score</th><th>Model call</th><th>Winner</th>
+<th>Grade</th><th class="num">Spread error</th><th class="num">Total error</th><th>Run</th></tr></thead>
+<tbody>{rows}</tbody></table></div></div>"""
+
+
+def _prop_audit_table(records: list[dict]) -> str:
+    if not records:
+        return """<h3 class="results-subtitle">All player-prop audit rows (0)</h3>
+<div class="empty">No player-prop predictions have been logged yet. Every evaluation made with
+<code>evaluate-player-prop</code> will appear here with its line, model probability, edge, outcome, and grade.</div>"""
+    rows = "".join(
+        f"<tr><td>{esc(record['game_date'])}<span class=\"player-sub\">{esc(record['recorded_at'])}</span></td>"
+        f"<td>{esc(record['player'])}</td><td>{esc(record['market'])}</td>"
+        f"<td>{esc(record['side'])} {_audit_number(record['line'])} @ {_audit_number(record['odds'], 0)}</td>"
+        f"<td class=\"num\">{_audit_number(record['projection'])}</td>"
+        f"<td class=\"num\">{_audit_number(record['model_prob'] * 100 if record['model_prob'] is not None else None, 1, suffix='%')}</td>"
+        f"<td class=\"num\">{_audit_number(record['edge'] * 100 if record['edge'] is not None else None, 1, suffix='%')}</td>"
+        f"<td class=\"num\">{_audit_number(record['actual'])}</td><td>{_audit_status_cell(record)}</td></tr>"
+        for record in records
+    )
+    return f"""<h3 class="results-subtitle">All player-prop audit rows ({len(records)})</h3>
+<div class="board"><div class="tablewrap"><table>
+<thead><tr><th>Game date / logged</th><th>Player</th><th>Market</th><th>Pick / price</th><th class="num">Projection</th>
+<th class="num">Model prob.</th><th class="num">Edge</th><th class="num">Actual</th><th>Grade</th></tr></thead>
+<tbody>{rows}</tbody></table></div></div>"""
 
 
 # ── methodology ──────────────────────────────────────────────────────────────
@@ -643,6 +701,10 @@ tbody tr:hover{background:rgba(124,77,255,.05)}
 .reason{white-space:normal;min-width:220px}
 .results-subtitle{font-family:var(--display);font-size:16px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
 margin:26px 0 9px;color:var(--text)}
+.result-hit{color:var(--green);font-weight:700}
+.result-miss{color:var(--red);font-weight:700}
+.result-pending{color:var(--gold);font-weight:700}
+.result-void{color:var(--text-3);font-weight:700}
 .result-hit td:nth-child(5){color:var(--green);font-weight:700}
 .result-miss td:nth-child(5){color:var(--red);font-weight:700}
 .rchip{display:inline-block;font-size:10.5px;font-weight:600;color:var(--text-2);background:var(--bg-4);
