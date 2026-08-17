@@ -20,7 +20,7 @@ from .predictions import (
 from .projections import UnknownTeamsError, build_game_projections, load_schedule
 from .schedule import fetch_upcoming_schedule, write_schedule
 from .season import build_season_tables, scrape_season_snapshot
-from .sigma import fit_market_sigmas, load_market_sigmas, market_sigma_path, resolve_sigma
+from .sigma import MARKET_STAT_COLUMNS, fit_market_sigmas, load_market_sigmas, market_sigma_path, resolve_sigma
 from .wnbanalytics import scrape_players, write_jsonl
 
 # Repo root when running from a source checkout (editable install); for a
@@ -316,9 +316,9 @@ def _evaluate_player_prop(args) -> None:
     if odds is None:
         raise SystemExit("Pass --odds, or use --use-market after fetching odds.")
 
-    projection, projection_basis = _projection_for_market(row, args.market)
     logs_path = DATA / "processed" / f"player_game_logs_{args.season}.csv"
     player_logs = pd.read_csv(logs_path) if logs_path.exists() else None
+    projection, projection_basis = _projection_for_market(row, args.market, player_logs)
     if args.sigma is not None:
         sigma, sigma_source = args.sigma, "manual override"
     else:
@@ -396,40 +396,103 @@ def _match_player(frame: pd.DataFrame, name: str) -> pd.Series:
     return partial.iloc[0]
 
 
-def _projection_for_market(row: pd.Series, market: str) -> tuple[float, str]:
-    """Season-rate projection with a minutes adjustment where a projected role exists."""
-    minutes_ratio = 1.0
-    ratio_note = ""
-    projected_min = pd.to_numeric(row.get("projectedMinutes"), errors="coerce")
-    mpg = pd.to_numeric(row.get("mpg"), errors="coerce")
-    if pd.notna(projected_min) and pd.notna(mpg) and mpg > 0:
-        ratio = float(projected_min) / float(mpg)
-        if 0.5 <= ratio <= 1.5 and abs(ratio - 1.0) > 0.05:
-            minutes_ratio = ratio
-            ratio_note = f", minutes-adjusted x{ratio:.2f}"
+_MARKET_FEATURE_PRIORS = {
+    "player_points": ("ppg", "season PPG"),
+    "player_rebounds": ("rpg", "season RPG"),
+    "player_assists": ("apg", "season APG"),
+}
+_RECENT_WINDOW = 5
+_MAX_RECENT_WEIGHT = 0.45
 
+
+def _projection_for_market(
+    row: pd.Series,
+    market: str,
+    player_logs: pd.DataFrame | None = None,
+) -> tuple[float, str]:
+    """Market-specific prop estimate using season form, recent form and expected minutes.
+
+    A points-only season-rate fallback made threes, steals and blocks silently inherit a
+    points projection.  The revised estimate always maps to the requested market.  Recent
+    production is shrunk toward the season prior, then adjusted for the current projected
+    role; this makes the model responsive without allowing a five-game heater or a single
+    minutes spike to dominate the number.
+    """
+    stat_column = MARKET_STAT_COLUMNS.get(market)
+    if stat_column is None:
+        raise SystemExit(f"Unsupported player prop market {market!r}.")
+
+    history = _player_history(row, player_logs, stat_column)
+    prior, prior_label = _season_prior(row, market, history)
+    if prior is None:
+        raise SystemExit(f"No usable {market} projection for {row['name']}.")
+
+    recent = history.tail(_RECENT_WINDOW) if history is not None else pd.DataFrame()
+    recent_values = pd.to_numeric(recent.get(stat_column), errors="coerce").dropna()
+    if len(recent_values) >= 3:
+        recent_weight = min(_MAX_RECENT_WEIGHT, 0.15 + 0.06 * len(recent_values))
+        estimate = (1 - recent_weight) * prior + recent_weight * float(recent_values.mean())
+        form_note = f"L{len(recent_values)} {stat_column} x{recent_weight:.2f}"
+    else:
+        estimate = prior
+        form_note = "season anchor"
+
+    minutes_ratio, minutes_note = _minutes_ratio(row, history)
+    estimate *= minutes_ratio
+
+    # WNBAnalytics' projected points are useful additional information, but never replace
+    # the model wholesale.  Blend only plausible values and only for the points market.
     if market == "player_points":
-        ppg = pd.to_numeric(row.get("ppg"), errors="coerce")
-        projected = pd.to_numeric(row.get("projectedPoints"), errors="coerce")
-        if pd.notna(ppg) and pd.notna(projected) and projected >= 0.6 * ppg:
-            return float(projected), "source projectedPoints"
-        if pd.notna(ppg):
-            return float(ppg) * minutes_ratio, f"season PPG{ratio_note}"
+        source_points = pd.to_numeric(row.get("projectedPoints"), errors="coerce")
+        if pd.notna(source_points) and 0.55 * prior <= source_points <= 1.65 * prior:
+            estimate = 0.65 * estimate + 0.35 * float(source_points)
+            form_note += " + source pts x0.35"
 
-    mapping = {
-        "player_rebounds": ("rpg", "season RPG"),
-        "player_assists": ("apg", "season APG"),
-    }
-    if market in mapping:
-        column, label = mapping[market]
-        value = pd.to_numeric(row.get(column), errors="coerce")
+    return round(float(estimate), 2), f"{prior_label}; {form_note}{minutes_note}"
+
+
+def _player_history(row: pd.Series, player_logs: pd.DataFrame | None, stat_column: str) -> pd.DataFrame | None:
+    if player_logs is None or player_logs.empty or stat_column not in player_logs.columns:
+        return None
+    player_id = pd.to_numeric(row.get("id"), errors="coerce")
+    if pd.isna(player_id) or "playerId" not in player_logs.columns:
+        return None
+    ids = pd.to_numeric(player_logs["playerId"], errors="coerce")
+    history = player_logs.loc[ids == player_id].copy()
+    if history.empty:
+        return None
+    if "date" in history.columns:
+        history["_date"] = pd.to_datetime(history["date"], errors="coerce")
+        history = history.sort_values("_date")
+    return history
+
+
+def _season_prior(row: pd.Series, market: str, history: pd.DataFrame | None) -> tuple[float | None, str]:
+    feature = _MARKET_FEATURE_PRIORS.get(market)
+    if feature:
+        value = pd.to_numeric(row.get(feature[0]), errors="coerce")
         if pd.notna(value):
-            return float(value) * minutes_ratio, f"{label}{ratio_note}"
-    for column in ("projectedPoints", "ppg"):
-        value = pd.to_numeric(row.get(column), errors="coerce")
-        if pd.notna(value):
-            return float(value), f"fallback {column}"
-    raise SystemExit(f"No usable projection for {row['name']} market {market}.")
+            return float(value), feature[1]
+    stat_column = MARKET_STAT_COLUMNS[market]
+    if history is not None:
+        values = pd.to_numeric(history[stat_column], errors="coerce").dropna()
+        if not values.empty:
+            return float(values.mean()), f"season {stat_column} history"
+    return None, ""
+
+
+def _minutes_ratio(row: pd.Series, history: pd.DataFrame | None) -> tuple[float, str]:
+    projected = pd.to_numeric(row.get("projectedMinutes"), errors="coerce")
+    baseline = pd.to_numeric(row.get("mpg"), errors="coerce")
+    if history is not None and "min" in history.columns:
+        recent_minutes = pd.to_numeric(history.tail(_RECENT_WINDOW)["min"], errors="coerce").dropna()
+        if len(recent_minutes) >= 3:
+            baseline = recent_minutes.mean()
+    if pd.notna(projected) and pd.notna(baseline) and baseline > 0:
+        ratio = min(1.25, max(0.75, float(projected) / float(baseline)))
+        if abs(ratio - 1.0) >= 0.03:
+            return ratio, f", minutes x{ratio:.2f}"
+    return 1.0, ""
 
 
 if __name__ == "__main__":
