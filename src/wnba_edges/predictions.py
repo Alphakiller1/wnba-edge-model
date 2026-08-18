@@ -28,8 +28,10 @@ GAME_COLUMNS = [
     "prediction_id", "run_id", "sport", "season", "recorded_at", "date", "away", "home",
     "projected_away_pts", "projected_home_pts", "projected_total",
     "projected_home_spread", "home_win_prob", "win_prob_basis",
-    "settled", "actual_away_pts", "actual_home_pts", "actual_winner",
+    "book_total_line", "book_spread_line",
+    "settled", "actual_away_pts", "actual_home_pts", "actual_total", "actual_winner",
     "home_win", "winner_correct", "predicted_spread_side", "spread_side_correct",
+    "predicted_total_side", "total_side_correct",
     "spread_error", "total_error",
     "ungraded_reason", "graded_at",
 ]
@@ -103,6 +105,71 @@ def log_prop_prediction(root: Path, row: dict) -> str:
     return prediction_id
 
 
+def log_prop_predictions_batch(root: Path, slate: pd.DataFrame, season: str) -> int:
+    """Persist a slate of prop projections, idempotent on run + game + player + market.
+
+    Priced rows keep their book line for a later W-L grade. Model-only rows still log the
+    projection so they can be scored on MAE once the box score arrives — they never invent
+    a win/loss against a line that was not captured.
+    """
+    if slate is None or slate.empty:
+        return 0
+    frame = _load(prop_log_path(root), PROP_COLUMNS)
+    existing = set(
+        zip(
+            frame["run_id"].astype(str),
+            frame["game_date"].astype(str),
+            frame["player"].astype(str),
+            frame["market"].astype(str),
+        )
+    )
+    added = 0
+    rows = []
+    recorded_at = _now_iso()
+    for _, item in slate.iterrows():
+        run_id = str(item.get("run_id") or "")
+        key = (run_id, str(item["game_date"]), str(item["player"]), str(item["market"]))
+        if key in existing:
+            continue
+        rows.append(
+            {
+                "prediction_id": uuid.uuid4().hex,
+                "run_id": run_id,
+                "sport": "wnba",
+                "season": season,
+                "recorded_at": item.get("generated_at") or recorded_at,
+                "game_date": item["game_date"],
+                "player": item["player"],
+                "player_id": item.get("player_id"),
+                "market": item["market"],
+                "side": item.get("side") or "",
+                "line": item.get("line"),
+                "odds": item.get("odds"),
+                "opposite_odds": item.get("opposite_odds"),
+                "odds_source": item.get("book") or "",
+                "quote_age_hours": pd.NA,
+                "projection": item.get("projection"),
+                "projection_basis": item.get("projection_basis"),
+                "sigma": item.get("sigma"),
+                "sigma_source": item.get("sigma_source"),
+                "model_prob": item.get("model_prob"),
+                "implied_prob": item.get("implied_prob"),
+                "vig_free": item.get("vig_free"),
+                "edge": item.get("edge"),
+                "ev_per_unit": pd.NA,
+                "tier": item.get("tier") or "",
+                "verdict": item.get("verdict") or "",
+                "settled": False,
+                "ungraded_reason": "",
+            }
+        )
+        added += 1
+    if rows:
+        frame = pd.concat([frame, pd.DataFrame(rows)], ignore_index=True)
+        _save(frame, prop_log_path(root))
+    return added
+
+
 def log_game_projections(root: Path, projections: pd.DataFrame, season: str) -> int:
     """Persist every projection run, idempotently within one run and matchup.
 
@@ -127,6 +194,9 @@ def log_game_projections(root: Path, projections: pd.DataFrame, season: str) -> 
         key = (run_id, str(game["date"]), str(game["away"]), str(game["home"]))
         if key in existing:
             continue
+        book_total = _as_float(game.get("book_total_line"))
+        book_spread = _as_float(game.get("book_spread_line"))
+        projected_total = _as_float(game.get("projected_total"))
         rows.append(
             {
                 "prediction_id": uuid.uuid4().hex,
@@ -143,6 +213,9 @@ def log_game_projections(root: Path, projections: pd.DataFrame, season: str) -> 
                 "projected_home_spread": game["projected_home_spread"],
                 "home_win_prob": game.get("home_win_prob", pd.NA),
                 "win_prob_basis": game.get("win_prob_basis", ""),
+                "book_total_line": book_total if book_total is not None else pd.NA,
+                "book_spread_line": book_spread if book_spread is not None else pd.NA,
+                "predicted_total_side": _predicted_total_side(projected_total, book_total),
                 "settled": False,
                 "ungraded_reason": "",
             }
@@ -199,10 +272,18 @@ def grade_props(root: Path, player_logs: pd.DataFrame, today: datetime | None = 
                 pending += 1
             continue
         actual = pd.to_numeric(candidates.iloc[0][stat_column], errors="coerce")
-        line = pd.to_numeric(row["line"], errors="coerce")
-        if pd.isna(actual) or pd.isna(line):
+        if pd.isna(actual):
             frame.loc[idx, "ungraded_reason"] = REASON_RESULT_PENDING
             pending += 1
+            continue
+        line = pd.to_numeric(row["line"], errors="coerce")
+        if pd.isna(line):
+            # Model-only projection: keep the actual for MAE, never invent a W-L against a
+            # line that was not captured with the forecast.
+            frame.loc[idx, ["settled", "won", "push", "actual", "ungraded_reason", "graded_at"]] = [
+                True, "", False, float(actual), "", _now_iso(),
+            ]
+            graded += 1
             continue
         push = bool(actual == line)
         over = bool(actual > line)
@@ -236,6 +317,8 @@ def grade_games(root: Path, game_results: pd.DataFrame, today: datetime | None =
             # without changing their original prediction or outcome.
             if not _audit_text(row.get("spread_side_correct")).strip():
                 _backfill_spread_grade(frame, idx, row)
+            if not _audit_text(row.get("total_side_correct")).strip():
+                _backfill_total_grade(frame, idx, row)
             continue
         key = (str(row["date"]), str(row["away"]).upper(), str(row["home"]).upper())
         outcome = by_key.get(key)
@@ -252,24 +335,32 @@ def grade_games(root: Path, game_results: pd.DataFrame, today: datetime | None =
             continue
         away_pts = float(outcome["awayPts"])
         home_pts = float(outcome["homePts"])
+        actual_total = home_pts + away_pts
         home_win = home_pts > away_pts
         win_prob = pd.to_numeric(row["home_win_prob"], errors="coerce")
         winner_correct = ""
         if pd.notna(win_prob):
             winner_correct = str((win_prob >= 0.5) == home_win)
+        book_total = _as_float(row.get("book_total_line"))
+        predicted_total_side = _audit_text(row.get("predicted_total_side")) or _predicted_total_side(
+            _as_float(row.get("projected_total")), book_total
+        )
+        total_side_correct = _total_side_correct(predicted_total_side, book_total, actual_total)
         frame.loc[
             idx,
             [
-                "settled", "actual_away_pts", "actual_home_pts", "actual_winner",
+                "settled", "actual_away_pts", "actual_home_pts", "actual_total", "actual_winner",
                 "home_win", "winner_correct", "predicted_spread_side", "spread_side_correct",
+                "predicted_total_side", "total_side_correct",
                 "spread_error", "total_error",
                 "ungraded_reason", "graded_at",
             ],
         ] = [
-            True, away_pts, home_pts, str(outcome["winner"]),
+            True, away_pts, home_pts, actual_total, str(outcome["winner"]),
             home_win, winner_correct, *_spread_grade(float(row["projected_home_spread"]), home_pts - away_pts),
+            predicted_total_side, total_side_correct,
             round(float(row["projected_home_spread"]) - (home_pts - away_pts), 1),
-            round(float(row["projected_total"]) - (home_pts + away_pts), 1),
+            round(float(row["projected_total"]) - actual_total, 1),
             "", _now_iso(),
         ]
         graded += 1
@@ -300,6 +391,41 @@ def _backfill_spread_grade(frame: pd.DataFrame, idx, row: pd.Series) -> None:
     frame.loc[idx, ["predicted_spread_side", "spread_side_correct"]] = [side, correct]
 
 
+def _predicted_total_side(projected_total: float | None, book_line: float | None) -> str:
+    """OVER / UNDER / PUSH from the model's total against the captured book number."""
+    if projected_total is None or book_line is None:
+        return ""
+    if projected_total == book_line:
+        return "PUSH"
+    return "OVER" if projected_total > book_line else "UNDER"
+
+
+def _total_side_correct(predicted_side: str, book_line: float | None, actual_total: float) -> str:
+    """ATS-style over/under grade. Empty when no book line was captured with the forecast."""
+    if not predicted_side or book_line is None:
+        return ""
+    if actual_total == book_line:
+        return "PUSH"
+    actual_side = "OVER" if actual_total > book_line else "UNDER"
+    if predicted_side == "PUSH":
+        return "PUSH" if actual_side == "PUSH" else "False"
+    return str(predicted_side == actual_side)
+
+
+def _backfill_total_grade(frame: pd.DataFrame, idx, row: pd.Series) -> None:
+    book_line = _as_float(row.get("book_total_line"))
+    projected = _as_float(row.get("projected_total"))
+    home = _as_float(row.get("actual_home_pts"))
+    away = _as_float(row.get("actual_away_pts"))
+    if book_line is None or projected is None or home is None or away is None:
+        return
+    actual_total = home + away
+    predicted = _audit_text(row.get("predicted_total_side")) or _predicted_total_side(projected, book_line)
+    frame.loc[idx, ["actual_total", "predicted_total_side", "total_side_correct"]] = [
+        actual_total, predicted, _total_side_correct(predicted, book_line, actual_total),
+    ]
+
+
 def results_summary(root: Path) -> dict:
     """Aggregate graded prediction performance for the CLI and dashboard."""
     props = _load(prop_log_path(root), PROP_COLUMNS)
@@ -307,16 +433,23 @@ def results_summary(root: Path) -> dict:
     summary: dict = {"props": {}, "games": {}, "generated_at": _now_iso()}
 
     settled = props[props["settled"].astype(str).str.lower() == "true"]
-    graded = settled[settled["won"].astype(str).isin(["True", "False"])]
-    for market, group in graded.groupby("market"):
+    reason = settled["ungraded_reason"].fillna("").astype(str).str.strip()
+    tracked = settled[reason.isin(["", "nan", "<NA>"])]
+    for market, group in tracked.groupby("market"):
         wins = (group["won"].astype(str) == "True").sum()
         losses = (group["won"].astype(str) == "False").sum()
-        pushes = (settled[settled["market"] == market]["push"].astype(str).str.lower() == "true").sum()
+        pushes = (group["push"].astype(str).str.lower() == "true").sum()
+        actuals = pd.to_numeric(group["actual"], errors="coerce")
+        projections = pd.to_numeric(group["projection"], errors="coerce")
+        abs_err = (actuals - projections).abs()
+        mae = round(float(abs_err.mean()), 2) if abs_err.notna().any() else None
         summary["props"][str(market)] = {
             "wins": int(wins),
             "losses": int(losses),
             "pushes": int(pushes),
             "hit_rate": round(wins / (wins + losses) * 100, 1) if (wins + losses) else None,
+            "mae": mae,
+            "n_mae": int(abs_err.notna().sum()),
         }
     summary["props"]["_pending"] = int((props["settled"].astype(str).str.lower() != "true").sum())
     reasons = props[props["ungraded_reason"].astype(str).str.len() > 0]
@@ -374,6 +507,8 @@ def results_summary(root: Path) -> dict:
                 "correct": str(row["winner_correct"]).lower() == "true",
                 "spread_error": _as_float(row.get("spread_error")),
                 "total_error": _as_float(row.get("total_error")),
+                "total_side": _audit_text(row.get("predicted_total_side")) or "—",
+                "total_status": _audit_text(row.get("total_side_correct")),
                 "run_id": str(row.get("run_id") or ""),
             })
         summary["games"] = {
@@ -387,6 +522,12 @@ def results_summary(root: Path) -> dict:
             "confidence_bands": bands,
             "recent": recent,
         }
+        total_side = latest[latest["total_side_correct"].astype(str).isin(["True", "False"])]
+        if not total_side.empty:
+            total_hits = int((total_side["total_side_correct"].astype(str) == "True").sum())
+            summary["games"]["total_side_n"] = int(len(total_side))
+            summary["games"]["total_side_correct"] = total_hits
+            summary["games"]["total_side_hit_rate"] = round(total_hits / len(total_side) * 100, 1)
     settled_spread = graded_games[graded_games["spread_side_correct"].astype(str).isin(["True", "False"])]
     if not settled_spread.empty:
         spread_hits = int((settled_spread["spread_side_correct"].astype(str) == "True").sum())
@@ -415,8 +556,14 @@ def _audit_status(row: pd.Series, correctness_column: str) -> tuple[str, str]:
         return ("Pending", reason or "awaiting result")
     if reason:
         return ("Voided", reason)
-    correct = _audit_text(row.get(correctness_column)).lower() == "true"
-    return ("Correct" if correct else "Miss", "")
+    if _audit_text(row.get("push")).lower() == "true":
+        return ("Push", "")
+    correct = _audit_text(row.get(correctness_column)).lower()
+    if correct == "true":
+        return ("Correct", "")
+    if correct == "false":
+        return ("Miss", "")
+    return ("Recorded", "projection only")
 
 
 def _prop_audit_records(props: pd.DataFrame) -> list[dict]:
@@ -478,6 +625,9 @@ def _game_audit_records(games: pd.DataFrame) -> list[dict]:
                 "total_error": _as_float(row.get("total_error")),
                 "spread_side": _audit_text(row.get("predicted_spread_side")) or "—",
                 "spread_status": _audit_text(row.get("spread_side_correct")),
+                "total_side": _audit_text(row.get("predicted_total_side")) or "—",
+                "total_status": _audit_text(row.get("total_side_correct")),
+                "book_total_line": _as_float(row.get("book_total_line")),
                 "status": status,
                 "status_detail": detail,
                 "run_id": _audit_text(row.get("run_id")),

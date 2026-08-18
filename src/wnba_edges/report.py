@@ -22,6 +22,7 @@ from .board import BOARD_JS, board_html
 from .board_wnba import build_board
 from .features import MIN_GAMES_FOR_BOARD, MIN_MPG_FOR_BOARD, board_eligible
 from .predictions import results_summary
+from .prop_projections import prop_slate_path
 from .sigma import load_market_sigmas
 
 _STATIC = Path(__file__).resolve().parent / "static"
@@ -78,7 +79,7 @@ def build_site(root: Path, season: str, out: Path) -> Path:
     projections = _read_csv(processed / f"game_projections_{season}.csv")
     features = _read_csv(processed / f"player_features_{season}.csv")
     game_results = _read_csv(processed / f"game_results_{season}.csv")
-    player_logs = _read_csv(processed / f"player_game_logs_{season}.csv")
+    props = _read_csv(prop_slate_path(root, season))
     odds = _read_csv(root / "data" / "odds" / "odds_latest.csv")
     sigmas = load_market_sigmas(root, season)
     summary = results_summary(root)
@@ -93,19 +94,19 @@ def build_site(root: Path, season: str, out: Path) -> Path:
   <div class="wrap">
     <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span>CHASE ANALYTICS&ensp;|&ensp;WNBA INTELLIGENCE</div>
     <h1 class="hero-title">The WNBA slate,<br>modeled and graded.</h1>
-    <p class="hero-sub">Game projections, a player watchboard, market snapshots, and a fully
-    graded prediction record &mdash; fit on real outcomes, honest about uncertainty.
+    <p class="hero-sub">Game totals, player-prop projections, a watchboard, market snapshots,
+    and a fully graded prediction record &mdash; fit on real outcomes, honest about uncertainty.
     Research software, not betting advice.</p>
     <div class="hero-meta">
       <span class="pill">data through {esc(data_date or "n/a")}</span>
       {_stale_badge(stale_days)}
       <span class="pill pill-dim">built {esc(built_at)}</span>
     </div>
-    {_summary_tiles(features, game_results, player_logs, projections)}
+    {_summary_tiles(features, game_results, projections, props)}
   </div>
 </header>
 <main class="wrap">
-  {_projections_section(projections, features, odds, data_date)}
+  {_projections_section(projections, features, odds, data_date, props)}
   {_market_section(odds)}
   {_board_section(features)}
   {_results_section(summary)}
@@ -194,12 +195,12 @@ def _stale_badge(stale_days) -> str:
     return f'<span class="pill pill-warn">STALE &mdash; last refresh {stale_days} days ago</span>'
 
 
-def _summary_tiles(features, game_results, player_logs, projections) -> str:
+def _summary_tiles(features, game_results, projections, props=None) -> str:
     tiles = [
         ("Players modeled", len(features) if features is not None else 0),
         ("Finished games", len(game_results) if game_results is not None else 0),
-        ("Player game logs", len(player_logs) if player_logs is not None else 0),
         ("Games projected", len(projections) if projections is not None else 0),
+        ("Prop projections", len(props) if props is not None else 0),
     ]
     cells = "".join(
         f'<div class="tile"><span class="tile-v">{value:,}</span><span class="tile-l">{esc(label)}</span></div>'
@@ -219,7 +220,7 @@ def _section_head(anchor: str, number: str, title: str, kicker: str, blurb: str)
 
 # ── layer 1 · projections ────────────────────────────────────────────────────
 
-def _projections_section(projections, features=None, odds=None, data_date=None) -> str:
+def _projections_section(projections, features=None, odds=None, data_date=None, props=None) -> str:
     """Layer 1 — the slate board.
 
     Renders through the shared Board kernel, so a WNBA game card has the same anatomy as an
@@ -227,19 +228,72 @@ def _projections_section(projections, features=None, odds=None, data_date=None) 
     """
     head = _section_head(
         "projections", "1", "Game Projections", "Model layer",
-        "Baseline score, spread, total and pace from team efficiency ratings. "
-        "The home-win probability is a logistic fit on this season's finished games "
-        "&mdash; the basis and sample size are always shown.",
+        "Baseline score, spread, total and pace from team efficiency ratings, plus rotation "
+        "player-prop projections. The home-win probability is a logistic fit on this season's "
+        "finished games &mdash; the basis and sample size are always shown.",
     )
     if projections is None:
         return f"""<section>{head}<div class="empty">No game projections yet. Run
         <code>wnba-edges build-game-projections</code> after a season refresh.</div></section>"""
     hc = esc(projections.iloc[0].get("home_court_pts", ""))
-    board = build_board(projections, features, odds, data_date=data_date)
+    board = build_board(projections, features, odds, data_date=data_date, props=props)
     return f"""<section>{head}
 <p class="basis-note">Home court: {hc} pts &nbsp;&middot;&nbsp; a market tile only counts as a
 pick when a stored book price backs it; everything else is labelled model&nbsp;only.</p>
-{board_html(board)}</section>"""
+{board_html(board)}
+{_prop_slate_table(props)}</section>"""
+
+
+def _prop_slate_table(props: pd.DataFrame | None) -> str:
+    """Wide rotation table: PTS / REB / AST / 3PM per player, grouped by matchup."""
+    if props is None or props.empty:
+        return ""
+    priced = int(props["priced"].astype(str).str.lower().isin(["true", "1"]).sum()) if "priced" in props.columns else 0
+    rows = []
+    grouped = props.copy()
+    grouped["_sort"] = pd.to_numeric(grouped.get("projection"), errors="coerce")
+    for (away, home, game_date), game in grouped.groupby(["away", "home", "game_date"], sort=False):
+        rows.append(
+            f'<tr class="prop-game"><td colspan="5">{esc(away)} @ {esc(home)}'
+            f'<span class="player-sub">{esc(game_date)}</span></td></tr>'
+        )
+        players = (
+            game.sort_values(["team", "_sort"], ascending=[True, False])
+            .drop_duplicates(["player"])
+        )
+        for _, player in players.iterrows():
+            squad = game[game["player"] == player["player"]]
+            by_market = {
+                str(row["market"]): row
+                for _, row in squad.iterrows()
+            }
+            cells = []
+            for market in ("player_points", "player_rebounds", "player_assists", "player_threes"):
+                item = by_market.get(market)
+                if item is None:
+                    cells.append("<td class=\"num dim\">—</td>")
+                    continue
+                proj = pd.to_numeric(item.get("projection"), errors="coerce")
+                proj_txt = f"{float(proj):.1f}" if pd.notna(proj) else "—"
+                if str(item.get("priced", "")).lower() in {"true", "1"}:
+                    line = pd.to_numeric(item.get("line"), errors="coerce")
+                    side = str(item.get("side") or "").title()
+                    extra = f" {side} {float(line):g}" if pd.notna(line) else f" {side}"
+                    cells.append(f'<td class="num">{esc(proj_txt)}<span class="player-sub">{esc(extra.strip())}</span></td>')
+                else:
+                    cells.append(f'<td class="num dim">{esc(proj_txt)}</td>')
+            rows.append(
+                f'<tr><td class="player">{esc(player["player"])}'
+                f'<span class="player-sub">{esc(player["team"])}</span></td>'
+                f'{"".join(cells)}</tr>'
+            )
+    return f"""<h3 class="results-subtitle">Slate player-prop projections ({len(props)})</h3>
+<p class="basis-note">{priced} priced against a stored book line &middot; the rest are model-only
+numbers logged for MAE grading. Cards show three highlighted props per game.</p>
+<div class="board"><div class="tablewrap"><table>
+<thead><tr><th>Player</th><th class="num">PTS</th><th class="num">REB</th>
+<th class="num">AST</th><th class="num">3PM</th></tr></thead>
+<tbody>{"".join(rows)}</tbody></table></div></div>"""
 
 
 def _projection_card(game: pd.Series) -> str:
@@ -417,18 +471,24 @@ def _results_section(summary: dict) -> str:
             if pending else ""
         )
         return f"""<section>{head}<div class="empty"><b>No graded predictions yet.</b> {pending_note}<br>
-        Predictions logged by <code>evaluate-player-prop</code> and <code>build-game-projections</code>
-        are graded by <code>wnba-edges grade-predictions</code> once games finish.</div></section>"""
+        Predictions logged by <code>build-game-projections</code> (totals + player props) and
+        <code>evaluate-player-prop</code> are graded by <code>wnba-edges grade-predictions</code>
+        once games finish.</div></section>"""
     prop_rows = "".join(
         f"""<tr><td>{esc(market)}</td>
 <td class="num">{record["wins"]}-{record["losses"]}-{record["pushes"]}</td>
-<td class="num">{esc(record["hit_rate"]) if record["hit_rate"] is not None else "&ndash;"}%</td></tr>"""
+<td class="num">{esc(record["hit_rate"]) if record["hit_rate"] is not None else "&ndash;"}%</td>
+<td class="num">{esc(record["mae"]) if record.get("mae") is not None else "&ndash;"}</td></tr>"""
         for market, record in sorted(props.items())
     )
     prop_table = (
-        f"""<div class="board"><div class="tablewrap"><table>
-<thead><tr><th>Market</th><th class="num">W-L-P</th><th class="num">Hit rate</th></tr></thead>
-<tbody>{prop_rows}</tbody></table></div></div>"""
+        f"""<h3 class="results-subtitle">Player-prop record</h3>
+<div class="board"><div class="tablewrap"><table>
+<thead><tr><th>Market</th><th class="num">W-L-P</th><th class="num">Hit rate</th>
+<th class="num">MAE</th></tr></thead>
+<tbody>{prop_rows}</tbody></table></div></div>
+<p class="basis-note">W-L is only scored when a book line was captured with the projection.
+MAE uses every settled actual, including model-only rows.</p>"""
         if props else ""
     )
     game_block = ""
@@ -455,15 +515,18 @@ def _results_section(summary: dict) -> str:
             confidence = f"{record['favorite']} {record['probability']:.0f}%" if record["probability"] is not None else "—"
             spread_error = f"{abs(record['spread_error']):.1f}" if record["spread_error"] is not None else "—"
             total_error = f"{abs(record['total_error']):.1f}" if record["total_error"] is not None else "—"
+            total_side = esc(record.get("total_side") or "—")
+            total_mark = _spread_status_label(record.get("total_status") or "")
             recent_rows.append(
                 f"<tr class=\"{row_class}\"><td>{esc(record['date'])}</td><td>{esc(record['matchup'])}</td>"
                 f"<td>{esc(confidence)}</td><td>{esc(record['actual_winner'])}</td>"
-                f"<td>{status}</td><td class=\"num\">{spread_error}</td><td class=\"num\">{total_error}</td></tr>"
+                f"<td>{status}</td><td class=\"num\">{spread_error}</td>"
+                f"<td>{total_side} {total_mark}</td><td class=\"num\">{total_error}</td></tr>"
             )
         recent_table = (
             f"""<div class=\"board\"><div class=\"tablewrap\"><table>
 <thead><tr><th>Date</th><th>Matchup</th><th>Model call</th><th>Winner</th><th>Result</th>
-<th class=\"num\">Spread error</th><th class=\"num\">Total error</th></tr></thead>
+<th class=\"num\">Spread error</th><th>Total side</th><th class=\"num\">Total error</th></tr></thead>
 <tbody>{''.join(recent_rows)}</tbody></table></div></div>"""
             if recent_rows else ""
         )
@@ -473,6 +536,8 @@ def _results_section(summary: dict) -> str:
   <div class="tile"><span class="tile-v">{games["winner_hit_rate"]}%</span><span class="tile-l">Winner hit rate</span></div>
   <div class="tile"><span class="tile-v">{games.get("spread_correct", 0)}/{games.get("spread_n", 0)}</span><span class="tile-l">Correct spread sides</span></div>
   <div class="tile"><span class="tile-v">{games.get("spread_hit_rate", "—")}%</span><span class="tile-l">Spread-side hit rate</span></div>
+  <div class="tile"><span class="tile-v">{games.get("total_side_correct", 0)}/{games.get("total_side_n", 0)}</span><span class="tile-l">Correct total sides</span></div>
+  <div class="tile"><span class="tile-v">{games.get("total_side_hit_rate", "—")}%</span><span class="tile-l">Total-side hit rate</span></div>
   <div class="tile"><span class="tile-v">{games["spread_mae"]}</span><span class="tile-l">Spread MAE</span></div>
   <div class="tile"><span class="tile-v">{games["total_mae"]}</span><span class="tile-l">Total MAE</span></div>
   <div class="tile"><span class="tile-v">{games["brier"]}</span><span class="tile-l">Brier score</span></div>
@@ -507,6 +572,7 @@ def _game_audit_table(records: list[dict]) -> str:
         f"<td>{esc(record['favorite'])} {_audit_number(record['favorite_probability'] * 100 if record['favorite_probability'] is not None else None, 0, suffix='%')}</td>"
         f"<td>{esc(record['actual_winner'])}</td><td>{_audit_status_cell(record)}</td>"
         f"<td>{esc(record['spread_side'])} {_spread_status_label(record['spread_status'])}</td>"
+        f"<td>{esc(record.get('total_side') or '—')} {_spread_status_label(record.get('total_status') or '')}</td>"
         f"<td class=\"num\">{_audit_number(abs(record['spread_error']) if record['spread_error'] is not None else None)}</td>"
         f"<td class=\"num\">{_audit_number(abs(record['total_error']) if record['total_error'] is not None else None)}</td>"
         f"<td class=\"dim\">{esc(record['run_id'][:10])}</td></tr>"
@@ -516,7 +582,7 @@ def _game_audit_table(records: list[dict]) -> str:
 <p class="basis-note">Every generated forecast is retained, including multiple runs for the same matchup.</p>
 <div class="board"><div class="tablewrap"><table>
 <thead><tr><th>Game date / logged</th><th>Matchup</th><th>Projected score</th><th>Model call</th><th>Winner</th>
-<th>Grade</th><th>Spread side</th><th class="num">Spread error</th><th class="num">Total error</th><th>Run</th></tr></thead>
+<th>Grade</th><th>Spread side</th><th>Total side</th><th class="num">Spread error</th><th class="num">Total error</th><th>Run</th></tr></thead>
 <tbody>{rows}</tbody></table></div></div>"""
 
 
@@ -533,8 +599,9 @@ def _spread_status_label(status: str) -> str:
 def _prop_audit_table(records: list[dict]) -> str:
     if not records:
         return """<h3 class="results-subtitle">All player-prop audit rows (0)</h3>
-<div class="empty">No player-prop predictions have been logged yet. Every evaluation made with
-<code>evaluate-player-prop</code> will appear here with its line, model probability, edge, outcome, and grade.</div>"""
+<div class="empty">No player-prop predictions have been logged yet. <code>build-game-projections</code>
+now writes a rotation slate (PTS/REB/AST/3PM) on every run; one-off
+<code>evaluate-player-prop</code> rows also appear here.</div>"""
     rows = "".join(
         f"<tr><td>{esc(record['game_date'])}<span class=\"player-sub\">{esc(record['recorded_at'])}</span></td>"
         f"<td>{esc(record['player'])}</td><td>{esc(record['market'])}</td>"
@@ -581,8 +648,9 @@ def _methodology_section(sigmas: pd.DataFrame | None) -> str:
     whenever both sides of a line are stored.</p>
     <p><b>Volatility.</b> {sigma_note}</p>
     <p><b>Known limitations.</b> Projections are team-efficiency baselines without injury or
-    lineup adjustments; player projections are season rates with a minutes adjustment; the
-    watchboard is a screening tool. Full details:
+    lineup adjustments; player projections are season rates with a minutes and recent-form
+    adjustment; the watchboard is a screening tool. Game totals are graded against the
+    captured book number when one exists. Full details:
     <a href="https://github.com/Alphakiller1/wnba-edge-model/blob/main/METHODOLOGY.md">METHODOLOGY.md</a>.</p>
   </div>
 </section>"""
@@ -714,6 +782,8 @@ tbody tr:hover{background:rgba(124,77,255,.05)}
 .reason{white-space:normal;min-width:220px}
 .results-subtitle{font-family:var(--display);font-size:16px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
 margin:26px 0 9px;color:var(--text)}
+.prop-game td{padding-top:14px;color:var(--v-light);font-family:var(--display);font-weight:700;letter-spacing:.08em;
+text-transform:uppercase;font-size:12px;border-top:1px solid var(--border-soft)}
 .result-hit{color:var(--green);font-weight:700}
 .result-miss{color:var(--red);font-weight:700}
 .result-pending{color:var(--gold);font-weight:700}

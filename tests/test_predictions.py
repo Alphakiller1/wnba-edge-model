@@ -109,6 +109,9 @@ def test_game_grading_and_summary(tmp_path):
     assert summary["games"]["_records"][0]["spread_side"] == "HOME"
     assert summary["games"]["_records"][0]["spread_status"] == "True"
     assert summary["props"]["_records"] == []
+    # No book total was captured with this forecast, so there is no invented O/U record.
+    assert "total_side_hit_rate" not in summary["games"]
+    assert summary["games"]["_records"][0]["total_side"] == "—"
 
 
 def test_game_log_keeps_each_unique_projection_run(tmp_path):
@@ -128,3 +131,47 @@ def test_game_log_keeps_each_unique_projection_run(tmp_path):
     afternoon = projection.assign(run_id="afternoon", generated_at="2026-07-09T18:00:00+00:00")
     assert log_game_projections(tmp_path, afternoon, "2026-27") == 1
     assert len(pd.read_csv(game_log_path(tmp_path))) == 2
+
+
+def test_game_total_side_graded_against_captured_book_line(tmp_path):
+    projections = pd.DataFrame(
+        [
+            {
+                "run_id": "r1", "generated_at": "2026-07-09T12:00:00+00:00",
+                "date": "2026-07-10", "away": "CHI", "home": "MIN",
+                "projected_away_pts": 78.0, "projected_home_pts": 88.0,
+                "projected_total": 166.0, "projected_home_spread": 10.0,
+                "home_win_prob": 0.75, "win_prob_basis": "test",
+                "book_total_line": 160.5,
+            }
+        ]
+    )
+    assert log_game_projections(tmp_path, projections, "2026-27") == 1
+    logged = pd.read_csv(game_log_path(tmp_path))
+    assert logged.iloc[0]["predicted_total_side"] == "OVER"
+
+    # Actual 80+90=170, over 160.5 — model over is correct.
+    results = pd.DataFrame(
+        [{"date": "2026-07-10", "away": "CHI", "home": "MIN", "awayPts": 80, "homePts": 90, "winner": "MIN"}]
+    )
+    assert grade_games(tmp_path, results)["graded"] == 1
+    summary = results_summary(tmp_path)
+    assert summary["games"]["total_side_n"] == 1
+    assert summary["games"]["total_side_correct"] == 1
+    assert summary["games"]["total_side_hit_rate"] == 100.0
+    assert summary["games"]["_records"][0]["total_side"] == "OVER"
+    assert summary["games"]["_records"][0]["total_status"] == "True"
+
+
+def test_model_only_prop_settles_for_mae_without_inventing_wl(tmp_path):
+    _log_prop(tmp_path, line=None, side="", odds=None, projection=24.0)
+    today = datetime(2026, 7, 20, tzinfo=timezone.utc)
+    outcome = grade_props(tmp_path, _player_logs(), today=today)
+    assert outcome["graded"] == 1
+    summary = results_summary(tmp_path)
+    record = summary["props"]["player_points"]
+    assert record["wins"] == 0
+    assert record["losses"] == 0
+    assert record["hit_rate"] is None
+    assert record["mae"] == 6.0
+    assert summary["props"]["_records"][0]["status"] == "Recorded"

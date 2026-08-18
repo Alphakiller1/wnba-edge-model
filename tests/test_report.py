@@ -61,6 +61,7 @@ def test_build_site_layers_disclaimer_and_low_sample_gate(tmp_path):
     # Empty states render for layers without data (odds + results).
     assert "No odds snapshot stored" in html
     assert "No graded predictions yet" in html
+    assert "Prop projections" in html
 
 
 def test_build_site_handles_missing_everything(tmp_path):
@@ -125,3 +126,37 @@ def test_full_game_group_uses_normalized_odds_snapshot_markets():
     assert spread.value == "MIN -4.0"
     assert "MIN -3.5" in spread.state
     assert "-110" in spread.state
+
+
+def test_site_renders_prop_slate_and_player_props_filter(tmp_path):
+    _seed(tmp_path)
+    processed = tmp_path / "data" / "processed"
+    pd.DataFrame(
+        [
+            {
+                "run_id": "r1", "generated_at": "2026-07-16T12:00:00+00:00",
+                "game_date": "2026-07-20", "away": "CHI", "home": "MIN", "team": "MIN",
+                "player": "Napheesa Collier", "player_id": 9, "market": "player_points",
+                "projection": 22.4, "projection_basis": "season PPG", "sigma": 6.0,
+                "sigma_source": "league", "line": 21.5, "side": "over", "odds": -110,
+                "opposite_odds": -110, "book": "draftkings", "model_prob": 0.58,
+                "implied_prob": 0.5, "vig_free": True, "edge": 0.08, "tier": "Standard",
+                "verdict": "PLAY", "priced": True,
+            },
+            {
+                "run_id": "r1", "generated_at": "2026-07-16T12:00:00+00:00",
+                "game_date": "2026-07-20", "away": "CHI", "home": "MIN", "team": "MIN",
+                "player": "Napheesa Collier", "player_id": 9, "market": "player_rebounds",
+                "projection": 9.1, "projection_basis": "season RPG", "sigma": 3.0,
+                "sigma_source": "league", "line": "", "side": "", "odds": "",
+                "opposite_odds": "", "book": "", "model_prob": "",
+                "implied_prob": "", "vig_free": False, "edge": "", "tier": "",
+                "verdict": "PROJ", "priced": False,
+            },
+        ]
+    ).to_csv(processed / "prop_projections_2026-27.csv", index=False)
+    html = build_site(tmp_path, season="2026-27", out=tmp_path / "docs" / "index.html").read_text(encoding="utf-8")
+    assert "Player props" in html
+    assert "Slate player-prop projections" in html
+    assert "Napheesa Collier" in html
+    assert "Collier PTS" in html

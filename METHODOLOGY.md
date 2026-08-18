@@ -36,18 +36,26 @@ instruction, and nothing here guarantees an outcome.
    player game logs and final scores. Ungradeable predictions carry an explicit
    reason code (e.g. `player_not_found_in_game_logs`, `void_no_game_within_window`)
    and are voided — never silently dropped. Game projections report winner hit rate,
-   spread/total MAE, and Brier score.
+   spread-side direction, **total-side vs the captured book number** (when a total
+   was stored with the forecast), spread/total MAE, and Brier score. Rotation
+   player-prop projections (PTS / REB / AST / 3PM) are written on every
+   `build-game-projections` run and logged for grading. A W-L is only scored when a
+   book line was captured; model-only rows still settle on MAE once the box score
+   arrives.
 
 ## Prop pricing
 
 - **Projection:** season rate (or the source's projected points where trusted),
-  adjusted by projected-vs-season minutes when a projected role exists.
+  shrunk toward recent form, then adjusted by projected-vs-season minutes when a
+  projected role exists. `build-game-projections` auto-builds the rotation slate;
+  `evaluate-player-prop` remains available for one-off lines.
 - **Distribution:** Normal approximation with a **per-market sigma fitted from real
   player game logs** (pooled within-player game-to-game deviation). Per-player sigma
   is used when the player has 3+ logged games, shrunk toward the league value.
   The evaluator always prints which sigma was used and where it came from.
 - **Value:** edge = model probability − (de-vigged) market probability; EV and
-  full/quarter Kelly are reported for reference.
+  full/quarter Kelly are reported for reference. Unpriced projections are labelled
+  model-only and never counted as picks.
 
 ## Confidence tiers
 

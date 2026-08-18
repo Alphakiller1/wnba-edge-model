@@ -25,6 +25,7 @@ import pandas as pd
 
 from .betting import value_layer
 from .board import GEM_EDGE_PTS, GEM_STATES, Board, Card, Group, Principal, Side, Tile
+from .prop_projections import MARKET_LABEL
 
 # Kernel gem thresholds are expressed in percentage points; betting.value_layer returns
 # edge as a fraction. Converting here keeps one definition of "gem" across all sports.
@@ -410,16 +411,94 @@ def _matchup_drivers(game: pd.Series, pace_reference: float | None) -> Group | N
     )
 
 
+_PROP_TILES_PER_CARD = 3
+
+
+def _is_priced_row(row: pd.Series) -> bool:
+    return str(row.get("priced", "")).lower() in {"true", "1"}
+
+
+def _prop_group(game: pd.Series, props: pd.DataFrame | None) -> Group | None:
+    """Up to three rotation props for this matchup — priced when a book line exists."""
+    if props is None or props.empty:
+        return None
+    away, home = str(game["away"]).upper(), str(game["home"]).upper()
+    match = props[
+        (props["away"].astype(str).str.upper() == away)
+        & (props["home"].astype(str).str.upper() == home)
+    ]
+    if match.empty:
+        return None
+    ranked = match.copy()
+    ranked["_priced"] = ranked.apply(_is_priced_row, axis=1)
+    ranked["_edge"] = pd.to_numeric(ranked.get("edge"), errors="coerce").abs().fillna(-1)
+    ranked = ranked.sort_values(["_priced", "_edge"], ascending=[False, False])
+
+    tiles: list[Tile] = []
+    seen_players: set[str] = set()
+    for _, row in ranked.iterrows():
+        player = str(row["player"])
+        if player in seen_players:
+            continue
+        seen_players.add(player)
+        market = str(row["market"])
+        market_label = MARKET_LABEL.get(market, market.replace("player_", "").upper())
+        last_name = player.split()[-1] if player.strip() else player
+        label = f"{last_name} {market_label}"
+        projection = _num(row.get("projection"))
+        if projection is None:
+            continue
+        if row["_priced"]:
+            model_prob = _num(row.get("model_prob"))
+            odds = _num(row.get("odds"))
+            line = _num(row.get("line"))
+            side = str(row.get("side") or "").title()
+            if model_prob is not None and odds is not None:
+                tiles.append(
+                    _priced_tile(
+                        label,
+                        model_prob,
+                        odds,
+                        _num(row.get("opposite_odds")),
+                        model_display=f"{projection:.1f}",
+                        book_display=f"{side} {line:g}" if line is not None else side,
+                        book=str(row.get("book") or "book"),
+                    )
+                )
+            else:
+                tiles.append(_model_tile(label, f"{projection:.1f}", f"{market_label.lower()} proj"))
+        else:
+            tiles.append(_model_tile(label, f"{projection:.1f}", f"{market_label.lower()} proj"))
+        if len(tiles) >= _PROP_TILES_PER_CARD:
+            break
+    if not tiles:
+        return None
+    priced = sum(1 for tile in tiles if tile.is_priced)
+    return Group(
+        label="Player props",
+        tiles=tuple(tiles),
+        tag="props",
+        state="" if priced else "Model baseline",
+    )
+
+
 # ── assembly ─────────────────────────────────────────────────────────────────
 
 
-def build_card(game: pd.Series, features, odds, pace_reference: float | None = None) -> Card:
+def build_card(
+    game: pd.Series,
+    features,
+    odds,
+    pace_reference: float | None = None,
+    props: pd.DataFrame | None = None,
+) -> Card:
     away, home = str(game["away"]), str(game["home"])
     win = _num(game.get("home_win_prob"))
     home_fav = (win or 0.5) >= 0.5
     quotes = _quotes_for(odds, away, home)
     group = _full_game_group(game, quotes)
     drivers = _matchup_drivers(game, pace_reference)
+    prop_group = _prop_group(game, props)
 
     def side(abbr: str, points, net, probability) -> Side:
         # Win% only. Net rating was truncating the line at card width, and a clipped
@@ -454,7 +533,7 @@ def build_card(game: pd.Series, features, odds, pace_reference: float | None = N
         headline_tone=tone,
         principals=_edge_movers(features, away, home),
         principal_label="Biggest role change vs season anchor",
-        groups=tuple(g for g in (group, drivers) if g is not None),
+        groups=tuple(g for g in (group, prop_group, drivers) if g is not None),
         action_label="Methodology",
         action_js="location.hash='methodology'",
         footer_label="How this game is modelled",
@@ -463,7 +542,14 @@ def build_card(game: pd.Series, features, odds, pace_reference: float | None = N
     )
 
 
-def build_board(projections, features, odds, *, data_date: str | None = None) -> Board:
+def build_board(
+    projections,
+    features,
+    odds,
+    *,
+    data_date: str | None = None,
+    props: pd.DataFrame | None = None,
+) -> Board:
     cards = []
     if projections is not None and not projections.empty:
         # Slate-mean pace, so "fast game" is stated relative to tonight rather than to a
@@ -471,7 +557,7 @@ def build_board(projections, features, odds, *, data_date: str | None = None) ->
         pace_series = pd.to_numeric(projections.get("projected_pace"), errors="coerce")
         pace_reference = float(pace_series.mean()) if pace_series.notna().any() else None
         cards = [
-            build_card(game, features, odds, pace_reference)
+            build_card(game, features, odds, pace_reference, props)
             for _, game in projections.iterrows()
         ]
 
@@ -482,13 +568,23 @@ def build_board(projections, features, odds, *, data_date: str | None = None) ->
     meta = [f"{len(cards)} games", str(data_date or "slate pending")]
     if basis:
         meta.append(basis)
+    if props is not None and not props.empty:
+        priced = (
+            int(props["priced"].astype(str).str.lower().isin(["true", "1"]).sum())
+            if "priced" in props.columns else 0
+        )
+        meta.append(f"{len(props)} prop projections" + (f" · {priced} priced" if priced else ""))
+
+    filters = [("all", f"All {len(cards)}"), ("gems", "◆ Gems"), ("fullgame", "Full game")]
+    if any("props" in card.tags for card in cards):
+        filters.append(("props", "Player props"))
 
     return Board(
         sport="WNBA",
         cards=cards,
         date_label=str(data_date or ""),
         meta=meta,
-        filters=[("all", f"All {len(cards)}"), ("gems", "◆ Gems"), ("fullgame", "Full game")],
+        filters=filters,
         sorts=[("start", "Start time"), ("picks", "Priced markets"), ("gems", "Gems")],
         empty_text=(
             "No game projections yet. Run `wnba-edges build-game-projections` after a "

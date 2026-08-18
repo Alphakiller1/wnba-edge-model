@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import argparse
+import uuid
+from datetime import datetime, timezone
 from pathlib import Path
 
 import pandas as pd
@@ -15,12 +17,19 @@ from .predictions import (
     grade_props,
     log_game_projections,
     log_prop_prediction,
+    log_prop_predictions_batch,
     results_summary,
 )
 from .projections import UnknownTeamsError, build_game_projections, load_schedule
+from .prop_projections import (
+    attach_game_market_lines,
+    build_slate_prop_projections,
+    projection_for_market,
+    prop_slate_path,
+)
 from .schedule import fetch_upcoming_schedule, write_schedule
 from .season import build_season_tables, scrape_season_snapshot
-from .sigma import MARKET_STAT_COLUMNS, fit_market_sigmas, load_market_sigmas, market_sigma_path, resolve_sigma
+from .sigma import fit_market_sigmas, load_market_sigmas, market_sigma_path, resolve_sigma
 from .wnbanalytics import scrape_players, write_jsonl
 
 # Repo root when running from a source checkout (editable install); for a
@@ -94,6 +103,12 @@ def main() -> None:
     game_proj.add_argument("--schedule", default=None)
     game_proj.add_argument("--days", type=int, default=10,
                            help="Days ahead to fetch when no schedule file is given.")
+
+    prop_proj = subparsers.add_parser(
+        "build-prop-projections",
+        help="Rebuild rotation prop projections for the stored upcoming schedule.",
+    )
+    prop_proj.add_argument("--season", default="2026-27")
 
     sched = subparsers.add_parser("fetch-schedule")
     sched.add_argument("--season", default="2026-27")
@@ -198,28 +213,10 @@ def main() -> None:
         print(f"wrote {len(frame)} upcoming games to {path}")
 
     elif args.command == "build-game-projections":
-        teams_path = DATA / "processed" / f"teams_season_{args.season}.csv"
-        results_path = DATA / "processed" / f"game_results_{args.season}.csv"
-        if args.schedule:
-            schedule = load_schedule(Path(args.schedule))
-        else:
-            schedule_path = DATA / "raw" / f"upcoming_schedule_{args.season}.csv"
-            print(f"no --schedule given; fetching the next {args.days} days from ESPN")
-            schedule = fetch_upcoming_schedule(days=args.days)
-            write_schedule(schedule, schedule_path)
-        game_results = pd.read_csv(results_path) if results_path.exists() else None
-        try:
-            projections = build_game_projections(pd.read_csv(teams_path), schedule, game_results)
-        except UnknownTeamsError as exc:
-            raise SystemExit(f"ERROR: {exc}")
-        out_path = DATA / "processed" / f"game_projections_{args.season}.csv"
-        projections.to_csv(out_path, index=False)
-        logged = log_game_projections(ROOT, projections, args.season)
-        if not projections.empty:
-            basis = projections.iloc[0]["win_prob_basis"]
-            home_court = projections.iloc[0]["home_court_pts"]
-            print(f"win prob: {basis} | home court: {home_court} pts")
-        print(f"wrote {len(projections)} game projections to {out_path} ({logged} new logged for grading)")
+        _build_game_projections(args)
+
+    elif args.command == "build-prop-projections":
+        _build_prop_projections(args)
 
     elif args.command == "fit-sigma":
         _fit_sigma(args.season)
@@ -237,6 +234,100 @@ def main() -> None:
         out = Path(args.out) if args.out else ROOT / "docs" / "index.html"
         path = build_site(ROOT, season=args.season, out=out)
         print(f"wrote dashboard to {path}")
+
+
+def _load_odds() -> pd.DataFrame | None:
+    from .market_data import ODDS_LATEST_CSV
+
+    if not ODDS_LATEST_CSV.exists():
+        return None
+    frame = pd.read_csv(ODDS_LATEST_CSV)
+    return frame if not frame.empty else None
+
+
+def _build_game_projections(args) -> None:
+    teams_path = DATA / "processed" / f"teams_season_{args.season}.csv"
+    results_path = DATA / "processed" / f"game_results_{args.season}.csv"
+    if args.schedule:
+        schedule = load_schedule(Path(args.schedule))
+    else:
+        schedule_path = DATA / "raw" / f"upcoming_schedule_{args.season}.csv"
+        print(f"no --schedule given; fetching the next {args.days} days from ESPN")
+        schedule = fetch_upcoming_schedule(days=args.days)
+        write_schedule(schedule, schedule_path)
+    game_results = pd.read_csv(results_path) if results_path.exists() else None
+    try:
+        projections = build_game_projections(pd.read_csv(teams_path), schedule, game_results)
+    except UnknownTeamsError as exc:
+        raise SystemExit(f"ERROR: {exc}")
+    odds = _load_odds()
+    projections = attach_game_market_lines(projections, odds)
+    out_path = DATA / "processed" / f"game_projections_{args.season}.csv"
+    projections.to_csv(out_path, index=False)
+    logged = log_game_projections(ROOT, projections, args.season)
+    if not projections.empty:
+        basis = projections.iloc[0]["win_prob_basis"]
+        home_court = projections.iloc[0]["home_court_pts"]
+        with_total = int(pd.to_numeric(projections["book_total_line"], errors="coerce").notna().sum())
+        print(f"win prob: {basis} | home court: {home_court} pts")
+        print(f"book totals captured for {with_total}/{len(projections)} games")
+    print(f"wrote {len(projections)} game projections to {out_path} ({logged} new logged for grading)")
+    _write_prop_slate(args.season, schedule, projections, odds)
+
+
+def _build_prop_projections(args) -> None:
+    schedule_path = DATA / "raw" / f"upcoming_schedule_{args.season}.csv"
+    if not schedule_path.exists():
+        raise SystemExit("No upcoming schedule stored. Run build-game-projections first.")
+    schedule = load_schedule(schedule_path)
+    projections_path = DATA / "processed" / f"game_projections_{args.season}.csv"
+    projections = pd.read_csv(projections_path) if projections_path.exists() else pd.DataFrame()
+    _write_prop_slate(args.season, schedule, projections, _load_odds())
+
+
+def _write_prop_slate(
+    season: str,
+    schedule: pd.DataFrame,
+    projections: pd.DataFrame,
+    odds: pd.DataFrame | None,
+) -> None:
+    features_path = DATA / "processed" / f"player_features_{season}.csv"
+    logs_path = DATA / "processed" / f"player_game_logs_{season}.csv"
+    if not features_path.exists():
+        print("skipping player-prop projections: player features not built")
+        return
+    run_id = ""
+    generated_at = ""
+    if projections is not None and not projections.empty:
+        run_id = str(projections.iloc[0].get("run_id") or "")
+        generated_at = str(projections.iloc[0].get("generated_at") or "")
+    if not run_id:
+        run_id = uuid.uuid4().hex[:12]
+    if not generated_at:
+        generated_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    player_logs = pd.read_csv(logs_path) if logs_path.exists() else None
+    props = build_slate_prop_projections(
+        pd.read_csv(features_path),
+        schedule,
+        player_logs,
+        odds,
+        season=season,
+        run_id=run_id,
+        generated_at=generated_at,
+        root=ROOT,
+    )
+    out_path = prop_slate_path(ROOT, season)
+    if props.empty:
+        print("no player-prop projections produced (empty rotation or missing priors)")
+        return
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    props.to_csv(out_path, index=False)
+    logged = log_prop_predictions_batch(ROOT, props, season)
+    priced = int(props["priced"].astype(str).str.lower().isin(["true", "1"]).sum())
+    print(
+        f"wrote {len(props)} player-prop projections to {out_path} "
+        f"({priced} priced against a stored line, {logged} new logged for grading)"
+    )
 
 
 def _fit_sigma(season: str) -> None:
@@ -276,7 +367,8 @@ def _print_results(summary: dict) -> None:
         if market.startswith("_"):
             continue
         rate = f"{record['hit_rate']}%" if record.get("hit_rate") is not None else "-"
-        print(f"  {market}: {record['wins']}-{record['losses']}-{record['pushes']} ({rate})")
+        mae = f" | MAE {record['mae']}" if record.get("mae") is not None else ""
+        print(f"  {market}: {record['wins']}-{record['losses']}-{record['pushes']} ({rate}){mae}")
     print(f"  pending: {props.get('_pending', 0)}")
     reasons = props.get("_reasons") or {}
     for reason, count in reasons.items():
@@ -290,6 +382,9 @@ def _print_results(summary: dict) -> None:
         if games.get("spread_n"):
             print(f"  spread sides: {games['spread_correct']}/{games['spread_n']} "
                   f"({games['spread_hit_rate']}%) — model direction, not ATS grading")
+        if games.get("total_side_n"):
+            print(f"  total sides: {games['total_side_correct']}/{games['total_side_n']} "
+                  f"({games['total_side_hit_rate']}%) — vs captured book total")
         print(f"  audit: {games.get('audit_runs', games['n'])} graded run(s), "
               f"{games.get('_logged', games['n'])} total logged prediction(s)")
     print(f"  pending: {games.get('_pending', 0)}")
@@ -399,103 +494,16 @@ def _match_player(frame: pd.DataFrame, name: str) -> pd.Series:
     return partial.iloc[0]
 
 
-_MARKET_FEATURE_PRIORS = {
-    "player_points": ("ppg", "season PPG"),
-    "player_rebounds": ("rpg", "season RPG"),
-    "player_assists": ("apg", "season APG"),
-}
-_RECENT_WINDOW = 5
-_MAX_RECENT_WEIGHT = 0.45
-
-
 def _projection_for_market(
     row: pd.Series,
     market: str,
     player_logs: pd.DataFrame | None = None,
 ) -> tuple[float, str]:
-    """Market-specific prop estimate using season form, recent form and expected minutes.
-
-    A points-only season-rate fallback made threes, steals and blocks silently inherit a
-    points projection.  The revised estimate always maps to the requested market.  Recent
-    production is shrunk toward the season prior, then adjusted for the current projected
-    role; this makes the model responsive without allowing a five-game heater or a single
-    minutes spike to dominate the number.
-    """
-    stat_column = MARKET_STAT_COLUMNS.get(market)
-    if stat_column is None:
-        raise SystemExit(f"Unsupported player prop market {market!r}.")
-
-    history = _player_history(row, player_logs, stat_column)
-    prior, prior_label = _season_prior(row, market, history)
-    if prior is None:
+    """CLI wrapper: same estimator as the slate builder, but missing priors are fatal here."""
+    projection, basis = projection_for_market(row, market, player_logs)
+    if projection is None:
         raise SystemExit(f"No usable {market} projection for {row['name']}.")
-
-    recent = history.tail(_RECENT_WINDOW) if history is not None else pd.DataFrame()
-    recent_values = pd.to_numeric(recent.get(stat_column), errors="coerce").dropna()
-    if len(recent_values) >= 3:
-        recent_weight = min(_MAX_RECENT_WEIGHT, 0.15 + 0.06 * len(recent_values))
-        estimate = (1 - recent_weight) * prior + recent_weight * float(recent_values.mean())
-        form_note = f"L{len(recent_values)} {stat_column} x{recent_weight:.2f}"
-    else:
-        estimate = prior
-        form_note = "season anchor"
-
-    minutes_ratio, minutes_note = _minutes_ratio(row, history)
-    estimate *= minutes_ratio
-
-    # WNBAnalytics' projected points are useful additional information, but never replace
-    # the model wholesale.  Blend only plausible values and only for the points market.
-    if market == "player_points":
-        source_points = pd.to_numeric(row.get("projectedPoints"), errors="coerce")
-        if pd.notna(source_points) and 0.55 * prior <= source_points <= 1.65 * prior:
-            estimate = 0.65 * estimate + 0.35 * float(source_points)
-            form_note += " + source pts x0.35"
-
-    return round(float(estimate), 2), f"{prior_label}; {form_note}{minutes_note}"
-
-
-def _player_history(row: pd.Series, player_logs: pd.DataFrame | None, stat_column: str) -> pd.DataFrame | None:
-    if player_logs is None or player_logs.empty or stat_column not in player_logs.columns:
-        return None
-    player_id = pd.to_numeric(row.get("id"), errors="coerce")
-    if pd.isna(player_id) or "playerId" not in player_logs.columns:
-        return None
-    ids = pd.to_numeric(player_logs["playerId"], errors="coerce")
-    history = player_logs.loc[ids == player_id].copy()
-    if history.empty:
-        return None
-    if "date" in history.columns:
-        history["_date"] = pd.to_datetime(history["date"], errors="coerce")
-        history = history.sort_values("_date")
-    return history
-
-
-def _season_prior(row: pd.Series, market: str, history: pd.DataFrame | None) -> tuple[float | None, str]:
-    feature = _MARKET_FEATURE_PRIORS.get(market)
-    if feature:
-        value = pd.to_numeric(row.get(feature[0]), errors="coerce")
-        if pd.notna(value):
-            return float(value), feature[1]
-    stat_column = MARKET_STAT_COLUMNS[market]
-    if history is not None:
-        values = pd.to_numeric(history[stat_column], errors="coerce").dropna()
-        if not values.empty:
-            return float(values.mean()), f"season {stat_column} history"
-    return None, ""
-
-
-def _minutes_ratio(row: pd.Series, history: pd.DataFrame | None) -> tuple[float, str]:
-    projected = pd.to_numeric(row.get("projectedMinutes"), errors="coerce")
-    baseline = pd.to_numeric(row.get("mpg"), errors="coerce")
-    if history is not None and "min" in history.columns:
-        recent_minutes = pd.to_numeric(history.tail(_RECENT_WINDOW)["min"], errors="coerce").dropna()
-        if len(recent_minutes) >= 3:
-            baseline = recent_minutes.mean()
-    if pd.notna(projected) and pd.notna(baseline) and baseline > 0:
-        ratio = min(1.25, max(0.75, float(projected) / float(baseline)))
-        if abs(ratio - 1.0) >= 0.03:
-            return ratio, f", minutes x{ratio:.2f}"
-    return 1.0, ""
+    return projection, basis
 
 
 if __name__ == "__main__":
