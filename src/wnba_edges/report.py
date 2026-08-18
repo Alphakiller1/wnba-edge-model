@@ -248,9 +248,19 @@ def _prop_slate_table(props: pd.DataFrame | None) -> str:
     """Wide rotation table: PTS / REB / AST / 3PM per player, grouped by matchup."""
     if props is None or props.empty:
         return ""
-    priced = int(props["priced"].astype(str).str.lower().isin(["true", "1"]).sum()) if "priced" in props.columns else 0
+    priced_mask = props["priced"].astype(str).str.lower().isin(["true", "1"]) if "priced" in props.columns else pd.Series(False, index=props.index)
+    priced = int(priced_mask.sum())
+    display = props
+    scope_note = f"{len(props)} projections logged for grading"
+    if priced:
+        games = set(zip(props.loc[priced_mask, "away"].astype(str), props.loc[priced_mask, "home"].astype(str)))
+        display = props[props.apply(lambda row: (str(row["away"]), str(row["home"])) in games, axis=1)]
+        scope_note = (
+            f"showing {len(display)} rows for the {len(games)} games with stored prop quotes "
+            f"&middot; {len(props)} logged across the full schedule"
+        )
     rows = []
-    grouped = props.copy()
+    grouped = display.copy()
     grouped["_sort"] = pd.to_numeric(grouped.get("projection"), errors="coerce")
     for (away, home, game_date), game in grouped.groupby(["away", "home", "game_date"], sort=False):
         rows.append(
@@ -287,9 +297,9 @@ def _prop_slate_table(props: pd.DataFrame | None) -> str:
                 f'<span class="player-sub">{esc(player["team"])}</span></td>'
                 f'{"".join(cells)}</tr>'
             )
-    return f"""<h3 class="results-subtitle">Slate player-prop projections ({len(props)})</h3>
-<p class="basis-note">{priced} priced against a stored book line &middot; the rest are model-only
-numbers logged for MAE grading. Cards show three highlighted props per game.</p>
+    return f"""<h3 class="results-subtitle">Slate player-prop projections</h3>
+<p class="basis-note">{priced} priced against a stored book line &middot; {scope_note}.
+Cards show three highlighted props per game; model-only numbers never count as picks.</p>
 <div class="board"><div class="tablewrap"><table>
 <thead><tr><th>Player</th><th class="num">PTS</th><th class="num">REB</th>
 <th class="num">AST</th><th class="num">3PM</th></tr></thead>
@@ -530,14 +540,18 @@ MAE uses every settled actual, including model-only rows.</p>"""
 <tbody>{''.join(recent_rows)}</tbody></table></div></div>"""
             if recent_rows else ""
         )
+        total_side_tiles = ""
+        if games.get("total_side_n"):
+            total_side_tiles = f"""
+  <div class="tile"><span class="tile-v">{games['total_side_correct']}/{games['total_side_n']}</span><span class="tile-l">Correct total sides</span></div>
+  <div class="tile"><span class="tile-v">{games['total_side_hit_rate']}%</span><span class="tile-l">Total-side hit rate</span></div>"""
         game_block = f"""
 <div class="tiles tiles-results">
   <div class="tile"><span class="tile-v">{games["correct"]}/{games["n"]}</span><span class="tile-l">Correct winner calls</span></div>
   <div class="tile"><span class="tile-v">{games["winner_hit_rate"]}%</span><span class="tile-l">Winner hit rate</span></div>
   <div class="tile"><span class="tile-v">{games.get("spread_correct", 0)}/{games.get("spread_n", 0)}</span><span class="tile-l">Correct spread sides</span></div>
   <div class="tile"><span class="tile-v">{games.get("spread_hit_rate", "—")}%</span><span class="tile-l">Spread-side hit rate</span></div>
-  <div class="tile"><span class="tile-v">{games.get("total_side_correct", 0)}/{games.get("total_side_n", 0)}</span><span class="tile-l">Correct total sides</span></div>
-  <div class="tile"><span class="tile-v">{games.get("total_side_hit_rate", "—")}%</span><span class="tile-l">Total-side hit rate</span></div>
+  {total_side_tiles}
   <div class="tile"><span class="tile-v">{games["spread_mae"]}</span><span class="tile-l">Spread MAE</span></div>
   <div class="tile"><span class="tile-v">{games["total_mae"]}</span><span class="tile-l">Total MAE</span></div>
   <div class="tile"><span class="tile-v">{games["brier"]}</span><span class="tile-l">Brier score</span></div>

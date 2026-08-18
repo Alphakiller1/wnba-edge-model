@@ -545,3 +545,1314 @@ fetched_at,commence_time,event_id,away,home,book,market,side,line,odds,player
 2026-08-18T19:09:19+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,betus,spread,MIN,-1.5,-110,
 2026-08-18T19:09:19+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,betus,total,over,164.0,-110,
 2026-08-18T19:09:19+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,betus,total,under,164.0,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,ml,CON,,116,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,ml,LAS,,-142,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,spread,CON,2.5,-106,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,spread,LAS,-2.5,-114,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,total,over,170.5,-114,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,total,under,170.5,-106,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_assists,Ariel Atkins|over,3.5,142,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_assists,Ariel Atkins|under,3.5,-192,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_assists,Nneka Ogwumike|over,3.5,142,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_assists,Nneka Ogwumike|under,3.5,-192,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_assists,Erica Wheeler|over,5.5,110,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_assists,Erica Wheeler|under,5.5,-146,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_assists,Leïla Lacan|over,4.5,-152,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_assists,Leïla Lacan|under,4.5,114,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_points,Diamond Miller|over,12.5,-102,Diamond Miller
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_points,Diamond Miller|under,12.5,-128,Diamond Miller
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_points,Dearica Hamby|over,15.5,-118,Dearica Hamby
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_points,Dearica Hamby|under,15.5,-110,Dearica Hamby
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_points,Olivia Nelson-Ododa|over,11.5,-122,Olivia Nelson-Ododa
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_points,Olivia Nelson-Ododa|under,11.5,-106,Olivia Nelson-Ododa
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_points,Ariel Atkins|over,8.5,-102,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_points,Ariel Atkins|under,8.5,-128,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_points,Rae Burrell|over,17.5,-104,Rae Burrell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_points,Rae Burrell|under,17.5,-125,Rae Burrell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_points,Erica Wheeler|over,8.5,-130,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_points,Erica Wheeler|under,8.5,100,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_points,Kennedy Burke|over,8.5,-122,Kennedy Burke
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_points,Kennedy Burke|under,8.5,-106,Kennedy Burke
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_points,Nneka Ogwumike|over,15.5,-130,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_points,Nneka Ogwumike|under,15.5,100,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_points,Leïla Lacan|over,11.5,-130,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_points,Leïla Lacan|under,11.5,100,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_rebounds,Olivia Nelson-Ododa|over,7.5,-154,Olivia Nelson-Ododa
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_rebounds,Olivia Nelson-Ododa|under,7.5,116,Olivia Nelson-Ododa
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_rebounds,Ariel Atkins|over,2.5,-148,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_rebounds,Ariel Atkins|under,2.5,112,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_rebounds,Nneka Ogwumike|over,8.5,-108,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_rebounds,Nneka Ogwumike|under,8.5,-122,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_rebounds,Erica Wheeler|over,2.5,140,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_rebounds,Erica Wheeler|under,2.5,-188,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_rebounds,Leïla Lacan|over,2.5,-128,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_rebounds,Leïla Lacan|under,2.5,-104,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_rebounds,Dearica Hamby|over,7.5,110,Dearica Hamby
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_rebounds,Dearica Hamby|under,7.5,-146,Dearica Hamby
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_threes,Diamond Miller|over,1.5,100,Diamond Miller
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_threes,Diamond Miller|under,1.5,-132,Diamond Miller
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_threes,Rae Burrell|over,2.5,148,Rae Burrell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_threes,Rae Burrell|under,2.5,-200,Rae Burrell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_threes,Nneka Ogwumike|over,1.5,142,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_threes,Nneka Ogwumike|under,1.5,-192,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_threes,Erica Wheeler|over,1.5,128,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_threes,Erica Wheeler|under,1.5,-172,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_threes,Ariel Atkins|over,1.5,118,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_threes,Ariel Atkins|under,1.5,-158,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_threes,Kennedy Burke|over,1.5,118,Kennedy Burke
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_threes,Kennedy Burke|under,1.5,-158,Kennedy Burke
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_threes,Leïla Lacan|over,1.5,152,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,fanduel,player_threes,Leïla Lacan|under,1.5,-205,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,ml,CON,,120,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,ml,LAS,,-142,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,spread,CON,2.5,-108,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,spread,LAS,-2.5,-112,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,total,over,170.5,-108,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,total,under,170.5,-112,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_assists,Erica Wheeler|over,5.5,115,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_assists,Erica Wheeler|under,5.5,-157,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_assists,Leïla Lacan|over,4.5,-159,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_assists,Leïla Lacan|under,4.5,116,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_assists,Rae Burrell|over,3.5,107,Rae Burrell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_assists,Rae Burrell|under,3.5,-145,Rae Burrell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_assists,Nneka Ogwumike|over,3.5,109,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_assists,Nneka Ogwumike|under,3.5,-148,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_assists,Ariel Atkins|over,2.5,-148,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_assists,Ariel Atkins|under,2.5,109,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_points,Rae Burrell|over,16.5,-128,Rae Burrell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_points,Rae Burrell|under,16.5,-104,Rae Burrell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_points,Dearica Hamby|over,16.5,-103,Dearica Hamby
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_points,Dearica Hamby|under,16.5,-129,Dearica Hamby
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_points,Nneka Ogwumike|over,15.5,-126,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_points,Nneka Ogwumike|under,15.5,-105,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_points,Olivia Nelson-Ododa|over,13.5,-107,Olivia Nelson-Ododa
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_points,Olivia Nelson-Ododa|under,13.5,-124,Olivia Nelson-Ododa
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_points,Leïla Lacan|over,12.5,-127,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_points,Leïla Lacan|under,12.5,-105,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_points,Diamond Miller|over,12.5,-124,Diamond Miller
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_points,Diamond Miller|under,12.5,-107,Diamond Miller
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_points,Erica Wheeler|over,9.5,-102,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_points,Erica Wheeler|under,9.5,-130,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_points,Charlisse Leger-Walker|over,8.5,-132,Charlisse Leger-Walker
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_points,Charlisse Leger-Walker|under,8.5,100,Charlisse Leger-Walker
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_points,Kennedy Burke|over,8.5,-128,Kennedy Burke
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_points,Kennedy Burke|under,8.5,-104,Kennedy Burke
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_points,Ariel Atkins|over,8.5,-117,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_points,Ariel Atkins|under,8.5,-113,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_rebounds,Nneka Ogwumike|over,8.5,-134,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_rebounds,Nneka Ogwumike|under,8.5,-101,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_rebounds,Olivia Nelson-Ododa|over,8.5,-120,Olivia Nelson-Ododa
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_rebounds,Olivia Nelson-Ododa|under,8.5,-114,Olivia Nelson-Ododa
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_rebounds,Dearica Hamby|over,7.5,102,Dearica Hamby
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_rebounds,Dearica Hamby|under,7.5,-138,Dearica Hamby
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_rebounds,Ariel Atkins|over,2.5,-147,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_rebounds,Ariel Atkins|under,2.5,108,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_rebounds,Leïla Lacan|over,2.5,-147,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_rebounds,Leïla Lacan|under,2.5,108,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_rebounds,Erica Wheeler|over,2.5,133,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_rebounds,Erica Wheeler|under,2.5,-182,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_threes,Rae Burrell|over,2.5,136,Rae Burrell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_threes,Rae Burrell|under,2.5,-186,Rae Burrell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_threes,Diamond Miller|over,1.5,100,Diamond Miller
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_threes,Diamond Miller|under,1.5,-135,Diamond Miller
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_threes,Kennedy Burke|over,1.5,112,Kennedy Burke
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_threes,Kennedy Burke|under,1.5,-152,Kennedy Burke
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_threes,Ariel Atkins|over,1.5,116,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_threes,Ariel Atkins|under,1.5,-159,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_threes,Nneka Ogwumike|over,1.5,127,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_threes,Nneka Ogwumike|under,1.5,-174,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_threes,Erica Wheeler|over,1.5,132,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_threes,Erica Wheeler|under,1.5,-180,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_threes,Leïla Lacan|over,1.5,148,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,draftkings,player_threes,Leïla Lacan|under,1.5,-204,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,ml,CON,,125,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,ml,LAS,,-145,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,spread,CON,2.5,-107,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,spread,LAS,-2.5,-113,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,total,over,170.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,total,under,170.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_assists,Erica Wheeler|over,5.5,113,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_assists,Erica Wheeler|under,5.5,-147,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_assists,Leïla Lacan|over,4.5,-152,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_assists,Leïla Lacan|under,4.5,116,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_assists,Ariel Atkins|over,3.5,146,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_assists,Ariel Atkins|under,3.5,-192,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_assists,Nneka Ogwumike|over,3.5,128,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_assists,Nneka Ogwumike|under,3.5,-167,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_assists,Rae Burrell|over,3.5,115,Rae Burrell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_assists,Rae Burrell|under,3.5,-149,Rae Burrell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_assists,Dearica Hamby|over,2.5,118,Dearica Hamby
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_assists,Dearica Hamby|under,2.5,-154,Dearica Hamby
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_points,Ariel Atkins|over,8.5,-125,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_points,Ariel Atkins|under,8.5,-103,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_points,Nneka Ogwumike|over,15.5,-130,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_points,Nneka Ogwumike|under,15.5,100,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_points,Leïla Lacan|over,11.5,-130,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_points,Leïla Lacan|under,11.5,101,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_points,Erica Wheeler|over,8.5,-125,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_points,Erica Wheeler|under,8.5,-103,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_points,Rae Burrell|over,17.5,-103,Rae Burrell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_points,Rae Burrell|under,17.5,-125,Rae Burrell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_points,Dearica Hamby|over,15.5,-135,Dearica Hamby
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_points,Dearica Hamby|under,15.5,105,Dearica Hamby
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_points,Diamond Miller|over,13.5,-105,Diamond Miller
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_points,Diamond Miller|under,13.5,-123,Diamond Miller
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_points,Kennedy Burke|over,8.5,-122,Kennedy Burke
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_points,Kennedy Burke|under,8.5,-106,Kennedy Burke
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_rebounds,Nneka Ogwumike|over,8.5,-115,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_rebounds,Nneka Ogwumike|under,8.5,-112,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_rebounds,Erica Wheeler|over,2.5,141,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_rebounds,Erica Wheeler|under,2.5,-185,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_rebounds,Ariel Atkins|over,2.5,-143,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_rebounds,Ariel Atkins|under,2.5,110,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_rebounds,Leïla Lacan|over,2.5,-133,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_rebounds,Leïla Lacan|under,2.5,103,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_rebounds,Dearica Hamby|over,7.5,109,Dearica Hamby
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_rebounds,Dearica Hamby|under,7.5,-141,Dearica Hamby
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_rebounds,Rae Burrell|over,2.5,-139,Rae Burrell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_rebounds,Rae Burrell|under,2.5,107,Rae Burrell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_rebounds,Kennedy Burke|over,4.5,136,Kennedy Burke
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_rebounds,Kennedy Burke|under,4.5,-179,Kennedy Burke
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_rebounds,Diamond Miller|over,3.5,-133,Diamond Miller
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_rebounds,Diamond Miller|under,3.5,103,Diamond Miller
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_threes,Nneka Ogwumike|over,1.5,139,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_threes,Nneka Ogwumike|under,1.5,-182,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_threes,Erica Wheeler|over,1.5,132,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_threes,Erica Wheeler|under,1.5,-172,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_threes,Rae Burrell|over,2.5,130,Rae Burrell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_threes,Rae Burrell|under,2.5,-169,Rae Burrell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_threes,Ariel Atkins|over,1.5,122,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_threes,Ariel Atkins|under,1.5,-159,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_threes,Leïla Lacan|over,1.5,152,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_threes,Leïla Lacan|under,1.5,-200,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_threes,Diamond Miller|over,1.5,104,Diamond Miller
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_threes,Diamond Miller|under,1.5,-135,Diamond Miller
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_threes,Kennedy Burke|over,1.5,120,Kennedy Burke
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betonlineag,player_threes,Kennedy Burke|under,1.5,-156,Kennedy Burke
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,lowvig,ml,CON,,125,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,lowvig,ml,LAS,,-145,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,lowvig,spread,CON,2.5,-105,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,lowvig,spread,LAS,-2.5,-111,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,lowvig,total,over,170.5,-108,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,lowvig,total,under,170.5,-108,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,bovada,ml,CON,,120,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,bovada,ml,LAS,,-140,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,bovada,spread,CON,2.5,-105,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,bovada,spread,LAS,-2.5,-115,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,bovada,total,over,170.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,bovada,total,under,170.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betmgm,ml,CON,,115,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betmgm,ml,LAS,,-140,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betmgm,total,over,170.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betmgm,total,under,170.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,mybookieag,ml,CON,,117,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,mybookieag,ml,LAS,,-143,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,mybookieag,spread,CON,2.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,mybookieag,spread,LAS,-2.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,mybookieag,total,over,170.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,mybookieag,total,under,170.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,ml,CON,,120,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,ml,LAS,,-148,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,spread,CON,2.5,-112,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,spread,LAS,-2.5,-112,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,total,over,170.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,total,under,170.5,-113,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_assists,Rae Burrell|over,2.5,-180,Rae Burrell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_assists,Nneka Ogwumike|over,3.5,112,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_assists,Dearica Hamby|over,2.5,118,Dearica Hamby
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_assists,Leïla Lacan|over,4.5,-150,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_assists,Olivia Nelson-Ododa|over,1.5,-195,Olivia Nelson-Ododa
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_assists,Charlisse Leger-Walker|over,4.5,-108,Charlisse Leger-Walker
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_assists,Erica Wheeler|over,5.5,104,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_assists,Ariel Atkins|over,3.5,120,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_points,Kennedy Burke|over,9.5,120,Kennedy Burke
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_points,Nneka Ogwumike|over,16.5,100,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_points,Leïla Lacan|over,11.5,-148,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_points,Erica Wheeler|over,9.5,-103,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_points,Ariel Atkins|over,9.5,108,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_points,Olivia Nelson-Ododa|over,11.5,-139,Olivia Nelson-Ododa
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_points,Charlisse Leger-Walker|over,8.5,-122,Charlisse Leger-Walker
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_points,Olivia Nelson-Ododa|over,12.5,-106,Olivia Nelson-Ododa
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_points,Olivia Nelson-Ododa|over,13.5,120,Olivia Nelson-Ododa
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_points,Dearica Hamby|over,15.5,-120,Dearica Hamby
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_points,Diamond Miller|over,12.5,-109,Diamond Miller
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_points,Erica Wheeler|over,8.5,-134,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_points,Nneka Ogwumike|over,15.5,-127,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_points,Rae Burrell|over,18.5,102,Rae Burrell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_points,Rae Burrell|over,17.5,-120,Rae Burrell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_points,Dearica Hamby|over,16.5,108,Dearica Hamby
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_points,Leïla Lacan|over,12.5,-112,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_points,Ariel Atkins|over,8.5,-125,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_points,Kennedy Burke|over,8.5,-108,Kennedy Burke
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_points,Diamond Miller|over,13.5,112,Diamond Miller
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_points,Charlisse Leger-Walker|over,9.5,106,Charlisse Leger-Walker
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_rebounds,Nneka Ogwumike|over,8.5,-121,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_rebounds,Ariel Atkins|over,2.5,-148,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_rebounds,Erica Wheeler|over,2.5,133,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_rebounds,Leïla Lacan|over,2.5,-167,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_rebounds,Rae Burrell|over,2.5,-115,Rae Burrell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_rebounds,Dearica Hamby|over,7.5,100,Dearica Hamby
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_rebounds,Kennedy Burke|over,4.5,123,Kennedy Burke
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_rebounds,Charlisse Leger-Walker|over,3.5,-104,Charlisse Leger-Walker
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_rebounds,Diamond Miller|over,3.5,-132,Diamond Miller
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_rebounds,Olivia Nelson-Ododa|over,8.5,-114,Olivia Nelson-Ododa
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_threes,Diamond Miller|over,1.5,112,Diamond Miller
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_threes,Erica Wheeler|over,1.5,143,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_threes,Ariel Atkins|over,1.5,125,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_threes,Rae Burrell|over,2.5,125,Rae Burrell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_threes,Nneka Ogwumike|over,1.5,148,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_threes,Leïla Lacan|over,1.5,130,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_threes,Kennedy Burke|over,1.5,115,Kennedy Burke
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_threes,Diamond Miller|over,1.5,112,Diamond Miller
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_threes,Erica Wheeler|over,1.5,143,Erica Wheeler
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_threes,Ariel Atkins|over,1.5,125,Ariel Atkins
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_threes,Rae Burrell|over,2.5,125,Rae Burrell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_threes,Nneka Ogwumike|over,1.5,148,Nneka Ogwumike
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_threes,Leïla Lacan|over,1.5,130,Leïla Lacan
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betrivers,player_threes,Kennedy Burke|over,1.5,115,Kennedy Burke
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betus,ml,CON,,125,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betus,ml,LAS,,-145,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betus,spread,CON,2.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betus,spread,LAS,-2.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betus,total,over,170.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,4182f31a2a8dbb90fbfd76b2b1cf0493,LAS,CON,betus,total,under,170.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,ml,IND,,-550,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,ml,TOR,,390,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,spread,IND,-10.5,-106,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,spread,TOR,10.5,-114,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,total,over,190.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,total,under,190.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_assists,Caitlin Clark|over,10.5,104,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_assists,Caitlin Clark|under,10.5,-138,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_assists,Marina Mabrey|over,4.5,-125,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_assists,Marina Mabrey|under,4.5,-106,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_assists,Kiki Rice|over,5.5,122,Kiki Rice
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_assists,Kiki Rice|under,5.5,-162,Kiki Rice
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_assists,Aliyah Boston|over,3.5,134,Aliyah Boston
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_assists,Aliyah Boston|under,3.5,-180,Aliyah Boston
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_points,Laura Juskaite|over,10.5,-108,Laura Juskaite
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_points,Laura Juskaite|under,10.5,-120,Laura Juskaite
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_points,Sophie Cunningham|over,8.5,100,Sophie Cunningham
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_points,Sophie Cunningham|under,8.5,-130,Sophie Cunningham
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_points,Caitlin Clark|over,24.5,-104,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_points,Caitlin Clark|under,24.5,-125,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_points,Aneesah Morrow|over,11.5,-114,Aneesah Morrow
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_points,Aneesah Morrow|under,11.5,-114,Aneesah Morrow
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_points,Kiki Rice|over,12.5,-113,Kiki Rice
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_points,Kiki Rice|under,12.5,-115,Kiki Rice
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_points,Isabelle Harrison|over,13.5,-108,Isabelle Harrison
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_points,Isabelle Harrison|under,13.5,-120,Isabelle Harrison
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_points,Marina Mabrey|over,19.5,-128,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_points,Marina Mabrey|under,19.5,-102,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_points,Kelsey Mitchell|over,25.5,-118,Kelsey Mitchell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_points,Kelsey Mitchell|under,25.5,-110,Kelsey Mitchell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_points,Aliyah Boston|over,16.5,-128,Aliyah Boston
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_points,Aliyah Boston|under,16.5,-102,Aliyah Boston
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_points,Makayla Timpson|over,7.5,-125,Makayla Timpson
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_points,Makayla Timpson|under,7.5,-104,Makayla Timpson
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_rebounds,Laura Juskaite|over,4.5,110,Laura Juskaite
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_rebounds,Laura Juskaite|under,4.5,-146,Laura Juskaite
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_rebounds,Aneesah Morrow|over,7.5,116,Aneesah Morrow
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_rebounds,Aneesah Morrow|under,7.5,-154,Aneesah Morrow
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_rebounds,Isabelle Harrison|over,6.5,-125,Isabelle Harrison
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_rebounds,Isabelle Harrison|under,6.5,-106,Isabelle Harrison
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_rebounds,Makayla Timpson|over,5.5,-158,Makayla Timpson
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_rebounds,Makayla Timpson|under,5.5,118,Makayla Timpson
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_rebounds,Marina Mabrey|over,3.5,100,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_rebounds,Marina Mabrey|under,3.5,-132,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_rebounds,Caitlin Clark|over,4.5,-106,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_rebounds,Caitlin Clark|under,4.5,-125,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_rebounds,Kiki Rice|over,4.5,112,Kiki Rice
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_rebounds,Kiki Rice|under,4.5,-148,Kiki Rice
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_rebounds,Aliyah Boston|over,9.5,116,Aliyah Boston
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_rebounds,Aliyah Boston|under,9.5,-154,Aliyah Boston
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_threes,Laura Juskaite|over,1.5,178,Laura Juskaite
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_threes,Laura Juskaite|under,1.5,-245,Laura Juskaite
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_threes,Sophie Cunningham|over,1.5,118,Sophie Cunningham
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_threes,Sophie Cunningham|under,1.5,-158,Sophie Cunningham
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_threes,Caitlin Clark|over,2.5,-132,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_threes,Caitlin Clark|under,2.5,100,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_threes,Marina Mabrey|over,2.5,-146,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_threes,Marina Mabrey|under,2.5,110,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_threes,Kelsey Mitchell|over,3.5,136,Kelsey Mitchell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,fanduel,player_threes,Kelsey Mitchell|under,3.5,-182,Kelsey Mitchell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,mybookieag,ml,IND,,-536,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,mybookieag,ml,TOR,,374,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,mybookieag,spread,IND,-9.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,mybookieag,spread,TOR,9.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,mybookieag,total,over,190.0,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,mybookieag,total,under,190.0,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,ml,IND,,-485,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,ml,TOR,,370,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,spread,IND,-10.5,-102,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,spread,TOR,10.5,-118,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,total,over,190.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,total,under,190.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_assists,Caitlin Clark|over,10.5,106,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_assists,Caitlin Clark|under,10.5,-144,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_assists,Kiki Rice|over,4.5,-151,Kiki Rice
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_assists,Kiki Rice|under,4.5,111,Kiki Rice
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_assists,Marina Mabrey|over,4.5,-106,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_assists,Marina Mabrey|under,4.5,-128,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_assists,Aliyah Boston|over,3.5,120,Aliyah Boston
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_assists,Aliyah Boston|under,3.5,-164,Aliyah Boston
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_points,Kelsey Mitchell|over,25.5,-107,Kelsey Mitchell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_points,Kelsey Mitchell|under,25.5,-124,Kelsey Mitchell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_points,Caitlin Clark|over,24.5,-112,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_points,Caitlin Clark|under,24.5,-119,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_points,Marina Mabrey|over,19.5,-125,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_points,Marina Mabrey|under,19.5,-106,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_points,Aliyah Boston|over,16.5,-120,Aliyah Boston
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_points,Aliyah Boston|under,16.5,-111,Aliyah Boston
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_points,Isabelle Harrison|over,13.5,-102,Isabelle Harrison
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_points,Isabelle Harrison|under,13.5,-130,Isabelle Harrison
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_points,Kiki Rice|over,12.5,-103,Kiki Rice
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_points,Kiki Rice|under,12.5,-129,Kiki Rice
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_points,Aneesah Morrow|over,11.5,-119,Aneesah Morrow
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_points,Aneesah Morrow|under,11.5,-111,Aneesah Morrow
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_points,Laura Juskaite|over,10.5,-105,Laura Juskaite
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_points,Laura Juskaite|under,10.5,-126,Laura Juskaite
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_points,Sophie Cunningham|over,8.5,-102,Sophie Cunningham
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_points,Sophie Cunningham|under,8.5,-130,Sophie Cunningham
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_points,Makayla Timpson|over,7.5,-124,Makayla Timpson
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_points,Makayla Timpson|under,7.5,-107,Makayla Timpson
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_rebounds,Aliyah Boston|over,9.5,103,Aliyah Boston
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_rebounds,Aliyah Boston|under,9.5,-140,Aliyah Boston
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_rebounds,Aneesah Morrow|over,7.5,101,Aneesah Morrow
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_rebounds,Aneesah Morrow|under,7.5,-138,Aneesah Morrow
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_rebounds,Makayla Timpson|over,6.5,-115,Makayla Timpson
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_rebounds,Makayla Timpson|under,6.5,-118,Makayla Timpson
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_rebounds,Isabelle Harrison|over,6.5,-112,Isabelle Harrison
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_rebounds,Isabelle Harrison|under,6.5,-121,Isabelle Harrison
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_rebounds,Kiki Rice|over,4.5,-102,Kiki Rice
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_rebounds,Kiki Rice|under,4.5,-133,Kiki Rice
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_rebounds,Caitlin Clark|over,4.5,113,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_rebounds,Caitlin Clark|under,4.5,-154,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_rebounds,Laura Juskaite|over,3.5,-148,Laura Juskaite
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_rebounds,Laura Juskaite|under,3.5,109,Laura Juskaite
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_rebounds,Marina Mabrey|over,3.5,-104,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_rebounds,Marina Mabrey|under,3.5,-131,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_threes,Kelsey Mitchell|over,3.5,126,Kelsey Mitchell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_threes,Kelsey Mitchell|under,3.5,-172,Kelsey Mitchell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_threes,Marina Mabrey|over,2.5,-154,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_threes,Marina Mabrey|under,2.5,113,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_threes,Caitlin Clark|over,2.5,-145,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_threes,Caitlin Clark|under,2.5,107,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_threes,Sophie Cunningham|over,1.5,110,Sophie Cunningham
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_threes,Sophie Cunningham|under,1.5,-150,Sophie Cunningham
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_threes,Laura Juskaite|over,1.5,164,Laura Juskaite
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,draftkings,player_threes,Laura Juskaite|under,1.5,-226,Laura Juskaite
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betmgm,ml,IND,,-500,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betmgm,ml,TOR,,375,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betmgm,spread,IND,-10.5,-105,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betmgm,spread,TOR,10.5,-115,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betmgm,total,over,190.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betmgm,total,under,190.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,ml,IND,,-480,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,ml,TOR,,350,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,spread,IND,-10.5,-109,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,spread,TOR,10.5,-114,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,total,over,189.5,-114,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,total,under,189.5,-108,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_assists,Aliyah Boston|over,3.5,115,Aliyah Boston
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_assists,Caitlin Clark|over,9.5,-148,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_assists,Marina Mabrey|over,4.5,-114,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_assists,Kiki Rice|over,4.5,-132,Kiki Rice
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_assists,Kelsey Mitchell|over,2.5,-141,Kelsey Mitchell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_points,Laura Juskaite|over,11.5,105,Laura Juskaite
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_points,Kiki Rice|over,11.5,-129,Kiki Rice
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_points,Aliyah Boston|over,18.5,102,Aliyah Boston
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_points,Kelsey Mitchell|over,24.5,-139,Kelsey Mitchell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_points,Aneesah Morrow|over,12.5,105,Aneesah Morrow
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_points,Aliyah Boston|over,17.5,-124,Aliyah Boston
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_points,Aneesah Morrow|over,11.5,-124,Aneesah Morrow
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_points,Kelsey Mitchell|over,25.5,-117,Kelsey Mitchell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_points,Caitlin Clark|over,22.5,-143,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_points,Caitlin Clark|over,24.5,102,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_points,Caitlin Clark|over,23.5,-118,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_points,Kelsey Mitchell|over,26.5,102,Kelsey Mitchell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_points,Isabelle Harrison|over,13.5,-104,Isabelle Harrison
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_points,Marina Mabrey|over,20.5,-106,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_points,Aliyah Boston|over,16.5,-157,Aliyah Boston
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_points,Marina Mabrey|over,19.5,-129,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_points,Marina Mabrey|over,21.5,116,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_points,Laura Juskaite|over,10.5,-125,Laura Juskaite
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_points,Sophie Cunningham|over,8.5,100,Sophie Cunningham
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_points,Isabelle Harrison|over,12.5,-130,Isabelle Harrison
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_points,Makayla Timpson|over,8.5,128,Makayla Timpson
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_points,Makayla Timpson|over,7.5,-118,Makayla Timpson
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_points,Kiki Rice|over,12.5,100,Kiki Rice
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_rebounds,Kiki Rice|over,4.5,-122,Kiki Rice
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_rebounds,Aliyah Boston|over,9.5,-109,Aliyah Boston
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_rebounds,Caitlin Clark|over,4.5,112,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_rebounds,Aneesah Morrow|over,7.5,-115,Aneesah Morrow
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_rebounds,Laura Juskaite|over,4.5,-104,Laura Juskaite
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_rebounds,Marina Mabrey|over,3.5,-112,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_rebounds,Makayla Timpson|over,6.5,100,Makayla Timpson
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_rebounds,Isabelle Harrison|over,6.5,-118,Isabelle Harrison
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_threes,Laura Juskaite|over,0.5,-240,Laura Juskaite
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_threes,Kiki Rice|over,0.5,-180,Kiki Rice
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_threes,Aliyah Boston|over,0.5,-230,Aliyah Boston
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_threes,Kelsey Mitchell|over,2.5,-162,Kelsey Mitchell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_threes,Marina Mabrey|over,2.5,-134,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_threes,Caitlin Clark|over,2.5,-127,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_threes,Sophie Cunningham|over,1.5,117,Sophie Cunningham
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_threes,Laura Juskaite|over,0.5,-240,Laura Juskaite
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_threes,Kiki Rice|over,0.5,-180,Kiki Rice
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_threes,Aliyah Boston|over,0.5,-230,Aliyah Boston
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_threes,Kelsey Mitchell|over,2.5,-162,Kelsey Mitchell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_threes,Marina Mabrey|over,2.5,-134,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_threes,Caitlin Clark|over,2.5,-127,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betrivers,player_threes,Sophie Cunningham|over,1.5,117,Sophie Cunningham
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,ml,IND,,-485,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,ml,TOR,,374,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,spread,IND,-10.0,-108,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,spread,TOR,10.0,-112,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,total,over,190.5,-105,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,total,under,190.5,-115,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_assists,Aliyah Boston|over,3.5,136,Aliyah Boston
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_assists,Aliyah Boston|under,3.5,-179,Aliyah Boston
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_assists,Marina Mabrey|over,4.5,-110,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_assists,Marina Mabrey|under,4.5,-118,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_assists,Caitlin Clark|over,10.5,107,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_assists,Caitlin Clark|under,10.5,-139,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_assists,Kiki Rice|over,5.5,122,Kiki Rice
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_assists,Kiki Rice|under,5.5,-159,Kiki Rice
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_assists,Brittney Sykes|over,2.5,-105,Brittney Sykes
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_assists,Brittney Sykes|under,2.5,-123,Brittney Sykes
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_points,Kelsey Mitchell|over,25.5,-109,Kelsey Mitchell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_points,Kelsey Mitchell|under,25.5,-119,Kelsey Mitchell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_points,Aliyah Boston|over,16.5,-120,Aliyah Boston
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_points,Aliyah Boston|under,16.5,-108,Aliyah Boston
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_points,Caitlin Clark|over,24.5,-101,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_points,Caitlin Clark|under,24.5,-128,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_points,Makayla Timpson|over,7.5,-127,Makayla Timpson
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_points,Makayla Timpson|under,7.5,-102,Makayla Timpson
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_points,Marina Mabrey|over,19.5,-127,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_points,Marina Mabrey|under,19.5,-102,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_points,Kiki Rice|over,12.5,-106,Kiki Rice
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_points,Kiki Rice|under,12.5,-122,Kiki Rice
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_points,Aneesah Morrow|over,11.5,-114,Aneesah Morrow
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_points,Aneesah Morrow|under,11.5,-114,Aneesah Morrow
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_points,Laura Juskaite|over,10.5,-114,Laura Juskaite
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_points,Laura Juskaite|under,10.5,-114,Laura Juskaite
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_points,Sophie Cunningham|over,8.5,-105,Sophie Cunningham
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_points,Sophie Cunningham|under,8.5,-123,Sophie Cunningham
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_points,Isabelle Harrison|over,13.5,-105,Isabelle Harrison
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_points,Isabelle Harrison|under,13.5,-123,Isabelle Harrison
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_points,Brittney Sykes|over,9.5,-156,Brittney Sykes
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_points,Brittney Sykes|under,9.5,120,Brittney Sykes
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_rebounds,Caitlin Clark|over,4.5,100,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_rebounds,Caitlin Clark|under,4.5,-130,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_rebounds,Marina Mabrey|over,3.5,100,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_rebounds,Marina Mabrey|under,3.5,-130,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_rebounds,Makayla Timpson|over,5.5,-159,Makayla Timpson
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_rebounds,Makayla Timpson|under,5.5,122,Makayla Timpson
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_rebounds,Aneesah Morrow|over,7.5,106,Aneesah Morrow
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_rebounds,Aneesah Morrow|under,7.5,-137,Aneesah Morrow
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_rebounds,Isabelle Harrison|over,6.5,-103,Isabelle Harrison
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_rebounds,Isabelle Harrison|under,6.5,-125,Isabelle Harrison
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_rebounds,Kiki Rice|over,4.5,110,Kiki Rice
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_rebounds,Kiki Rice|under,4.5,-143,Kiki Rice
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_rebounds,Laura Juskaite|over,4.5,115,Laura Juskaite
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_rebounds,Laura Juskaite|under,4.5,-149,Laura Juskaite
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_rebounds,Aliyah Boston|over,9.5,100,Aliyah Boston
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_rebounds,Aliyah Boston|under,9.5,-130,Aliyah Boston
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_rebounds,Brittney Sykes|over,2.5,-120,Brittney Sykes
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_rebounds,Brittney Sykes|under,2.5,-108,Brittney Sykes
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_threes,Marina Mabrey|over,2.5,-147,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_threes,Marina Mabrey|under,2.5,113,Marina Mabrey
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_threes,Caitlin Clark|over,2.5,-135,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_threes,Caitlin Clark|under,2.5,105,Caitlin Clark
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_threes,Kelsey Mitchell|over,3.5,136,Kelsey Mitchell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_threes,Kelsey Mitchell|under,3.5,-179,Kelsey Mitchell
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_threes,Sophie Cunningham|over,1.5,117,Sophie Cunningham
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_threes,Sophie Cunningham|under,1.5,-152,Sophie Cunningham
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_threes,Aliyah Boston|over,1.5,195,Aliyah Boston
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_threes,Aliyah Boston|under,1.5,-263,Aliyah Boston
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_threes,Laura Juskaite|over,1.5,186,Laura Juskaite
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betonlineag,player_threes,Laura Juskaite|under,1.5,-250,Laura Juskaite
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,lowvig,ml,IND,,-485,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,lowvig,ml,TOR,,374,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,lowvig,spread,IND,-10.0,-106,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,lowvig,spread,TOR,10.0,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,lowvig,total,over,190.5,-103,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,lowvig,total,under,190.5,-113,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betus,ml,IND,,-485,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betus,ml,TOR,,370,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betus,spread,IND,-10.0,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betus,spread,TOR,10.0,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betus,total,over,190.5,-105,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,betus,total,under,190.5,-115,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,bovada,ml,IND,,-510,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,bovada,ml,TOR,,370,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,bovada,spread,IND,-10.0,-115,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,bovada,spread,TOR,10.0,-105,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,bovada,total,over,189.0,-110,
+2026-08-18T19:22:48+00:00,2026-08-18T23:00:00Z,82e9dd1bf34357364d7cda4ebfacc413,IND,TOR,bovada,total,under,189.0,-110,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,ml,CHI,,140,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,ml,NYL,,-172,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,spread,CHI,4.5,-114,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,spread,NYL,-4.5,-106,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,total,over,180.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,total,under,180.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_assists,Breanna Stewart|over,3.5,-125,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_assists,Breanna Stewart|under,3.5,-106,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_assists,Kamilla Cardoso|over,2.5,-158,Kamilla Cardoso
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_assists,Kamilla Cardoso|under,2.5,118,Kamilla Cardoso
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_assists,Jonquel Jones|over,2.5,-154,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_assists,Jonquel Jones|under,2.5,116,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_assists,Sabrina Ionescu|over,4.5,-136,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_assists,Sabrina Ionescu|under,4.5,102,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_assists,Courtney Vandersloot|over,4.5,-140,Courtney Vandersloot
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_assists,Courtney Vandersloot|under,4.5,106,Courtney Vandersloot
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_assists,Natasha Cloud|over,6.5,120,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_assists,Natasha Cloud|under,6.5,-160,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_assists,Azura Stevens|over,2.5,118,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_assists,Azura Stevens|under,2.5,-158,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_points,Kamilla Cardoso|over,14.5,-120,Kamilla Cardoso
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_points,Kamilla Cardoso|under,14.5,-108,Kamilla Cardoso
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_points,Breanna Stewart|over,21.5,-128,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_points,Breanna Stewart|under,21.5,-102,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_points,Natasha Cloud|over,10.5,-102,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_points,Natasha Cloud|under,10.5,-128,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_points,Azura Stevens|over,11.5,-114,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_points,Azura Stevens|under,11.5,-114,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_points,Sabrina Ionescu|over,17.5,-104,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_points,Sabrina Ionescu|under,17.5,-125,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_points,Courtney Vandersloot|over,9.5,102,Courtney Vandersloot
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_points,Courtney Vandersloot|under,9.5,-132,Courtney Vandersloot
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_points,Jonquel Jones|over,14.5,-110,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_points,Jonquel Jones|under,14.5,-118,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_rebounds,Kamilla Cardoso|over,8.5,118,Kamilla Cardoso
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_rebounds,Kamilla Cardoso|under,8.5,-158,Kamilla Cardoso
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_rebounds,Azura Stevens|over,6.5,114,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_rebounds,Azura Stevens|under,6.5,-152,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_rebounds,Breanna Stewart|over,8.5,102,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_rebounds,Breanna Stewart|under,8.5,-136,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_rebounds,Courtney Vandersloot|over,2.5,-140,Courtney Vandersloot
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_rebounds,Courtney Vandersloot|under,2.5,106,Courtney Vandersloot
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_rebounds,Natasha Cloud|over,3.5,104,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_rebounds,Natasha Cloud|under,3.5,-138,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_rebounds,Jonquel Jones|over,9.5,-144,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_rebounds,Jonquel Jones|under,9.5,108,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_rebounds,Sabrina Ionescu|over,3.5,-138,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_rebounds,Sabrina Ionescu|under,3.5,104,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_threes,Jonquel Jones|over,1.5,-122,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_threes,Jonquel Jones|under,1.5,-108,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_threes,Azura Stevens|over,1.5,194,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_threes,Azura Stevens|under,1.5,-270,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_threes,Sabrina Ionescu|over,2.5,132,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_threes,Sabrina Ionescu|under,2.5,-178,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_threes,Natasha Cloud|over,1.5,162,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_threes,Natasha Cloud|under,1.5,-220,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_threes,Rebecca Allen|over,1.5,-114,Rebecca Allen
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,fanduel,player_threes,Rebecca Allen|under,1.5,-114,Rebecca Allen
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,mybookieag,ml,CHI,,145,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,mybookieag,ml,NYL,,-179,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,mybookieag,spread,CHI,4.0,-110,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,mybookieag,spread,NYL,-4.0,-110,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,mybookieag,total,over,180.0,-110,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,mybookieag,total,under,180.0,-110,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,ml,CHI,,150,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,ml,NYL,,-180,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,spread,CHI,4.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,spread,NYL,-4.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,total,over,180.5,-112,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,total,under,180.5,-108,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_assists,Natasha Cloud|over,5.5,-156,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_assists,Natasha Cloud|under,5.5,114,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_assists,Courtney Vandersloot|over,4.5,-143,Courtney Vandersloot
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_assists,Courtney Vandersloot|under,4.5,105,Courtney Vandersloot
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_assists,Sabrina Ionescu|over,4.5,-119,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_assists,Sabrina Ionescu|under,4.5,-114,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_assists,Breanna Stewart|over,3.5,-148,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_assists,Breanna Stewart|under,3.5,109,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_assists,Kamilla Cardoso|over,2.5,-167,Kamilla Cardoso
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_assists,Kamilla Cardoso|under,2.5,122,Kamilla Cardoso
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_assists,Jonquel Jones|over,2.5,-130,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_assists,Jonquel Jones|under,2.5,-104,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_assists,Azura Stevens|over,2.5,101,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_assists,Azura Stevens|under,2.5,-137,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_points,Breanna Stewart|over,21.5,-120,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_points,Breanna Stewart|under,21.5,-111,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_points,Sabrina Ionescu|over,16.5,-121,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_points,Sabrina Ionescu|under,16.5,-110,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_points,Kamilla Cardoso|over,14.5,-124,Kamilla Cardoso
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_points,Kamilla Cardoso|under,14.5,-107,Kamilla Cardoso
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_points,Jonquel Jones|over,14.5,-118,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_points,Jonquel Jones|under,14.5,-112,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_points,Azura Stevens|over,11.5,-118,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_points,Azura Stevens|under,11.5,-113,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_points,Natasha Cloud|over,9.5,-133,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_points,Natasha Cloud|under,9.5,100,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_points,Courtney Vandersloot|over,9.5,-103,Courtney Vandersloot
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_points,Courtney Vandersloot|under,9.5,-128,Courtney Vandersloot
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_rebounds,Jonquel Jones|over,10.5,100,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_rebounds,Jonquel Jones|under,10.5,-136,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_rebounds,Breanna Stewart|over,8.5,-109,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_rebounds,Breanna Stewart|under,8.5,-125,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_rebounds,Kamilla Cardoso|over,8.5,105,Kamilla Cardoso
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_rebounds,Kamilla Cardoso|under,8.5,-143,Kamilla Cardoso
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_rebounds,Azura Stevens|over,6.5,105,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_rebounds,Azura Stevens|under,6.5,-143,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_rebounds,Sabrina Ionescu|over,3.5,-120,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_rebounds,Sabrina Ionescu|under,3.5,-113,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_rebounds,Natasha Cloud|over,3.5,-107,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_rebounds,Natasha Cloud|under,3.5,-127,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_rebounds,Courtney Vandersloot|over,2.5,-134,Courtney Vandersloot
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_rebounds,Courtney Vandersloot|under,2.5,-102,Courtney Vandersloot
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_threes,Sabrina Ionescu|over,2.5,130,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_threes,Sabrina Ionescu|under,2.5,-177,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_threes,Jonquel Jones|over,1.5,-146,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_threes,Jonquel Jones|under,1.5,107,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_threes,Rebecca Allen|over,1.5,100,Rebecca Allen
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_threes,Rebecca Allen|under,1.5,-136,Rebecca Allen
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_threes,Natasha Cloud|over,1.5,153,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_threes,Natasha Cloud|under,1.5,-211,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_threes,Azura Stevens|over,1.5,174,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_threes,Azura Stevens|under,1.5,-241,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_threes,Breanna Stewart|over,0.5,-152,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,draftkings,player_threes,Breanna Stewart|under,0.5,112,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,ml,CHI,,145,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,ml,NYL,,-180,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,spread,CHI,3.5,-106,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,spread,NYL,-3.5,-118,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,total,over,179.5,-106,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,total,under,179.5,-118,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_assists,Kamilla Cardoso|over,2.5,-159,Kamilla Cardoso
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_assists,Breanna Stewart|over,3.5,-127,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_assists,Courtney Vandersloot|over,4.5,-159,Courtney Vandersloot
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_assists,Sabrina Ionescu|over,4.5,-121,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_assists,Natasha Cloud|over,6.5,-105,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_assists,Jonquel Jones|over,2.5,-143,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_assists,Azura Stevens|over,2.5,125,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_points,Kamilla Cardoso|over,14.5,-134,Kamilla Cardoso
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_points,Kamilla Cardoso|over,15.5,-106,Kamilla Cardoso
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_points,Sabrina Ionescu|over,17.5,105,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_points,Breanna Stewart|over,23.5,115,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_points,Breanna Stewart|over,21.5,-125,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_points,Courtney Vandersloot|over,8.5,-134,Courtney Vandersloot
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_points,Breanna Stewart|over,22.5,-104,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_points,Jonquel Jones|over,14.5,-122,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_points,Courtney Vandersloot|over,9.5,105,Courtney Vandersloot
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_points,Jonquel Jones|over,15.5,105,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_points,Natasha Cloud|over,11.5,115,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_points,Sabrina Ionescu|over,16.5,-118,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_points,Azura Stevens|over,12.5,105,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_points,Azura Stevens|over,11.5,-120,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_points,Natasha Cloud|over,10.5,-114,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_rebounds,Sabrina Ionescu|over,3.5,-129,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_rebounds,Azura Stevens|over,6.5,115,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_rebounds,Kamilla Cardoso|over,8.5,-110,Kamilla Cardoso
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_rebounds,Jonquel Jones|over,10.5,-103,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_rebounds,Natasha Cloud|over,3.5,-106,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_rebounds,Courtney Vandersloot|over,2.5,-157,Courtney Vandersloot
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_rebounds,Breanna Stewart|over,8.5,104,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_threes,Azura Stevens|over,0.5,-205,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_threes,Sabrina Ionescu|over,2.5,130,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_threes,Jonquel Jones|over,1.5,-113,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_threes,Natasha Cloud|over,1.5,165,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_threes,Breanna Stewart|over,0.5,-190,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_threes,Azura Stevens|over,0.5,-205,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_threes,Sabrina Ionescu|over,2.5,130,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_threes,Jonquel Jones|over,1.5,-113,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_threes,Natasha Cloud|over,1.5,165,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betrivers,player_threes,Breanna Stewart|over,0.5,-190,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betmgm,ml,CHI,,155,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betmgm,ml,NYL,,-185,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betmgm,spread,CHI,3.5,-102,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betmgm,spread,NYL,-3.5,-118,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betmgm,total,over,179.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betmgm,total,under,179.5,-110,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,ml,CHI,,161,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,ml,NYL,,-185,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,spread,CHI,4.0,-110,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,spread,NYL,-4.0,-110,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,total,over,180.0,-115,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,total,under,180.0,-105,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_assists,Sabrina Ionescu|over,4.5,-116,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_assists,Sabrina Ionescu|under,4.5,-111,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_assists,Jonquel Jones|over,2.5,-141,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_assists,Jonquel Jones|under,2.5,109,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_assists,Breanna Stewart|over,3.5,-127,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_assists,Breanna Stewart|under,3.5,-102,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_assists,Kamilla Cardoso|over,2.5,-164,Kamilla Cardoso
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_assists,Kamilla Cardoso|under,2.5,125,Kamilla Cardoso
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_assists,Azura Stevens|over,2.5,113,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_assists,Azura Stevens|under,2.5,-147,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_assists,Natasha Cloud|over,6.5,118,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_assists,Natasha Cloud|under,6.5,-154,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_assists,Courtney Vandersloot|over,4.5,-141,Courtney Vandersloot
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_assists,Courtney Vandersloot|under,4.5,108,Courtney Vandersloot
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_points,Sabrina Ionescu|over,17.5,103,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_points,Sabrina Ionescu|under,17.5,-133,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_points,Jonquel Jones|over,14.5,-111,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_points,Jonquel Jones|under,14.5,-116,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_points,Azura Stevens|over,11.5,-111,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_points,Azura Stevens|under,11.5,-116,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_points,Natasha Cloud|over,10.5,100,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_points,Natasha Cloud|under,10.5,-130,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_points,Courtney Vandersloot|over,8.5,-143,Courtney Vandersloot
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_points,Courtney Vandersloot|under,8.5,110,Courtney Vandersloot
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_points,Kamilla Cardoso|over,14.5,-122,Kamilla Cardoso
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_points,Kamilla Cardoso|under,14.5,-106,Kamilla Cardoso
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_points,Breanna Stewart|over,21.5,-125,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_points,Breanna Stewart|under,21.5,-103,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_rebounds,Sabrina Ionescu|over,3.5,-130,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_rebounds,Sabrina Ionescu|under,3.5,100,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_rebounds,Breanna Stewart|over,8.5,103,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_rebounds,Breanna Stewart|under,8.5,-133,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_rebounds,Jonquel Jones|over,9.5,-143,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_rebounds,Jonquel Jones|under,9.5,110,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_rebounds,Kamilla Cardoso|over,7.5,-164,Kamilla Cardoso
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_rebounds,Kamilla Cardoso|under,7.5,126,Kamilla Cardoso
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_rebounds,Natasha Cloud|over,3.5,109,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_rebounds,Natasha Cloud|under,3.5,-141,Natasha Cloud
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_rebounds,Courtney Vandersloot|over,2.5,-133,Courtney Vandersloot
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_rebounds,Courtney Vandersloot|under,2.5,103,Courtney Vandersloot
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_rebounds,Azura Stevens|over,6.5,115,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_rebounds,Azura Stevens|under,6.5,-149,Azura Stevens
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_threes,Jonquel Jones|over,1.5,-122,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_threes,Jonquel Jones|under,1.5,-106,Jonquel Jones
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_threes,Sabrina Ionescu|over,2.5,136,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_threes,Sabrina Ionescu|under,2.5,-179,Sabrina Ionescu
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_threes,Breanna Stewart|over,0.5,-156,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_threes,Breanna Stewart|under,0.5,120,Breanna Stewart
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_threes,Rebecca Allen|over,1.5,-105,Rebecca Allen
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betonlineag,player_threes,Rebecca Allen|under,1.5,-123,Rebecca Allen
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,lowvig,ml,CHI,,161,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,lowvig,ml,NYL,,-185,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,lowvig,spread,CHI,4.0,-108,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,lowvig,spread,NYL,-4.0,-108,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,lowvig,total,over,180.0,-113,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,lowvig,total,under,180.0,-103,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betus,ml,CHI,,155,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betus,ml,NYL,,-180,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betus,spread,CHI,4.0,-110,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betus,spread,NYL,-4.0,-110,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betus,total,over,180.0,-110,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,betus,total,under,180.0,-110,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,bovada,ml,CHI,,160,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,bovada,ml,NYL,,-185,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,bovada,spread,CHI,4.0,-110,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,bovada,spread,NYL,-4.0,-110,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,bovada,total,over,180.0,-110,
+2026-08-18T19:22:48+00:00,2026-08-19T01:00:00Z,89ad79c1f38cc357b48573134ca858b7,NYL,CHI,bovada,total,under,180.0,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,ml,ATL,,134,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,ml,LVA,,-164,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,spread,ATL,3.5,-106,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,spread,LVA,-3.5,-114,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,total,over,177.5,-108,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,total,under,177.5,-112,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_assists,Chelsea Gray|over,5.5,-148,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_assists,Chelsea Gray|under,5.5,112,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_assists,A'ja Wilson|over,2.5,-182,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_assists,A'ja Wilson|under,2.5,136,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_assists,Angel Reese|over,2.5,102,Angel Reese
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_assists,Angel Reese|under,2.5,-136,Angel Reese
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_assists,Jackie Young|over,6.5,-108,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_assists,Jackie Young|under,6.5,-122,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_assists,Jordin Canada|over,7.5,102,Jordin Canada
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_assists,Jordin Canada|under,7.5,-136,Jordin Canada
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_assists,Rhyne Howard|over,4.5,132,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_assists,Rhyne Howard|under,4.5,-178,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_points,Chelsea Gray|over,11.5,-125,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_points,Chelsea Gray|under,11.5,-104,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_points,NaLyssa Smith|over,11.5,-108,NaLyssa Smith
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_points,NaLyssa Smith|under,11.5,-120,NaLyssa Smith
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_points,Jordin Canada|over,10.5,-130,Jordin Canada
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_points,Jordin Canada|under,10.5,100,Jordin Canada
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_points,Rhyne Howard|over,17.5,-118,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_points,Rhyne Howard|under,17.5,-110,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_points,Angel Reese|over,15.5,100,Angel Reese
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_points,Angel Reese|under,15.5,-130,Angel Reese
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_points,Allisha Gray|over,19.5,-102,Allisha Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_points,Allisha Gray|under,19.5,-128,Allisha Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_points,Jackie Young|over,19.5,-108,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_points,Jackie Young|under,19.5,-120,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_points,Jewell Loyd|over,7.5,-130,Jewell Loyd
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_points,Jewell Loyd|under,7.5,100,Jewell Loyd
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_points,A'ja Wilson|over,24.5,-128,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_points,A'ja Wilson|under,24.5,-102,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_rebounds,Chelsea Gray|over,2.5,-154,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_rebounds,Chelsea Gray|under,2.5,116,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_rebounds,Naz Hillmon|over,4.5,-130,Naz Hillmon
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_rebounds,Naz Hillmon|under,4.5,-102,Naz Hillmon
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_rebounds,NaLyssa Smith|over,6.5,116,NaLyssa Smith
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_rebounds,NaLyssa Smith|under,6.5,-154,NaLyssa Smith
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_rebounds,A'ja Wilson|over,8.5,-144,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_rebounds,A'ja Wilson|under,8.5,108,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_rebounds,Angel Reese|over,12.5,-114,Angel Reese
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_rebounds,Angel Reese|under,12.5,-114,Angel Reese
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_rebounds,Rhyne Howard|over,3.5,-136,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_rebounds,Rhyne Howard|under,3.5,102,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_rebounds,Allisha Gray|over,3.5,110,Allisha Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_rebounds,Allisha Gray|under,3.5,-146,Allisha Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_rebounds,Jordin Canada|over,3.5,116,Jordin Canada
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_rebounds,Jordin Canada|under,3.5,-154,Jordin Canada
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_rebounds,Jackie Young|over,3.5,-172,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_rebounds,Jackie Young|under,3.5,128,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_threes,Jackie Young|over,2.5,142,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_threes,Jackie Young|under,2.5,-192,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_threes,Chelsea Gray|over,1.5,-112,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_threes,Chelsea Gray|under,1.5,-118,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_threes,Naz Hillmon|over,1.5,148,Naz Hillmon
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_threes,Naz Hillmon|under,1.5,-200,Naz Hillmon
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_threes,Allisha Gray|over,1.5,-130,Allisha Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_threes,Allisha Gray|under,1.5,-102,Allisha Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_threes,Rhyne Howard|over,3.5,122,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_threes,Rhyne Howard|under,3.5,-162,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_threes,A'ja Wilson|over,0.5,-172,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_threes,A'ja Wilson|under,0.5,128,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_threes,Jewell Loyd|over,1.5,-104,Jewell Loyd
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,fanduel,player_threes,Jewell Loyd|under,1.5,-128,Jewell Loyd
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,ml,ATL,,136,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,ml,LVA,,-162,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,spread,ATL,3.5,-118,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,spread,LVA,-3.5,-102,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,total,over,177.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,total,under,177.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_assists,Jordin Canada|over,7.5,-102,Jordin Canada
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_assists,Jordin Canada|under,7.5,-133,Jordin Canada
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_assists,Jackie Young|over,6.5,-113,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_assists,Jackie Young|under,6.5,-120,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_assists,Chelsea Gray|over,6.5,106,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_assists,Chelsea Gray|under,6.5,-144,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_assists,Rhyne Howard|over,3.5,-164,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_assists,Rhyne Howard|under,3.5,120,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_assists,A'ja Wilson|over,2.5,-171,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_assists,A'ja Wilson|under,2.5,125,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_assists,Angel Reese|over,2.5,-108,Angel Reese
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_assists,Angel Reese|under,2.5,-126,Angel Reese
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_points,A'ja Wilson|over,24.5,-126,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_points,A'ja Wilson|under,24.5,-105,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_points,Jackie Young|over,19.5,-116,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_points,Jackie Young|under,19.5,-114,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_points,Allisha Gray|over,19.5,-109,Allisha Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_points,Allisha Gray|under,19.5,-122,Allisha Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_points,Rhyne Howard|over,17.5,-116,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_points,Rhyne Howard|under,17.5,-114,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_points,Angel Reese|over,15.5,-105,Angel Reese
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_points,Angel Reese|under,15.5,-126,Angel Reese
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_points,NaLyssa Smith|over,11.5,-123,NaLyssa Smith
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_points,NaLyssa Smith|under,11.5,-107,NaLyssa Smith
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_points,Chelsea Gray|over,11.5,-111,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_points,Chelsea Gray|under,11.5,-119,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_points,Jordin Canada|over,10.5,-125,Jordin Canada
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_points,Jordin Canada|under,10.5,-106,Jordin Canada
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_points,Naz Hillmon|over,8.5,-132,Naz Hillmon
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_points,Naz Hillmon|under,8.5,-101,Naz Hillmon
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_points,Jewell Loyd|over,7.5,-115,Jewell Loyd
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_points,Jewell Loyd|under,7.5,-115,Jewell Loyd
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_rebounds,Angel Reese|over,12.5,-113,Angel Reese
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_rebounds,Angel Reese|under,12.5,-121,Angel Reese
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_rebounds,A'ja Wilson|over,9.5,103,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_rebounds,A'ja Wilson|under,9.5,-140,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_rebounds,NaLyssa Smith|over,6.5,108,NaLyssa Smith
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_rebounds,NaLyssa Smith|under,6.5,-146,NaLyssa Smith
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_rebounds,Naz Hillmon|over,4.5,-117,Naz Hillmon
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_rebounds,Naz Hillmon|under,4.5,-116,Naz Hillmon
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_rebounds,Jackie Young|over,3.5,-163,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_rebounds,Jackie Young|under,3.5,119,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_rebounds,Rhyne Howard|over,3.5,-143,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_rebounds,Rhyne Howard|under,3.5,105,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_rebounds,Jordin Canada|over,3.5,103,Jordin Canada
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_rebounds,Jordin Canada|under,3.5,-140,Jordin Canada
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_rebounds,Allisha Gray|over,3.5,118,Allisha Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_rebounds,Allisha Gray|under,3.5,-160,Allisha Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_rebounds,Chelsea Gray|over,2.5,-149,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_rebounds,Chelsea Gray|under,2.5,110,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_threes,Rhyne Howard|over,2.5,-173,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_threes,Rhyne Howard|under,2.5,126,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_threes,Jackie Young|over,1.5,-187,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_threes,Jackie Young|under,1.5,136,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_threes,Allisha Gray|over,1.5,-130,Allisha Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_threes,Allisha Gray|under,1.5,-105,Allisha Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_threes,Chelsea Gray|over,1.5,-111,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_threes,Chelsea Gray|under,1.5,-122,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_threes,Jewell Loyd|over,1.5,-106,Jewell Loyd
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_threes,Jewell Loyd|under,1.5,-128,Jewell Loyd
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_threes,Naz Hillmon|over,1.5,139,Naz Hillmon
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_threes,Naz Hillmon|under,1.5,-190,Naz Hillmon
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_threes,A'ja Wilson|over,0.5,-219,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,draftkings,player_threes,A'ja Wilson|under,0.5,158,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betmgm,ml,ATL,,135,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betmgm,ml,LVA,,-165,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betmgm,spread,ATL,3.5,-115,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betmgm,spread,LVA,-3.5,-105,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betmgm,total,over,177.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betmgm,total,under,177.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,mybookieag,ml,ATL,,124,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,mybookieag,ml,LVA,,-153,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,mybookieag,spread,ATL,3.0,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,mybookieag,spread,LVA,-3.0,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,mybookieag,total,over,177.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,mybookieag,total,under,177.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,ml,ATL,,130,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,ml,LVA,,-162,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,spread,ATL,3.5,-120,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,spread,LVA,-3.5,-105,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,total,over,177.5,-112,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,total,under,177.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_assists,Rhyne Howard|over,3.5,-150,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_assists,Jordin Canada|over,7.5,-112,Jordin Canada
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_assists,Angel Reese|over,2.5,100,Angel Reese
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_assists,Jackie Young|over,6.5,-104,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_assists,Chelsea Gray|over,5.5,-152,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_assists,A'ja Wilson|over,2.5,-180,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_points,Jackie Young|over,20.5,108,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_points,Rhyne Howard|over,19.5,120,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_points,Rhyne Howard|over,17.5,-130,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_points,Angel Reese|over,16.5,108,Angel Reese
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_points,A'ja Wilson|over,25.5,-107,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_points,Jewell Loyd|over,8.5,104,Jewell Loyd
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_points,Naz Hillmon|over,9.5,-108,Naz Hillmon
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_points,Allisha Gray|over,19.5,-104,Allisha Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_points,A'ja Wilson|over,26.5,112,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_points,Jordin Canada|over,10.5,-141,Jordin Canada
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_points,NaLyssa Smith|over,12.5,112,NaLyssa Smith
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_points,Rhyne Howard|over,18.5,-105,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_points,Jackie Young|over,18.5,-139,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_points,A'ja Wilson|over,24.5,-130,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_points,Jackie Young|over,19.5,-114,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_points,Allisha Gray|over,18.5,-129,Allisha Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_points,NaLyssa Smith|over,11.5,-118,NaLyssa Smith
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_points,Angel Reese|over,15.5,-120,Angel Reese
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_points,Jordin Canada|over,11.5,-107,Jordin Canada
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_points,Chelsea Gray|over,11.5,-134,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_points,Chelsea Gray|over,12.5,-105,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_points,Jewell Loyd|over,7.5,-134,Jewell Loyd
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_points,Naz Hillmon|over,10.5,125,Naz Hillmon
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_points,Jordin Canada|over,12.5,123,Jordin Canada
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_rebounds,Chelsea Gray|over,2.5,-155,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_rebounds,NaLyssa Smith|over,6.5,106,NaLyssa Smith
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_rebounds,Angel Reese|over,12.5,-109,Angel Reese
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_rebounds,Rhyne Howard|over,3.5,-148,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_rebounds,Allisha Gray|over,3.5,123,Allisha Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_rebounds,Naz Hillmon|over,4.5,-121,Naz Hillmon
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_rebounds,Jackie Young|over,3.5,-150,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_rebounds,Jordin Canada|over,3.5,102,Jordin Canada
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_rebounds,A'ja Wilson|over,9.5,100,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_threes,Naz Hillmon|over,1.5,143,Naz Hillmon
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_threes,Jackie Young|over,2.5,130,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_threes,A'ja Wilson|over,0.5,-205,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_threes,Chelsea Gray|over,1.5,-118,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_threes,Jewell Loyd|over,1.5,-118,Jewell Loyd
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_threes,Rhyne Howard|over,2.5,-162,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_threes,Allisha Gray|over,1.5,-129,Allisha Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_threes,Naz Hillmon|over,1.5,143,Naz Hillmon
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_threes,Jackie Young|over,2.5,130,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_threes,A'ja Wilson|over,0.5,-205,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_threes,Chelsea Gray|over,1.5,-118,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_threes,Jewell Loyd|over,1.5,-118,Jewell Loyd
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_threes,Rhyne Howard|over,2.5,-162,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betrivers,player_threes,Allisha Gray|over,1.5,-129,Allisha Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,ml,ATL,,133,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,ml,LVA,,-153,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,spread,ATL,3.0,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,spread,LVA,-3.0,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,total,over,178.0,-105,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,total,under,178.0,-115,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_assists,A'ja Wilson|over,2.5,-172,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_assists,A'ja Wilson|under,2.5,133,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_assists,Jackie Young|over,6.5,-109,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_assists,Jackie Young|under,6.5,-119,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_assists,Chelsea Gray|over,5.5,-167,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_assists,Chelsea Gray|under,5.5,128,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_assists,Angel Reese|over,2.5,102,Angel Reese
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_assists,Angel Reese|under,2.5,-132,Angel Reese
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_assists,Rhyne Howard|over,3.5,-149,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_assists,Rhyne Howard|under,3.5,115,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_assists,Jordin Canada|over,7.5,-106,Jordin Canada
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_assists,Jordin Canada|under,7.5,-122,Jordin Canada
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_points,Allisha Gray|over,19.5,-114,Allisha Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_points,Allisha Gray|under,19.5,-114,Allisha Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_points,Rhyne Howard|over,17.5,-114,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_points,Rhyne Howard|under,17.5,-114,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_points,A'ja Wilson|over,24.5,-120,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_points,A'ja Wilson|under,24.5,-108,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_points,Jewell Loyd|over,8.5,118,Jewell Loyd
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_points,Jewell Loyd|under,8.5,-154,Jewell Loyd
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_points,Chelsea Gray|over,11.5,-118,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_points,Chelsea Gray|under,11.5,-110,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_points,Angel Reese|over,15.5,-105,Angel Reese
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_points,Angel Reese|under,15.5,-123,Angel Reese
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_points,NaLyssa Smith|over,11.5,-111,NaLyssa Smith
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_points,NaLyssa Smith|under,11.5,-116,NaLyssa Smith
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_points,Naz Hillmon|over,9.5,115,Naz Hillmon
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_points,Naz Hillmon|under,9.5,-149,Naz Hillmon
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_points,Jordin Canada|over,10.5,-127,Jordin Canada
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_points,Jordin Canada|under,10.5,-102,Jordin Canada
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_points,Jackie Young|over,19.5,-105,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_points,Jackie Young|under,19.5,-123,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_rebounds,Rhyne Howard|over,3.5,-139,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_rebounds,Rhyne Howard|under,3.5,107,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_rebounds,Jackie Young|over,3.5,-161,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_rebounds,Jackie Young|under,3.5,124,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_rebounds,Chelsea Gray|over,2.5,-145,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_rebounds,Chelsea Gray|under,2.5,112,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_rebounds,Angel Reese|over,12.5,-105,Angel Reese
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_rebounds,Angel Reese|under,12.5,-123,Angel Reese
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_rebounds,Allisha Gray|over,3.5,118,Allisha Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_rebounds,Allisha Gray|under,3.5,-154,Allisha Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_rebounds,Jordin Canada|over,3.5,109,Jordin Canada
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_rebounds,Jordin Canada|under,3.5,-141,Jordin Canada
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_rebounds,Naz Hillmon|over,4.5,-128,Naz Hillmon
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_rebounds,Naz Hillmon|under,4.5,-101,Naz Hillmon
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_rebounds,A'ja Wilson|over,9.5,103,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_rebounds,A'ja Wilson|under,9.5,-133,A'ja Wilson
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_rebounds,NaLyssa Smith|over,5.5,-130,NaLyssa Smith
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_rebounds,NaLyssa Smith|under,5.5,100,NaLyssa Smith
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_threes,Allisha Gray|over,1.5,-130,Allisha Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_threes,Allisha Gray|under,1.5,100,Allisha Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_threes,Jackie Young|over,2.5,141,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_threes,Jackie Young|under,2.5,-185,Jackie Young
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_threes,Chelsea Gray|over,1.5,-109,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_threes,Chelsea Gray|under,1.5,-119,Chelsea Gray
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_threes,Jewell Loyd|over,1.5,100,Jewell Loyd
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_threes,Jewell Loyd|under,1.5,-130,Jewell Loyd
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_threes,Naz Hillmon|over,1.5,144,Naz Hillmon
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_threes,Naz Hillmon|under,1.5,-189,Naz Hillmon
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_threes,Rhyne Howard|over,3.5,126,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betonlineag,player_threes,Rhyne Howard|under,3.5,-164,Rhyne Howard
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,lowvig,ml,ATL,,133,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,lowvig,ml,LVA,,-153,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,lowvig,spread,ATL,3.0,-108,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,lowvig,spread,LVA,-3.0,-108,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,lowvig,total,over,178.0,-103,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,lowvig,total,under,178.0,-113,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betus,ml,ATL,,135,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betus,ml,LVA,,-155,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betus,spread,ATL,3.0,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betus,spread,LVA,-3.0,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betus,total,over,177.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,betus,total,under,177.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,bovada,ml,ATL,,125,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,bovada,ml,LVA,,-145,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,bovada,spread,ATL,2.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,bovada,spread,LVA,-2.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,bovada,total,over,177.0,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T02:00:00Z,4f2f45c7a054f97a496a1edc30e4bd41,ATL,LVA,bovada,total,under,177.0,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,fanduel,ml,TOR,,350,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,fanduel,ml,WAS,,-480,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,fanduel,spread,TOR,9.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,fanduel,spread,WAS,-9.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,fanduel,total,over,169.5,-112,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,fanduel,total,under,169.5,-108,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,fanduel,player_assists,Shakira Austin|over,2.5,-136,Shakira Austin
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,fanduel,player_assists,Shakira Austin|under,2.5,102,Shakira Austin
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,fanduel,player_assists,Sonia Citron|over,4.5,-146,Sonia Citron
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,fanduel,player_assists,Sonia Citron|under,4.5,110,Sonia Citron
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,fanduel,player_points,Shakira Austin|over,19.5,-130,Shakira Austin
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,fanduel,player_points,Shakira Austin|under,19.5,100,Shakira Austin
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,fanduel,player_points,Kiki Iriafen|over,15.5,-115,Kiki Iriafen
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,fanduel,player_points,Kiki Iriafen|under,15.5,-114,Kiki Iriafen
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,fanduel,player_points,Sonia Citron|over,17.5,-128,Sonia Citron
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,fanduel,player_points,Sonia Citron|under,17.5,-102,Sonia Citron
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,fanduel,player_rebounds,Shakira Austin|over,10.5,-122,Shakira Austin
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,fanduel,player_rebounds,Shakira Austin|under,10.5,-108,Shakira Austin
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,fanduel,player_rebounds,Kiki Iriafen|over,9.5,116,Kiki Iriafen
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,fanduel,player_rebounds,Kiki Iriafen|under,9.5,-154,Kiki Iriafen
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,fanduel,player_rebounds,Sonia Citron|over,3.5,-120,Sonia Citron
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,fanduel,player_rebounds,Sonia Citron|under,3.5,-110,Sonia Citron
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,fanduel,player_threes,Sonia Citron|over,1.5,-102,Sonia Citron
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,fanduel,player_threes,Sonia Citron|under,1.5,-130,Sonia Citron
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,draftkings,ml,TOR,,380,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,draftkings,ml,WAS,,-500,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,draftkings,spread,TOR,9.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,draftkings,spread,WAS,-9.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,draftkings,total,over,169.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,draftkings,total,under,169.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,draftkings,player_assists,Sonia Citron|over,4.5,-146,Sonia Citron
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,draftkings,player_assists,Sonia Citron|under,4.5,107,Sonia Citron
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,draftkings,player_assists,Shakira Austin|over,2.5,-135,Shakira Austin
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,draftkings,player_assists,Shakira Austin|under,2.5,-101,Shakira Austin
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,draftkings,player_points,Shakira Austin|over,19.5,-114,Shakira Austin
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,draftkings,player_points,Shakira Austin|under,19.5,-116,Shakira Austin
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,draftkings,player_points,Sonia Citron|over,17.5,-119,Sonia Citron
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,draftkings,player_points,Sonia Citron|under,17.5,-111,Sonia Citron
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,draftkings,player_points,Kiki Iriafen|over,15.5,-114,Kiki Iriafen
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,draftkings,player_points,Kiki Iriafen|under,15.5,-116,Kiki Iriafen
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,draftkings,player_rebounds,Shakira Austin|over,10.5,-119,Shakira Austin
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,draftkings,player_rebounds,Shakira Austin|under,10.5,-114,Shakira Austin
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,draftkings,player_rebounds,Kiki Iriafen|over,9.5,101,Kiki Iriafen
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,draftkings,player_rebounds,Kiki Iriafen|under,9.5,-137,Kiki Iriafen
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,draftkings,player_rebounds,Sonia Citron|over,3.5,-117,Sonia Citron
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,draftkings,player_rebounds,Sonia Citron|under,3.5,-116,Sonia Citron
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,draftkings,player_threes,Sonia Citron|over,1.5,100,Sonia Citron
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,draftkings,player_threes,Sonia Citron|under,1.5,-136,Sonia Citron
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,betrivers,ml,TOR,,360,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,betrivers,ml,WAS,,-500,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,betrivers,spread,TOR,9.5,-109,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,betrivers,spread,WAS,-9.5,-114,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,betrivers,total,over,170.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,betrivers,total,under,170.5,-113,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,lowvig,ml,TOR,,383,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,lowvig,ml,WAS,,-500,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,lowvig,spread,TOR,10.0,-108,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,lowvig,spread,WAS,-10.0,-108,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,lowvig,total,over,169.5,-108,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,lowvig,total,under,169.5,-108,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,betonlineag,ml,TOR,,383,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,betonlineag,ml,WAS,,-500,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,betonlineag,spread,TOR,10.0,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,betonlineag,spread,WAS,-10.0,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,betonlineag,total,over,169.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,betonlineag,total,under,169.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,bovada,ml,TOR,,375,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,bovada,ml,WAS,,-525,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,bovada,spread,TOR,10.0,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,bovada,spread,WAS,-10.0,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,bovada,total,over,169.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,bovada,total,under,169.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,betmgm,ml,TOR,,375,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,betmgm,ml,WAS,,-500,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,betmgm,spread,TOR,9.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,betmgm,spread,WAS,-9.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,betmgm,total,over,169.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-19T23:30:00Z,c162d60ca8c8caf4195c3abf4566747a,TOR,WAS,betmgm,total,under,169.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,ml,GSV,,110,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,ml,MIN,,-130,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,spread,GSV,2.5,-115,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,spread,MIN,-2.5,-105,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,total,over,164.5,-115,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,total,under,164.5,-105,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_assists,Olivia Miles|over,6.5,-133,Olivia Miles
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_assists,Olivia Miles|under,6.5,-102,Olivia Miles
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_assists,Veronica Burton|over,5.5,-161,Veronica Burton
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_assists,Veronica Burton|under,5.5,118,Veronica Burton
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_assists,Courtney Williams|over,4.5,119,Courtney Williams
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_assists,Courtney Williams|under,4.5,-162,Courtney Williams
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_points,Olivia Miles|over,19.5,-121,Olivia Miles
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_points,Olivia Miles|under,19.5,-110,Olivia Miles
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_points,Napheesa Collier|over,17.5,-128,Napheesa Collier
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_points,Napheesa Collier|under,17.5,-103,Napheesa Collier
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_points,Kayla McBride|over,14.5,-112,Kayla McBride
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_points,Kayla McBride|under,14.5,-119,Kayla McBride
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_points,Gabby Williams|over,13.5,-130,Gabby Williams
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_points,Gabby Williams|under,13.5,-102,Gabby Williams
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_points,Veronica Burton|over,13.5,-103,Veronica Burton
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_points,Veronica Burton|under,13.5,-129,Veronica Burton
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_points,Natasha Howard|over,10.5,-123,Natasha Howard
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_points,Natasha Howard|under,10.5,-108,Natasha Howard
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_points,Courtney Williams|over,10.5,-102,Courtney Williams
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_points,Courtney Williams|under,10.5,-129,Courtney Williams
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_points,Cecilia Zandalasini|over,8.5,-126,Cecilia Zandalasini
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_points,Cecilia Zandalasini|under,8.5,-105,Cecilia Zandalasini
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_points,Kayla Thornton|over,8.5,-102,Kayla Thornton
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_points,Kayla Thornton|under,8.5,-130,Kayla Thornton
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_rebounds,Napheesa Collier|over,7.5,102,Napheesa Collier
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_rebounds,Napheesa Collier|under,7.5,-139,Napheesa Collier
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_rebounds,Natasha Howard|over,6.5,-114,Natasha Howard
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_rebounds,Natasha Howard|under,6.5,-119,Natasha Howard
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_rebounds,Kayla Thornton|over,5.5,107,Kayla Thornton
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_rebounds,Kayla Thornton|under,5.5,-146,Kayla Thornton
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_rebounds,Olivia Miles|over,4.5,114,Olivia Miles
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_rebounds,Olivia Miles|under,4.5,-155,Olivia Miles
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_rebounds,Courtney Williams|over,4.5,115,Courtney Williams
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_rebounds,Courtney Williams|under,4.5,-157,Courtney Williams
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_rebounds,Veronica Burton|over,3.5,-138,Veronica Burton
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_rebounds,Veronica Burton|under,3.5,101,Veronica Burton
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_threes,Kayla McBride|over,2.5,-125,Kayla McBride
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_threes,Kayla McBride|under,2.5,-109,Kayla McBride
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_threes,Kayla Thornton|over,1.5,-104,Kayla Thornton
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_threes,Kayla Thornton|under,1.5,-131,Kayla Thornton
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_threes,Gabby Williams|over,1.5,-103,Gabby Williams
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_threes,Gabby Williams|under,1.5,-132,Gabby Williams
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_threes,Olivia Miles|over,1.5,102,Olivia Miles
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_threes,Olivia Miles|under,1.5,-139,Olivia Miles
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_threes,Napheesa Collier|over,1.5,108,Napheesa Collier
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_threes,Napheesa Collier|under,1.5,-148,Napheesa Collier
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_threes,Cecilia Zandalasini|over,1.5,154,Cecilia Zandalasini
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,draftkings,player_threes,Cecilia Zandalasini|under,1.5,-213,Cecilia Zandalasini
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,ml,GSV,,112,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,ml,MIN,,-140,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,spread,GSV,2.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,spread,MIN,-2.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,total,over,165.5,-106,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,total,under,165.5,-114,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_assists,Courtney Williams|over,4.5,106,Courtney Williams
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_assists,Courtney Williams|under,4.5,-140,Courtney Williams
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_assists,Veronica Burton|over,6.5,108,Veronica Burton
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_assists,Veronica Burton|under,6.5,-144,Veronica Burton
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_assists,Napheesa Collier|over,2.5,-128,Napheesa Collier
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_assists,Napheesa Collier|under,2.5,-104,Napheesa Collier
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_assists,Olivia Miles|over,6.5,-152,Olivia Miles
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_assists,Olivia Miles|under,6.5,114,Olivia Miles
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_points,Veronica Burton|over,13.5,-113,Veronica Burton
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_points,Veronica Burton|under,13.5,-115,Veronica Burton
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_points,Kayla McBride|over,14.5,106,Kayla McBride
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_points,Kayla McBride|under,14.5,-138,Kayla McBride
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_points,Cecilia Zandalasini|over,9.5,-110,Cecilia Zandalasini
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_points,Cecilia Zandalasini|under,9.5,-118,Cecilia Zandalasini
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_points,Gabby Williams|over,13.5,-130,Gabby Williams
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_points,Gabby Williams|under,13.5,100,Gabby Williams
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_points,Courtney Williams|over,10.5,-128,Courtney Williams
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_points,Courtney Williams|under,10.5,-102,Courtney Williams
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_points,Napheesa Collier|over,18.5,-108,Napheesa Collier
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_points,Napheesa Collier|under,18.5,-120,Napheesa Collier
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_points,Olivia Miles|over,20.5,100,Olivia Miles
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_points,Olivia Miles|under,20.5,-130,Olivia Miles
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_points,Natasha Howard|over,11.5,100,Natasha Howard
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_points,Natasha Howard|under,11.5,-130,Natasha Howard
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_rebounds,Natasha Howard|over,6.5,-128,Natasha Howard
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_rebounds,Natasha Howard|under,6.5,-104,Natasha Howard
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_rebounds,Kayla Thornton|over,5.5,114,Kayla Thornton
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_rebounds,Kayla Thornton|under,5.5,-152,Kayla Thornton
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_rebounds,Napheesa Collier|over,7.5,-108,Napheesa Collier
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_rebounds,Napheesa Collier|under,7.5,-122,Napheesa Collier
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_rebounds,Olivia Miles|over,4.5,114,Olivia Miles
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_rebounds,Olivia Miles|under,4.5,-152,Olivia Miles
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_rebounds,Courtney Williams|over,4.5,116,Courtney Williams
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_rebounds,Courtney Williams|under,4.5,-158,Courtney Williams
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_rebounds,Veronica Burton|over,3.5,-144,Veronica Burton
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_rebounds,Veronica Burton|under,3.5,108,Veronica Burton
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_threes,Veronica Burton|over,1.5,118,Veronica Burton
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_threes,Veronica Burton|under,1.5,-158,Veronica Burton
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_threes,Kayla McBride|over,2.5,-120,Kayla McBride
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_threes,Kayla McBride|under,2.5,-110,Kayla McBride
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_threes,Napheesa Collier|over,1.5,108,Napheesa Collier
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_threes,Napheesa Collier|under,1.5,-144,Napheesa Collier
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_threes,Cecilia Zandalasini|over,1.5,152,Cecilia Zandalasini
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_threes,Cecilia Zandalasini|under,1.5,-205,Cecilia Zandalasini
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_threes,Gabby Williams|over,1.5,102,Gabby Williams
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_threes,Gabby Williams|under,1.5,-136,Gabby Williams
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_threes,Olivia Miles|over,1.5,108,Olivia Miles
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_threes,Olivia Miles|under,1.5,-144,Olivia Miles
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_threes,Kayla Thornton|over,1.5,102,Kayla Thornton
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,fanduel,player_threes,Kayla Thornton|under,1.5,-136,Kayla Thornton
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,betrivers,ml,GSV,,112,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,betrivers,ml,MIN,,-137,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,betrivers,spread,GSV,2.5,-115,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,betrivers,spread,MIN,-2.5,-108,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,betrivers,total,over,164.5,-114,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,betrivers,total,under,164.5,-109,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,betonlineag,ml,GSV,,105,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,betonlineag,ml,MIN,,-125,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,betonlineag,spread,GSV,1.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,betonlineag,spread,MIN,-1.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,betonlineag,total,over,164.0,-110,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,betonlineag,total,under,164.0,-110,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,lowvig,ml,GSV,,105,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,lowvig,ml,MIN,,-125,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,lowvig,spread,GSV,1.5,-108,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,lowvig,spread,MIN,-1.5,-108,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,lowvig,total,over,164.0,-108,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,lowvig,total,under,164.0,-108,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,bovada,ml,GSV,,105,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,bovada,ml,MIN,,-125,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,bovada,spread,GSV,1.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,bovada,spread,MIN,-1.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,bovada,total,over,164.0,-110,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,bovada,total,under,164.0,-110,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,betmgm,ml,GSV,,110,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,betmgm,ml,MIN,,-130,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,betmgm,spread,GSV,2.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,betmgm,spread,MIN,-2.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,betmgm,total,over,164.5,-105,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,betmgm,total,under,164.5,-115,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,betus,spread,GSV,1.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,betus,spread,MIN,-1.5,-110,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,betus,total,over,164.0,-110,
+2026-08-18T19:22:49+00:00,2026-08-20T02:10:00Z,09563bab4edf9cf2073ee946ad95d61b,MIN,GSV,betus,total,under,164.0,-110,
