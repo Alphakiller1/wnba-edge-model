@@ -5,11 +5,11 @@ import pandas as pd
 from wnba_edges.predictions import (
     REASON_MARKET_UNSUPPORTED,
     REASON_PLAYER_NOT_FOUND,
+    game_log_path,
     grade_games,
     grade_props,
     log_game_projections,
     log_prop_prediction,
-    game_log_path,
     prop_log_path,
     results_summary,
 )
