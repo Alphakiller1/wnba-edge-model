@@ -54,6 +54,10 @@ def test_build_site_layers_disclaimer_and_low_sample_gate(tmp_path):
     # Low-sample player is excluded from the public board.
     assert "Tiny Sample" not in html
     assert "Good Sample" in html
+    # Matchup drivers sit on one even row, not a leftover five-tile grid.
+    assert "Ratings · pace · venue" not in html
+    assert "Net rating" in html
+    assert "Why MIN" in html
     # Empty states render for layers without data (odds + results).
     assert "No odds snapshot stored" in html
     assert "No graded predictions yet" in html
@@ -81,11 +85,16 @@ def test_matchup_breakdown_explains_the_projection_inputs():
     )
     assert group is not None
     assert group.label == "Why MIN"
+    assert group.state == ""
+    assert len(group.tiles) == 3
     tiles = {tile.label: tile for tile in group.tiles}
-    assert tiles["CHI scoring"].state == "vs MIN 102.0 DRtg"
-    assert tiles["MIN scoring"].state == "vs CHI 109.0 DRtg"
-    assert tiles["Net edge"].value == "MIN +15.0"
-    assert tiles["Home boost"].value == "+1.9"
+    assert tiles["CHI scoring"].value == "104.0"
+    assert tiles["CHI scoring"].state == "ORtg vs MIN 102.0 DRtg"
+    assert tiles["MIN scoring"].value == "112.0"
+    assert tiles["MIN scoring"].state == "ORtg vs CHI 109.0 DRtg"
+    assert tiles["Net rating"].value == "MIN +15.0"
+    assert "82.0 pace" in tiles["Net rating"].state
+    assert "MIN +1.9 home" in tiles["Net rating"].state
 
 
 def test_full_game_group_uses_normalized_odds_snapshot_markets():
@@ -110,7 +119,9 @@ def test_full_game_group_uses_normalized_odds_snapshot_markets():
     assert all(tile.is_priced for tile in group.tiles)
     moneyline = next(tile for tile in group.tiles if tile.label == "Moneyline")
     spread = next(tile for tile in group.tiles if tile.label == "Spread")
-    assert moneyline.value == "Model MIN 60%"
-    assert "Best book: MIN ML @ -120" in moneyline.state
-    assert spread.value == "Model MIN -4.0"
-    assert "Best book: MIN -3.5 @ -110" in spread.state
+    assert moneyline.value == "MIN 60%"
+    assert moneyline.state.startswith("Book · -120")
+    assert "edge" in moneyline.state
+    assert spread.value == "MIN -4.0"
+    assert "MIN -3.5" in spread.state
+    assert "-110" in spread.state

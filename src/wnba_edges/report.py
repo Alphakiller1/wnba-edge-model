@@ -729,6 +729,23 @@ border:1px solid var(--border-soft);border-radius:999px;padding:2px 9px;margin:2
 .sigchip{display:inline-block;background:var(--bg-4);border:1px solid var(--border-soft);border-radius:8px;
 padding:3px 9px;font-size:12.5px;color:var(--text-2);margin:2px 2px 2px 0}
 .sigchip b{color:var(--v-light);font-family:var(--display)}
+/* Matchup cards: three even columns, readable type, ratings as a fact strip
+   rather than a second row of betting tiles. Overrides the shared board kernel
+   without editing vendored board.css. */
+.bd-group__tiles{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.bd-tile{padding:10px 11px 9px}
+.bd-tile__value{font-size:18px;letter-spacing:-.01em}
+.bd-tile__state{text-transform:none;letter-spacing:.015em;font-size:11px;font-weight:500;
+color:var(--text-3);line-height:1.4}
+.bd-tile.is-idle{background:transparent;border-color:transparent;padding:8px 6px 4px}
+.bd-tile.is-idle .bd-tile__label{color:var(--text-3)}
+.bd-tile.is-idle .bd-tile__value{color:var(--text)}
+.bd-tile.is-idle.is-side .bd-tile__value{color:var(--side)}
+.bd-tile.is-idle .bd-tile__state{color:var(--text-3)}
+.bd-group:not(:has(.bd-group__count)){padding-top:10px}
+.bd-group:not(:has(.bd-group__count)) .bd-group__tiles{gap:0 16px}
+.bd-group:not(:has(.bd-group__count)) .bd-tile+.bd-tile{border-left:1px solid var(--border-soft);
+border-radius:0;padding-left:14px}
 /* ── prose / footer ── */
 .prose{padding:20px 22px;font-size:14px;color:var(--text-2);line-height:1.7}
 .prose p+p{margin-top:12px}
@@ -747,6 +764,9 @@ footer p+p{margin-top:10px}
   .wb .scorebar{min-width:90px;width:90px}
   .mx-stats{grid-template-columns:repeat(2,1fr);row-gap:10px}
   .tile-v{font-size:28px}
+  .bd-group__tiles{grid-template-columns:1fr}
+  .bd-group:not(:has(.bd-group__count)) .bd-tile+.bd-tile{border-left:0;border-top:1px solid var(--border-soft);
+  padding-left:6px;padding-top:10px;margin-top:4px}
 }
 </style>
 </head>
