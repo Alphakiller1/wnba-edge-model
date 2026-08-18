@@ -54,12 +54,13 @@ _LAST_USAGE: dict[str, str] = {}
 
 
 def _get(path: str, params: dict[str, Any]) -> Any:
-    if not ODDS_API_KEY:
+    api_key = os.getenv("ODDS_API_KEY", "") or ODDS_API_KEY
+    if not api_key:
         raise SystemExit(
             "No ODDS_API_KEY set. Get a key from The Odds API, then set "
             '$env:ODDS_API_KEY = "your_key" in PowerShell.'
         )
-    params = {**params, "apiKey": ODDS_API_KEY}
+    params = {**params, "apiKey": api_key}
     url = f"{ODDS_API_BASE}{path}?{urllib.parse.urlencode(params)}"
     try:
         with urllib.request.urlopen(url, timeout=30) as response:
@@ -88,6 +89,39 @@ def fetch_event_odds(event_id: str, props: bool = False) -> list[dict]:
         params["bookmakers"] = ODDS_BOOKMAKERS
     event = _get(f"/sports/{ODDS_SPORT_KEY}/events/{event_id}/odds", params)
     return _normalize_event(event, datetime.now(timezone.utc).isoformat(timespec="seconds"))
+
+
+def fetch_slate(*, props: bool = False) -> list[dict]:
+    """Pull every live WNBA board line in one snapshot.
+
+    Game markets (ML / spread / total) come from the bulk odds endpoint — one request
+    for the whole slate. Player props are per-event and optional because they burn
+    quota much faster.
+    """
+    fetched_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    if props:
+        events = list_events()
+        rows: list[dict] = []
+        for event_id in events.values():
+            rows.extend(fetch_event_odds(event_id, props=True))
+        store(rows, replace_latest=True)
+    else:
+        params = {"regions": ODDS_REGIONS, "markets": ODDS_GAME_MARKETS, "oddsFormat": ODDS_FORMAT}
+        if ODDS_BOOKMAKERS:
+            params["bookmakers"] = ODDS_BOOKMAKERS
+        payload = _get(f"/sports/{ODDS_SPORT_KEY}/odds", params)
+        if not isinstance(payload, list):
+            raise SystemExit(f"Unexpected Odds API payload: {type(payload).__name__}")
+        rows = []
+        for event in payload:
+            rows.extend(_normalize_event(event, fetched_at))
+        if not rows:
+            print("No live WNBA lines returned.")
+            return rows
+        store(rows, replace_latest=True)
+    if _LAST_USAGE:
+        print(f"API quota: used {_LAST_USAGE.get('used')}, remaining {_LAST_USAGE.get('remaining')}.")
+    return rows
 
 
 def fetch_game(away: str, home: str, props: bool = False) -> list[dict]:
@@ -154,7 +188,7 @@ def _normalize_outcome(base: dict, book: str, market_key: str, outcome: dict) ->
     }
 
 
-def store(rows: list[dict]) -> None:
+def store(rows: list[dict], *, replace_latest: bool = False) -> None:
     if not rows:
         return
     ODDS_DIR.mkdir(parents=True, exist_ok=True)
@@ -165,13 +199,13 @@ def store(rows: list[dict]) -> None:
     else:
         frame.to_csv(ODDS_HISTORY_CSV, index=False)
 
-    fetched_games = set(zip(frame["away"], frame["home"]))
-    if ODDS_LATEST_CSV.exists():
+    if replace_latest or not ODDS_LATEST_CSV.exists():
+        latest = frame.astype(str)
+    else:
+        fetched_games = set(zip(frame["away"], frame["home"]))
         previous = pd.read_csv(ODDS_LATEST_CSV, dtype=str).fillna("")
         keep = previous[~previous.apply(lambda row: (row["away"], row["home"]) in fetched_games, axis=1)]
         latest = pd.concat([keep, frame.astype(str)], ignore_index=True)
-    else:
-        latest = frame.astype(str)
     latest.to_csv(ODDS_LATEST_CSV, index=False)
     print(f"Stored {len(frame)} WNBA odds rows across {frame.groupby(['away', 'home']).ngroups} game(s).")
 
@@ -263,10 +297,17 @@ def _same_line(value: str, line: float) -> bool:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Fetch WNBA odds snapshots.")
     parser.add_argument("--fetch-game", metavar="AWAY@HOME")
+    parser.add_argument(
+        "--fetch-slate",
+        action="store_true",
+        help="Pull ML/spread/total for every live WNBA game (one API call).",
+    )
     parser.add_argument("--props", action="store_true")
     args = parser.parse_args()
 
-    if args.fetch_game:
+    if args.fetch_slate:
+        fetch_slate(props=args.props)
+    elif args.fetch_game:
         away, home = (part.strip().upper() for part in args.fetch_game.split("@", 1))
         fetch_game(away, home, props=args.props)
     else:
