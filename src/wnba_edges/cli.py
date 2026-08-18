@@ -280,9 +280,7 @@ def _build_prop_projections(args) -> None:
     if not schedule_path.exists():
         raise SystemExit("No upcoming schedule stored. Run build-game-projections first.")
     schedule = load_schedule(schedule_path)
-    projections_path = DATA / "processed" / f"game_projections_{args.season}.csv"
-    projections = pd.read_csv(projections_path) if projections_path.exists() else pd.DataFrame()
-    _write_prop_slate(args.season, schedule, projections, _load_odds())
+    _write_prop_slate(args.season, schedule, pd.DataFrame(), _load_odds())
 
 
 def _write_prop_slate(

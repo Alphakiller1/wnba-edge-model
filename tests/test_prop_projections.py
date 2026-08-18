@@ -1,8 +1,10 @@
 from datetime import datetime, timezone
+from types import SimpleNamespace
 
 import pandas as pd
 import pytest
 
+from wnba_edges import cli
 from wnba_edges.cli import _projection_for_market
 from wnba_edges.predictions import log_prop_predictions_batch, prop_log_path
 from wnba_edges.prop_projections import (
@@ -122,6 +124,32 @@ def test_build_slate_prop_projections_prices_when_a_quote_exists():
     unpriced = slate[(slate["player"] == "Away Guard") & (slate["market"] == "player_points")].iloc[0]
     assert bool(unpriced["priced"]) is False
     assert unpriced["verdict"] == "PROJ"
+
+
+def test_prop_rebuild_starts_a_new_prediction_run(monkeypatch, tmp_path):
+    season = "2026-27"
+    data = tmp_path / "data"
+    schedule_path = data / "raw" / f"upcoming_schedule_{season}.csv"
+    schedule_path.parent.mkdir(parents=True)
+    schedule_path.touch()
+    projections_path = data / "processed" / f"game_projections_{season}.csv"
+    projections_path.parent.mkdir(parents=True)
+    pd.DataFrame([{"run_id": "game-run", "generated_at": "2026-08-18T12:00:00+00:00"}]).to_csv(
+        projections_path, index=False
+    )
+    captured = {}
+    monkeypatch.setattr(cli, "DATA", data)
+    monkeypatch.setattr(cli, "load_schedule", lambda _: pd.DataFrame([{"date": "2026-08-18"}]))
+    monkeypatch.setattr(cli, "_load_odds", lambda: None)
+    monkeypatch.setattr(
+        cli,
+        "_write_prop_slate",
+        lambda _season, _schedule, projections, _odds: captured.setdefault("projections", projections),
+    )
+
+    cli._build_prop_projections(SimpleNamespace(season=season))
+
+    assert captured["projections"].empty
 
 
 def test_prop_batch_log_is_idempotent(tmp_path):
