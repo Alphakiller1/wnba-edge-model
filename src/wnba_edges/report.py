@@ -673,43 +673,7 @@ Spread ATS and total sides are only scored when a book line was captured with th
 <h3 class="results-subtitle">Graded game calls</h3>
 <p class="basis-note">Every unique finished projection, shown against the moneyline / spread / total
 it would have been bet at. Unpriced rows stay labelled model-only and do not invent a W-L.</p>{recent_table}"""
-    return f"""<section>{head}{game_block}{market_table}{prop_table}
-{_market_audit_table(market_records)}{_prop_audit_table(prop_records)}</section>"""
-
-
-def _audit_status_cell(record: dict) -> str:
-    tone = {"Correct": "result-hit", "Miss": "result-miss", "Pending": "result-pending", "Voided": "result-void"}.get(
-        record.get("status"), ""
-    )
-    detail = f'<span class="player-sub">{esc(record["status_detail"])}</span>' if record.get("status_detail") else ""
-    return f'<span class="{tone}">{esc(record.get("status", "—"))}</span>{detail}'
-
-
-def _audit_number(value, digits: int = 1, *, suffix: str = "") -> str:
-    return f"{float(value):.{digits}f}{suffix}" if value is not None else "—"
-
-
-def _game_audit_table(records: list[dict]) -> str:
-    if not records:
-        return ""
-    rows = "".join(
-        f"<tr><td>{esc(record['date'])}<span class=\"player-sub\">{esc(record['recorded_at'])}</span></td>"
-        f"<td>{esc(record['matchup'])}</td><td>{esc(record['projection'])}</td>"
-        f"<td>{esc(record['favorite'])} {_audit_number(record['favorite_probability'] * 100 if record['favorite_probability'] is not None else None, 0, suffix='%')}</td>"
-        f"<td>{esc(record['actual_winner'])}</td><td>{_audit_status_cell(record)}</td>"
-        f"<td>{esc(record['spread_side'])} {_spread_status_label(record['spread_status'])}</td>"
-        f"<td>{esc(record.get('total_side') or '—')} {_spread_status_label(record.get('total_status') or '')}</td>"
-        f"<td class=\"num\">{_audit_number(abs(record['spread_error']) if record['spread_error'] is not None else None)}</td>"
-        f"<td class=\"num\">{_audit_number(abs(record['total_error']) if record['total_error'] is not None else None)}</td>"
-        f"<td class=\"dim\">{esc(record['run_id'][:10])}</td></tr>"
-        for record in records
-    )
-    return f"""<h3 class="results-subtitle">All game-projection audit rows ({len(records)})</h3>
-<p class="basis-note">Every generated forecast is retained, including multiple runs for the same matchup.</p>
-<div class="board"><div class="tablewrap"><table>
-<thead><tr><th>Game date / logged</th><th>Matchup</th><th>Projected score</th><th>Model call</th><th>Winner</th>
-<th>Grade</th><th>Spread side</th><th>Total side</th><th class="num">Spread error</th><th class="num">Total error</th><th>Run</th></tr></thead>
-<tbody>{rows}</tbody></table></div></div>"""
+    return f"""<section>{head}{game_block}{market_table}{prop_table}</section>"""
 
 
 def _spread_status_label(status: str) -> str:
@@ -720,50 +684,6 @@ def _spread_status_label(status: str) -> str:
     if status == "PUSH":
         return '<span class="result-void">push</span>'
     return '<span class="result-pending">pending</span>'
-
-
-def _market_audit_table(records: list[dict]) -> str:
-    if not records:
-        return """<h3 class="results-subtitle">All moneyline / spread / total audit rows (0)</h3>
-<div class="empty">No game-market predictions have been logged yet. <code>build-game-projections</code>
-writes a moneyline, spread, and total row for every scheduled game.</div>"""
-    rows = "".join(
-        f"<tr><td>{esc(record['game_date'])}<span class=\"player-sub\">{esc(record['recorded_at'])}</span></td>"
-        f"<td>{esc(record['matchup'])}</td><td>{esc(record['market'])}</td>"
-        f"<td>{esc(record['side'])} {_audit_number(record['line'])} @ {_audit_number(record['odds'], 0)}</td>"
-        f"<td class=\"num\">{_audit_number(record['projection'], 3 if record['market'] == 'moneyline' else 1)}</td>"
-        f"<td class=\"num\">{_audit_number(record['model_prob'] * 100 if record['model_prob'] is not None else None, 1, suffix='%')}</td>"
-        f"<td class=\"num\">{_audit_number(record['actual'])}</td><td>{_audit_status_cell(record)}</td></tr>"
-        for record in records
-    )
-    return f"""<h3 class="results-subtitle">All moneyline / spread / total audit rows ({len(records)})</h3>
-<div class="board"><div class="tablewrap"><table>
-<thead><tr><th>Game date / logged</th><th>Matchup</th><th>Market</th><th>Pick / price</th>
-<th class="num">Projection</th><th class="num">Model prob.</th><th class="num">Actual</th><th>Grade</th></tr></thead>
-<tbody>{rows}</tbody></table></div></div>"""
-
-
-def _prop_audit_table(records: list[dict]) -> str:
-    if not records:
-        return """<h3 class="results-subtitle">All player-prop audit rows (0)</h3>
-<div class="empty">No player-prop predictions have been logged yet. <code>build-game-projections</code>
-now writes a rotation slate (PTS/REB/AST/3PM) on every run; one-off
-<code>evaluate-player-prop</code> rows also appear here.</div>"""
-    rows = "".join(
-        f"<tr><td>{esc(record['game_date'])}<span class=\"player-sub\">{esc(record['recorded_at'])}</span></td>"
-        f"<td>{esc(record['player'])}</td><td>{esc(record['market'])}</td>"
-        f"<td>{esc(record['side'])} {_audit_number(record['line'])} @ {_audit_number(record['odds'], 0)}</td>"
-        f"<td class=\"num\">{_audit_number(record['projection'])}</td>"
-        f"<td class=\"num\">{_audit_number(record['model_prob'] * 100 if record['model_prob'] is not None else None, 1, suffix='%')}</td>"
-        f"<td class=\"num\">{_audit_number(record['edge'] * 100 if record['edge'] is not None else None, 1, suffix='%')}</td>"
-        f"<td class=\"num\">{_audit_number(record['actual'])}</td><td>{_audit_status_cell(record)}</td></tr>"
-        for record in records
-    )
-    return f"""<h3 class="results-subtitle">All player-prop audit rows ({len(records)})</h3>
-<div class="board"><div class="tablewrap"><table>
-<thead><tr><th>Game date / logged</th><th>Player</th><th>Market</th><th>Pick / price</th><th class="num">Projection</th>
-<th class="num">Model prob.</th><th class="num">Edge</th><th class="num">Actual</th><th>Grade</th></tr></thead>
-<tbody>{rows}</tbody></table></div></div>"""
 
 
 # ── methodology ──────────────────────────────────────────────────────────────

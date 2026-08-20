@@ -231,6 +231,8 @@ def test_site_hides_game_projection_audit_and_shows_lines(tmp_path):
     ).to_csv(predictions / "game_predictions.csv", index=False)
     html = build_site(tmp_path, season="2026-27", out=tmp_path / "docs" / "index.html").read_text(encoding="utf-8")
     assert "All game-projection audit rows" not in html
+    assert "All moneyline / spread / total audit rows" not in html
+    assert "All player-prop audit rows" not in html
     assert "Graded game calls" in html
     assert "166.0 vs 160.5" in html
     assert "+10.0 vs -4.5" in html
