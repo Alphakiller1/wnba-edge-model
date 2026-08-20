@@ -160,3 +160,44 @@ def test_site_renders_prop_slate_and_player_props_filter(tmp_path):
     assert "Slate player-prop projections" in html
     assert "Napheesa Collier" in html
     assert "Collier PTS" in html
+
+
+def test_site_renders_recorded_game_markets(tmp_path):
+    _seed(tmp_path)
+    processed = tmp_path / "data" / "processed"
+    pd.DataFrame(
+        [
+            {
+                "run_id": "r1", "generated_at": "2026-07-16T12:00:00+00:00",
+                "game_date": "2026-07-20", "away": "CHI", "home": "MIN",
+                "market": "moneyline", "projection": 0.78, "projection_basis": "logistic",
+                "side": "MIN", "line": "", "odds": -150, "opposite_odds": 130,
+                "book": "draftkings", "model_prob": 0.78, "implied_prob": 0.58,
+                "vig_free": True, "edge": 0.20, "tier": "Standard", "verdict": "PLAY",
+                "priced": True,
+            },
+            {
+                "run_id": "r1", "generated_at": "2026-07-16T12:00:00+00:00",
+                "game_date": "2026-07-20", "away": "CHI", "home": "MIN",
+                "market": "spread", "projection": 10.0, "projection_basis": "projected home margin",
+                "side": "MIN", "line": -4.5, "odds": -110, "opposite_odds": -110,
+                "book": "draftkings", "model_prob": 0.70, "implied_prob": 0.52,
+                "vig_free": True, "edge": 0.18, "tier": "Standard", "verdict": "PLAY",
+                "priced": True,
+            },
+            {
+                "run_id": "r1", "generated_at": "2026-07-16T12:00:00+00:00",
+                "game_date": "2026-07-20", "away": "CHI", "home": "MIN",
+                "market": "total", "projection": 166.0, "projection_basis": "projected total",
+                "side": "OVER", "line": 160.5, "odds": -110, "opposite_odds": -110,
+                "book": "draftkings", "model_prob": 0.68, "implied_prob": 0.52,
+                "vig_free": True, "edge": 0.16, "tier": "Standard", "verdict": "PLAY",
+                "priced": True,
+            },
+        ]
+    ).to_csv(processed / "game_markets_2026-27.csv", index=False)
+    html = build_site(tmp_path, season="2026-27", out=tmp_path / "docs" / "index.html").read_text(encoding="utf-8")
+    assert "Recorded moneyline, spread and total" in html
+    assert "Moneyline" in html
+    assert "MIN vs -4.5" in html
+    assert "OVER 160.5" in html

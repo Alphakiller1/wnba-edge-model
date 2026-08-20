@@ -14,8 +14,10 @@ from .herhoopstats import fetch_research_table, write_table
 from .market_data import MAX_QUOTE_AGE_HOURS, best_price_player_prop
 from .predictions import (
     grade_games,
+    grade_markets,
     grade_props,
     log_game_projections,
+    log_market_predictions_batch,
     log_prop_prediction,
     log_prop_predictions_batch,
     results_summary,
@@ -23,7 +25,9 @@ from .predictions import (
 from .projections import UnknownTeamsError, build_game_projections, load_schedule
 from .prop_projections import (
     attach_game_market_lines,
+    build_game_market_slate,
     build_slate_prop_projections,
+    game_market_slate_path,
     projection_for_market,
     prop_slate_path,
 )
@@ -269,9 +273,12 @@ def _build_game_projections(args) -> None:
         basis = projections.iloc[0]["win_prob_basis"]
         home_court = projections.iloc[0]["home_court_pts"]
         with_total = int(pd.to_numeric(projections["book_total_line"], errors="coerce").notna().sum())
+        with_spread = int(pd.to_numeric(projections["book_spread_line"], errors="coerce").notna().sum())
+        with_ml = int(pd.to_numeric(projections["book_home_ml"], errors="coerce").notna().sum())
         print(f"win prob: {basis} | home court: {home_court} pts")
-        print(f"book totals captured for {with_total}/{len(projections)} games")
+        print(f"book lines captured: ML {with_ml}/{len(projections)} · spread {with_spread}/{len(projections)} · total {with_total}/{len(projections)}")
     print(f"wrote {len(projections)} game projections to {out_path} ({logged} new logged for grading)")
+    _write_game_markets(args.season, projections)
     _write_prop_slate(args.season, schedule, projections, odds)
 
 
@@ -283,6 +290,22 @@ def _build_prop_projections(args) -> None:
     projections_path = DATA / "processed" / f"game_projections_{args.season}.csv"
     projections = pd.read_csv(projections_path) if projections_path.exists() else pd.DataFrame()
     _write_prop_slate(args.season, schedule, projections, _load_odds())
+
+
+def _write_game_markets(season: str, projections: pd.DataFrame) -> None:
+    markets = build_game_market_slate(projections)
+    out_path = game_market_slate_path(ROOT, season)
+    if markets.empty:
+        print("no moneyline/spread/total rows to record")
+        return
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    markets.to_csv(out_path, index=False)
+    logged = log_market_predictions_batch(ROOT, markets, season)
+    priced = int(markets["priced"].astype(str).str.lower().isin(["true", "1"]).sum())
+    print(
+        f"wrote {len(markets)} game-market projections to {out_path} "
+        f"({priced} priced against a stored line, {logged} new logged for grading)"
+    )
 
 
 def _write_prop_slate(
@@ -356,6 +379,9 @@ def _grade(season: str) -> None:
         game_result = grade_games(ROOT, pd.read_csv(results_path))
         print(f"games: {game_result['graded']} graded, {game_result['voided']} voided, "
               f"{game_result['pending']} pending")
+        market_result = grade_markets(ROOT, pd.read_csv(results_path))
+        print(f"markets: {market_result['graded']} graded, {market_result['voided']} voided, "
+              f"{market_result['pending']} pending")
     else:
         print("games: skipped (no game results)")
 
@@ -388,6 +414,17 @@ def _print_results(summary: dict) -> None:
         print(f"  audit: {games.get('audit_runs', games['n'])} graded run(s), "
               f"{games.get('_logged', games['n'])} total logged prediction(s)")
     print(f"  pending: {games.get('_pending', 0)}")
+    markets = summary.get("markets", {})
+    print("== Recorded game markets ==")
+    for market, record in sorted(markets.items()):
+        if market.startswith("_"):
+            continue
+        rate = f"{record['hit_rate']}%" if record.get("hit_rate") is not None else "-"
+        print(f"  {market}: {record['wins']}-{record['losses']}-{record['pushes']} ({rate})")
+    print(f"  pending: {markets.get('_pending', 0)} | logged: {markets.get('_logged', 0)}")
+    if games.get("spread_ats_n"):
+        print(f"  spread ATS: {games['spread_ats_correct']}/{games['spread_ats_n']} "
+              f"({games['spread_ats_hit_rate']}%) — vs captured book spread")
 
 
 def _evaluate_player_prop(args) -> None:

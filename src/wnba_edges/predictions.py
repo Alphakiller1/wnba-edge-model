@@ -28,12 +28,21 @@ GAME_COLUMNS = [
     "prediction_id", "run_id", "sport", "season", "recorded_at", "date", "away", "home",
     "projected_away_pts", "projected_home_pts", "projected_total",
     "projected_home_spread", "home_win_prob", "win_prob_basis",
-    "book_total_line", "book_spread_line",
+    "book_total_line", "book_spread_line", "book_home_ml", "book_away_ml",
+    "predicted_ml_side", "predicted_spread_ats", "predicted_total_side",
     "settled", "actual_away_pts", "actual_home_pts", "actual_total", "actual_winner",
     "home_win", "winner_correct", "predicted_spread_side", "spread_side_correct",
-    "predicted_total_side", "total_side_correct",
+    "spread_ats_correct", "total_side_correct",
     "spread_error", "total_error",
     "ungraded_reason", "graded_at",
+]
+
+MARKET_COLUMNS = [
+    "prediction_id", "run_id", "sport", "season", "recorded_at", "game_date",
+    "away", "home", "market", "side", "line", "odds", "opposite_odds",
+    "odds_source", "projection", "projection_basis",
+    "model_prob", "implied_prob", "vig_free", "edge", "tier", "verdict", "priced",
+    "settled", "won", "push", "actual", "ungraded_reason", "graded_at",
 ]
 
 # Grade a prop against the player's first game in [game_date-1, game_date+2]
@@ -60,6 +69,10 @@ def prop_log_path(root: Path) -> Path:
 
 def game_log_path(root: Path) -> Path:
     return predictions_dir(root) / "game_predictions.csv"
+
+
+def market_log_path(root: Path) -> Path:
+    return predictions_dir(root) / "market_predictions.csv"
 
 
 def _now_iso() -> str:
@@ -196,7 +209,11 @@ def log_game_projections(root: Path, projections: pd.DataFrame, season: str) -> 
             continue
         book_total = _as_float(game.get("book_total_line"))
         book_spread = _as_float(game.get("book_spread_line"))
+        book_home_ml = _as_float(game.get("book_home_ml"))
+        book_away_ml = _as_float(game.get("book_away_ml"))
         projected_total = _as_float(game.get("projected_total"))
+        win_prob = _as_float(game.get("home_win_prob"))
+        projected_spread = _as_float(game.get("projected_home_spread"))
         rows.append(
             {
                 "prediction_id": uuid.uuid4().hex,
@@ -215,6 +232,10 @@ def log_game_projections(root: Path, projections: pd.DataFrame, season: str) -> 
                 "win_prob_basis": game.get("win_prob_basis", ""),
                 "book_total_line": book_total if book_total is not None else pd.NA,
                 "book_spread_line": book_spread if book_spread is not None else pd.NA,
+                "book_home_ml": book_home_ml if book_home_ml is not None else pd.NA,
+                "book_away_ml": book_away_ml if book_away_ml is not None else pd.NA,
+                "predicted_ml_side": _predicted_ml_side(str(game["home"]), str(game["away"]), win_prob),
+                "predicted_spread_ats": _predicted_spread_ats(projected_spread, book_spread),
                 "predicted_total_side": _predicted_total_side(projected_total, book_total),
                 "settled": False,
                 "ungraded_reason": "",
@@ -224,6 +245,66 @@ def log_game_projections(root: Path, projections: pd.DataFrame, season: str) -> 
     if rows:
         frame = pd.concat([frame, pd.DataFrame(rows)], ignore_index=True)
         _save(frame, game_log_path(root))
+    return added
+
+
+def log_market_predictions_batch(root: Path, slate: pd.DataFrame, season: str) -> int:
+    """Persist moneyline, spread, and total rows, idempotent on run + game + market."""
+    if slate is None or slate.empty:
+        return 0
+    frame = _load(market_log_path(root), MARKET_COLUMNS)
+    existing = set(
+        zip(
+            frame["run_id"].astype(str),
+            frame["game_date"].astype(str),
+            frame["away"].astype(str),
+            frame["home"].astype(str),
+            frame["market"].astype(str),
+        )
+    )
+    added = 0
+    rows = []
+    recorded_at = _now_iso()
+    for _, item in slate.iterrows():
+        run_id = str(item.get("run_id") or "")
+        key = (
+            run_id, str(item["game_date"]), str(item["away"]), str(item["home"]), str(item["market"]),
+        )
+        if key in existing:
+            continue
+        rows.append(
+            {
+                "prediction_id": uuid.uuid4().hex,
+                "run_id": run_id,
+                "sport": "wnba",
+                "season": season,
+                "recorded_at": item.get("generated_at") or recorded_at,
+                "game_date": item["game_date"],
+                "away": item["away"],
+                "home": item["home"],
+                "market": item["market"],
+                "side": item.get("side") or "",
+                "line": item.get("line"),
+                "odds": item.get("odds"),
+                "opposite_odds": item.get("opposite_odds"),
+                "odds_source": item.get("book") or "",
+                "projection": item.get("projection"),
+                "projection_basis": item.get("projection_basis"),
+                "model_prob": item.get("model_prob"),
+                "implied_prob": item.get("implied_prob"),
+                "vig_free": item.get("vig_free"),
+                "edge": item.get("edge"),
+                "tier": item.get("tier") or "",
+                "verdict": item.get("verdict") or "",
+                "priced": item.get("priced"),
+                "settled": False,
+                "ungraded_reason": "",
+            }
+        )
+        added += 1
+    if rows:
+        frame = pd.concat([frame, pd.DataFrame(rows)], ignore_index=True)
+        _save(frame, market_log_path(root))
     return added
 
 
@@ -319,6 +400,13 @@ def grade_games(root: Path, game_results: pd.DataFrame, today: datetime | None =
                 _backfill_spread_grade(frame, idx, row)
             if not _audit_text(row.get("total_side_correct")).strip():
                 _backfill_total_grade(frame, idx, row)
+            if not _audit_text(row.get("spread_ats_correct")).strip():
+                _backfill_spread_ats_grade(frame, idx, row)
+            if not _audit_text(row.get("predicted_ml_side")).strip():
+                win_prob = _as_float(row.get("home_win_prob"))
+                frame.loc[idx, "predicted_ml_side"] = _predicted_ml_side(
+                    str(row["home"]), str(row["away"]), win_prob
+                )
             continue
         key = (str(row["date"]), str(row["away"]).upper(), str(row["home"]).upper())
         outcome = by_key.get(key)
@@ -342,22 +430,34 @@ def grade_games(root: Path, game_results: pd.DataFrame, today: datetime | None =
         if pd.notna(win_prob):
             winner_correct = str((win_prob >= 0.5) == home_win)
         book_total = _as_float(row.get("book_total_line"))
+        book_spread = _as_float(row.get("book_spread_line"))
         predicted_total_side = _audit_text(row.get("predicted_total_side")) or _predicted_total_side(
             _as_float(row.get("projected_total")), book_total
         )
         total_side_correct = _total_side_correct(predicted_total_side, book_total, actual_total)
+        predicted_ml = _audit_text(row.get("predicted_ml_side")) or _predicted_ml_side(
+            str(row["home"]), str(row["away"]), _as_float(row.get("home_win_prob"))
+        )
+        predicted_spread_ats = _audit_text(row.get("predicted_spread_ats")) or _predicted_spread_ats(
+            _as_float(row.get("projected_home_spread")), book_spread
+        )
+        spread_ats_correct = _spread_ats_correct(predicted_spread_ats, book_spread, home_pts - away_pts)
         frame.loc[
             idx,
             [
                 "settled", "actual_away_pts", "actual_home_pts", "actual_total", "actual_winner",
-                "home_win", "winner_correct", "predicted_spread_side", "spread_side_correct",
+                "home_win", "winner_correct", "predicted_ml_side",
+                "predicted_spread_side", "spread_side_correct",
+                "predicted_spread_ats", "spread_ats_correct",
                 "predicted_total_side", "total_side_correct",
                 "spread_error", "total_error",
                 "ungraded_reason", "graded_at",
             ],
         ] = [
             True, away_pts, home_pts, actual_total, str(outcome["winner"]),
-            home_win, winner_correct, *_spread_grade(float(row["projected_home_spread"]), home_pts - away_pts),
+            home_win, winner_correct, predicted_ml,
+            *_spread_grade(float(row["projected_home_spread"]), home_pts - away_pts),
+            predicted_spread_ats, spread_ats_correct,
             predicted_total_side, total_side_correct,
             round(float(row["projected_home_spread"]) - (home_pts - away_pts), 1),
             round(float(row["projected_total"]) - actual_total, 1),
@@ -365,6 +465,87 @@ def grade_games(root: Path, game_results: pd.DataFrame, today: datetime | None =
         ]
         graded += 1
     _save(frame, game_log_path(root))
+    return {"graded": graded, "voided": voided, "pending": pending}
+
+
+def grade_markets(root: Path, game_results: pd.DataFrame, today: datetime | None = None) -> dict:
+    """Grade recorded moneyline, spread, and total rows against finished scores."""
+    frame = _load(market_log_path(root), MARKET_COLUMNS)
+    if frame.empty:
+        return {"graded": 0, "voided": 0, "pending": 0}
+    today = today or datetime.now(timezone.utc)
+    results = game_results.copy()
+    results["date"] = pd.to_datetime(results["date"]).dt.date.astype(str)
+    by_key = {
+        (row["date"], str(row["away"]).upper(), str(row["home"]).upper()): row
+        for _, row in results.iterrows()
+    }
+    graded = voided = pending = 0
+    for idx, row in frame.iterrows():
+        if str(row.get("settled")).lower() == "true" or row.get("settled") is True:
+            continue
+        key = (str(row["game_date"]), str(row["away"]).upper(), str(row["home"]).upper())
+        outcome = by_key.get(key)
+        if outcome is None:
+            game_day = pd.to_datetime(str(row["game_date"]))
+            if today.replace(tzinfo=None) > game_day + timedelta(days=GAME_VOID_AFTER_DAYS):
+                frame.loc[idx, ["settled", "ungraded_reason", "graded_at"]] = [
+                    True, REASON_VOID_NO_RESULT, _now_iso(),
+                ]
+                voided += 1
+            else:
+                frame.loc[idx, "ungraded_reason"] = REASON_RESULT_PENDING
+                pending += 1
+            continue
+        away_pts = float(outcome["awayPts"])
+        home_pts = float(outcome["homePts"])
+        market = str(row["market"]).lower()
+        side = str(row.get("side") or "").upper()
+        if market == "moneyline":
+            winner = str(outcome["winner"]).upper()
+            won = "" if not side else str(side == winner)
+            actual = 1.0 if winner == str(row["home"]).upper() else 0.0
+            push = False
+        elif market == "spread":
+            line = _as_float(row.get("line"))
+            actual = home_pts - away_pts
+            if line is None or not side:
+                frame.loc[idx, ["settled", "won", "push", "actual", "ungraded_reason", "graded_at"]] = [
+                    True, "", False, actual, "", _now_iso(),
+                ]
+                graded += 1
+                continue
+            cover = actual + line
+            if cover == 0:
+                won, push = "", True
+            else:
+                covered = str(row["home"]).upper() if cover > 0 else str(row["away"]).upper()
+                won, push = str(side == covered), False
+        elif market == "total":
+            line = _as_float(row.get("line"))
+            actual = home_pts + away_pts
+            if line is None or not side:
+                frame.loc[idx, ["settled", "won", "push", "actual", "ungraded_reason", "graded_at"]] = [
+                    True, "", False, actual, "", _now_iso(),
+                ]
+                graded += 1
+                continue
+            if actual == line:
+                won, push = "", True
+            else:
+                actual_side = "OVER" if actual > line else "UNDER"
+                won, push = str(side == actual_side), False
+        else:
+            frame.loc[idx, ["settled", "ungraded_reason", "graded_at"]] = [
+                True, REASON_MARKET_UNSUPPORTED, _now_iso(),
+            ]
+            voided += 1
+            continue
+        frame.loc[idx, ["settled", "won", "push", "actual", "ungraded_reason", "graded_at"]] = [
+            True, won, push, actual, "", _now_iso(),
+        ]
+        graded += 1
+    _save(frame, market_log_path(root))
     return {"graded": graded, "voided": voided, "pending": pending}
 
 
@@ -389,6 +570,47 @@ def _backfill_spread_grade(frame: pd.DataFrame, idx, row: pd.Series) -> None:
         return
     side, correct = _spread_grade(projected, home - away)
     frame.loc[idx, ["predicted_spread_side", "spread_side_correct"]] = [side, correct]
+
+
+def _predicted_ml_side(home: str, away: str, win_prob: float | None) -> str:
+    if win_prob is None:
+        return ""
+    return str(home).upper() if win_prob >= 0.5 else str(away).upper()
+
+
+def _predicted_spread_ats(projected_home_spread: float | None, book_line: float | None) -> str:
+    """HOME/AWAY/PUSH from the model's margin against the captured home spread."""
+    if projected_home_spread is None or book_line is None:
+        return ""
+    cover = projected_home_spread + book_line
+    if cover == 0:
+        return "PUSH"
+    return "HOME" if cover > 0 else "AWAY"
+
+
+def _spread_ats_correct(predicted_side: str, book_line: float | None, actual_home_margin: float) -> str:
+    if not predicted_side or book_line is None:
+        return ""
+    cover = actual_home_margin + book_line
+    if cover == 0:
+        return "PUSH"
+    actual_side = "HOME" if cover > 0 else "AWAY"
+    if predicted_side == "PUSH":
+        return "PUSH" if actual_side == "PUSH" else "False"
+    return str(predicted_side == actual_side)
+
+
+def _backfill_spread_ats_grade(frame: pd.DataFrame, idx, row: pd.Series) -> None:
+    book_line = _as_float(row.get("book_spread_line"))
+    projected = _as_float(row.get("projected_home_spread"))
+    home = _as_float(row.get("actual_home_pts"))
+    away = _as_float(row.get("actual_away_pts"))
+    if book_line is None or projected is None or home is None or away is None:
+        return
+    predicted = _audit_text(row.get("predicted_spread_ats")) or _predicted_spread_ats(projected, book_line)
+    frame.loc[idx, ["predicted_spread_ats", "spread_ats_correct"]] = [
+        predicted, _spread_ats_correct(predicted, book_line, home - away),
+    ]
 
 
 def _predicted_total_side(projected_total: float | None, book_line: float | None) -> str:
@@ -430,7 +652,7 @@ def results_summary(root: Path) -> dict:
     """Aggregate graded prediction performance for the CLI and dashboard."""
     props = _load(prop_log_path(root), PROP_COLUMNS)
     games = _load(game_log_path(root), GAME_COLUMNS)
-    summary: dict = {"props": {}, "games": {}, "generated_at": _now_iso()}
+    summary: dict = {"props": {}, "games": {}, "markets": {}, "generated_at": _now_iso()}
 
     settled = props[props["settled"].astype(str).str.lower() == "true"]
     reason = settled["ungraded_reason"].fillna("").astype(str).str.strip()
@@ -455,6 +677,25 @@ def results_summary(root: Path) -> dict:
     reasons = props[props["ungraded_reason"].astype(str).str.len() > 0]
     summary["props"]["_reasons"] = reasons["ungraded_reason"].value_counts().to_dict()
     summary["props"]["_records"] = _prop_audit_records(props)
+
+    markets = _load(market_log_path(root), MARKET_COLUMNS)
+    settled_markets = markets[markets["settled"].astype(str).str.lower() == "true"]
+    market_reason = settled_markets["ungraded_reason"].fillna("").astype(str).str.strip()
+    tracked_markets = settled_markets[market_reason.isin(["", "nan", "<NA>"])]
+    for market, group in tracked_markets.groupby("market"):
+        wins = (group["won"].astype(str) == "True").sum()
+        losses = (group["won"].astype(str) == "False").sum()
+        pushes = (group["push"].astype(str).str.lower() == "true").sum()
+        summary["markets"][str(market)] = {
+            "wins": int(wins),
+            "losses": int(losses),
+            "pushes": int(pushes),
+            "hit_rate": round(wins / (wins + losses) * 100, 1) if (wins + losses) else None,
+            "pending": 0,
+        }
+    summary["markets"]["_pending"] = int((markets["settled"].astype(str).str.lower() != "true").sum())
+    summary["markets"]["_logged"] = int(len(markets))
+    summary["markets"]["_records"] = _market_audit_records(markets)
 
     graded_games = games[games["settled"].astype(str).str.lower() == "true"]
     scored = graded_games[graded_games["winner_correct"].astype(str).isin(["True", "False"])].copy()
@@ -509,6 +750,9 @@ def results_summary(root: Path) -> dict:
                 "total_error": _as_float(row.get("total_error")),
                 "total_side": _audit_text(row.get("predicted_total_side")) or "—",
                 "total_status": _audit_text(row.get("total_side_correct")),
+                "ml_side": _audit_text(row.get("predicted_ml_side")) or "—",
+                "spread_ats": _audit_text(row.get("predicted_spread_ats")) or "—",
+                "spread_ats_status": _audit_text(row.get("spread_ats_correct")),
                 "run_id": str(row.get("run_id") or ""),
             })
         summary["games"] = {
@@ -528,6 +772,12 @@ def results_summary(root: Path) -> dict:
             summary["games"]["total_side_n"] = int(len(total_side))
             summary["games"]["total_side_correct"] = total_hits
             summary["games"]["total_side_hit_rate"] = round(total_hits / len(total_side) * 100, 1)
+        spread_ats = latest[latest["spread_ats_correct"].astype(str).isin(["True", "False"])]
+        if not spread_ats.empty:
+            ats_hits = int((spread_ats["spread_ats_correct"].astype(str) == "True").sum())
+            summary["games"]["spread_ats_n"] = int(len(spread_ats))
+            summary["games"]["spread_ats_correct"] = ats_hits
+            summary["games"]["spread_ats_hit_rate"] = round(ats_hits / len(spread_ats) * 100, 1)
     settled_spread = graded_games[graded_games["spread_side_correct"].astype(str).isin(["True", "False"])]
     if not settled_spread.empty:
         spread_hits = int((settled_spread["spread_side_correct"].astype(str) == "True").sum())
@@ -593,6 +843,35 @@ def _prop_audit_records(props: pd.DataFrame) -> list[dict]:
     return records
 
 
+def _market_audit_records(markets: pd.DataFrame) -> list[dict]:
+    records = []
+    ordered = markets.copy()
+    if ordered.empty:
+        return records
+    ordered["_sort"] = pd.to_datetime(ordered["recorded_at"], errors="coerce", utc=True)
+    for _, row in ordered.sort_values("_sort", ascending=False).iterrows():
+        status, detail = _audit_status(row, "won")
+        records.append(
+            {
+                "recorded_at": _audit_text(row.get("recorded_at")),
+                "game_date": _audit_text(row.get("game_date")),
+                "matchup": f"{_audit_text(row.get('away'))} @ {_audit_text(row.get('home'))}",
+                "market": _audit_text(row.get("market")),
+                "side": _audit_text(row.get("side")),
+                "line": _as_float(row.get("line")),
+                "odds": _as_float(row.get("odds")),
+                "projection": _as_float(row.get("projection")),
+                "model_prob": _as_float(row.get("model_prob")),
+                "edge": _as_float(row.get("edge")),
+                "actual": _as_float(row.get("actual")),
+                "status": status,
+                "status_detail": detail,
+                "prediction_id": _audit_text(row.get("prediction_id")),
+            }
+        )
+    return records
+
+
 def _game_audit_records(games: pd.DataFrame) -> list[dict]:
     records = []
     ordered = games.copy()
@@ -625,6 +904,9 @@ def _game_audit_records(games: pd.DataFrame) -> list[dict]:
                 "total_error": _as_float(row.get("total_error")),
                 "spread_side": _audit_text(row.get("predicted_spread_side")) or "—",
                 "spread_status": _audit_text(row.get("spread_side_correct")),
+                "ml_side": _audit_text(row.get("predicted_ml_side")) or "—",
+                "spread_ats": _audit_text(row.get("predicted_spread_ats")) or "—",
+                "spread_ats_status": _audit_text(row.get("spread_ats_correct")),
                 "total_side": _audit_text(row.get("predicted_total_side")) or "—",
                 "total_status": _audit_text(row.get("total_side_correct")),
                 "book_total_line": _as_float(row.get("book_total_line")),

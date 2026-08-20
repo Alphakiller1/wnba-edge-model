@@ -175,3 +175,79 @@ def test_model_only_prop_settles_for_mae_without_inventing_wl(tmp_path):
     assert record["hit_rate"] is None
     assert record["mae"] == 6.0
     assert summary["props"]["_records"][0]["status"] == "Recorded"
+
+
+def test_recorded_game_markets_grade_ml_spread_ats_and_total(tmp_path):
+    from wnba_edges.predictions import grade_markets, log_market_predictions_batch, market_log_path
+    from wnba_edges.prop_projections import build_game_market_slate
+
+    game = pd.DataFrame(
+        [
+            {
+                "run_id": "r1", "generated_at": "2026-07-09T12:00:00+00:00",
+                "date": "2026-07-10", "away": "CHI", "home": "MIN",
+                "projected_away_pts": 78.0, "projected_home_pts": 88.0,
+                "projected_total": 166.0, "projected_home_spread": 10.0,
+                "home_win_prob": 0.75, "win_prob_basis": "test",
+                "book_total_line": 160.5, "book_spread_line": -4.5,
+                "book_home_ml": -200, "book_away_ml": 170,
+                "book_spread_odds": -110, "book_spread_opposite": -110,
+                "book_total_over_odds": -110, "book_total_under_odds": -110,
+                "book_ml_book": "draftkings", "book_spread_book": "draftkings",
+                "book_total_book": "draftkings",
+            }
+        ]
+    )
+    assert log_game_projections(tmp_path, game, "2026-27") == 1
+    slate = build_game_market_slate(game)
+    assert log_market_predictions_batch(tmp_path, slate, "2026-27") == 3
+    assert log_market_predictions_batch(tmp_path, slate, "2026-27") == 0
+
+    results = pd.DataFrame(
+        [{"date": "2026-07-10", "away": "CHI", "home": "MIN", "awayPts": 80, "homePts": 90, "winner": "MIN"}]
+    )
+    assert grade_games(tmp_path, results)["graded"] == 1
+    assert grade_markets(tmp_path, results)["graded"] == 3
+
+    summary = results_summary(tmp_path)
+    assert summary["games"]["spread_ats_n"] == 1
+    assert summary["games"]["spread_ats_correct"] == 1
+    assert summary["markets"]["moneyline"]["wins"] == 1
+    assert summary["markets"]["spread"]["wins"] == 1
+    assert summary["markets"]["total"]["wins"] == 1
+    logged = pd.read_csv(market_log_path(tmp_path))
+    assert set(logged["market"]) == {"moneyline", "spread", "total"}
+    assert (logged["settled"].astype(str).str.lower() == "true").all()
+
+
+def test_unpriced_markets_settle_without_inventing_wl(tmp_path):
+    from wnba_edges.predictions import grade_markets, log_market_predictions_batch
+    from wnba_edges.prop_projections import build_game_market_slate
+
+    game = pd.DataFrame(
+        [
+            {
+                "run_id": "r1", "generated_at": "2026-07-09T12:00:00+00:00",
+                "date": "2026-07-10", "away": "CHI", "home": "MIN",
+                "projected_away_pts": 78.0, "projected_home_pts": 88.0,
+                "projected_total": 166.0, "projected_home_spread": 10.0,
+                "home_win_prob": 0.75, "win_prob_basis": "test",
+            }
+        ]
+    )
+    slate = build_game_market_slate(game)
+    assert log_market_predictions_batch(tmp_path, slate, "2026-27") == 3
+    results = pd.DataFrame(
+        [{"date": "2026-07-10", "away": "CHI", "home": "MIN", "awayPts": 80, "homePts": 90, "winner": "MIN"}]
+    )
+    assert grade_markets(tmp_path, results)["graded"] == 3
+    summary = results_summary(tmp_path)
+    # Moneyline still has a recorded favorite even without book odds.
+    assert summary["markets"]["moneyline"]["wins"] == 1
+    # Spread/total have no captured line, so MAE-style settle with no W-L.
+    assert summary["markets"]["spread"]["wins"] == 0
+    assert summary["markets"]["spread"]["losses"] == 0
+    assert summary["markets"]["spread"]["hit_rate"] is None
+    assert summary["markets"]["total"]["wins"] == 0
+    assert summary["markets"]["total"]["losses"] == 0
+    assert summary["markets"]["total"]["hit_rate"] is None

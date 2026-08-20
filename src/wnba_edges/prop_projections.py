@@ -1,11 +1,13 @@
-"""Slate player-prop projections and market-line attachment.
+"""Slate game-market and player-prop projections, plus book-line attachment.
 
-Game totals and player props are first-class tracked forecasts, not side effects of
-a one-off `evaluate-player-prop` call. This module:
+Moneyline, spread, total, and rotation player props are first-class tracked
+forecasts, not side effects of a one-off `evaluate-player-prop` call. This module:
 
+* stamps consensus book ML / spread / total onto each game projection
+* writes one recorded row per game for moneyline, spread, and total
 * estimates each rotation player's points / rebounds / assists / threes
 * attaches a book line when a fresh snapshot has one
-* writes a replaceable slate CSV plus prediction-log rows for grading
+* writes replaceable slate CSVs plus prediction-log rows for grading
 """
 from __future__ import annotations
 
@@ -13,7 +15,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from .betting import evaluate_over_under
+from .betting import estimate_over_probability, evaluate_over_under, value_layer
 from .features import board_eligible
 from .market_data import MAX_QUOTE_AGE_HOURS, _quote_age_hours
 from .sigma import MARKET_STAT_COLUMNS, load_market_sigmas, resolve_sigma
@@ -45,6 +47,18 @@ PROP_SLATE_COLUMNS = [
     "sigma", "sigma_source", "line", "side", "odds", "opposite_odds", "book",
     "model_prob", "implied_prob", "vig_free", "edge", "tier", "verdict", "priced",
 ]
+
+GAME_MARKET_COLUMNS = [
+    "run_id", "generated_at", "game_date", "away", "home", "market",
+    "projection", "projection_basis", "side", "line", "odds", "opposite_odds",
+    "book", "model_prob", "implied_prob", "vig_free", "edge", "tier", "verdict", "priced",
+]
+
+_GAME_SIGMA = 12.0
+
+
+def game_market_slate_path(root: Path, season: str) -> Path:
+    return root / "data" / "processed" / f"game_markets_{season}.csv"
 
 
 def prop_slate_path(root: Path, season: str) -> Path:
@@ -104,10 +118,16 @@ _LINE_MATCH_HOURS = 18
 
 
 def attach_game_market_lines(projections: pd.DataFrame, odds: pd.DataFrame | None) -> pd.DataFrame:
-    """Stamp the consensus book total (and spread) onto each game projection for grading."""
+    """Stamp consensus book ML / spread / total onto each game projection for recording."""
     out = projections.copy()
-    out["book_total_line"] = pd.NA
-    out["book_spread_line"] = pd.NA
+    for column in (
+        "book_total_line", "book_spread_line",
+        "book_home_ml", "book_away_ml",
+        "book_spread_odds", "book_spread_opposite",
+        "book_total_over_odds", "book_total_under_odds",
+        "book_ml_book", "book_spread_book", "book_total_book",
+    ):
+        out[column] = pd.NA
     if odds is None or odds.empty or out.empty:
         return out
     quotes = odds.copy()
@@ -115,13 +135,49 @@ def attach_game_market_lines(projections: pd.DataFrame, odds: pd.DataFrame | Non
     quotes["home"] = quotes["home"].astype(str).str.upper()
     for idx, game in out.iterrows():
         match = _quotes_for_kickoff(quotes, game)
+        home, away = str(game["home"]).upper(), str(game["away"]).upper()
         total_line = _consensus_line(match[match["market"].astype(str).str.lower() == "total"])
-        spread_line = _consensus_home_spread(match[match["market"].astype(str).str.lower() == "spread"], str(game["home"]))
+        spread_line = _consensus_home_spread(match[match["market"].astype(str).str.lower() == "spread"], home)
+        home_ml = _best_side_quote(match, "ml", home)
+        away_ml = _best_side_quote(match, "ml", away)
+        away_spread_line = None if spread_line is None else -float(spread_line)
+        home_spread = _best_side_quote(match, "spread", home, line=spread_line)
+        away_spread = _best_side_quote(match, "spread", away, line=away_spread_line)
+        over = _best_side_quote(match, "total", "over", line=total_line)
+        under = _best_side_quote(match, "total", "under", line=total_line)
         if total_line is not None:
             out.at[idx, "book_total_line"] = total_line
         if spread_line is not None:
             out.at[idx, "book_spread_line"] = spread_line
+        if home_ml:
+            out.at[idx, "book_home_ml"] = home_ml["odds"]
+        if away_ml:
+            out.at[idx, "book_away_ml"] = away_ml["odds"]
+        if home_ml or away_ml:
+            out.at[idx, "book_ml_book"] = (home_ml or away_ml)["book"]
+        if home_spread:
+            out.at[idx, "book_spread_odds"] = home_spread["odds"]
+            out.at[idx, "book_spread_book"] = home_spread["book"]
+        if away_spread:
+            out.at[idx, "book_spread_opposite"] = away_spread["odds"]
+        if over:
+            out.at[idx, "book_total_over_odds"] = over["odds"]
+            out.at[idx, "book_total_book"] = over["book"]
+        if under:
+            out.at[idx, "book_total_under_odds"] = under["odds"]
     return out
+
+
+def build_game_market_slate(projections: pd.DataFrame) -> pd.DataFrame:
+    """One recorded row per game for moneyline, spread, and total."""
+    if projections is None or projections.empty:
+        return pd.DataFrame(columns=GAME_MARKET_COLUMNS)
+    rows: list[dict] = []
+    for _, game in projections.iterrows():
+        rows.append(_moneyline_row(game))
+        rows.append(_spread_row(game))
+        rows.append(_total_row(game))
+    return pd.DataFrame(rows, columns=GAME_MARKET_COLUMNS)
 
 
 def build_slate_prop_projections(
@@ -276,6 +332,164 @@ def _minutes_ratio(row: pd.Series, history: pd.DataFrame | None) -> tuple[float,
         if abs(ratio - 1.0) >= 0.03:
             return ratio, f", minutes x{ratio:.2f}"
     return 1.0, ""
+
+
+def _base_market_row(game: pd.Series, market: str, projection, basis: str) -> dict:
+    return {
+        "run_id": game.get("run_id"),
+        "generated_at": game.get("generated_at"),
+        "game_date": game.get("date"),
+        "away": str(game["away"]).upper(),
+        "home": str(game["home"]).upper(),
+        "market": market,
+        "projection": projection,
+        "projection_basis": basis,
+        "side": "",
+        "line": pd.NA,
+        "odds": pd.NA,
+        "opposite_odds": pd.NA,
+        "book": "",
+        "model_prob": pd.NA,
+        "implied_prob": pd.NA,
+        "vig_free": False,
+        "edge": pd.NA,
+        "tier": "",
+        "verdict": "PROJ",
+        "priced": False,
+    }
+
+
+def _apply_price(row: dict, model_prob: float, odds, opposite, book: str) -> dict:
+    if odds is None or model_prob is None:
+        return row
+    value = value_layer(float(model_prob), int(odds), int(opposite) if opposite is not None else None)
+    row.update(
+        {
+            "odds": int(odds),
+            "opposite_odds": int(opposite) if opposite is not None else pd.NA,
+            "book": book or "",
+            "model_prob": value.model_prob,
+            "implied_prob": value.implied_prob,
+            "vig_free": value.vig_free,
+            "edge": value.edge,
+            "tier": value.tier,
+            "verdict": value.verdict,
+            "priced": True,
+        }
+    )
+    return row
+
+
+def _moneyline_row(game: pd.Series) -> dict:
+    away, home = str(game["away"]).upper(), str(game["home"]).upper()
+    home_prob = pd.to_numeric(game.get("home_win_prob"), errors="coerce")
+    if pd.isna(home_prob):
+        return _base_market_row(game, "moneyline", pd.NA, "no win probability")
+    side, prob = (home, float(home_prob)) if home_prob >= 0.5 else (away, float(1.0 - home_prob))
+    row = _base_market_row(game, "moneyline", round(prob, 4), str(game.get("win_prob_basis") or "win probability"))
+    row["side"] = side
+    home_odds = pd.to_numeric(game.get("book_home_ml"), errors="coerce")
+    away_odds = pd.to_numeric(game.get("book_away_ml"), errors="coerce")
+    pick_odds = home_odds if side == home else away_odds
+    opp_odds = away_odds if side == home else home_odds
+    if pd.notna(pick_odds):
+        _apply_price(
+            row, prob, pick_odds,
+            None if pd.isna(opp_odds) else opp_odds,
+            str(game.get("book_ml_book") or ""),
+        )
+    return row
+
+
+def _spread_row(game: pd.Series) -> dict:
+    projected = pd.to_numeric(game.get("projected_home_spread"), errors="coerce")
+    book_line = pd.to_numeric(game.get("book_spread_line"), errors="coerce")
+    home = str(game["home"]).upper()
+    away = str(game["away"]).upper()
+    basis = "projected home margin"
+    projection = None if pd.isna(projected) else round(float(projected), 1)
+    row = _base_market_row(game, "spread", projection, basis)
+    if pd.isna(projected):
+        return row
+    if pd.notna(book_line):
+        cover = float(projected) + float(book_line)
+        if cover == 0:
+            row["side"] = "PUSH"
+        else:
+            row["side"] = home if cover > 0 else away
+        row["line"] = float(book_line)
+        home_covers = estimate_over_probability(float(projected), -float(book_line), sigma=_GAME_SIGMA)
+        model_prob = home_covers if row["side"] == home else (1.0 - home_covers if row["side"] == away else 0.5)
+        odds = pd.to_numeric(game.get("book_spread_odds"), errors="coerce")
+        opposite = pd.to_numeric(game.get("book_spread_opposite"), errors="coerce")
+        if row["side"] == away:
+            odds, opposite = opposite, odds
+        if pd.notna(odds):
+            _apply_price(
+                row, model_prob, odds,
+                None if pd.isna(opposite) else opposite,
+                str(game.get("book_spread_book") or ""),
+            )
+    else:
+        row["side"] = home if projected > 0 else (away if projected < 0 else "PUSH")
+    return row
+
+
+def _total_row(game: pd.Series) -> dict:
+    projected = pd.to_numeric(game.get("projected_total"), errors="coerce")
+    book_line = pd.to_numeric(game.get("book_total_line"), errors="coerce")
+    projection = None if pd.isna(projected) else round(float(projected), 1)
+    row = _base_market_row(game, "total", projection, "projected total")
+    if pd.isna(projected):
+        return row
+    if pd.notna(book_line):
+        if float(projected) == float(book_line):
+            row["side"] = "PUSH"
+        else:
+            row["side"] = "OVER" if float(projected) > float(book_line) else "UNDER"
+        row["line"] = float(book_line)
+        over_p = estimate_over_probability(float(projected), float(book_line), sigma=_GAME_SIGMA)
+        model_prob = over_p if row["side"] == "OVER" else (1.0 - over_p if row["side"] == "UNDER" else 0.5)
+        over_odds = pd.to_numeric(game.get("book_total_over_odds"), errors="coerce")
+        under_odds = pd.to_numeric(game.get("book_total_under_odds"), errors="coerce")
+        pick_odds = over_odds if row["side"] == "OVER" else under_odds
+        opp_odds = under_odds if row["side"] == "OVER" else over_odds
+        if row["side"] in {"OVER", "UNDER"} and pd.notna(pick_odds):
+            _apply_price(
+                row, model_prob, pick_odds,
+                None if pd.isna(opp_odds) else opp_odds,
+                str(game.get("book_total_book") or ""),
+            )
+        else:
+            row["model_prob"] = round(model_prob, 4)
+    return row
+
+
+def _best_side_quote(
+    quotes: pd.DataFrame,
+    market: str,
+    side: str,
+    line: float | None = None,
+) -> dict | None:
+    if quotes is None or quotes.empty:
+        return None
+    rows = quotes[quotes["market"].astype(str).str.lower() == market.lower()]
+    pick = rows[rows["side"].astype(str).str.lower() == str(side).lower()]
+    if pick.empty:
+        return None
+    if line is not None and "line" in pick.columns:
+        lines = pd.to_numeric(pick["line"], errors="coerce")
+        at_line = pick[lines.round(1) == round(float(line), 1)]
+        if not at_line.empty:
+            pick = at_line
+    if "odds" not in pick.columns:
+        return None
+    odds = pd.to_numeric(pick["odds"], errors="coerce")
+    pick = pick.assign(odds_num=odds).dropna(subset=["odds_num"])
+    if pick.empty:
+        return None
+    best = pick.loc[pick["odds_num"].idxmax()]
+    return {"odds": int(best["odds_num"]), "book": str(best.get("book") or "")}
 
 
 def _consensus_line(quotes: pd.DataFrame) -> float | None:

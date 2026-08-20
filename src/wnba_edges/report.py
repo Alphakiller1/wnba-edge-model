@@ -22,7 +22,7 @@ from .board import BOARD_JS, board_html
 from .board_wnba import build_board
 from .features import MIN_GAMES_FOR_BOARD, MIN_MPG_FOR_BOARD, board_eligible
 from .predictions import results_summary
-from .prop_projections import prop_slate_path
+from .prop_projections import game_market_slate_path, prop_slate_path
 from .sigma import load_market_sigmas
 
 _STATIC = Path(__file__).resolve().parent / "static"
@@ -80,6 +80,7 @@ def build_site(root: Path, season: str, out: Path) -> Path:
     features = _read_csv(processed / f"player_features_{season}.csv")
     game_results = _read_csv(processed / f"game_results_{season}.csv")
     props = _read_csv(prop_slate_path(root, season))
+    game_markets = _read_csv(game_market_slate_path(root, season))
     odds = _read_csv(root / "data" / "odds" / "odds_latest.csv")
     sigmas = load_market_sigmas(root, season)
     summary = results_summary(root)
@@ -94,19 +95,20 @@ def build_site(root: Path, season: str, out: Path) -> Path:
   <div class="wrap">
     <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span>CHASE ANALYTICS&ensp;|&ensp;WNBA INTELLIGENCE</div>
     <h1 class="hero-title">The WNBA slate,<br>modeled and graded.</h1>
-    <p class="hero-sub">Game totals, player-prop projections, a watchboard, market snapshots,
-    and a fully graded prediction record &mdash; fit on real outcomes, honest about uncertainty.
+    <p class="hero-sub">Moneyline, spread, total, and player-prop projections, a watchboard,
+    market snapshots, and a fully graded prediction record &mdash; fit on real outcomes,
+    honest about uncertainty.
     Research software, not betting advice.</p>
     <div class="hero-meta">
       <span class="pill">data through {esc(data_date or "n/a")}</span>
       {_stale_badge(stale_days)}
       <span class="pill pill-dim">built {esc(built_at)}</span>
     </div>
-    {_summary_tiles(features, game_results, projections, props)}
+    {_summary_tiles(features, game_results, projections, props, game_markets)}
   </div>
 </header>
 <main class="wrap">
-  {_projections_section(projections, features, odds, data_date, props)}
+  {_projections_section(projections, features, odds, data_date, props, game_markets)}
   {_market_section(odds)}
   {_board_section(features)}
   {_results_section(summary)}
@@ -195,11 +197,12 @@ def _stale_badge(stale_days) -> str:
     return f'<span class="pill pill-warn">STALE &mdash; last refresh {stale_days} days ago</span>'
 
 
-def _summary_tiles(features, game_results, projections, props=None) -> str:
+def _summary_tiles(features, game_results, projections, props=None, game_markets=None) -> str:
     tiles = [
         ("Players modeled", len(features) if features is not None else 0),
         ("Finished games", len(game_results) if game_results is not None else 0),
         ("Games projected", len(projections) if projections is not None else 0),
+        ("Game markets", len(game_markets) if game_markets is not None else 0),
         ("Prop projections", len(props) if props is not None else 0),
     ]
     cells = "".join(
@@ -220,7 +223,7 @@ def _section_head(anchor: str, number: str, title: str, kicker: str, blurb: str)
 
 # ── layer 1 · projections ────────────────────────────────────────────────────
 
-def _projections_section(projections, features=None, odds=None, data_date=None, props=None) -> str:
+def _projections_section(projections, features=None, odds=None, data_date=None, props=None, game_markets=None) -> str:
     """Layer 1 — the slate board.
 
     Renders through the shared Board kernel, so a WNBA game card has the same anatomy as an
@@ -228,8 +231,8 @@ def _projections_section(projections, features=None, odds=None, data_date=None, 
     """
     head = _section_head(
         "projections", "1", "Game Projections", "Model layer",
-        "Baseline score, spread, total and pace from team efficiency ratings, plus rotation "
-        "player-prop projections. The home-win probability is a logistic fit on this season's "
+        "Every game records a moneyline, spread, and total projection. Rotation player props "
+        "are logged on the same run. The home-win probability is a logistic fit on this season's "
         "finished games &mdash; the basis and sample size are always shown.",
     )
     if projections is None:
@@ -241,7 +244,67 @@ def _projections_section(projections, features=None, odds=None, data_date=None, 
 <p class="basis-note">Home court: {hc} pts &nbsp;&middot;&nbsp; a market tile only counts as a
 pick when a stored book price backs it; everything else is labelled model&nbsp;only.</p>
 {board_html(board)}
+{_game_market_table(game_markets)}
 {_prop_slate_table(props)}</section>"""
+
+
+def _game_market_table(markets: pd.DataFrame | None) -> str:
+    """Recorded moneyline, spread, and total rows for the current slate."""
+    if markets is None or markets.empty:
+        return ""
+    priced_mask = markets["priced"].astype(str).str.lower().isin(["true", "1"]) if "priced" in markets.columns else pd.Series(False, index=markets.index)
+    priced = int(priced_mask.sum())
+    display = markets
+    if priced:
+        games = set(zip(markets.loc[priced_mask, "away"].astype(str), markets.loc[priced_mask, "home"].astype(str), markets.loc[priced_mask, "game_date"].astype(str)))
+        display = markets[markets.apply(lambda row: (str(row["away"]), str(row["home"]), str(row["game_date"])) in games, axis=1)]
+    labels = {"moneyline": "Moneyline", "spread": "Spread", "total": "Total"}
+    rows = []
+    ordered = display.copy()
+    market_rank = ordered["market"].map({"moneyline": 0, "spread": 1, "total": 2})
+    ordered = ordered.assign(_rank=market_rank).sort_values(["game_date", "away", "home", "_rank"])
+    current = None
+    for _, row in ordered.iterrows():
+        matchup = f"{row['away']} @ {row['home']}"
+        key = (str(row.get("game_date")), matchup)
+        if key != current:
+            current = key
+            rows.append(
+                f'<tr class="prop-game"><td colspan="4">{esc(matchup)}'
+                f'<span class="player-sub">{esc(row.get("game_date"))}</span></td></tr>'
+            )
+        market = labels.get(str(row["market"]), str(row["market"]))
+        projection = pd.to_numeric(row.get("projection"), errors="coerce")
+        if str(row["market"]) == "moneyline" and pd.notna(projection):
+            proj_txt = f"{float(projection) * 100:.0f}%"
+        elif pd.notna(projection):
+            proj_txt = f"{float(projection):.1f}"
+        else:
+            proj_txt = "—"
+        side = str(row.get("side") or "")
+        line = pd.to_numeric(row.get("line"), errors="coerce")
+        if str(row["market"]) == "spread" and pd.notna(line) and side:
+            pick = f"{side} vs {float(line):+g}"
+        elif str(row["market"]) == "total" and pd.notna(line) and side:
+            pick = f"{side} {float(line):g}"
+        else:
+            pick = side or "model only"
+        odds = pd.to_numeric(row.get("odds"), errors="coerce")
+        book = str(row.get("book") or "")
+        if pd.notna(odds):
+            price = f"{book} {int(odds):+d}".strip()
+        else:
+            price = "model only"
+        rows.append(
+            f"<tr><td>{esc(market)}</td><td class=\"num\">{esc(proj_txt)}</td>"
+            f"<td>{esc(pick)}</td><td>{esc(price)}</td></tr>"
+        )
+    return f"""<h3 class="results-subtitle">Recorded moneyline, spread and total ({len(display)})</h3>
+<p class="basis-note">{priced} priced against a stored book line &middot; every game logs all three markets
+even when no quote is on file, so later grading is against a captured forecast.</p>
+<div class="board"><div class="tablewrap"><table>
+<thead><tr><th>Market</th><th class="num">Projection</th><th>Recorded side</th><th>Book</th></tr></thead>
+<tbody>{"".join(rows)}</tbody></table></div></div>"""
 
 
 def _prop_slate_table(props: pd.DataFrame | None) -> str:
@@ -470,18 +533,24 @@ def _results_section(summary: dict) -> str:
         "hidden losses.",
     )
     props = {k: v for k, v in summary.get("props", {}).items() if not k.startswith("_")}
+    markets = {k: v for k, v in summary.get("markets", {}).items() if not k.startswith("_")}
     games = summary.get("games", {})
     prop_records = summary.get("props", {}).get("_records", [])
+    market_records = summary.get("markets", {}).get("_records", [])
     game_records = games.get("_records", [])
     has_games = bool(games.get("n"))
-    if not props and not has_games and not prop_records and not game_records:
-        pending = summary.get("props", {}).get("_pending", 0) + games.get("_pending", 0)
+    if not props and not markets and not has_games and not prop_records and not market_records and not game_records:
+        pending = (
+            summary.get("props", {}).get("_pending", 0)
+            + summary.get("markets", {}).get("_pending", 0)
+            + games.get("_pending", 0)
+        )
         pending_note = (
             f'<span class="pill pill-dim">{pending} prediction(s) awaiting grading</span>'
             if pending else ""
         )
         return f"""<section>{head}<div class="empty"><b>No graded predictions yet.</b> {pending_note}<br>
-        Predictions logged by <code>build-game-projections</code> (totals + player props) and
+        Predictions logged by <code>build-game-projections</code> (moneyline, spread, total, player props) and
         <code>evaluate-player-prop</code> are graded by <code>wnba-edges grade-predictions</code>
         once games finish.</div></section>"""
     prop_rows = "".join(
@@ -500,6 +569,21 @@ def _results_section(summary: dict) -> str:
 <p class="basis-note">W-L is only scored when a book line was captured with the projection.
 MAE uses every settled actual, including model-only rows.</p>"""
         if props else ""
+    )
+    market_rows = "".join(
+        f"""<tr><td>{esc(market)}</td>
+<td class="num">{record["wins"]}-{record["losses"]}-{record["pushes"]}</td>
+<td class="num">{esc(record["hit_rate"]) if record["hit_rate"] is not None else "&ndash;"}%</td></tr>"""
+        for market, record in sorted(markets.items())
+    )
+    market_table = (
+        f"""<h3 class="results-subtitle">Moneyline, spread and total record</h3>
+<div class="board"><div class="tablewrap"><table>
+<thead><tr><th>Market</th><th class="num">W-L-P</th><th class="num">Hit rate</th></tr></thead>
+<tbody>{market_rows}</tbody></table></div></div>
+<p class="basis-note">Spread W-L is ATS against the captured book number. Moneyline is the model's
+favorite versus the winner. Totals are over/under versus the captured book total.</p>"""
+        if markets else ""
     )
     game_block = ""
     if has_games:
@@ -545,12 +629,18 @@ MAE uses every settled actual, including model-only rows.</p>"""
             total_side_tiles = f"""
   <div class="tile"><span class="tile-v">{games['total_side_correct']}/{games['total_side_n']}</span><span class="tile-l">Correct total sides</span></div>
   <div class="tile"><span class="tile-v">{games['total_side_hit_rate']}%</span><span class="tile-l">Total-side hit rate</span></div>"""
+        spread_ats_tiles = ""
+        if games.get("spread_ats_n"):
+            spread_ats_tiles = f"""
+  <div class="tile"><span class="tile-v">{games['spread_ats_correct']}/{games['spread_ats_n']}</span><span class="tile-l">Correct spread ATS</span></div>
+  <div class="tile"><span class="tile-v">{games['spread_ats_hit_rate']}%</span><span class="tile-l">Spread ATS hit rate</span></div>"""
         game_block = f"""
 <div class="tiles tiles-results">
   <div class="tile"><span class="tile-v">{games["correct"]}/{games["n"]}</span><span class="tile-l">Correct winner calls</span></div>
   <div class="tile"><span class="tile-v">{games["winner_hit_rate"]}%</span><span class="tile-l">Winner hit rate</span></div>
   <div class="tile"><span class="tile-v">{games.get("spread_correct", 0)}/{games.get("spread_n", 0)}</span><span class="tile-l">Correct spread sides</span></div>
   <div class="tile"><span class="tile-v">{games.get("spread_hit_rate", "—")}%</span><span class="tile-l">Spread-side hit rate</span></div>
+  {spread_ats_tiles}
   {total_side_tiles}
   <div class="tile"><span class="tile-v">{games["spread_mae"]}</span><span class="tile-l">Spread MAE</span></div>
   <div class="tile"><span class="tile-v">{games["total_mae"]}</span><span class="tile-l">Total MAE</span></div>
@@ -561,8 +651,8 @@ MAE uses every settled actual, including model-only rows.</p>"""
 {audit_runs} graded projection run(s) &middot; {logged} total predictions logged &middot; {pending} awaiting grading.</p>
 <h3 class="results-subtitle">Where the model is succeeding</h3>{calibration}
 <h3 class="results-subtitle">Recent graded game calls</h3>{recent_table}"""
-    return f"""<section>{head}{game_block}{prop_table}
-{_game_audit_table(game_records)}{_prop_audit_table(prop_records)}</section>"""
+    return f"""<section>{head}{game_block}{market_table}{prop_table}
+{_game_audit_table(game_records)}{_market_audit_table(market_records)}{_prop_audit_table(prop_records)}</section>"""
 
 
 def _audit_status_cell(record: dict) -> str:
@@ -608,6 +698,27 @@ def _spread_status_label(status: str) -> str:
     if status == "PUSH":
         return '<span class="result-void">push</span>'
     return '<span class="result-pending">pending</span>'
+
+
+def _market_audit_table(records: list[dict]) -> str:
+    if not records:
+        return """<h3 class="results-subtitle">All moneyline / spread / total audit rows (0)</h3>
+<div class="empty">No game-market predictions have been logged yet. <code>build-game-projections</code>
+writes a moneyline, spread, and total row for every scheduled game.</div>"""
+    rows = "".join(
+        f"<tr><td>{esc(record['game_date'])}<span class=\"player-sub\">{esc(record['recorded_at'])}</span></td>"
+        f"<td>{esc(record['matchup'])}</td><td>{esc(record['market'])}</td>"
+        f"<td>{esc(record['side'])} {_audit_number(record['line'])} @ {_audit_number(record['odds'], 0)}</td>"
+        f"<td class=\"num\">{_audit_number(record['projection'], 3 if record['market'] == 'moneyline' else 1)}</td>"
+        f"<td class=\"num\">{_audit_number(record['model_prob'] * 100 if record['model_prob'] is not None else None, 1, suffix='%')}</td>"
+        f"<td class=\"num\">{_audit_number(record['actual'])}</td><td>{_audit_status_cell(record)}</td></tr>"
+        for record in records
+    )
+    return f"""<h3 class="results-subtitle">All moneyline / spread / total audit rows ({len(records)})</h3>
+<div class="board"><div class="tablewrap"><table>
+<thead><tr><th>Game date / logged</th><th>Matchup</th><th>Market</th><th>Pick / price</th>
+<th class="num">Projection</th><th class="num">Model prob.</th><th class="num">Actual</th><th>Grade</th></tr></thead>
+<tbody>{rows}</tbody></table></div></div>"""
 
 
 def _prop_audit_table(records: list[dict]) -> str:

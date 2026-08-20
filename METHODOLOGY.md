@@ -31,17 +31,18 @@ instruction, and nothing here guarantees an outcome.
    the public board. **Watchboard rank is not a bet** — it is a queue of players
    whose role or form is moving, to be priced against a market line.
 
-4. **Graded results (results layer).** Every prop evaluation and game-projection run
-   is persisted with a prediction id, run id, and UTC timestamp, then graded against
-   player game logs and final scores. Ungradeable predictions carry an explicit
-   reason code (e.g. `player_not_found_in_game_logs`, `void_no_game_within_window`)
-   and are voided — never silently dropped. Game projections report winner hit rate,
-   spread-side direction, **total-side vs the captured book number** (when a total
-   was stored with the forecast), spread/total MAE, and Brier score. Rotation
-   player-prop projections (PTS / REB / AST / 3PM) are written on every
-   `build-game-projections` run and logged for grading. A W-L is only scored when a
-   book line was captured; model-only rows still settle on MAE once the box score
-   arrives.
+4. **Graded results (results layer).** Every game run logs **four recorded forecasts**:
+   moneyline, spread, total, and the rotation player-prop slate. Each row has a
+   prediction id, run id, and UTC timestamp, then is graded against player game logs
+   and final scores. Ungradeable predictions carry an explicit reason code and are
+   voided — never silently dropped.
+   - **Moneyline:** model's favorite (from home-win probability) vs the winner.
+   - **Spread:** ATS vs the captured book home line when one was stored with the
+     forecast; direction accuracy (HOME/AWAY from the projected margin) is still
+     reported separately and does not assume a book number.
+   - **Total:** over/under vs the captured book total, plus total MAE.
+   - **Player props:** PTS / REB / AST / 3PM for each rotation player. A W-L is only
+     scored when a book line was captured; model-only rows still settle on MAE.
 
 ## Prop pricing
 

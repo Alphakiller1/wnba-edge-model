@@ -34,9 +34,10 @@ GitHub Pages on every push to `main` from the committed processed data.
    game logs** (per-player where the sample allows), minutes-adjusted projections,
    **pairwise de-vigged** market probabilities, tiers (Lean / Standard / Strong),
    and a REVIEW flag for implausibly large edges.
-5. **Prediction log + grading** — every evaluation is persisted with a prediction id,
-   run id, and UTC timestamp; `grade-predictions` settles them against game logs and
-   final scores with explicit reason codes for anything ungradeable.
+5. **Prediction log + grading** — every game run records moneyline, spread, total,
+   and rotation player-prop rows with a prediction id, run id, and UTC timestamp;
+   `grade-predictions` settles them against game logs and final scores with
+   explicit reason codes for anything ungradeable.
 
 ## Quick start
 
@@ -52,8 +53,7 @@ wnba-edges refresh-season --season 2026-27
 wnba-edges build-features --season 2026-27
 wnba-edges edge-board --season 2026-27 --top 25
 
-# Upcoming slate projections (schedule fetched live from ESPN).
-# Also writes rotation player-prop projections (PTS/REB/AST/3PM) and logs them.
+# Upcoming slate: records moneyline, spread, total, and rotation player props.
 wnba-edges build-game-projections --season 2026-27
 
 # Fit per-market prop volatility from real game logs
@@ -100,12 +100,14 @@ CI runs both plus a dashboard build smoke on every push.
 
 - Props grade against the player's first game log in a ±1/+2-day window around the
   slate date; exact-line results are pushes.
-- Games grade against final scores matched on date + matchup.
+- Games grade against final scores matched on date + matchup. Moneyline, spread
+  ATS, and total are logged as their own rows; ATS and totals only produce a W-L
+  when a book line was captured with the forecast.
 - Anything ungradeable is voided with a reason code
   (`player_not_found_in_game_logs`, `void_no_game_within_window`,
   `market_unsupported`, …) — never silently dropped.
-- `wnba-edges results` prints W-L-P by market, winner hit rate, spread/total MAE,
-  and Brier score.
+- `wnba-edges results` prints W-L-P for moneyline / spread / total / player
+  props, winner hit rate, spread/total MAE, and Brier score.
 
 ## License
 
