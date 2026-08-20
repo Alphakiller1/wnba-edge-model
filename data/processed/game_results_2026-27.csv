@@ -257,3 +257,13 @@ PDX,Portland Fire,84,2026-08-14,1786665600000,53,SEA,Seattle Storm,82,1022600255
 NYL,New York Liberty,82,2026-08-15,1786752000000,28,CON,Connecticut Sun,75,1022600256,CON,7,Aug,False,77.0,2026-27,regular_season,"J. Jones — 23 pts, 11 reb",NYL,157,-7,W,L
 LAS,Los Angeles Sparks,70,2026-08-15,1786752000000,21,WAS,Washington Mystics,80,1022600257,LAS,10,Aug,False,78.5,2026-27,regular_season,"S. Citron — 21 pts, 8 ast",WAS,150,10,L,W
 MIN,Minnesota Lynx,92,2026-08-15,1786752000000,45,LVA,Las Vegas Aces,87,1022600258,LVA,5,Aug,False,78.0,2026-27,regular_season,"A. Wilson — 32 pts, 7 reb",MIN,179,-5,W,L
+CHI,Chicago Sky,82,2026-08-16,1786838400000,59,SEA,Seattle Storm,80,1022600259,SEA,2,Aug,False,91.5,2026-27,regular_season,"K. Cardoso — 22 pts, 12 reb",CHI,162,-2,W,L
+PDX,Portland Fire,88,2026-08-16,1786838400000,51,PHX,Phoenix Mercury,85,1022600260,PHX,3,Aug,False,80.5,2026-27,regular_season,"D. Bonner — 23 pts, 6 reb",PDX,173,-3,W,L
+IND,Indiana Fever,95,2026-08-16,1786838400000,77,ATL,Atlanta Dream,91,1022600261,ATL,4,Aug,True,90.5,2026-27,regular_season,"A. Gray — 32 pts, 7 reb",IND,186,-4,W,L
+DAL,Dallas Wings,70,2026-08-17,1786924800000,23,GSV,Golden State Valkyries,78,1022600262,DAL,8,Aug,False,76.5,2026-27,regular_season,"G. Williams — 23 pts, 7 reb",GSV,148,8,L,W
+LAS,Los Angeles Sparks,77,2026-08-18,1787011200000,35,CON,Connecticut Sun,85,1022600263,LAS,8,Aug,False,81.0,2026-27,regular_season,"R. Burrell — 19 pts, 6 ast",CON,162,8,L,W
+IND,Indiana Fever,101,2026-08-18,1787011200000,64,TOR,Toronto Tempo,95,1022600264,TOR,6,Aug,False,85.5,2026-27,regular_season,"K. Mitchell — 29 pts, 3 reb",IND,196,-6,W,L
+NYL,New York Liberty,86,2026-08-18,1787011200000,54,CHI,Chicago Sky,93,1022600265,NYL,7,Aug,False,88.0,2026-27,regular_season,"N. Cloud — 35 pts, 9 reb",CHI,179,7,L,W
+ATL,Atlanta Dream,97,2026-08-18,1787011200000,33,LVA,Las Vegas Aces,82,1022600266,LVA,15,Aug,False,84.5,2026-27,regular_season,"A. Wilson — 27 pts, 14 reb",ATL,179,-15,W,L
+TOR,Toronto Tempo,82,2026-08-19,1787097600000,28,WAS,Washington Mystics,93,1022600267,TOR,11,Aug,False,77.5,2026-27,regular_season,"K. Iriafen — 21 pts, 13 reb",WAS,175,11,L,W
+MIN,Minnesota Lynx,77,2026-08-19,1787097600000,16,GSV,Golden State Valkyries,66,1022600268,GSV,11,Aug,False,73.0,2026-27,regular_season,"O. Miles — 20 pts, 7 ast",MIN,143,-11,W,L

@@ -76,6 +76,37 @@ def test_attach_game_market_lines_uses_consensus_total_and_home_spread():
     assert out.iloc[0]["book_spread_line"] == -3.5
 
 
+def test_attach_game_market_lines_ignores_a_later_rematch():
+    projections = pd.DataFrame(
+        [
+            {
+                "away": "ATL", "home": "LAS", "date": "2026-08-20",
+                "time": "2026-08-21T02:00:00Z", "projected_total": 178.0,
+            },
+            {
+                "away": "ATL", "home": "LAS", "date": "2026-08-24",
+                "time": "2026-08-25T02:00:00Z", "projected_total": 178.0,
+            },
+        ]
+    )
+    odds = pd.DataFrame(
+        [
+            {
+                "away": "ATL", "home": "LAS", "market": "total", "side": "over",
+                "line": 181.5, "commence_time": "2026-08-21T02:00:00Z",
+            },
+            {
+                "away": "ATL", "home": "LAS", "market": "spread", "side": "LAS",
+                "line": -4.5, "commence_time": "2026-08-21T02:00:00Z",
+            },
+        ]
+    )
+    out = attach_game_market_lines(projections, odds)
+    assert out.iloc[0]["book_total_line"] == 181.5
+    assert pd.isna(out.iloc[1]["book_total_line"])
+    assert pd.isna(out.iloc[1]["book_spread_line"])
+
+
 def test_build_slate_prop_projections_prices_when_a_quote_exists():
     features = pd.DataFrame(
         [

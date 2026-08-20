@@ -100,6 +100,9 @@ def projection_for_market(
     return round(float(estimate), 2), f"{prior_label}; {form_note}{minutes_note}"
 
 
+_LINE_MATCH_HOURS = 18
+
+
 def attach_game_market_lines(projections: pd.DataFrame, odds: pd.DataFrame | None) -> pd.DataFrame:
     """Stamp the consensus book total (and spread) onto each game projection for grading."""
     out = projections.copy()
@@ -111,10 +114,7 @@ def attach_game_market_lines(projections: pd.DataFrame, odds: pd.DataFrame | Non
     quotes["away"] = quotes["away"].astype(str).str.upper()
     quotes["home"] = quotes["home"].astype(str).str.upper()
     for idx, game in out.iterrows():
-        match = quotes[
-            (quotes["away"] == str(game["away"]).upper())
-            & (quotes["home"] == str(game["home"]).upper())
-        ]
+        match = _quotes_for_kickoff(quotes, game)
         total_line = _consensus_line(match[match["market"].astype(str).str.lower() == "total"])
         spread_line = _consensus_home_spread(match[match["market"].astype(str).str.lower() == "spread"], str(game["home"]))
         if total_line is not None:
@@ -158,7 +158,14 @@ def build_slate_prop_projections(
                         player_logs=player_logs,
                         player_id=player.get("id"),
                     )
-                    price = _best_prop_quote(odds, str(player["name"]), market, away=away, home=home)
+                    price = _best_prop_quote(
+                        odds,
+                        str(player["name"]),
+                        market,
+                        away=away,
+                        home=home,
+                        kickoff=_game_kickoff(game),
+                    )
                     row = {
                         "run_id": run_id,
                         "generated_at": generated_at,
@@ -293,6 +300,30 @@ def _consensus_home_spread(quotes: pd.DataFrame, home: str) -> float | None:
     return float(lines.round(1).value_counts().index[0])
 
 
+def _game_kickoff(game: pd.Series) -> pd.Timestamp | None:
+    for column in ("time", "date"):
+        stamp = pd.to_datetime(game.get(column), utc=True, errors="coerce")
+        if pd.notna(stamp):
+            return stamp
+    return None
+
+
+def _quotes_for_kickoff(quotes: pd.DataFrame, game: pd.Series) -> pd.DataFrame:
+    """Team-pair quotes for this tip-off only — a rematch later in the week is a different board."""
+    match = quotes[
+        (quotes["away"] == str(game["away"]).upper())
+        & (quotes["home"] == str(game["home"]).upper())
+    ]
+    if match.empty or "commence_time" not in match.columns:
+        return match
+    kickoff = _game_kickoff(game)
+    commence = pd.to_datetime(match["commence_time"], utc=True, errors="coerce")
+    if kickoff is None or not commence.notna().any():
+        return match
+    close = match[commence.notna() & ((commence - kickoff).abs() <= pd.Timedelta(hours=_LINE_MATCH_HOURS))]
+    return close
+
+
 def _best_prop_quote(
     odds: pd.DataFrame | None,
     player: str,
@@ -300,6 +331,7 @@ def _best_prop_quote(
     *,
     away: str | None = None,
     home: str | None = None,
+    kickoff: pd.Timestamp | None = None,
 ) -> dict | None:
     if odds is None or odds.empty or "player" not in odds.columns:
         return None
@@ -315,6 +347,10 @@ def _best_prop_quote(
             (rows["away"].astype(str).str.upper() == away.upper())
             & (rows["home"].astype(str).str.upper() == home.upper())
         ]
+    if kickoff is not None and not rows.empty and "commence_time" in rows.columns:
+        commence = pd.to_datetime(rows["commence_time"], utc=True, errors="coerce")
+        close = rows[commence.notna() & ((commence - kickoff).abs() <= pd.Timedelta(hours=_LINE_MATCH_HOURS))]
+        rows = close
     if rows.empty:
         return None
     if "fetched_at" in rows.columns:
