@@ -5,6 +5,7 @@ import pandas as pd
 from wnba_edges.predictions import (
     REASON_MARKET_UNSUPPORTED,
     REASON_PLAYER_NOT_FOUND,
+    REASON_VOID_NO_RESULT,
     game_log_path,
     grade_games,
     grade_props,
@@ -251,3 +252,34 @@ def test_unpriced_markets_settle_without_inventing_wl(tmp_path):
     assert summary["markets"]["total"]["wins"] == 0
     assert summary["markets"]["total"]["losses"] == 0
     assert summary["markets"]["total"]["hit_rate"] is None
+
+
+def test_voided_game_is_regraded_when_the_result_arrives(tmp_path):
+    projections = pd.DataFrame(
+        [
+            {
+                "run_id": "r1", "generated_at": "2026-07-09T12:00:00+00:00",
+                "date": "2026-07-10", "away": "CHI", "home": "MIN",
+                "projected_away_pts": 78.0, "projected_home_pts": 88.0,
+                "projected_total": 166.0, "projected_home_spread": 10.0,
+                "home_win_prob": 0.75, "win_prob_basis": "test",
+                "book_total_line": 160.5, "book_spread_line": -4.5,
+            }
+        ]
+    )
+    assert log_game_projections(tmp_path, projections, "2026-27") == 1
+    logged = pd.read_csv(game_log_path(tmp_path), dtype={"ungraded_reason": str, "settled": str})
+    logged.loc[0, "settled"] = "True"
+    logged.loc[0, "ungraded_reason"] = REASON_VOID_NO_RESULT
+    logged.to_csv(game_log_path(tmp_path), index=False)
+
+    results = pd.DataFrame(
+        [{"date": "2026-07-10", "away": "CHI", "home": "MIN", "awayPts": 80, "homePts": 90, "winner": "MIN"}]
+    )
+    assert grade_games(tmp_path, results)["graded"] == 1
+    summary = results_summary(tmp_path)
+    assert summary["games"]["n"] == 1
+    assert summary["games"]["correct"] == 1
+    assert summary["markets"]["moneyline"]["wins"] == 1
+    assert summary["markets"]["spread"]["wins"] == 1
+    assert summary["markets"]["total"]["wins"] == 1

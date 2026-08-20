@@ -36,10 +36,10 @@ instruction, and nothing here guarantees an outcome.
    prediction id, run id, and UTC timestamp, then is graded against player game logs
    and final scores. Ungradeable predictions carry an explicit reason code and are
    voided — never silently dropped.
-   - **Moneyline:** model's favorite (from home-win probability) vs the winner.
-   - **Spread:** ATS vs the captured book home line when one was stored with the
-     forecast; direction accuracy (HOME/AWAY from the projected margin) is still
-     reported separately and does not assume a book number.
+   - **Moneyline:** model's favorite (from home-win probability) vs the winner,
+     recorded with the captured home/away moneyline when a snapshot exists.
+   - **Spread:** ATS vs the captured book home line. A projection without that
+     number is not a wager record; direction accuracy is reported separately.
    - **Total:** over/under vs the captured book total, plus total MAE.
    - **Player props:** PTS / REB / AST / 3PM for each rotation player. A W-L is only
      scored when a book line was captured; model-only rows still settle on MAE.

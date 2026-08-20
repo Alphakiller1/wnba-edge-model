@@ -201,3 +201,37 @@ def test_site_renders_recorded_game_markets(tmp_path):
     assert "Moneyline" in html
     assert "MIN vs -4.5" in html
     assert "OVER 160.5" in html
+
+
+def test_site_hides_game_projection_audit_and_shows_lines(tmp_path):
+    _seed(tmp_path)
+    predictions = tmp_path / "data" / "predictions"
+    predictions.mkdir(parents=True)
+    pd.DataFrame(
+        [
+            {
+                "prediction_id": "p1", "run_id": "r1", "sport": "wnba", "season": "2026-27",
+                "recorded_at": "2026-07-16T12:00:00+00:00", "date": "2026-07-20",
+                "away": "CHI", "home": "MIN",
+                "projected_away_pts": 78.0, "projected_home_pts": 88.0,
+                "projected_total": 166.0, "projected_home_spread": 10.0,
+                "home_win_prob": 0.78, "win_prob_basis": "test",
+                "book_total_line": 160.5, "book_spread_line": -4.5,
+                "book_home_ml": -150, "book_away_ml": 130,
+                "predicted_ml_side": "MIN", "predicted_spread_ats": "HOME",
+                "predicted_total_side": "OVER",
+                "settled": True, "actual_away_pts": 80, "actual_home_pts": 90,
+                "actual_total": 170, "actual_winner": "MIN", "home_win": True,
+                "winner_correct": True, "predicted_spread_side": "HOME",
+                "spread_side_correct": True, "spread_ats_correct": True,
+                "total_side_correct": True, "spread_error": 0.0, "total_error": -4.0,
+                "ungraded_reason": "", "graded_at": "2026-07-21T00:00:00+00:00",
+            }
+        ]
+    ).to_csv(predictions / "game_predictions.csv", index=False)
+    html = build_site(tmp_path, season="2026-27", out=tmp_path / "docs" / "index.html").read_text(encoding="utf-8")
+    assert "All game-projection audit rows" not in html
+    assert "Graded game calls" in html
+    assert "166.0 vs 160.5" in html
+    assert "+10.0 vs -4.5" in html
+    assert "MIN 78% @ -150" in html

@@ -111,6 +111,54 @@ def test_attach_game_market_lines_ignores_a_later_rematch():
     assert pd.isna(out.iloc[1]["book_spread_line"])
 
 
+def test_attach_game_market_lines_matches_date_only_to_eastern_kickoff():
+    projections = pd.DataFrame(
+        [{"away": "DAL", "home": "GSV", "date": "2026-08-17", "projected_total": 170.0}]
+    )
+    odds = pd.DataFrame(
+        [
+            {
+                "away": "DAL", "home": "GSV", "market": "total", "side": "over",
+                "line": 168.5, "commence_time": "2026-08-18T02:00:00Z",
+            },
+            {
+                "away": "DAL", "home": "GSV", "market": "spread", "side": "GSV",
+                "line": -6.5, "commence_time": "2026-08-18T02:00:00Z",
+            },
+            {
+                "away": "DAL", "home": "GSV", "market": "ml", "side": "GSV",
+                "odds": -265, "commence_time": "2026-08-18T02:00:00Z",
+            },
+        ]
+    )
+    out = attach_game_market_lines(projections, odds)
+    assert out.iloc[0]["book_total_line"] == 168.5
+    assert out.iloc[0]["book_spread_line"] == -6.5
+    assert out.iloc[0]["book_home_ml"] == -265
+
+
+def test_fill_missing_game_market_lines_does_not_overwrite_captured_number():
+    from wnba_edges.prop_projections import fill_missing_game_market_lines
+
+    projections = pd.DataFrame(
+        [
+            {
+                "away": "CHI", "home": "MIN", "date": "2026-08-18",
+                "book_total_line": 160.5, "book_spread_line": pd.NA,
+            }
+        ]
+    )
+    odds = pd.DataFrame(
+        [
+            {"away": "CHI", "home": "MIN", "market": "total", "side": "over", "line": 165.5},
+            {"away": "CHI", "home": "MIN", "market": "spread", "side": "MIN", "line": -3.5},
+        ]
+    )
+    out = fill_missing_game_market_lines(projections, odds)
+    assert out.iloc[0]["book_total_line"] == 160.5
+    assert out.iloc[0]["book_spread_line"] == -3.5
+
+
 def test_build_slate_prop_projections_prices_when_a_quote_exists():
     features = pd.DataFrame(
         [

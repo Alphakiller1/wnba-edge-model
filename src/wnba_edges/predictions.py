@@ -248,6 +248,44 @@ def log_game_projections(root: Path, projections: pd.DataFrame, season: str) -> 
     return added
 
 
+def backfill_logged_game_lines(root: Path, odds: pd.DataFrame | None) -> int:
+    """Stamp stored book numbers onto logged forecasts that were saved without a line."""
+    from .prop_projections import fill_missing_game_market_lines
+
+    if odds is None or odds.empty:
+        return 0
+    frame = _load(game_log_path(root), GAME_COLUMNS)
+    if frame.empty:
+        return 0
+    before = frame[["book_total_line", "book_spread_line", "book_home_ml", "book_away_ml"]].copy()
+    filled = fill_missing_game_market_lines(frame, odds)
+    changed = 0
+    for idx, row in filled.iterrows():
+        newly = False
+        for column in ("book_total_line", "book_spread_line", "book_home_ml", "book_away_ml"):
+            old = pd.to_numeric(before.at[idx, column], errors="coerce")
+            new = pd.to_numeric(row.get(column), errors="coerce")
+            if pd.isna(old) and pd.notna(new):
+                newly = True
+                break
+        if not newly:
+            continue
+        changed += 1
+        book_total = _as_float(row.get("book_total_line"))
+        book_spread = _as_float(row.get("book_spread_line"))
+        projected_total = _as_float(row.get("projected_total"))
+        projected_spread = _as_float(row.get("projected_home_spread"))
+        filled.loc[idx, "predicted_total_side"] = _predicted_total_side(projected_total, book_total)
+        filled.loc[idx, "predicted_spread_ats"] = _predicted_spread_ats(projected_spread, book_spread)
+        if not _audit_text(row.get("predicted_ml_side")).strip():
+            filled.loc[idx, "predicted_ml_side"] = _predicted_ml_side(
+                str(row["home"]), str(row["away"]), _as_float(row.get("home_win_prob"))
+            )
+    if changed:
+        _save(filled, game_log_path(root))
+    return changed
+
+
 def log_market_predictions_batch(root: Path, slate: pd.DataFrame, season: str) -> int:
     """Persist moneyline, spread, and total rows, idempotent on run + game + market."""
     if slate is None or slate.empty:
@@ -391,8 +429,15 @@ def grade_games(root: Path, game_results: pd.DataFrame, today: datetime | None =
     }
     graded = voided = pending = 0
     for idx, row in frame.iterrows():
+        key = (str(row["date"]), str(row["away"]).upper(), str(row["home"]).upper())
+        outcome = by_key.get(key)
         is_settled = str(row.get("settled")).lower() == "true" or row.get("settled") is True
-        if is_settled:
+        reopen_void = (
+            is_settled
+            and _audit_text(row.get("ungraded_reason")) == REASON_VOID_NO_RESULT
+            and outcome is not None
+        )
+        if is_settled and not reopen_void:
             # Schema upgrades must enrich historic audit rows too.  Existing settled rows
             # already have the final score, so a spread-direction grade can be backfilled
             # without changing their original prediction or outcome.
@@ -408,8 +453,6 @@ def grade_games(root: Path, game_results: pd.DataFrame, today: datetime | None =
                     str(row["home"]), str(row["away"]), win_prob
                 )
             continue
-        key = (str(row["date"]), str(row["away"]).upper(), str(row["home"]).upper())
-        outcome = by_key.get(key)
         if outcome is None:
             game_day = pd.to_datetime(str(row["date"]))
             if today.replace(tzinfo=None) > game_day + timedelta(days=GAME_VOID_AFTER_DAYS):
@@ -482,10 +525,16 @@ def grade_markets(root: Path, game_results: pd.DataFrame, today: datetime | None
     }
     graded = voided = pending = 0
     for idx, row in frame.iterrows():
-        if str(row.get("settled")).lower() == "true" or row.get("settled") is True:
-            continue
         key = (str(row["game_date"]), str(row["away"]).upper(), str(row["home"]).upper())
         outcome = by_key.get(key)
+        is_settled = str(row.get("settled")).lower() == "true" or row.get("settled") is True
+        reopen_void = (
+            is_settled
+            and _audit_text(row.get("ungraded_reason")) == REASON_VOID_NO_RESULT
+            and outcome is not None
+        )
+        if is_settled and not reopen_void:
+            continue
         if outcome is None:
             game_day = pd.to_datetime(str(row["game_date"]))
             if today.replace(tzinfo=None) > game_day + timedelta(days=GAME_VOID_AFTER_DAYS):
@@ -733,7 +782,7 @@ def results_summary(root: Path) -> dict:
             })
 
         recent = []
-        for _, row in latest.head(12).iterrows():
+        for _, row in latest.iterrows():
             probability = _as_float(row.get("home_win_prob"))
             home = str(row["home"])
             away = str(row["away"])
@@ -753,6 +802,14 @@ def results_summary(root: Path) -> dict:
                 "ml_side": _audit_text(row.get("predicted_ml_side")) or "—",
                 "spread_ats": _audit_text(row.get("predicted_spread_ats")) or "—",
                 "spread_ats_status": _audit_text(row.get("spread_ats_correct")),
+                "spread_side": _audit_text(row.get("predicted_spread_side")) or "—",
+                "spread_status": _audit_text(row.get("spread_side_correct")),
+                "book_spread_line": _as_float(row.get("book_spread_line")),
+                "book_total_line": _as_float(row.get("book_total_line")),
+                "book_home_ml": _as_float(row.get("book_home_ml")),
+                "book_away_ml": _as_float(row.get("book_away_ml")),
+                "projected_home_spread": _as_float(row.get("projected_home_spread")),
+                "projected_total": _as_float(row.get("projected_total")),
                 "run_id": str(row.get("run_id") or ""),
             })
         summary["games"] = {
@@ -778,12 +835,26 @@ def results_summary(root: Path) -> dict:
             summary["games"]["spread_ats_n"] = int(len(spread_ats))
             summary["games"]["spread_ats_correct"] = ats_hits
             summary["games"]["spread_ats_hit_rate"] = round(ats_hits / len(spread_ats) * 100, 1)
-    settled_spread = graded_games[graded_games["spread_side_correct"].astype(str).isin(["True", "False"])]
-    if not settled_spread.empty:
-        spread_hits = int((settled_spread["spread_side_correct"].astype(str) == "True").sum())
-        summary["games"]["spread_n"] = int(len(settled_spread))
-        summary["games"]["spread_correct"] = spread_hits
-        summary["games"]["spread_hit_rate"] = round(spread_hits / len(settled_spread) * 100, 1)
+        spread_dir = latest[latest["spread_side_correct"].astype(str).isin(["True", "False"])]
+        if not spread_dir.empty:
+            spread_hits = int((spread_dir["spread_side_correct"].astype(str) == "True").sum())
+            summary["games"]["spread_n"] = int(len(spread_dir))
+            summary["games"]["spread_correct"] = spread_hits
+            summary["games"]["spread_hit_rate"] = round(spread_hits / len(spread_dir) * 100, 1)
+        for market, flags in (
+            ("moneyline", latest["winner_correct"]),
+            ("spread", latest["spread_ats_correct"]),
+            ("total", latest["total_side_correct"]),
+        ):
+            record = _wl_from_flags(flags)
+            if record is None:
+                continue
+            existing = summary["markets"].get(market)
+            existing_n = 0
+            if isinstance(existing, dict):
+                existing_n = int(existing.get("wins", 0)) + int(existing.get("losses", 0)) + int(existing.get("pushes", 0))
+            if existing_n == 0:
+                summary["markets"][market] = record
     summary["games"]["_pending"] = int((games["settled"].astype(str).str.lower() != "true").sum())
     summary["games"]["_logged"] = int(len(games))
     summary["games"]["_records"] = _game_audit_records(games)
@@ -793,6 +864,22 @@ def results_summary(root: Path) -> dict:
 def _as_float(value) -> float | None:
     number = pd.to_numeric(value, errors="coerce")
     return float(number) if pd.notna(number) else None
+
+
+def _wl_from_flags(series: pd.Series) -> dict | None:
+    flags = series.astype(str)
+    tracked = flags.isin(["True", "False"])
+    if not tracked.any():
+        return None
+    wins = int((flags[tracked] == "True").sum())
+    losses = int((flags[tracked] == "False").sum())
+    pushes = int((flags == "PUSH").sum())
+    return {
+        "wins": wins,
+        "losses": losses,
+        "pushes": pushes,
+        "hit_rate": round(wins / (wins + losses) * 100, 1) if (wins + losses) else None,
+    }
 
 
 def _audit_text(value) -> str:

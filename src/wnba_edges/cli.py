@@ -13,6 +13,7 @@ from .features import MIN_GAMES_FOR_BOARD, MIN_MPG_FOR_BOARD, board_eligible, bu
 from .herhoopstats import fetch_research_table, write_table
 from .market_data import MAX_QUOTE_AGE_HOURS, best_price_player_prop
 from .predictions import (
+    backfill_logged_game_lines,
     grade_games,
     grade_markets,
     grade_props,
@@ -241,12 +242,17 @@ def main() -> None:
 
 
 def _load_odds() -> pd.DataFrame | None:
-    from .market_data import ODDS_LATEST_CSV
+    from .market_data import ODDS_HISTORY_CSV, ODDS_LATEST_CSV
 
-    if not ODDS_LATEST_CSV.exists():
+    frames = []
+    for path in (ODDS_LATEST_CSV, ODDS_HISTORY_CSV):
+        if path.exists():
+            frame = pd.read_csv(path)
+            if not frame.empty:
+                frames.append(frame)
+    if not frames:
         return None
-    frame = pd.read_csv(ODDS_LATEST_CSV)
-    return frame if not frame.empty else None
+    return pd.concat(frames, ignore_index=True)
 
 
 def _build_game_projections(args) -> None:
@@ -369,6 +375,11 @@ def _fit_sigma(season: str) -> None:
 def _grade(season: str) -> None:
     logs_path = DATA / "processed" / f"player_game_logs_{season}.csv"
     results_path = DATA / "processed" / f"game_results_{season}.csv"
+    odds = _load_odds()
+    if odds is not None:
+        filled = backfill_logged_game_lines(ROOT, odds)
+        if filled:
+            print(f"backfilled book lines on {filled} logged game forecast(s)")
     if logs_path.exists():
         prop_result = grade_props(ROOT, pd.read_csv(logs_path))
         print(f"props: {prop_result['graded']} graded, {prop_result['voided']} voided, "

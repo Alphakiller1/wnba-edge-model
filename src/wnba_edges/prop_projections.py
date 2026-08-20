@@ -115,56 +115,65 @@ def projection_for_market(
 
 
 _LINE_MATCH_HOURS = 18
+BOOK_LINE_COLUMNS = (
+    "book_total_line", "book_spread_line",
+    "book_home_ml", "book_away_ml",
+    "book_spread_odds", "book_spread_opposite",
+    "book_total_over_odds", "book_total_under_odds",
+    "book_ml_book", "book_spread_book", "book_total_book",
+)
+_NUMERIC_LINE_COLUMNS = (
+    "book_total_line", "book_spread_line",
+    "book_home_ml", "book_away_ml",
+    "book_spread_odds", "book_spread_opposite",
+    "book_total_over_odds", "book_total_under_odds",
+)
 
 
 def attach_game_market_lines(projections: pd.DataFrame, odds: pd.DataFrame | None) -> pd.DataFrame:
-    """Stamp consensus book ML / spread / total onto each game projection for recording."""
+    """Stamp consensus book ML / spread / total onto each game projection for recording.
+
+    A projection without the number it would be bet at is not a wager record.  Every
+    game therefore carries the captured spread, total, and moneyline when a snapshot
+    for that kickoff exists.
+    """
     out = projections.copy()
-    for column in (
-        "book_total_line", "book_spread_line",
-        "book_home_ml", "book_away_ml",
-        "book_spread_odds", "book_spread_opposite",
-        "book_total_over_odds", "book_total_under_odds",
-        "book_ml_book", "book_spread_book", "book_total_book",
-    ):
+    for column in BOOK_LINE_COLUMNS:
         out[column] = pd.NA
     if odds is None or odds.empty or out.empty:
         return out
-    quotes = odds.copy()
-    quotes["away"] = quotes["away"].astype(str).str.upper()
-    quotes["home"] = quotes["home"].astype(str).str.upper()
+    quotes = _prepare_quotes(odds)
     for idx, game in out.iterrows():
-        match = _quotes_for_kickoff(quotes, game)
-        home, away = str(game["home"]).upper(), str(game["away"]).upper()
-        total_line = _consensus_line(match[match["market"].astype(str).str.lower() == "total"])
-        spread_line = _consensus_home_spread(match[match["market"].astype(str).str.lower() == "spread"], home)
-        home_ml = _best_side_quote(match, "ml", home)
-        away_ml = _best_side_quote(match, "ml", away)
-        away_spread_line = None if spread_line is None else -float(spread_line)
-        home_spread = _best_side_quote(match, "spread", home, line=spread_line)
-        away_spread = _best_side_quote(match, "spread", away, line=away_spread_line)
-        over = _best_side_quote(match, "total", "over", line=total_line)
-        under = _best_side_quote(match, "total", "under", line=total_line)
-        if total_line is not None:
-            out.at[idx, "book_total_line"] = total_line
-        if spread_line is not None:
-            out.at[idx, "book_spread_line"] = spread_line
-        if home_ml:
-            out.at[idx, "book_home_ml"] = home_ml["odds"]
-        if away_ml:
-            out.at[idx, "book_away_ml"] = away_ml["odds"]
-        if home_ml or away_ml:
-            out.at[idx, "book_ml_book"] = (home_ml or away_ml)["book"]
-        if home_spread:
-            out.at[idx, "book_spread_odds"] = home_spread["odds"]
-            out.at[idx, "book_spread_book"] = home_spread["book"]
-        if away_spread:
-            out.at[idx, "book_spread_opposite"] = away_spread["odds"]
-        if over:
-            out.at[idx, "book_total_over_odds"] = over["odds"]
-            out.at[idx, "book_total_book"] = over["book"]
-        if under:
-            out.at[idx, "book_total_under_odds"] = under["odds"]
+        for column, value in _book_lines_for_game(quotes, game).items():
+            if value is not None:
+                out.at[idx, column] = value
+    return out
+
+
+def fill_missing_game_market_lines(projections: pd.DataFrame, odds: pd.DataFrame | None) -> pd.DataFrame:
+    """Attach book numbers onto rows that were logged without a line, without overwriting captured ones."""
+    out = projections.copy()
+    for column in BOOK_LINE_COLUMNS:
+        if column not in out.columns:
+            out[column] = pd.NA
+    if odds is None or odds.empty or out.empty:
+        return out
+    quotes = _prepare_quotes(odds)
+    for idx, game in out.iterrows():
+        if not _missing_wager_line(game):
+            continue
+        stamped = _book_lines_for_game(quotes, game)
+        for column, value in stamped.items():
+            if value is None:
+                continue
+            if column in _NUMERIC_LINE_COLUMNS:
+                current = pd.to_numeric(out.at[idx, column], errors="coerce")
+                if pd.isna(current):
+                    out.at[idx, column] = value
+            else:
+                current = out.at[idx, column]
+                if pd.isna(current) or str(current).strip() in {"", "nan", "<NA>"}:
+                    out.at[idx, column] = value
     return out
 
 
@@ -514,12 +523,78 @@ def _consensus_home_spread(quotes: pd.DataFrame, home: str) -> float | None:
     return float(lines.round(1).value_counts().index[0])
 
 
+def _prepare_quotes(odds: pd.DataFrame) -> pd.DataFrame:
+    quotes = odds.copy()
+    quotes["away"] = quotes["away"].astype(str).str.upper()
+    quotes["home"] = quotes["home"].astype(str).str.upper()
+    return quotes
+
+
+def _missing_wager_line(game: pd.Series) -> bool:
+    return any(
+        pd.isna(pd.to_numeric(game.get(column), errors="coerce"))
+        for column in ("book_total_line", "book_spread_line", "book_home_ml", "book_away_ml")
+    )
+
+
+def _book_lines_for_game(quotes: pd.DataFrame, game: pd.Series) -> dict:
+    match = _quotes_for_kickoff(quotes, game)
+    home, away = str(game["home"]).upper(), str(game["away"]).upper()
+    total_line = _consensus_line(match[match["market"].astype(str).str.lower() == "total"])
+    spread_line = _consensus_home_spread(match[match["market"].astype(str).str.lower() == "spread"], home)
+    home_ml = _best_side_quote(match, "ml", home)
+    away_ml = _best_side_quote(match, "ml", away)
+    away_spread_line = None if spread_line is None else -float(spread_line)
+    home_spread = _best_side_quote(match, "spread", home, line=spread_line)
+    away_spread = _best_side_quote(match, "spread", away, line=away_spread_line)
+    over = _best_side_quote(match, "total", "over", line=total_line)
+    under = _best_side_quote(match, "total", "under", line=total_line)
+    stamped: dict = {column: None for column in BOOK_LINE_COLUMNS}
+    stamped["book_total_line"] = total_line
+    stamped["book_spread_line"] = spread_line
+    if home_ml:
+        stamped["book_home_ml"] = home_ml["odds"]
+    if away_ml:
+        stamped["book_away_ml"] = away_ml["odds"]
+    if home_ml or away_ml:
+        stamped["book_ml_book"] = (home_ml or away_ml)["book"]
+    if home_spread:
+        stamped["book_spread_odds"] = home_spread["odds"]
+        stamped["book_spread_book"] = home_spread["book"]
+    if away_spread:
+        stamped["book_spread_opposite"] = away_spread["odds"]
+    if over:
+        stamped["book_total_over_odds"] = over["odds"]
+        stamped["book_total_book"] = over["book"]
+    if under:
+        stamped["book_total_under_odds"] = under["odds"]
+    return stamped
+
+
 def _game_kickoff(game: pd.Series) -> pd.Timestamp | None:
-    for column in ("time", "date"):
-        stamp = pd.to_datetime(game.get(column), utc=True, errors="coerce")
-        if pd.notna(stamp):
-            return stamp
-    return None
+    """Precise tip-off only. A calendar date at midnight UTC is not a tip-off and
+    would miss evening games whose commence_time is the next UTC day."""
+    raw = game.get("time")
+    if raw is None or (isinstance(raw, float) and pd.isna(raw)):
+        return None
+    text = str(raw).strip()
+    if not text or text.lower() in {"nan", "<na>", "none"}:
+        return None
+    if "T" not in text and ":" not in text:
+        return None
+    stamp = pd.to_datetime(text, utc=True, errors="coerce")
+    return stamp if pd.notna(stamp) else None
+
+
+def _slate_date(game: pd.Series) -> str:
+    for column in ("date", "game_date"):
+        value = game.get(column)
+        if value is None or (isinstance(value, float) and pd.isna(value)):
+            continue
+        text = str(value).strip()
+        if len(text) >= 10 and text[4:5] == "-":
+            return text[:10]
+    return ""
 
 
 def _quotes_for_kickoff(quotes: pd.DataFrame, game: pd.Series) -> pd.DataFrame:
@@ -530,12 +605,20 @@ def _quotes_for_kickoff(quotes: pd.DataFrame, game: pd.Series) -> pd.DataFrame:
     ]
     if match.empty or "commence_time" not in match.columns:
         return match
-    kickoff = _game_kickoff(game)
     commence = pd.to_datetime(match["commence_time"], utc=True, errors="coerce")
-    if kickoff is None or not commence.notna().any():
+    kickoff = _game_kickoff(game)
+    if kickoff is not None and commence.notna().any():
+        close = match[commence.notna() & ((commence - kickoff).abs() <= pd.Timedelta(hours=_LINE_MATCH_HOURS))]
+        return close
+    return _quotes_for_slate_date(match, game, commence)
+
+
+def _quotes_for_slate_date(match: pd.DataFrame, game: pd.Series, commence: pd.Series) -> pd.DataFrame:
+    game_date = _slate_date(game)
+    if not game_date or not commence.notna().any():
         return match
-    close = match[commence.notna() & ((commence - kickoff).abs() <= pd.Timedelta(hours=_LINE_MATCH_HOURS))]
-    return close
+    eastern = commence.dt.tz_convert("America/New_York").dt.strftime("%Y-%m-%d")
+    return match[eastern == game_date]
 
 
 def _best_prop_quote(

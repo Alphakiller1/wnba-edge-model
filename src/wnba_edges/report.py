@@ -529,8 +529,7 @@ def _results_section(summary: dict) -> str:
     head = _section_head(
         "results", "4", "Graded Results", "Results layer",
         "Every logged prediction is graded against finished games; ungradeable rows carry an "
-        "explicit reason code. An empty record means nothing has resolved yet &mdash; never "
-        "hidden losses.",
+        "explicit reason code. Wager records need the book line the projection would be bet at.",
     )
     props = {k: v for k, v in summary.get("props", {}).items() if not k.startswith("_")}
     markets = {k: v for k, v in summary.get("markets", {}).items() if not k.startswith("_")}
@@ -581,8 +580,9 @@ MAE uses every settled actual, including model-only rows.</p>"""
 <div class="board"><div class="tablewrap"><table>
 <thead><tr><th>Market</th><th class="num">W-L-P</th><th class="num">Hit rate</th></tr></thead>
 <tbody>{market_rows}</tbody></table></div></div>
-<p class="basis-note">Spread W-L is ATS against the captured book number. Moneyline is the model's
-favorite versus the winner. Totals are over/under versus the captured book total.</p>"""
+<p class="basis-note">W-L is against the captured book number: moneyline vs the winner, spread ATS vs
+the home spread, totals over/under vs the posted total. A projection without that line is not counted
+as a wager.</p>"""
         if markets else ""
     )
     game_block = ""
@@ -607,20 +607,39 @@ favorite versus the winner. Totals are over/under versus the captured book total
             status = "✓ Correct" if record["correct"] else "× Miss"
             row_class = "result-hit" if record["correct"] else "result-miss"
             confidence = f"{record['favorite']} {record['probability']:.0f}%" if record["probability"] is not None else "—"
-            spread_error = f"{abs(record['spread_error']):.1f}" if record["spread_error"] is not None else "—"
-            total_error = f"{abs(record['total_error']):.1f}" if record["total_error"] is not None else "—"
-            total_side = esc(record.get("total_side") or "—")
-            total_mark = _spread_status_label(record.get("total_status") or "")
+            home_team = record["matchup"].split(" @ ", 1)[1] if " @ " in record["matchup"] else ""
+            ml_odds = record.get("book_home_ml") if record.get("favorite") == home_team else record.get("book_away_ml")
+            ml_txt = confidence if ml_odds is None else f"{confidence} @ {int(ml_odds):+d}"
+            book_spread = record.get("book_spread_line")
+            proj_spread = record.get("projected_home_spread")
+            if book_spread is not None and proj_spread is not None:
+                spread_txt = (
+                    f"{proj_spread:+.1f} vs {book_spread:+g} {esc(record.get('spread_ats') or '')} "
+                    f"{_spread_status_label(record.get('spread_ats_status') or '')}"
+                )
+            else:
+                spread_txt = (
+                    f"{esc(record.get('spread_side') or '—')} {_spread_status_label(record.get('spread_status') or '')}"
+                    "<span class=\"player-sub\">no book line</span>"
+                )
+            book_total = record.get("book_total_line")
+            proj_total = record.get("projected_total")
+            if book_total is not None and proj_total is not None:
+                total_txt = (
+                    f"{proj_total:.1f} vs {book_total:g} {esc(record.get('total_side') or '')} "
+                    f"{_spread_status_label(record.get('total_status') or '')}"
+                )
+            else:
+                total_txt = "model only"
             recent_rows.append(
                 f"<tr class=\"{row_class}\"><td>{esc(record['date'])}</td><td>{esc(record['matchup'])}</td>"
-                f"<td>{esc(confidence)}</td><td>{esc(record['actual_winner'])}</td>"
-                f"<td>{status}</td><td class=\"num\">{spread_error}</td>"
-                f"<td>{total_side} {total_mark}</td><td class=\"num\">{total_error}</td></tr>"
+                f"<td>{esc(ml_txt)}</td><td>{spread_txt}</td><td>{total_txt}</td>"
+                f"<td>{esc(record['actual_winner'])}</td><td>{status}</td></tr>"
             )
         recent_table = (
             f"""<div class=\"board\"><div class=\"tablewrap\"><table>
-<thead><tr><th>Date</th><th>Matchup</th><th>Model call</th><th>Winner</th><th>Result</th>
-<th class=\"num\">Spread error</th><th>Total side</th><th class=\"num\">Total error</th></tr></thead>
+<thead><tr><th>Date</th><th>Matchup</th><th>Moneyline vs odds</th><th>Spread vs line</th>
+<th>Total vs line</th><th>Winner</th><th>ML result</th></tr></thead>
 <tbody>{''.join(recent_rows)}</tbody></table></div></div>"""
             if recent_rows else ""
         )
@@ -648,11 +667,14 @@ favorite versus the winner. Totals are over/under versus the captured book total
 </div>"""
         game_block += f"""
 <p class="basis-note">Headline record uses the latest forecast for each matchup: {games["n"]} graded games from
-{audit_runs} graded projection run(s) &middot; {logged} total predictions logged &middot; {pending} awaiting grading.</p>
+{audit_runs} graded projection run(s) &middot; {logged} total predictions logged &middot; {pending} awaiting grading.
+Spread ATS and total sides are only scored when a book line was captured with the forecast.</p>
 <h3 class="results-subtitle">Where the model is succeeding</h3>{calibration}
-<h3 class="results-subtitle">Recent graded game calls</h3>{recent_table}"""
+<h3 class="results-subtitle">Graded game calls</h3>
+<p class="basis-note">Every unique finished projection, shown against the moneyline / spread / total
+it would have been bet at. Unpriced rows stay labelled model-only and do not invent a W-L.</p>{recent_table}"""
     return f"""<section>{head}{game_block}{market_table}{prop_table}
-{_game_audit_table(game_records)}{_market_audit_table(market_records)}{_prop_audit_table(prop_records)}</section>"""
+{_market_audit_table(market_records)}{_prop_audit_table(prop_records)}</section>"""
 
 
 def _audit_status_cell(record: dict) -> str:
