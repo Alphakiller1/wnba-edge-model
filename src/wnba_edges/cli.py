@@ -7,6 +7,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from .best_bets import TOP_N, build_daily_best_bets, write_daily_best_bets
 from .betting import evaluate_over_under
 from .espnanalytics import fetch_box, write_box
 from .features import MIN_GAMES_FOR_BOARD, MIN_MPG_FOR_BOARD, board_eligible, build_player_features, load_jsonl
@@ -127,6 +128,13 @@ def main() -> None:
 
     subparsers.add_parser("results")
 
+    bets = subparsers.add_parser(
+        "best-bets",
+        help="Rank today's priced sides by calibrated hit likelihood.",
+    )
+    bets.add_argument("--season", default="2026-27")
+    bets.add_argument("--top", type=int, default=TOP_N)
+
     site = subparsers.add_parser("build-site")
     site.add_argument("--season", default="2026-27")
     site.add_argument("--out", default=None, help="Output HTML path (default docs/index.html).")
@@ -234,6 +242,9 @@ def main() -> None:
         summary = results_summary(ROOT)
         _print_results(summary)
 
+    elif args.command == "best-bets":
+        _write_best_bets(args.season, top=args.top)
+
     elif args.command == "build-site":
         from .report import build_site
 
@@ -287,6 +298,7 @@ def _build_game_projections(args) -> None:
     print(f"wrote {len(projections)} game projections to {out_path} ({logged} new logged for grading)")
     _write_game_markets(args.season, projections)
     _write_prop_slate(args.season, schedule, projections, odds)
+    _write_best_bets(args.season)
 
 
 def _build_prop_projections(args) -> None:
@@ -297,6 +309,7 @@ def _build_prop_projections(args) -> None:
     projections_path = DATA / "processed" / f"game_projections_{args.season}.csv"
     projections = pd.read_csv(projections_path) if projections_path.exists() else pd.DataFrame()
     _write_prop_slate(args.season, schedule, projections, _load_odds())
+    _write_best_bets(args.season)
 
 
 def _write_game_markets(season: str, projections: pd.DataFrame) -> None:
@@ -438,6 +451,36 @@ def _print_results(summary: dict) -> None:
     if games.get("spread_ats_n"):
         print(f"  spread ATS: {games['spread_ats_correct']}/{games['spread_ats_n']} "
               f"({games['spread_ats_hit_rate']}%) — vs captured book spread")
+
+
+def _write_best_bets(season: str, top: int = TOP_N) -> None:
+    ranked = build_daily_best_bets(ROOT, season, top=top)
+    path = write_daily_best_bets(ROOT, season, ranked)
+    if ranked.empty:
+        print("daily best bets: no priced sides on today's slate")
+        return
+    print(f"daily best bets: {len(ranked)} sides for {ranked.iloc[0]['slate_date']} -> {path}")
+    _print_best_bets(ranked, len(ranked))
+
+
+def _print_best_bets(ranked: pd.DataFrame, top: int) -> None:
+    print("== Daily best bets ==")
+    print("  hit_likelihood blends today's model_prob with shrunk historical hit rate for that market.")
+    print("  Research ranking, not betting advice. Unpriced rows are excluded.")
+    if ranked is None or ranked.empty:
+        print("  (no priced sides on the current slate)")
+        return
+    show = ranked.head(top).copy()
+    show["hit"] = (show["hit_likelihood"] * 100).map(lambda value: f"{value:.1f}%")
+    show["model"] = (show["model_prob"] * 100).map(lambda value: f"{value:.1f}%")
+    show["hist"] = show.apply(
+        lambda row: (
+            f"{int(row['hist_wins'])}-{int(row['hist_losses'])}"
+            + (f" ({row['hist_hit_rate']}%)" if pd.notna(row["hist_hit_rate"]) else "")
+        ),
+        axis=1,
+    )
+    print(show[["rank", "selection", "matchup", "hit", "model", "hist", "book"]].to_string(index=False))
 
 
 def _evaluate_player_prop(args) -> None:

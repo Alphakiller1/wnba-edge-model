@@ -41,6 +41,7 @@ def test_build_site_layers_disclaimer_and_low_sample_gate(tmp_path):
     out = build_site(tmp_path, season="2026-27", out=tmp_path / "docs" / "index.html")
     html = out.read_text(encoding="utf-8")
     for marker in (
+        "Daily Best Bets",
         "Game Projections",
         "Market Snapshot",
         "Stale Anchor Board",
@@ -67,6 +68,7 @@ def test_build_site_layers_disclaimer_and_low_sample_gate(tmp_path):
 def test_build_site_handles_missing_everything(tmp_path):
     out = build_site(tmp_path, season="2026-27", out=tmp_path / "docs" / "index.html")
     html = out.read_text(encoding="utf-8")
+    assert "No priced sides on today's slate" in html
     assert "No game projections yet" in html
     assert "No feature board yet" in html
 

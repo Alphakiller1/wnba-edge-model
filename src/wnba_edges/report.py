@@ -6,9 +6,10 @@ family, gold eyebrow labels, DM Sans body + Roboto Condensed display + Oswald
 wordmark, glassy boards with violet glow. Do not invent new token values here.
 
 Layers are explicitly separated so a visitor can always tell what they are
-looking at: (1) model projections, (2) market snapshot, (3) edge watchboard
-(a ranked review queue, not priced bets), and (4) graded results. Every layer
-renders an honest empty state when its data does not exist yet.
+looking at: (1) daily best bets calibrated on the graded record, (2) model
+projections, (3) market snapshot, (4) edge watchboard (a ranked review queue,
+not priced bets), and (5) graded results. Every layer renders an honest empty
+state when its data does not exist yet.
 """
 from __future__ import annotations
 
@@ -18,6 +19,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from .best_bets import build_daily_best_bets
 from .board import BOARD_JS, board_html
 from .board_wnba import build_board
 from .features import MIN_GAMES_FOR_BOARD, MIN_MPG_FOR_BOARD, board_eligible
@@ -95,9 +97,9 @@ def build_site(root: Path, season: str, out: Path) -> Path:
   <div class="wrap">
     <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span>CHASE ANALYTICS&ensp;|&ensp;WNBA INTELLIGENCE</div>
     <h1 class="hero-title">The WNBA slate,<br>modeled and graded.</h1>
-    <p class="hero-sub">Moneyline, spread, total, and player-prop projections, a watchboard,
-    market snapshots, and a fully graded prediction record &mdash; fit on real outcomes,
-    honest about uncertainty.
+    <p class="hero-sub">Moneyline, spread, total, and player-prop projections, a daily
+    best-bets ranking calibrated on the graded record, a watchboard, market snapshots,
+    and a fully graded prediction log &mdash; fit on real outcomes, honest about uncertainty.
     Research software, not betting advice.</p>
     <div class="hero-meta">
       <span class="pill">data through {esc(data_date or "n/a")}</span>
@@ -108,6 +110,7 @@ def build_site(root: Path, season: str, out: Path) -> Path:
   </div>
 </header>
 <main class="wrap">
+  {_best_bets_section(root, season)}
   {_projections_section(projections, features, odds, data_date, props, game_markets)}
   {_market_section(odds)}
   {_board_section(features)}
@@ -152,6 +155,7 @@ def _nav(fresh: bool, data_date: str | None) -> str:
     links = "".join(
         f'<a class="nav-link" href="#{anchor}">{text}</a>'
         for anchor, text in (
+            ("best-bets", "Best Bets"),
             ("projections", "Projections"),
             ("market", "Market"),
             ("watchboard", "Watchboard"),
@@ -212,25 +216,82 @@ def _summary_tiles(features, game_results, projections, props=None, game_markets
     return f'<div class="tiles">{cells}</div>'
 
 
-def _section_head(anchor: str, number: str, title: str, kicker: str, blurb: str) -> str:
+def _section_head(anchor: str, number: str, title: str, kicker: str, blurb: str, of: str = "5") -> str:
     return f"""
 <div class="sec-head" id="{anchor}">
-  <div class="sec-eyebrow">{esc(kicker)} &middot; {esc(number)} / 4</div>
+  <div class="sec-eyebrow">{esc(kicker)} &middot; {esc(number)} / {esc(of)}</div>
   <h2 class="sec-title">{esc(title)}</h2>
   <p class="sec-blurb">{blurb}</p>
 </div>"""
 
 
-# ── layer 1 · projections ────────────────────────────────────────────────────
+def _best_bets_section(root: Path, season: str) -> str:
+    head = _section_head(
+        "best-bets", "1", "Daily Best Bets", "Calibrated ranking",
+        "The ten priced sides most likely to hit <b>given how this model has actually graded</b>. "
+        "<code>hit_likelihood</code> blends today's model probability with the shrunk historical "
+        "hit rate for that market (Laplace prior, reliability-weighted). Unpriced projections "
+        "are excluded. Research ranking, not a wager card.",
+    )
+    ranked = build_daily_best_bets(root, season)
+    if ranked.empty:
+        return f"""<section>{head}<div class="empty"><b>No priced sides on today's slate.</b><br>
+        Daily best bets need a captured book line on the current date. Run
+        <code>wnba-edges build-game-projections</code> after a fresh odds snapshot.</div></section>"""
+    slate = esc(ranked.iloc[0]["slate_date"])
+    rows = []
+    for _, row in ranked.iterrows():
+        hit = float(row["hit_likelihood"]) * 100
+        model = float(row["model_prob"]) * 100
+        hist_n = int(row["hist_n"])
+        if hist_n:
+            hist = (
+                f"{int(row['hist_wins'])}&ndash;{int(row['hist_losses'])}"
+                f" ({esc(row['hist_hit_rate'])}%)"
+            )
+            band = esc(row.get("hist_band") or "all")
+            hist_cell = f"{hist}<span class=\"player-sub\">{hist_n} graded · {band}</span>"
+        else:
+            hist_cell = 'n=0<span class="player-sub">no graded sample yet</span>'
+        odds = pd.to_numeric(row.get("odds"), errors="coerce")
+        book = str(row.get("book") or "")
+        price = f"{book} {int(odds):+d}".strip() if pd.notna(odds) else "—"
+        family = str(row["family"])
+        family_label = {"moneyline": "ML", "spread": "Spread", "total": "Total", "prop": "Prop"}.get(family, family)
+        verdict = str(row.get("verdict") or "")
+        tone = "bb-review" if verdict.upper() == "REVIEW" else ""
+        rows.append(
+            f'<tr class="{tone}">'
+            f'<td class="bb-rank">{int(row["rank"])}</td>'
+            f'<td><b>{esc(row["selection"])}</b><span class="player-sub">{esc(row["matchup"])}</span></td>'
+            f'<td>{esc(family_label)}</td>'
+            f'<td class="num"><b>{hit:.1f}%</b><span class="player-sub">model {model:.1f}%</span></td>'
+            f'<td>{hist_cell}</td>'
+            f'<td>{esc(price)}</td>'
+            f"</tr>"
+        )
+    return f"""<section>{head}
+<p class="basis-note">Slate {slate} &middot; {len(ranked)} sides &middot; max four per market family so a
+hot moneyline record cannot fill the entire card. Historical W-L uses the latest forecast per
+finished matchup (same rule as Graded Results).</p>
+<div class="board"><div class="tablewrap"><table>
+<thead><tr>
+<th class="num">#</th><th>Selection</th><th>Market</th>
+<th class="num">Hit likelihood</th><th>Model history</th><th>Book</th>
+</tr></thead>
+<tbody>{"".join(rows)}</tbody></table></div></div></section>"""
+
+
+# ── layer 2 · projections ────────────────────────────────────────────────────
 
 def _projections_section(projections, features=None, odds=None, data_date=None, props=None, game_markets=None) -> str:
-    """Layer 1 — the slate board.
+    """Layer 2 — the slate board.
 
     Renders through the shared Board kernel, so a WNBA game card has the same anatomy as an
     MLB or NFL one: status, expected score, principals, then the market groups it prices.
     """
     head = _section_head(
-        "projections", "1", "Game Projections", "Model layer",
+        "projections", "2", "Game Projections", "Model layer",
         "Every game records a moneyline, spread, and total projection. Rotation player props "
         "are logged on the same run. The home-win probability is a logistic fit on this season's "
         "finished games &mdash; the basis and sample size are always shown.",
@@ -432,7 +493,7 @@ def _tipoff(raw: str) -> str:
 
 def _market_section(odds: pd.DataFrame | None) -> str:
     head = _section_head(
-        "market", "2", "Market Snapshot", "Market layer",
+        "market", "3", "Market Snapshot", "Market layer",
         "Stored odds with book attribution and quote timestamps. Edges are only ever priced "
         "against de-vigged market probabilities from these snapshots &mdash; a model number "
         "without a market price is a projection, not an edge.",
@@ -460,7 +521,7 @@ def _market_section(odds: pd.DataFrame | None) -> str:
 
 def _board_section(features: pd.DataFrame | None) -> str:
     head = _section_head(
-        "watchboard", "3", "Stale Anchor Board", "Review queue",
+        "watchboard", "4", "Stale Anchor Board", "Review queue",
         "Players whose <b>current role has moved away from the season baseline a prop line "
         "is set on</b> &mdash; ranked by the size of that gap, not by how good the player is. "
         "High-usage stars are penalised here, not rewarded: they carry the most betting "
@@ -527,7 +588,7 @@ def _reason_chips(reason: str) -> str:
 
 def _results_section(summary: dict) -> str:
     head = _section_head(
-        "results", "4", "Graded Results", "Results layer",
+        "results", "5", "Graded Results", "Results layer",
         "Every logged prediction is graded against finished games; ungradeable rows carry an "
         "explicit reason code. Wager records need the book line the projection would be bet at.",
     )
@@ -709,6 +770,10 @@ def _methodology_section(sigmas: pd.DataFrame | None) -> str:
     <h2 class="sec-title">How to read this page</h2>
   </div>
   <div class="board prose">
+    <p><b>Daily best bets.</b> Ranked by <code>hit_likelihood</code>, a blend of today's
+    model probability and the Laplace-smoothed historical hit rate for that market
+    (weight on history = n / (n + 12)). Only priced sides on the current slate date
+    qualify. This is a research ranking of the model's own record, not a wager instruction.</p>
     <p><b>Tiers.</b> Lean (edge &ge; 2 pts) &middot; Standard (&ge; 4.5 pts) &middot; Strong (&ge; 8 pts).
     Edges &ge; 15 pts flag <b class="warn">REVIEW</b> &mdash; implausibly large edges are treated as
     input errors, never as bets. Edges are measured against de-vigged market probabilities
@@ -855,6 +920,8 @@ text-transform:uppercase;font-size:12px;border-top:1px solid var(--border-soft)}
 .result-miss{color:var(--red);font-weight:700}
 .result-pending{color:var(--gold);font-weight:700}
 .result-void{color:var(--text-3);font-weight:700}
+.bb-rank{font-family:var(--display);font-weight:800;color:var(--v-light);width:36px;font-size:16px}
+.bb-review td:nth-child(2) b{color:var(--gold)}
 .result-hit td:nth-child(5){color:var(--green);font-weight:700}
 .result-miss td:nth-child(5){color:var(--red);font-weight:700}
 .rchip{display:inline-block;font-size:10.5px;font-weight:600;color:var(--text-2);background:var(--bg-4);

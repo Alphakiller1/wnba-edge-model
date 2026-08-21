@@ -55,6 +55,7 @@ wnba-edges edge-board --season 2026-27 --top 25
 
 # Upcoming slate: records moneyline, spread, total, and rotation player props.
 wnba-edges build-game-projections --season 2026-27
+wnba-edges best-bets --season 2026-27
 
 # Fit per-market prop volatility from real game logs
 wnba-edges fit-sigma --season 2026-27

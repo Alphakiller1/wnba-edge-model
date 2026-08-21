@@ -58,6 +58,28 @@ instruction, and nothing here guarantees an outcome.
   full/quarter Kelly are reported for reference. Unpriced projections are labelled
   model-only and never counted as picks.
 
+## Daily best bets (`hit_likelihood`)
+
+The dashboard's Daily Best Bets list ranks **today's priced sides** (moneyline,
+spread, total, and rotation player props) by a single parameter:
+
+```
+hit_likelihood = w × shrunk_hist + (1 − w) × model_prob
+w = n / (n + 12)
+shrunk_hist = (wins + 1) / (n + 2)
+```
+
+- **model_prob** is the current projection's probability that the recorded side hits.
+- **hist** is the model's graded W-L for that market (latest forecast per finished
+  matchup, same uniqueness rule as the public record). When a probability band
+  (50–59 / 60–69 / 70%+) has at least 8 samples, that band is used instead of the
+  family rate.
+- Unpriced rows never enter the list. Tomorrow's games are not mixed into today's
+  card. At most four sides per market family, so a strong moneyline record cannot
+  occupy every slot.
+- This is a research ranking of the model's own record. It is not a wager
+  instruction and does not promise that a high `hit_likelihood` will cash.
+
 ## Confidence tiers
 
 | Tier | Edge vs market | Suggested review size |
