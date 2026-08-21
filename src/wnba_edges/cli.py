@@ -33,7 +33,7 @@ from .prop_projections import (
     prop_slate_path,
 )
 from .schedule import fetch_upcoming_schedule, write_schedule
-from .season import build_season_tables, scrape_season_snapshot
+from .season import build_season_tables, overlay_espn_finals, scrape_season_snapshot
 from .sigma import fit_market_sigmas, load_market_sigmas, market_sigma_path, resolve_sigma
 from .wnbanalytics import scrape_players, write_jsonl
 
@@ -186,6 +186,7 @@ def main() -> None:
         table_paths = build_season_tables(ROOT, season=args.season)
         for name, path in {**scrape_paths, **table_paths}.items():
             print(f"{name}: {path}")
+        overlay_espn_finals(ROOT, args.season)
         _fit_sigma(args.season)
         _grade(args.season)
 
@@ -380,6 +381,7 @@ def _grade(season: str) -> None:
         filled = backfill_logged_game_lines(ROOT, odds)
         if filled:
             print(f"backfilled book lines on {filled} logged game forecast(s)")
+    overlay_espn_finals(ROOT, season)
     if logs_path.exists():
         prop_result = grade_props(ROOT, pd.read_csv(logs_path))
         print(f"props: {prop_result['graded']} graded, {prop_result['voided']} voided, "

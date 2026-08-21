@@ -9,6 +9,7 @@ from typing import Any
 import pandas as pd
 
 from .http import HttpClient
+from .schedule import apply_finished_scores, fetch_finished_scores
 from .wnbanalytics import scrape_game_detail, scrape_games, scrape_players, scrape_teams, write_jsonl
 
 ROLLING_WINDOWS = (3, 5, 10)
@@ -92,6 +93,10 @@ def build_season_tables(root: Path, season: str = "2026-27") -> dict[str, Path]:
     details = load_raw_jsonl(raw_dir / f"wnbanalytics_game_details_{season}.jsonl")
 
     game_results = normalize_game_results(games, season)
+    scored = pd.to_numeric(game_results["awayPts"], errors="coerce").fillna(0) + pd.to_numeric(
+        game_results["homePts"], errors="coerce"
+    ).fillna(0)
+    game_results = game_results.loc[scored > 0].reset_index(drop=True)
     player_logs = normalize_player_game_logs(details, players, season)
     team_logs = normalize_team_game_logs(details, season)
     player_splits = build_player_splits(player_logs)
@@ -117,6 +122,28 @@ def build_season_tables(root: Path, season: str = "2026-27") -> dict[str, Path]:
     teams.to_csv(paths["teams"], index=False)
     player_model_inputs.to_csv(paths["player_model_inputs"], index=False)
     return paths
+
+
+def overlay_espn_finals(root: Path, season: str = "2026-27", days_back: int = 4) -> int:
+    """Append ESPN finals that WNBAnalytics has not scored yet. Returns rows added or filled."""
+    results_path = root / "data" / "processed" / f"game_results_{season}.csv"
+    if not results_path.exists():
+        return 0
+    before = pd.read_csv(results_path)
+    try:
+        finished = fetch_finished_scores(days_back=days_back)
+    except Exception as exc:
+        print(f"ESPN finals overlay skipped: {exc}")
+        return 0
+    merged = apply_finished_scores(before, finished, season)
+    added = len(merged) - len(before)
+    filled = 0
+    if "source" in merged.columns:
+        filled = int((merged["source"].astype(str) == "espn_scoreboard").sum())
+    merged.to_csv(results_path, index=False)
+    if added or filled:
+        print(f"ESPN finals overlay: {len(merged)} scored games ({max(added, 0)} new)")
+    return max(added, 0)
 
 
 def normalize_game_results(games: pd.DataFrame, season: str) -> pd.DataFrame:

@@ -4,7 +4,7 @@ import pandas as pd
 import pytest
 
 from wnba_edges.contracts import ContractError, validate_frame, validate_rows
-from wnba_edges.schedule import parse_scoreboard
+from wnba_edges.schedule import apply_finished_scores, parse_finished_scoreboard, parse_scoreboard
 from wnba_edges.teams import team_abbr
 
 
@@ -67,3 +67,92 @@ def test_parse_scoreboard_pre_games_only():
     assert rows == [
         {"date": "2026-07-20", "time": "2026-07-20T23:00Z", "away": "LVA", "home": "MIN"}
     ]
+
+
+def test_parse_finished_scoreboard_reads_finals():
+    payload = {
+        "events": [
+            {
+                "date": "2026-08-21T00:00Z",
+                "status": {"type": {"state": "post"}},
+                "competitions": [
+                    {
+                        "competitors": [
+                            {"homeAway": "home", "team": {"abbreviation": "DAL"}, "score": "91"},
+                            {"homeAway": "away", "team": {"abbreviation": "IND"}, "score": "85"},
+                        ]
+                    }
+                ],
+            },
+            {
+                "date": "2026-08-21T23:30Z",
+                "status": {"type": {"state": "pre"}},
+                "competitions": [
+                    {
+                        "competitors": [
+                            {"homeAway": "home", "team": {"abbreviation": "WSH"}, "score": "0"},
+                            {"homeAway": "away", "team": {"abbreviation": "MIN"}, "score": "0"},
+                        ]
+                    }
+                ],
+            },
+        ]
+    }
+    rows = parse_finished_scoreboard(payload, date(2026, 8, 20))
+    assert rows == [
+        {
+            "date": "2026-08-20",
+            "time": "2026-08-21T00:00Z",
+            "away": "IND",
+            "home": "DAL",
+            "awayPts": 85,
+            "homePts": 91,
+            "winner": "DAL",
+            "source": "espn_scoreboard",
+        }
+    ]
+
+
+def test_apply_finished_scores_appends_missing_and_skips_scored():
+    existing = pd.DataFrame(
+        [
+            {
+                "season": "2026-27",
+                "date": "2026-08-19",
+                "away": "MIN",
+                "home": "GSV",
+                "awayPts": 77,
+                "homePts": 66,
+                "winner": "MIN",
+                "total": 143,
+                "home_margin": -11,
+            }
+        ]
+    )
+    finished = pd.DataFrame(
+        [
+            {
+                "date": "2026-08-19",
+                "away": "MIN",
+                "home": "GSV",
+                "awayPts": 99,
+                "homePts": 90,
+                "winner": "MIN",
+            },
+            {
+                "date": "2026-08-20",
+                "away": "IND",
+                "home": "DAL",
+                "awayPts": 85,
+                "homePts": 91,
+                "winner": "DAL",
+            },
+        ]
+    )
+    out = apply_finished_scores(existing, finished, "2026-27")
+    min_gsv = out[(out["away"] == "MIN") & (out["home"] == "GSV")].iloc[0]
+    assert int(min_gsv["awayPts"]) == 77
+    ind_dal = out[(out["away"] == "IND") & (out["home"] == "DAL")].iloc[0]
+    assert int(ind_dal["homePts"]) == 91
+    assert ind_dal["winner"] == "DAL"
+    assert int(ind_dal["total"]) == 176
