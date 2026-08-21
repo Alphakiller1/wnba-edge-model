@@ -156,3 +156,39 @@ def test_apply_finished_scores_appends_missing_and_skips_scored():
     assert int(ind_dal["homePts"]) == 91
     assert ind_dal["winner"] == "DAL"
     assert int(ind_dal["total"]) == 176
+
+
+def test_apply_finished_scores_fills_zero_zero_placeholders():
+    existing = pd.DataFrame(
+        [
+            {
+                "season": "2026-27",
+                "date": "2026-08-20",
+                "away": "ATL",
+                "home": "LAS",
+                "awayPts": 0,
+                "homePts": 0,
+                "winner": "LAS",
+                "total": 0,
+                "home_margin": 0,
+            }
+        ]
+    )
+    finished = pd.DataFrame(
+        [
+            {
+                "date": "2026-08-20",
+                "away": "ATL",
+                "home": "LAS",
+                "awayPts": 124,
+                "homePts": 88,
+                "winner": "ATL",
+            }
+        ]
+    )
+    out = apply_finished_scores(existing, finished, "2026-27")
+    row = out.iloc[0]
+    assert int(row["awayPts"]) == 124
+    assert int(row["homePts"]) == 88
+    assert row["winner"] == "ATL"
+    assert row["away_result"] == "W"

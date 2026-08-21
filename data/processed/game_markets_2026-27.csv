@@ -1,85 +1,88 @@
 run_id,generated_at,game_date,away,home,market,projection,projection_basis,side,line,odds,opposite_odds,book,model_prob,implied_prob,vig_free,edge,tier,verdict,priced
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-20,IND,DAL,moneyline,0.6422,logistic fit on 268 games,IND,,-143,145,bovada,0.6422,0.5905,True,0.0517,Standard,PLAY,True
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-20,IND,DAL,spread,-0.1,projected home margin,DAL,3.0,-108,-108,lowvig,0.5955,0.5,True,0.0955,Strong,PLAY,True
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-20,IND,DAL,total,180.7,projected total,UNDER,184.5,-105,-108,lowvig,0.6243,0.4966,True,0.1277,Strong,PLAY,True
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-20,CON,LVA,moneyline,0.8485,logistic fit on 268 games,LVA,,-950,800,bovada,0.8485,0.8906,True,-0.0421,Pass,PASS,True
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-20,CON,LVA,spread,7.2,projected home margin,CON,-14.5,-108,-105,draftkings,0.7285,0.5034,True,0.2251,Review,REVIEW,True
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-20,CON,LVA,total,169.7,projected total,OVER,167.5,-110,-105,mybookieag,0.5727,0.5056,True,0.0671,Standard,PLAY,True
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-20,ATL,LAS,moneyline,0.8024,logistic fit on 268 games,ATL,,-380,340,mybookieag,0.8024,0.777,True,0.0254,Lean,PLAY,True
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-20,ATL,LAS,spread,-2.7,projected home margin,LAS,8.5,-104,-110,fanduel,0.6856,0.4932,True,0.1923,Review,REVIEW,True
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-20,ATL,LAS,total,178.2,projected total,UNDER,180.5,-108,-108,draftkings,0.576,0.5,True,0.076,Standard,PLAY,True
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-21,MIN,WAS,moneyline,0.8044,logistic fit on 268 games,MIN,,-164,185,draftkings,0.8044,0.639,True,0.1654,Review,REVIEW,True
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-21,MIN,WAS,spread,-2.7,projected home margin,WAS,3.5,-103,-112,lowvig,0.5266,0.4899,True,0.0367,Lean,PLAY,True
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-21,MIN,WAS,total,170.2,projected total,OVER,163.5,-106,-105,fanduel,0.7117,0.5012,True,0.2105,Review,REVIEW,True
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-21,GSV,CHI,moneyline,0.7814,logistic fit on 268 games,GSV,,-225,210,draftkings,0.7814,0.6822,True,0.0992,Strong,PLAY,True
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-21,GSV,CHI,spread,-2.2,projected home margin,CHI,6.0,-108,-108,lowvig,0.6243,0.5,True,0.1243,Strong,PLAY,True
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-21,GSV,CHI,total,168.4,projected total,OVER,162.5,-108,-108,lowvig,0.6885,0.5,True,0.1885,Review,REVIEW,True
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-21,PDX,TOR,moneyline,0.5941,logistic fit on 268 games,PDX,,-106,105,draftkings,0.5941,0.5133,True,0.0808,Strong,PLAY,True
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-21,PDX,TOR,spread,0.6,projected home margin,TOR,1.5,-108,-103,lowvig,0.5695,0.5058,True,0.0637,Standard,PLAY,True
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-21,PDX,TOR,total,179.9,projected total,UNDER,186.5,-108,-108,lowvig,0.7088,0.5,True,0.2088,Review,REVIEW,True
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-22,IND,NYL,moneyline,0.6063,logistic fit on 268 games,IND,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-22,IND,NYL,spread,0.4,projected home margin,NYL,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-22,IND,NYL,total,182.0,projected total,,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-22,CON,LAS,moneyline,0.6312,logistic fit on 268 games,LAS,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-22,CON,LAS,spread,3.5,projected home margin,LAS,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-22,CON,LAS,total,173.3,projected total,,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-22,ATL,PHX,moneyline,0.7748,logistic fit on 268 games,ATL,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-22,ATL,PHX,spread,-2.1,projected home margin,ATL,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-22,ATL,PHX,total,173.5,projected total,,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-23,SEA,DAL,moneyline,0.7617,logistic fit on 268 games,DAL,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-23,SEA,DAL,spread,5.4,projected home margin,DAL,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-23,SEA,DAL,total,170.8,projected total,,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-23,IND,CHI,moneyline,0.7657,logistic fit on 268 games,IND,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-23,IND,CHI,spread,-2.1,projected home margin,IND,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-23,IND,CHI,total,182.0,projected total,,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-23,WAS,PDX,moneyline,0.6184,logistic fit on 268 games,WAS,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-23,WAS,PDX,spread,0.3,projected home margin,PDX,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-23,WAS,PDX,total,171.0,projected total,,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-23,LVA,TOR,moneyline,0.818,logistic fit on 268 games,LVA,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-23,LVA,TOR,spread,-3.0,projected home margin,LVA,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-23,LVA,TOR,total,177.6,projected total,,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-24,GSV,MIN,moneyline,0.5856,logistic fit on 268 games,MIN,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-24,GSV,MIN,spread,2.8,projected home margin,MIN,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-24,GSV,MIN,total,167.7,projected total,,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-24,ATL,LAS,moneyline,0.8024,logistic fit on 268 games,ATL,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-24,ATL,LAS,spread,-2.7,projected home margin,ATL,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-24,ATL,LAS,total,178.2,projected total,,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-25,CHI,CON,moneyline,0.7065,logistic fit on 268 games,CHI,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-25,CHI,CON,spread,-1.0,projected home margin,CHI,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-25,CHI,CON,total,171.7,projected total,,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-25,PDX,DAL,moneyline,0.7378,logistic fit on 268 games,DAL,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-25,PDX,DAL,spread,5.1,projected home margin,DAL,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-25,PDX,DAL,total,176.2,projected total,,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-25,WAS,PHX,moneyline,0.5941,logistic fit on 268 games,WAS,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-25,WAS,PHX,spread,0.6,projected home margin,PHX,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-25,WAS,PHX,total,167.8,projected total,,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-26,GSV,CON,moneyline,0.9007,logistic fit on 268 games,GSV,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-26,GSV,CON,spread,-5.0,projected home margin,GSV,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-26,GSV,CON,total,162.9,projected total,,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-26,TOR,SEA,moneyline,0.5887,logistic fit on 268 games,SEA,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-26,TOR,SEA,spread,2.9,projected home margin,SEA,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-26,TOR,SEA,total,174.4,projected total,,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-27,GSV,NYL,moneyline,0.6274,logistic fit on 268 games,GSV,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-27,GSV,NYL,spread,0.2,projected home margin,NYL,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-27,GSV,NYL,total,168.3,projected total,,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-27,WAS,PHX,moneyline,0.5941,logistic fit on 268 games,WAS,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-27,WAS,PHX,spread,0.6,projected home margin,PHX,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-27,WAS,PHX,total,167.8,projected total,,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-28,PDX,ATL,moneyline,0.8089,logistic fit on 268 games,ATL,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-28,PDX,ATL,spread,6.4,projected home margin,ATL,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-28,PDX,ATL,total,176.8,projected total,,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-28,CON,IND,moneyline,0.9021,logistic fit on 268 games,IND,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-28,CON,IND,spread,8.9,projected home margin,IND,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-28,CON,IND,total,176.3,projected total,,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-28,TOR,LVA,moneyline,0.8332,logistic fit on 268 games,LVA,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-28,TOR,LVA,spread,6.9,projected home margin,LVA,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-28,TOR,LVA,total,177.6,projected total,,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-28,WAS,LAS,moneyline,0.6334,logistic fit on 268 games,WAS,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-28,WAS,LAS,spread,0.0,projected home margin,PUSH,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-28,WAS,LAS,total,172.4,projected total,,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-29,CHI,NYL,moneyline,0.6911,logistic fit on 268 games,NYL,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-29,CHI,NYL,spread,4.4,projected home margin,NYL,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-29,CHI,NYL,total,177.4,projected total,,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-29,TOR,PHX,moneyline,0.643,logistic fit on 268 games,PHX,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-29,TOR,PHX,spread,3.6,projected home margin,PHX,,,,,,,False,,,PROJ,False
-46d1d9452070,2026-08-20T21:10:34+00:00,2026-08-29,TOR,PHX,total,176.6,projected total,,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-21,MIN,WAS,moneyline,0.8045,logistic fit on 271 games,MIN,,-135,185,draftkings,0.8045,0.6208,True,0.1837,Review,REVIEW,True
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-21,MIN,WAS,spread,-2.7,projected home margin,MIN,2.5,-105,-108,lowvig,0.5066,0.4966,True,0.0101,Pass,PASS,True
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-21,MIN,WAS,total,170.2,projected total,OVER,163.5,-106,-105,fanduel,0.7117,0.5012,True,0.2105,Review,REVIEW,True
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-21,GSV,CHI,moneyline,0.7814,logistic fit on 271 games,GSV,,-225,222,lowvig,0.7814,0.6903,True,0.0911,Strong,PLAY,True
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-21,GSV,CHI,spread,-2.2,projected home margin,CHI,6.5,-108,-105,draftkings,0.64,0.5034,True,0.1365,Strong,PLAY,True
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-21,GSV,CHI,total,168.4,projected total,OVER,163.5,-105,-103,fanduel,0.6585,0.5024,True,0.1561,Review,REVIEW,True
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-21,PDX,TOR,moneyline,0.5936,logistic fit on 271 games,PDX,,-106,135,bovada,0.5936,0.5474,True,0.0462,Standard,PLAY,True
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-21,PDX,TOR,spread,0.5,projected home margin,TOR,1.5,-108,-103,lowvig,0.5662,0.5058,True,0.0604,Standard,PLAY,True
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-21,PDX,TOR,total,179.9,projected total,UNDER,182.5,-106,-108,draftkings,0.5858,0.4977,True,0.088,Strong,PLAY,True
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-22,IND,NYL,moneyline,0.6059,logistic fit on 271 games,IND,,-105,102,betrivers,0.6059,0.5085,True,0.0974,Strong,PLAY,True
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-22,IND,NYL,spread,0.3,projected home margin,IND,-1.0,-103,-113,lowvig,0.5233,0.4889,True,0.0344,Lean,PLAY,True
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-22,IND,NYL,total,182.0,projected total,UNDER,187.5,-105,-108,lowvig,0.6766,0.4966,True,0.1801,Review,REVIEW,True
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-22,CON,LAS,moneyline,0.6322,logistic fit on 271 games,LAS,,-142,130,fanduel,0.6322,0.5744,True,0.0578,Standard,PLAY,True
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-22,CON,LAS,spread,3.4,projected home margin,LAS,-2.5,-108,-108,lowvig,0.5299,0.5,True,0.0299,Lean,PLAY,True
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-22,CON,LAS,total,173.3,projected total,OVER,169.5,-107,-106,betrivers,0.6243,0.5011,True,0.1231,Strong,PLAY,True
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-22,ATL,PHX,moneyline,0.7748,logistic fit on 271 games,ATL,,-205,172,fanduel,0.7748,0.6464,True,0.1284,Strong,PLAY,True
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-22,ATL,PHX,spread,-2.2,projected home margin,PHX,5.5,-108,-108,lowvig,0.6083,0.5,True,0.1083,Strong,PLAY,True
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-22,ATL,PHX,total,173.5,projected total,UNDER,176.5,-108,-108,lowvig,0.5987,0.5,True,0.0987,Strong,PLAY,True
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-23,SEA,DAL,moneyline,0.7628,logistic fit on 271 games,DAL,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-23,SEA,DAL,spread,5.4,projected home margin,DAL,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-23,SEA,DAL,total,170.8,projected total,,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-23,IND,CHI,moneyline,0.7657,logistic fit on 271 games,IND,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-23,IND,CHI,spread,-2.2,projected home margin,IND,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-23,IND,CHI,total,182.0,projected total,,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-23,WAS,PDX,moneyline,0.618,logistic fit on 271 games,WAS,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-23,WAS,PDX,spread,0.2,projected home margin,PDX,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-23,WAS,PDX,total,171.0,projected total,,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-23,LVA,TOR,moneyline,0.8182,logistic fit on 271 games,LVA,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-23,LVA,TOR,spread,-3.0,projected home margin,LVA,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-23,LVA,TOR,total,177.6,projected total,,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-24,GSV,MIN,moneyline,0.5866,logistic fit on 271 games,MIN,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-24,GSV,MIN,spread,2.8,projected home margin,MIN,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-24,GSV,MIN,total,167.7,projected total,,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-24,ATL,LAS,moneyline,0.8025,logistic fit on 271 games,ATL,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-24,ATL,LAS,spread,-2.8,projected home margin,ATL,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-24,ATL,LAS,total,178.2,projected total,,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-25,CHI,CON,moneyline,0.7063,logistic fit on 271 games,CHI,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-25,CHI,CON,spread,-1.1,projected home margin,CHI,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-25,CHI,CON,total,171.7,projected total,,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-25,PDX,DAL,moneyline,0.7389,logistic fit on 271 games,DAL,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-25,PDX,DAL,spread,5.0,projected home margin,DAL,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-25,PDX,DAL,total,176.2,projected total,,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-25,WAS,PHX,moneyline,0.5936,logistic fit on 271 games,WAS,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-25,WAS,PHX,spread,0.5,projected home margin,PHX,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-25,WAS,PHX,total,167.8,projected total,,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-26,GSV,CON,moneyline,0.9009,logistic fit on 271 games,GSV,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-26,GSV,CON,spread,-5.0,projected home margin,GSV,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-26,GSV,CON,total,162.9,projected total,,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-26,TOR,SEA,moneyline,0.5897,logistic fit on 271 games,SEA,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-26,TOR,SEA,spread,2.9,projected home margin,SEA,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-26,TOR,SEA,total,174.4,projected total,,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-27,GSV,NYL,moneyline,0.627,logistic fit on 271 games,GSV,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-27,GSV,NYL,spread,0.1,projected home margin,NYL,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-27,GSV,NYL,total,168.3,projected total,,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-27,WAS,PHX,moneyline,0.5936,logistic fit on 271 games,WAS,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-27,WAS,PHX,spread,0.5,projected home margin,PHX,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-27,WAS,PHX,total,167.8,projected total,,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-28,PDX,ATL,moneyline,0.8099,logistic fit on 271 games,ATL,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-28,PDX,ATL,spread,6.3,projected home margin,ATL,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-28,PDX,ATL,total,176.8,projected total,,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-28,CON,IND,moneyline,0.9029,logistic fit on 271 games,IND,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-28,CON,IND,spread,8.9,projected home margin,IND,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-28,CON,IND,total,176.3,projected total,,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-28,TOR,LVA,moneyline,0.8342,logistic fit on 271 games,LVA,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-28,TOR,LVA,spread,6.8,projected home margin,LVA,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-28,TOR,LVA,total,177.6,projected total,,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-28,WAS,LAS,moneyline,0.633,logistic fit on 271 games,WAS,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-28,WAS,LAS,spread,-0.0,projected home margin,PUSH,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-28,WAS,LAS,total,172.4,projected total,,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-29,CHI,NYL,moneyline,0.6922,logistic fit on 271 games,NYL,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-29,CHI,NYL,spread,4.3,projected home margin,NYL,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-29,CHI,NYL,total,177.4,projected total,,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-29,TOR,PHX,moneyline,0.644,logistic fit on 271 games,PHX,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-29,TOR,PHX,spread,3.6,projected home margin,PHX,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-29,TOR,PHX,total,176.6,projected total,,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-30,MIN,ATL,moneyline,0.636,logistic fit on 271 games,MIN,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-30,MIN,ATL,spread,-0.1,projected home margin,MIN,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-30,MIN,ATL,total,176.0,projected total,,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-30,LAS,SEA,moneyline,0.502,logistic fit on 271 games,LAS,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-30,LAS,SEA,spread,1.7,projected home margin,SEA,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-30,LAS,SEA,total,173.6,projected total,,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-30,GSV,PDX,moneyline,0.8399,logistic fit on 271 games,GSV,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-30,GSV,PDX,spread,-3.4,projected home margin,GSV,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-30,GSV,PDX,total,168.5,projected total,,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-30,CON,DAL,moneyline,0.8306,logistic fit on 271 games,DAL,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-30,CON,DAL,spread,6.7,projected home margin,DAL,,,,,,,False,,,PROJ,False
+d1a873ca9bc9,2026-08-21T16:55:38+00:00,2026-08-30,CON,DAL,total,170.5,projected total,,,,,,,,False,,,PROJ,False
