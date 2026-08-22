@@ -1,9 +1,9 @@
 rank,slate_date,family,market,game_date,away,home,matchup,selection,player,side,line,odds,book,model_prob,hist_n,hist_wins,hist_losses,hist_hit_rate,hist_band,hit_likelihood,edge,tier,verdict
 1,2026-08-22,moneyline,moneyline,2026-08-22,ATL,PHX,ATL @ PHX,ATL ML,,ATL,,-205.0,fanduel,0.7692,31,27,4,87.1,70%+,0.8264,0.0767,Standard,PLAY
-2,2026-08-22,prop,player_threes,2026-08-22,ATL,PHX,ATL @ PHX,Kelsey Plum UNDER 2.5 3PM,Kelsey Plum,UNDER,2.5,152.0,fanduel,0.6846,9,7,2,77.8,60–69%,0.7029,0.3133,Review,REVIEW
-3,2026-08-22,prop,player_threes,2026-08-22,CON,LAS,CON @ LAS,Ariel Atkins UNDER 1.5 3PM,Ariel Atkins,UNDER,1.5,170.0,draftkings,0.6606,9,7,2,77.8,60–69%,0.6892,0.3153,Review,REVIEW
-4,2026-08-22,prop,player_threes,2026-08-22,ATL,PHX,ATL @ PHX,Kahleah Copper UNDER 2.5 3PM,Kahleah Copper,UNDER,2.5,158.0,fanduel,0.8136,8,4,4,50.0,70%+,0.6882,0.4514,Review,REVIEW
-5,2026-08-22,prop,player_threes,2026-08-22,CON,LAS,CON @ LAS,Charlisse Leger-Walker UNDER 1.5 3PM,Charlisse Leger-Walker,UNDER,1.5,150.0,draftkings,0.6533,9,7,2,77.8,60–69%,0.685,0.2806,Review,REVIEW
+2,2026-08-22,prop,player_threes,2026-08-22,ATL,PHX,ATL @ PHX,Kahleah Copper UNDER 2.5 3PM,Kahleah Copper,UNDER,2.5,158.0,fanduel,0.8136,16,11,5,68.8,70%+,0.7296,0.4514,Review,REVIEW
+3,2026-08-22,prop,player_threes,2026-08-22,ATL,PHX,ATL @ PHX,Jordin Canada OVER 0.5 3PM,Jordin Canada,OVER,0.5,-178.0,draftkings,0.7756,16,11,5,68.8,70%+,0.7134,0.1801,Review,REVIEW
+4,2026-08-22,prop,player_threes,2026-08-22,CON,LAS,CON @ LAS,Rae Burrell UNDER 2.5 3PM,Rae Burrell,UNDER,2.5,149.0,betonlineag,0.7621,16,11,5,68.8,70%+,0.7076,0.3846,Review,REVIEW
+5,2026-08-22,prop,player_assists,2026-08-22,CON,LAS,CON @ LAS,Charlisse Leger-Walker UNDER 4.5 AST,Charlisse Leger-Walker,UNDER,4.5,124.0,betonlineag,0.7496,9,6,3,66.7,70%+,0.7011,0.3298,Review,REVIEW
 6,2026-08-22,spread,spread,2026-08-22,ATL,PHX,ATL @ PHX,PHX +7.0,,PHX,7.0,-108.0,lowvig,0.6554,13,8,5,61.5,all,0.6266,0.1554,Review,REVIEW
 7,2026-08-22,moneyline,moneyline,2026-08-22,CON,LAS,CON @ LAS,LAS ML,,LAS,,-142.0,fanduel,0.6315,10,6,4,60.0,60–69%,0.6096,0.0185,Pass,PASS
 8,2026-08-22,spread,spread,2026-08-22,IND,NYL,IND @ NYL,IND +3.0,,IND,-3.0,-108.0,lowvig,0.589,13,8,5,61.5,all,0.5947,0.089,Strong,PLAY

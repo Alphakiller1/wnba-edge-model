@@ -346,7 +346,12 @@ def log_market_predictions_batch(root: Path, slate: pd.DataFrame, season: str) -
     return added
 
 
-def grade_props(root: Path, player_logs: pd.DataFrame, today: datetime | None = None) -> dict:
+def grade_props(
+    root: Path,
+    player_logs: pd.DataFrame,
+    today: datetime | None = None,
+    game_results: pd.DataFrame | None = None,
+) -> dict:
     """Grade unsettled prop predictions against player game logs."""
     frame = _load(prop_log_path(root), PROP_COLUMNS)
     if frame.empty:
@@ -355,6 +360,7 @@ def grade_props(root: Path, player_logs: pd.DataFrame, today: datetime | None = 
     logs = player_logs.copy()
     logs["date"] = pd.to_datetime(logs["date"])
     logs["_name"] = logs["name"].astype(str).str.lower()
+    finished_dates = _finished_game_dates(game_results)
 
     graded = voided = pending = 0
     for idx, row in frame.iterrows():
@@ -376,7 +382,13 @@ def grade_props(root: Path, player_logs: pd.DataFrame, today: datetime | None = 
             & (logs["date"] <= window_end)
         ].sort_values("date")
         if candidates.empty:
-            if today.replace(tzinfo=None) > (window_end + timedelta(days=PROP_VOID_AFTER_DAYS)):
+            game_day = str(row["game_date"])[:10]
+            if game_day in finished_dates:
+                frame.loc[idx, ["settled", "ungraded_reason", "graded_at"]] = [
+                    True, REASON_VOID_NO_GAME, _now_iso(),
+                ]
+                voided += 1
+            elif today.replace(tzinfo=None) > (window_end + timedelta(days=PROP_VOID_AFTER_DAYS)):
                 reason = (
                     REASON_VOID_NO_GAME
                     if (logs["_name"] == str(row["player"]).lower()).any()
@@ -864,6 +876,20 @@ def results_summary(root: Path) -> dict:
 def _as_float(value) -> float | None:
     number = pd.to_numeric(value, errors="coerce")
     return float(number) if pd.notna(number) else None
+
+
+def _finished_game_dates(game_results: pd.DataFrame | None) -> set[str]:
+    if game_results is None or game_results.empty or "date" not in game_results.columns:
+        return set()
+    frame = game_results.copy()
+    if "total" in frame.columns:
+        scored = pd.to_numeric(frame["total"], errors="coerce").fillna(0)
+    else:
+        scored = (
+            pd.to_numeric(frame.get("awayPts"), errors="coerce").fillna(0)
+            + pd.to_numeric(frame.get("homePts"), errors="coerce").fillna(0)
+        )
+    return set(pd.to_datetime(frame.loc[scored > 0, "date"]).dt.strftime("%Y-%m-%d"))
 
 
 def _wl_from_flags(series: pd.Series) -> dict | None:

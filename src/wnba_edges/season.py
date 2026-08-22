@@ -9,7 +9,7 @@ from typing import Any
 import pandas as pd
 
 from .http import HttpClient
-from .schedule import apply_finished_scores, fetch_finished_scores
+from .schedule import apply_espn_player_logs, apply_finished_scores, fetch_finished_player_logs, fetch_finished_scores
 from .wnbanalytics import scrape_game_detail, scrape_games, scrape_players, scrape_teams, write_jsonl
 
 ROLLING_WINDOWS = (3, 5, 10)
@@ -143,6 +143,25 @@ def overlay_espn_finals(root: Path, season: str = "2026-27", days_back: int = 4)
     merged.to_csv(results_path, index=False)
     if added or filled:
         print(f"ESPN finals overlay: {len(merged)} scored games ({max(added, 0)} new)")
+    return max(added, 0)
+
+
+def overlay_espn_player_logs(root: Path, season: str = "2026-27", days_back: int = 4) -> int:
+    """Append ESPN player boxes for nights WNBAnalytics has not scored yet."""
+    logs_path = root / "data" / "processed" / f"player_game_logs_{season}.csv"
+    if not logs_path.exists():
+        return 0
+    before = pd.read_csv(logs_path)
+    try:
+        espn_logs = fetch_finished_player_logs(days_back=days_back)
+    except Exception as exc:
+        print(f"ESPN player-box overlay skipped: {exc}")
+        return 0
+    merged = apply_espn_player_logs(before, espn_logs, season)
+    added = len(merged) - len(before)
+    if added:
+        merged.to_csv(logs_path, index=False)
+        print(f"ESPN player-box overlay: {added} new player-games")
     return max(added, 0)
 
 

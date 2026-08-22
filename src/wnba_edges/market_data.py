@@ -26,6 +26,10 @@ ODDS_SPORT_KEY = os.getenv("WNBA_ODDS_SPORT_KEY", "basketball_wnba")
 ODDS_REGIONS = os.getenv("ODDS_REGIONS", "us")
 ODDS_FORMAT = "american"
 ODDS_BOOKMAKERS = os.getenv("ODDS_BOOKMAKERS", "")
+
+
+def _bookmakers() -> str:
+    return os.getenv("ODDS_BOOKMAKERS", "") or ODDS_BOOKMAKERS
 ODDS_GAME_MARKETS = "h2h,spreads,totals"
 ODDS_PROP_MARKETS = os.getenv(
     "WNBA_PROP_MARKETS",
@@ -85,8 +89,8 @@ def list_events() -> dict[tuple[str, str], str]:
 def fetch_event_odds(event_id: str, props: bool = False) -> list[dict]:
     markets = ODDS_GAME_MARKETS + ("," + ODDS_PROP_MARKETS if props else "")
     params = {"regions": ODDS_REGIONS, "markets": markets, "oddsFormat": ODDS_FORMAT}
-    if ODDS_BOOKMAKERS:
-        params["bookmakers"] = ODDS_BOOKMAKERS
+    if _bookmakers():
+        params["bookmakers"] = _bookmakers()
     event = _get(f"/sports/{ODDS_SPORT_KEY}/events/{event_id}/odds", params)
     return _normalize_event(event, datetime.now(timezone.utc).isoformat(timespec="seconds"))
 
@@ -107,8 +111,8 @@ def fetch_slate(*, props: bool = False) -> list[dict]:
         store(rows, replace_latest=True)
     else:
         params = {"regions": ODDS_REGIONS, "markets": ODDS_GAME_MARKETS, "oddsFormat": ODDS_FORMAT}
-        if ODDS_BOOKMAKERS:
-            params["bookmakers"] = ODDS_BOOKMAKERS
+        if _bookmakers():
+            params["bookmakers"] = _bookmakers()
         payload = _get(f"/sports/{ODDS_SPORT_KEY}/odds", params)
         if not isinstance(payload, list):
             raise SystemExit(f"Unexpected Odds API payload: {type(payload).__name__}")
@@ -303,7 +307,14 @@ def main() -> None:
         help="Pull ML/spread/total for every live WNBA game (one API call).",
     )
     parser.add_argument("--props", action="store_true")
+    parser.add_argument(
+        "--bookmakers",
+        default=None,
+        help="Comma-separated Odds API book keys, e.g. fanatics. Overrides ODDS_BOOKMAKERS.",
+    )
     args = parser.parse_args()
+    if args.bookmakers:
+        os.environ["ODDS_BOOKMAKERS"] = args.bookmakers
 
     if args.fetch_slate:
         fetch_slate(props=args.props)

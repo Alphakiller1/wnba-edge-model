@@ -4,7 +4,13 @@ import pandas as pd
 import pytest
 
 from wnba_edges.contracts import ContractError, validate_frame, validate_rows
-from wnba_edges.schedule import apply_finished_scores, parse_finished_scoreboard, parse_scoreboard
+from wnba_edges.schedule import (
+    apply_espn_player_logs,
+    apply_finished_scores,
+    parse_espn_player_box,
+    parse_finished_scoreboard,
+    parse_scoreboard,
+)
 from wnba_edges.teams import team_abbr
 
 
@@ -192,3 +198,73 @@ def test_apply_finished_scores_fills_zero_zero_placeholders():
     assert int(row["homePts"]) == 88
     assert row["winner"] == "ATL"
     assert row["away_result"] == "W"
+
+
+def test_parse_espn_player_box_skips_dnp_and_reads_threes():
+    payload = {
+        "header": {
+            "id": "401857161",
+            "competitions": [
+                {
+                    "status": {"type": {"state": "post"}},
+                    "competitors": [
+                        {"homeAway": "home", "team": {"abbreviation": "WSH"}},
+                        {"homeAway": "away", "team": {"abbreviation": "MIN"}},
+                    ],
+                }
+            ],
+        },
+        "boxscore": {
+            "players": [
+                {
+                    "team": {"abbreviation": "MIN", "displayName": "Minnesota Lynx"},
+                    "statistics": [
+                        {
+                            "keys": [
+                                "minutes", "points",
+                                "threePointFieldGoalsMade-threePointFieldGoalsAttempted",
+                                "rebounds", "assists", "steals", "blocks",
+                            ],
+                            "athletes": [
+                                {
+                                    "starter": True,
+                                    "didNotPlay": False,
+                                    "athlete": {"displayName": "Napheesa Collier"},
+                                    "stats": ["33", "24", "3-7", "11", "4", "2", "1"],
+                                },
+                                {
+                                    "didNotPlay": True,
+                                    "athlete": {"displayName": "Injured Player"},
+                                    "stats": [],
+                                },
+                            ],
+                        }
+                    ],
+                }
+            ]
+        },
+    }
+    rows = parse_espn_player_box(payload, date(2026, 8, 21))
+    assert len(rows) == 1
+    row = rows[0]
+    assert row["name"] == "Napheesa Collier"
+    assert row["team"] == "MIN"
+    assert row["pts"] == 24
+    assert row["fg3m"] == 3
+    assert row["pra"] == 39
+
+
+def test_apply_espn_player_logs_does_not_overwrite_existing():
+    existing = pd.DataFrame(
+        [{"date": "2026-08-21", "name": "Napheesa Collier", "pts": 24, "team": "MIN"}]
+    )
+    espn = pd.DataFrame(
+        [
+            {"date": "2026-08-21", "name": "Napheesa Collier", "pts": 99, "team": "MIN"},
+            {"date": "2026-08-21", "name": "Kayla McBride", "pts": 18, "team": "MIN", "fg3m": 4},
+        ]
+    )
+    out = apply_espn_player_logs(existing, espn, "2026-27")
+    collier = out[out["name"] == "Napheesa Collier"].iloc[0]
+    assert int(collier["pts"]) == 24
+    assert "Kayla McBride" in set(out["name"])

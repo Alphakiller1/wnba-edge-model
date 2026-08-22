@@ -74,6 +74,18 @@ def test_prop_not_voided_before_window_expires(tmp_path):
     assert outcome["voided"] == 0
 
 
+def test_prop_voided_when_finished_game_has_no_player_line(tmp_path):
+    _log_prop(tmp_path, player="Dana Evans", game_date="2026-08-18")
+    results = pd.DataFrame(
+        [{"date": "2026-08-18", "away": "LAS", "home": "CON", "awayPts": 87, "homePts": 75, "total": 162}]
+    )
+    today = datetime(2026, 8, 22, tzinfo=timezone.utc)
+    outcome = grade_props(tmp_path, _player_logs(), today=today, game_results=results)
+    assert outcome["voided"] == 1
+    frame = pd.read_csv(prop_log_path(tmp_path))
+    assert frame.iloc[0]["ungraded_reason"] == "void_no_game_within_window"
+
+
 def test_game_grading_and_summary(tmp_path):
     projections = pd.DataFrame(
         [

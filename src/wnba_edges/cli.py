@@ -34,7 +34,7 @@ from .prop_projections import (
     prop_slate_path,
 )
 from .schedule import fetch_upcoming_schedule, write_schedule
-from .season import build_season_tables, overlay_espn_finals, scrape_season_snapshot
+from .season import build_season_tables, overlay_espn_finals, overlay_espn_player_logs, scrape_season_snapshot
 from .sigma import fit_market_sigmas, load_market_sigmas, market_sigma_path, resolve_sigma
 from .wnbanalytics import scrape_players, write_jsonl
 
@@ -195,6 +195,7 @@ def main() -> None:
         for name, path in {**scrape_paths, **table_paths}.items():
             print(f"{name}: {path}")
         overlay_espn_finals(ROOT, args.season)
+        overlay_espn_player_logs(ROOT, args.season)
         _fit_sigma(args.season)
         _grade(args.season)
 
@@ -395,8 +396,10 @@ def _grade(season: str) -> None:
         if filled:
             print(f"backfilled book lines on {filled} logged game forecast(s)")
     overlay_espn_finals(ROOT, season)
+    overlay_espn_player_logs(ROOT, season)
     if logs_path.exists():
-        prop_result = grade_props(ROOT, pd.read_csv(logs_path))
+        results = pd.read_csv(results_path) if results_path.exists() else None
+        prop_result = grade_props(ROOT, pd.read_csv(logs_path), game_results=results)
         print(f"props: {prop_result['graded']} graded, {prop_result['voided']} voided, "
               f"{prop_result['pending']} pending")
     else:
