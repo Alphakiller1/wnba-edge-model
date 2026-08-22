@@ -1,11 +1,11 @@
 rank,slate_date,family,market,game_date,away,home,matchup,selection,player,side,line,odds,book,model_prob,hist_n,hist_wins,hist_losses,hist_hit_rate,hist_band,hit_likelihood,edge,tier,verdict
-1,2026-08-21,moneyline,moneyline,2026-08-21,MIN,WAS,MIN @ WAS,MIN ML,,MIN,,-135.0,draftkings,0.8045,29,26,3,89.7,70%+,0.8515,0.1837,Review,REVIEW
-2,2026-08-21,moneyline,moneyline,2026-08-21,GSV,CHI,GSV @ CHI,GSV ML,,GSV,,-225.0,lowvig,0.7814,29,26,3,89.7,70%+,0.8448,0.0911,Strong,PLAY
-3,2026-08-21,prop,player_threes,2026-08-21,MIN,WAS,MIN @ WAS,Kayla McBride OVER 2.5 3PM,Kayla McBride,OVER,2.5,-111.0,betonlineag,0.682,9,7,2,77.8,60–69%,0.7014,0.1872,Review,REVIEW
-4,2026-08-21,prop,player_threes,2026-08-21,PDX,TOR,PDX @ TOR,Emily Engstler OVER 0.5 3PM,Emily Engstler,OVER,0.5,-244.0,draftkings,0.6756,9,7,2,77.8,60–69%,0.6977,0.0137,Pass,PASS
-5,2026-08-21,prop,player_threes,2026-08-21,PDX,TOR,PDX @ TOR,Laura Juskaite UNDER 1.5 3PM,Laura Juskaite,UNDER,1.5,121.0,draftkings,0.828,8,4,4,50.0,70%+,0.6968,0.4071,Review,REVIEW
-6,2026-08-21,prop,player_threes,2026-08-21,GSV,CHI,GSV @ CHI,Natasha Cloud UNDER 1.5 3PM,Natasha Cloud,UNDER,1.5,154.0,fanduel,0.6648,9,7,2,77.8,60–69%,0.6916,0.2954,Review,REVIEW
-7,2026-08-21,moneyline,moneyline,2026-08-21,PDX,TOR,PDX @ TOR,PDX ML,,PDX,,-106.0,bovada,0.5936,12,8,4,66.7,50–59%,0.6182,0.0462,Standard,PLAY
-8,2026-08-21,total,total,2026-08-21,MIN,WAS,MIN @ WAS,Over 163.5,,OVER,163.5,-106.0,fanduel,0.7117,10,4,6,40.0,all,0.5776,0.2105,Review,REVIEW
-9,2026-08-21,spread,spread,2026-08-21,GSV,CHI,GSV @ CHI,CHI +6.5,,CHI,6.5,-108.0,draftkings,0.64,10,5,5,50.0,all,0.5764,0.1365,Strong,PLAY
-10,2026-08-21,total,total,2026-08-21,GSV,CHI,GSV @ CHI,Over 163.5,,OVER,163.5,-105.0,fanduel,0.6585,10,4,6,40.0,all,0.5486,0.1561,Review,REVIEW
+1,2026-08-22,moneyline,moneyline,2026-08-22,ATL,PHX,ATL @ PHX,ATL ML,,ATL,,-205.0,fanduel,0.7692,31,27,4,87.1,70%+,0.8264,0.0767,Standard,PLAY
+2,2026-08-22,prop,player_threes,2026-08-22,ATL,PHX,ATL @ PHX,Kelsey Plum UNDER 2.5 3PM,Kelsey Plum,UNDER,2.5,152.0,fanduel,0.6846,9,7,2,77.8,60–69%,0.7029,0.3133,Review,REVIEW
+3,2026-08-22,prop,player_threes,2026-08-22,CON,LAS,CON @ LAS,Ariel Atkins UNDER 1.5 3PM,Ariel Atkins,UNDER,1.5,170.0,draftkings,0.6606,9,7,2,77.8,60–69%,0.6892,0.3153,Review,REVIEW
+4,2026-08-22,prop,player_threes,2026-08-22,ATL,PHX,ATL @ PHX,Kahleah Copper UNDER 2.5 3PM,Kahleah Copper,UNDER,2.5,158.0,fanduel,0.8136,8,4,4,50.0,70%+,0.6882,0.4514,Review,REVIEW
+5,2026-08-22,prop,player_threes,2026-08-22,CON,LAS,CON @ LAS,Charlisse Leger-Walker UNDER 1.5 3PM,Charlisse Leger-Walker,UNDER,1.5,150.0,draftkings,0.6533,9,7,2,77.8,60–69%,0.685,0.2806,Review,REVIEW
+6,2026-08-22,spread,spread,2026-08-22,ATL,PHX,ATL @ PHX,PHX +7.0,,PHX,7.0,-108.0,lowvig,0.6554,13,8,5,61.5,all,0.6266,0.1554,Review,REVIEW
+7,2026-08-22,moneyline,moneyline,2026-08-22,CON,LAS,CON @ LAS,LAS ML,,LAS,,-142.0,fanduel,0.6315,10,6,4,60.0,60–69%,0.6096,0.0185,Pass,PASS
+8,2026-08-22,spread,spread,2026-08-22,IND,NYL,IND @ NYL,IND +3.0,,IND,-3.0,-108.0,lowvig,0.589,13,8,5,61.5,all,0.5947,0.089,Strong,PLAY
+9,2026-08-22,moneyline,moneyline,2026-08-22,IND,NYL,IND @ NYL,IND ML,,IND,,136.0,betrivers,0.602,10,6,4,60.0,60–69%,0.5935,0.1408,Strong,PLAY
+10,2026-08-22,spread,spread,2026-08-22,CON,LAS,CON @ LAS,CON +5.0,,CON,-5.0,-108.0,lowvig,0.553,13,8,5,61.5,all,0.5774,0.053,Standard,PLAY

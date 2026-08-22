@@ -270,3 +270,6 @@ TOR,Toronto Tempo,82,2026-08-19,1787097600000.0,28.0,WAS,Washington Mystics,93,1
 ATL,,124,2026-08-20,,,LAS,,88,,LAS,36,,,,2026-27,,,ATL,212,-36,W,L,espn_scoreboard
 CON,,78,2026-08-20,,,LVA,,101,,CON,23,,,,2026-27,,,LVA,179,23,L,W,espn_scoreboard
 IND,,85,2026-08-20,,,DAL,,91,,IND,6,,,,2026-27,,,DAL,176,6,L,W,espn_scoreboard
+GSV,,70,2026-08-21,,,CHI,,73,,GSV,3,,,,2026-27,,,CHI,143,3,L,W,espn_scoreboard
+MIN,,94,2026-08-21,,,WAS,,84,,WAS,10,,,,2026-27,,,MIN,178,-10,W,L,espn_scoreboard
+PDX,,79,2026-08-21,,,TOR,,82,,PDX,3,,,,2026-27,,,TOR,161,3,L,W,espn_scoreboard
