@@ -293,8 +293,9 @@ def _projections_section(projections, features=None, odds=None, data_date=None, 
     head = _section_head(
         "projections", "2", "Game Projections", "Model layer",
         "Every game records a moneyline, spread, and total projection. Rotation player props "
-        "are logged on the same run. The home-win probability is a logistic fit on this season's "
-        "finished games &mdash; the basis and sample size are always shown.",
+        "are logged on the same run. Home court is a win-rate blend (not raw mean margin), "
+        "and the home-win probability is the Normal CDF of the projected margin so moneyline "
+        "and spread favorites agree.",
     )
     if projections is None:
         return f"""<section>{head}<div class="empty">No game projections yet. Run

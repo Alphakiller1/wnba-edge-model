@@ -4,11 +4,12 @@ import pandas as pd
 import pytest
 
 from wnba_edges.projections import (
+    GAME_MARGIN_SIGMA,
+    HOME_COURT_POINTS_PRIOR,
     UnknownTeamsError,
     build_game_projections,
     estimate_home_court,
-    fit_win_probability,
-    win_probability,
+    win_probability_from_margin,
 )
 
 
@@ -41,21 +42,36 @@ def _results(n_per_gap: int = 30):
 
 def test_home_court_empirical_and_prior():
     prior, basis = estimate_home_court(None)
-    assert prior == 1.5 and basis == "prior"
+    assert prior == HOME_COURT_POINTS_PRIOR and basis == "prior"
     margins = pd.DataFrame({"home_margin": [2.0] * 30})
     value, basis = estimate_home_court(margins)
-    assert value == pytest.approx(2.0)
-    assert basis.startswith("empirical")
+    assert HOME_COURT_POINTS_PRIOR < value <= 2.0
+    assert "shrunk mean" in basis
 
 
-def test_win_probability_fit_is_directional():
-    b0, b1, n = fit_win_probability(_results(), _teams())
-    assert n == 60
-    assert b1 > 0
-    assert win_probability(18, b0, b1) > win_probability(0, b0, b1) > win_probability(-18, b0, b1)
-    for gap in (-20, 0, 20):
-        p = win_probability(gap, b0, b1)
+def test_home_court_ignores_blowout_mean_when_home_wins_are_even():
+    """A 4-pt mean margin with a 50/50 home-win rate must not become a 4-pt HCA."""
+    rows = []
+    for i in range(40):
+        if i % 2 == 0:
+            rows.append({"away": "CHI", "home": "MIN", "winner": "MIN", "home_margin": 12.0})
+        else:
+            rows.append({"away": "CHI", "home": "MIN", "winner": "CHI", "home_margin": -4.0})
+    value, basis = estimate_home_court(pd.DataFrame(rows))
+    assert value < 2.0
+    assert "win-rate blend" in basis
+    assert "50%" in basis
+
+
+def test_win_probability_follows_projected_margin():
+    assert win_probability_from_margin(0) == pytest.approx(0.5)
+    assert win_probability_from_margin(12) > win_probability_from_margin(0) > win_probability_from_margin(-12)
+    for margin in (-20, 0, 20):
+        p = win_probability_from_margin(margin)
         assert 0.0 < p < 1.0 and math.isfinite(p)
+    # Even teams with a 1.2-pt home bump should sit near the league home-win rate.
+    even = win_probability_from_margin(1.2)
+    assert 0.52 < even < 0.56
 
 
 def test_projections_include_win_prob_and_metadata():
@@ -64,8 +80,35 @@ def test_projections_include_win_prob_and_metadata():
     assert len(out) == 1
     row = out.iloc[0]
     assert 0.5 < row["home_win_prob"] < 1.0
-    assert "logistic fit" in row["win_prob_basis"]
+    assert "Normal CDF" in row["win_prob_basis"]
     assert row["run_id"] and row["generated_at"]
+    # Moneyline favorite and spread favorite must agree on the posted numbers.
+    assert (row["projected_home_spread"] > 0) == (row["home_win_prob"] > 0.5)
+    assert row["projected_home_spread"] == pytest.approx(
+        row["projected_home_pts"] - row["projected_away_pts"]
+    )
+
+
+def test_toss_up_does_not_flip_to_home_on_spread_only():
+    """Road talent of ~2 pts should stay a road favorite after a ~1.2-pt HCA."""
+    teams = pd.DataFrame(
+        [
+            {"abbr": "IND", "ortg": 108.0, "drtg": 100.0, "net": 8.0, "pace": 80.0},
+            {"abbr": "NYL", "ortg": 106.0, "drtg": 102.0, "net": 4.0, "pace": 80.0},
+        ]
+    )
+    # 50/50 home wins, modest margins — HCA near the 1.2 prior.
+    results = pd.DataFrame(
+        [
+            {"away": "IND", "home": "NYL", "winner": "NYL" if i % 2 == 0 else "IND",
+             "home_margin": 2.0 if i % 2 == 0 else -2.0}
+            for i in range(40)
+        ]
+    )
+    schedule = pd.DataFrame([{"date": "2026-08-22", "time": "19:00", "away": "IND", "home": "NYL"}])
+    row = build_game_projections(teams, schedule, results).iloc[0]
+    assert row["projected_home_spread"] < 0
+    assert row["home_win_prob"] < 0.5
 
 
 def test_unknown_team_only_slate_raises():
@@ -85,3 +128,4 @@ def test_unknown_exhibition_skipped_when_club_games_exist():
     assert len(out) == 1
     assert out.iloc[0]["away"] == "CHI"
     assert out.iloc[0]["home"] == "MIN"
+    assert GAME_MARGIN_SIGMA == 12.0

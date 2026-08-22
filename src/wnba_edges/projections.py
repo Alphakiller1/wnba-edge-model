@@ -1,19 +1,26 @@
 from __future__ import annotations
 
-import math
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
+from statistics import NormalDist
 
 import pandas as pd
 
+from .betting import estimate_over_probability
 from .teams import KNOWN_ABBRS
 
-# Prior used only until enough finished games exist to estimate home court
-# empirically (see `estimate_home_court`).
-HOME_COURT_POINTS_PRIOR = 1.5
+# Same Normal sigma used to price game spread/total sides. Home court is the
+# point margin that reproduces the observed home-win rate under this noise model.
+GAME_MARGIN_SIGMA = 12.0
+# Φ^{-1}(0.54) * 12 ≈ 1.2 — a typical WNBA home-win rate, used until the season
+# sample is large enough to estimate from finished games.
+HOME_COURT_POINTS_PRIOR = 1.2
 MIN_GAMES_FOR_HOME_COURT = 20
-MIN_GAMES_FOR_WIN_FIT = 40
+HOME_COURT_SHRINK_K = 40
+HOME_COURT_MAX = 3.0
+
+_UNIT_NORMAL = NormalDist()
 
 
 class UnknownTeamsError(ValueError):
@@ -28,72 +35,62 @@ class UnknownTeamsError(ValueError):
 
 
 def estimate_home_court(game_results: pd.DataFrame | None) -> tuple[float, str]:
-    """Mean home margin from finished games; falls back to the prior when thin."""
-    if game_results is None or game_results.empty or "home_margin" not in game_results.columns:
-        return HOME_COURT_POINTS_PRIOR, "prior"
-    margins = pd.to_numeric(game_results["home_margin"], errors="coerce").dropna()
-    if len(margins) < MIN_GAMES_FOR_HOME_COURT:
-        return HOME_COURT_POINTS_PRIOR, "prior"
-    value = float(margins.mean())
-    # Clamp to a plausible band; a wild empirical value signals data problems.
-    return min(max(value, 0.0), 4.0), f"empirical (n={len(margins)})"
+    """Home-court points consistent with how often home actually wins.
 
-
-def fit_win_probability(
-    game_results: pd.DataFrame | None,
-    teams: pd.DataFrame,
-) -> tuple[float, float, int]:
-    """Logistic fit of P(home win) on net-rating gap over finished games.
-
-    Returns (intercept, coefficient, n). Uses current season-to-date net ratings
-    as the gap for each historical game — a simplification, but calibrated
-    against real outcomes instead of the old hand-tuned clamp formula.
+    Raw mean home margin is pulled up by blowouts. Using that mean as home court,
+    then converting the projected margin through ``GAME_MARGIN_SIGMA``, overstates
+    home favorites relative to the league home-win rate. This estimator maps the
+    observed home-win rate through the same sigma used to price covers, blends in
+    the mean margin, and shrinks toward the 1.2-pt prior.
     """
-    default = (0.35, 0.13, 0)  # gentle prior: ~59% at gap 0 (home court), +gap slope
     if game_results is None or game_results.empty:
-        return default
-    net_by_team = {
-        str(row["abbr"]).upper(): float(row["net"])
-        for _, row in teams.iterrows()
-        if pd.notna(row.get("net"))
-    }
-    xs: list[float] = []
-    ys: list[int] = []
-    for _, game in game_results.iterrows():
-        home = str(game.get("home", "")).upper()
-        away = str(game.get("away", "")).upper()
-        winner = str(game.get("winner", "")).upper()
-        if home not in net_by_team or away not in net_by_team or winner not in {home, away}:
-            continue
-        xs.append(net_by_team[home] - net_by_team[away])
-        ys.append(1 if winner == home else 0)
-    n = len(xs)
-    if n < MIN_GAMES_FOR_WIN_FIT:
-        return default
-    b0, b1 = _logistic_fit(xs, ys)
-    # Guard against degenerate fits on odd data; keep the prior instead.
-    if not (math.isfinite(b0) and math.isfinite(b1)) or b1 < 0 or b1 > 1.0:
-        return default
-    return b0, b1, n
+        return HOME_COURT_POINTS_PRIOR, "prior"
+    frame = game_results.copy()
+    if "home_margin" not in frame.columns:
+        return HOME_COURT_POINTS_PRIOR, "prior"
+    frame["_margin"] = pd.to_numeric(frame["home_margin"], errors="coerce")
+    frame = frame.dropna(subset=["_margin"])
+    n = len(frame)
+    if n < MIN_GAMES_FOR_HOME_COURT:
+        return HOME_COURT_POINTS_PRIOR, "prior"
+
+    margin_hca = float(frame["_margin"].mean())
+    winrate_hca: float | None = None
+    p_home: float | None = None
+    if "winner" in frame.columns and "home" in frame.columns:
+        home = frame["home"].astype(str).str.upper()
+        winner = frame["winner"].astype(str).str.upper()
+        decided = winner.ne("") & winner.ne("NAN") & home.ne("")
+        if int(decided.sum()) >= MIN_GAMES_FOR_HOME_COURT:
+            p_home = float((winner[decided] == home[decided]).mean())
+            winrate_hca = GAME_MARGIN_SIGMA * _inv_phi(p_home)
+
+    if winrate_hca is None:
+        blended = margin_hca
+        basis = f"shrunk mean margin (n={n})"
+    else:
+        # Two-thirds weight on the win-rate mapping so moneyline and spread do
+        # not inherit blowout-inflated home court.
+        blended = (margin_hca + 2.0 * winrate_hca) / 3.0
+        basis = (
+            f"win-rate blend (n={n}, home win {p_home:.0%}, "
+            f"mean margin {margin_hca:.1f})"
+        )
+
+    value = (n * blended + HOME_COURT_SHRINK_K * HOME_COURT_POINTS_PRIOR) / (
+        n + HOME_COURT_SHRINK_K
+    )
+    return min(max(value, 0.0), HOME_COURT_MAX), basis
 
 
-def _logistic_fit(xs: list[float], ys: list[int], iterations: int = 200, lr: float = 0.01) -> tuple[float, float]:
-    """Two-parameter logistic regression via plain gradient descent (no new deps)."""
-    b0, b1 = 0.0, 0.05
-    n = len(xs)
-    for _ in range(iterations):
-        g0 = g1 = 0.0
-        for x, y in zip(xs, ys):
-            p = 1.0 / (1.0 + math.exp(-(b0 + b1 * x)))
-            g0 += p - y
-            g1 += (p - y) * x
-        b0 -= lr * g0 / n
-        b1 -= lr * g1 / n
-    return b0, b1
+def _inv_phi(probability: float) -> float:
+    clipped = min(max(float(probability), 1e-6), 1.0 - 1e-6)
+    return float(_UNIT_NORMAL.inv_cdf(clipped))
 
 
-def win_probability(rating_gap: float, b0: float, b1: float) -> float:
-    return 1.0 / (1.0 + math.exp(-(b0 + b1 * rating_gap)))
+def win_probability_from_margin(margin: float, sigma: float = GAME_MARGIN_SIGMA) -> float:
+    """P(home wins) from the projected home margin under the game-level Normal."""
+    return float(estimate_over_probability(margin, 0.0, sigma=sigma))
 
 
 def build_game_projections(
@@ -109,8 +106,9 @@ def build_game_projections(
     """
     team_index = teams.set_index("abbr").to_dict(orient="index")
     home_court, home_court_basis = estimate_home_court(game_results)
-    b0, b1, fit_n = fit_win_probability(game_results, teams)
-    win_basis = f"logistic fit on {fit_n} games" if fit_n else "heuristic prior (insufficient finished games)"
+    win_basis = (
+        f"Normal CDF of projected margin (σ={GAME_MARGIN_SIGMA:g})"
+    )
     run_id = uuid.uuid4().hex[:12]
     generated_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
 
@@ -128,12 +126,12 @@ def build_game_projections(
         pace = (float(away_team["pace"]) + float(home_team["pace"])) / 2
         away_eff = (float(away_team["ortg"]) + float(home_team["drtg"])) / 2
         home_eff = (float(home_team["ortg"]) + float(away_team["drtg"])) / 2
-        away_pts = away_eff * pace / 100 - home_court / 2
-        home_pts = home_eff * pace / 100 + home_court / 2
-        spread_home = home_pts - away_pts
-        total = away_pts + home_pts
-        rating_gap = float(home_team["net"]) - float(away_team["net"])
-        home_win = win_probability(rating_gap, b0, b1)
+        away_pts = round(away_eff * pace / 100 - home_court / 2, 1)
+        home_pts = round(home_eff * pace / 100 + home_court / 2, 1)
+        spread_home = round(home_pts - away_pts, 1)
+        total = round(away_pts + home_pts, 1)
+        # Price the posted (rounded) margin so moneyline and spread cannot disagree.
+        home_win = win_probability_from_margin(spread_home)
         rows.append(
             {
                 "run_id": run_id,
@@ -142,10 +140,10 @@ def build_game_projections(
                 "time": game.get("time", ""),
                 "away": away,
                 "home": home,
-                "projected_away_pts": round(away_pts, 1),
-                "projected_home_pts": round(home_pts, 1),
-                "projected_total": round(total, 1),
-                "projected_home_spread": round(spread_home, 1),
+                "projected_away_pts": away_pts,
+                "projected_home_pts": home_pts,
+                "projected_total": total,
+                "projected_home_spread": spread_home,
                 "projected_pace": round(pace, 1),
                 "away_ortg": round(float(away_team["ortg"]), 1),
                 "away_drtg": round(float(away_team["drtg"]), 1),

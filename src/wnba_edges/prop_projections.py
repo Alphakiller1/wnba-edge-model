@@ -18,6 +18,7 @@ import pandas as pd
 from .betting import estimate_over_probability, evaluate_over_under, value_layer
 from .features import board_eligible
 from .market_data import MAX_QUOTE_AGE_HOURS, _quote_age_hours
+from .projections import GAME_MARGIN_SIGMA
 from .sigma import MARKET_STAT_COLUMNS, load_market_sigmas, resolve_sigma
 
 SLATE_MARKETS = (
@@ -54,7 +55,7 @@ GAME_MARKET_COLUMNS = [
     "book", "model_prob", "implied_prob", "vig_free", "edge", "tier", "verdict", "priced",
 ]
 
-_GAME_SIGMA = 12.0
+_GAME_SIGMA = GAME_MARGIN_SIGMA
 
 
 def game_market_slate_path(root: Path, season: str) -> Path:

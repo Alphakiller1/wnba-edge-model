@@ -9,13 +9,16 @@ instruction, and nothing here guarantees an outcome.
 ## The four layers
 
 1. **Game projections (model layer).** Baseline score, spread, total, and pace from
-   team offensive/defensive efficiency ratings and blended pace. Home court is
-   estimated empirically from finished games (mean home margin, clamped to 0–4 pts;
-   a 1.5-pt prior is used until 20+ games exist). The home-win probability is a
-   logistic regression of home wins on the net-rating gap, fit on the season's
-   finished games; the dashboard always states the fit basis and sample size.
-   *Limitations:* no injury, lineup, or rest adjustments yet; the rating gap uses
-   current season-to-date ratings for historical games (mild look-ahead in the fit).
+   team offensive/defensive efficiency ratings and blended pace. Home court is the
+   point margin that is consistent with how often home actually wins: the observed
+   home-win rate is mapped through the same 12-point game sigma used to price
+   covers, blended with mean home margin (win-rate weighted 2:1 so blowouts cannot
+   dominate), then shrunk toward a 1.2-pt prior and clamped to 0–3 pts. The
+   home-win probability is the Normal CDF of that projected margin — moneyline and
+   spread always name the same favorite. The dashboard states the home-court basis
+   and sample size.
+   *Limitations:* no injury, lineup, or rest adjustments yet; home court is a
+   league-wide constant, not a team-specific split.
 
 2. **Market snapshot (market layer).** Odds stored from The Odds API with book
    attribution and a `fetched_at` timestamp. Quotes older than 12 hours are refused
@@ -102,7 +105,9 @@ Finished-game box scores are cached and never re-downloaded.
 - No injury/news ingestion; a player ruled out after a projection is graded as void
   (`no game within window`), not silently excluded.
 - Game projections have no travel/rest/back-to-back adjustments.
-- The logistic win-probability fit uses current ratings for past games.
+- Home-win probability is derived from the projected margin (Normal σ = 12), not a
+  separate logistic on current ratings, so a look-ahead rating gap cannot disagree
+  with the posted spread.
 - Prop projections are rate-based; they do not model matchup or usage redistribution.
 - Sample sizes are small early in a season; the dashboard labels every fitted
   quantity with its basis and n.

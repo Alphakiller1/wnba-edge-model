@@ -17,6 +17,7 @@ import pandas as pd
 
 from .betting import estimate_over_probability
 from .predictions import GAME_COLUMNS, PROP_COLUMNS, game_log_path, prop_log_path
+from .projections import GAME_MARGIN_SIGMA
 from .prop_projections import MARKET_LABEL, game_market_slate_path, prop_slate_path
 
 TOP_N = 10
@@ -24,7 +25,7 @@ PRIOR_N = 12.0
 MIN_MODEL_PROB = 0.52
 MIN_BAND_N = 8
 MAX_PER_FAMILY = 4
-GAME_SIGMA = 12.0  # same Normal sigma used to price game spread/total sides
+GAME_SIGMA = GAME_MARGIN_SIGMA  # same Normal sigma used to price game spread/total sides
 PROB_BANDS = (("50–59%", 0.50, 0.60), ("60–69%", 0.60, 0.70), ("70%+", 0.70, 1.01))
 
 BEST_BET_COLUMNS = [

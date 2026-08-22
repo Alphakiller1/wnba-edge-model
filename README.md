@@ -27,9 +27,9 @@ GitHub Pages on every push to `main` from the committed processed data.
 2. **Features** — usage/minutes/form/impact signals, z-scored and **shrunk by sample
    size** so 1-minute players cannot top the board; low-sample players are flagged
    and excluded from the public watchboard.
-3. **Game projections** — team-efficiency baseline with an **empirical home court**
-   and a **logistic home-win probability fit on finished games** (basis and n are
-   always displayed).
+3. **Game projections** — team-efficiency baseline with a **win-rate-blended home
+   court** (blowouts do not inflate the home bump) and a **home-win probability
+   from the projected margin** so moneyline and spread favorites agree.
 4. **Prop pricing** — Normal approximation with **per-market sigma fitted from real
    game logs** (per-player where the sample allows), minutes-adjusted projections,
    **pairwise de-vigged** market probabilities, tiers (Lean / Standard / Strong),
