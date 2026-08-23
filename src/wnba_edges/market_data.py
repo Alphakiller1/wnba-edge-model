@@ -25,11 +25,11 @@ ODDS_API_KEY = os.getenv("ODDS_API_KEY", "")
 ODDS_SPORT_KEY = os.getenv("WNBA_ODDS_SPORT_KEY", "basketball_wnba")
 ODDS_REGIONS = os.getenv("ODDS_REGIONS", "us")
 ODDS_FORMAT = "american"
-ODDS_BOOKMAKERS = os.getenv("ODDS_BOOKMAKERS", "")
 
 
 def _bookmakers() -> str:
-    return os.getenv("ODDS_BOOKMAKERS", "") or ODDS_BOOKMAKERS
+    """Live ODDS_BOOKMAKERS env (e.g. fanatics). Empty means any book."""
+    return os.getenv("ODDS_BOOKMAKERS", "").strip()
 
 
 def requested_bookmakers() -> set[str]:
