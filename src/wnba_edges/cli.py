@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
@@ -12,7 +13,7 @@ from .betting import evaluate_over_under
 from .espnanalytics import fetch_box, write_box
 from .features import MIN_GAMES_FOR_BOARD, MIN_MPG_FOR_BOARD, board_eligible, build_player_features, load_jsonl
 from .herhoopstats import fetch_research_table, write_table
-from .market_data import MAX_QUOTE_AGE_HOURS, best_price_player_prop
+from .market_data import MAX_QUOTE_AGE_HOURS, best_price_player_prop, filter_odds_to_requested_books
 from .predictions import (
     backfill_logged_game_lines,
     grade_games,
@@ -265,7 +266,15 @@ def _load_odds() -> pd.DataFrame | None:
                 frames.append(frame)
     if not frames:
         return None
-    return pd.concat(frames, ignore_index=True)
+    combined = pd.concat(frames, ignore_index=True)
+    filtered = filter_odds_to_requested_books(combined)
+    allowed = os.getenv("ODDS_BOOKMAKERS", "").strip()
+    if allowed:
+        n = 0 if filtered is None else len(filtered)
+        print(f"pricing against bookmakers={allowed} ({n} stored quote(s); other books ignored)")
+    if filtered is None or filtered.empty:
+        return None
+    return filtered
 
 
 def _build_game_projections(args) -> None:

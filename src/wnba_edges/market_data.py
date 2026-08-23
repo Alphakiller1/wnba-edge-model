@@ -30,6 +30,27 @@ ODDS_BOOKMAKERS = os.getenv("ODDS_BOOKMAKERS", "")
 
 def _bookmakers() -> str:
     return os.getenv("ODDS_BOOKMAKERS", "") or ODDS_BOOKMAKERS
+
+
+def requested_bookmakers() -> set[str]:
+    """Odds API book keys the caller locked this run to (empty = any book)."""
+    return {part.strip().lower() for part in _bookmakers().split(",") if part.strip()}
+
+
+def filter_odds_to_requested_books(frame: pd.DataFrame | None) -> pd.DataFrame | None:
+    """Drop quotes from books that were not requested.
+
+    A Fanatics-only pull must not be priced against leftover DraftKings / FanDuel
+    rows sitting in odds_history.csv. Empty after the filter means unpriced — we
+    do not fall back to other books.
+    """
+    if frame is None or frame.empty:
+        return frame
+    allowed = requested_bookmakers()
+    if not allowed or "book" not in frame.columns:
+        return frame
+    filtered = frame[frame["book"].astype(str).str.lower().isin(allowed)].copy()
+    return filtered
 ODDS_GAME_MARKETS = "h2h,spreads,totals"
 ODDS_PROP_MARKETS = os.getenv(
     "WNBA_PROP_MARKETS",
@@ -108,6 +129,20 @@ def fetch_slate(*, props: bool = False) -> list[dict]:
         rows: list[dict] = []
         for event_id in events.values():
             rows.extend(fetch_event_odds(event_id, props=True))
+        locked = requested_bookmakers()
+        if locked:
+            books = sorted({str(row.get("book") or "").lower() for row in rows if row.get("book")})
+            print(
+                f"book-locked fetch ({', '.join(sorted(locked))}): "
+                f"{len(events)} event(s), {len(rows)} quote(s), books={books or ['(none)']}"
+            )
+        if not rows:
+            print("No live WNBA lines returned.")
+            if locked:
+                store(rows, replace_latest=True)
+            if _LAST_USAGE:
+                print(f"API quota: used {_LAST_USAGE.get('used')}, remaining {_LAST_USAGE.get('remaining')}.")
+            return rows
         store(rows, replace_latest=True)
     else:
         params = {"regions": ODDS_REGIONS, "markets": ODDS_GAME_MARKETS, "oddsFormat": ODDS_FORMAT}
@@ -119,8 +154,18 @@ def fetch_slate(*, props: bool = False) -> list[dict]:
         rows = []
         for event in payload:
             rows.extend(_normalize_event(event, fetched_at))
+        locked = requested_bookmakers()
+        if locked:
+            books = sorted({str(row.get("book") or "").lower() for row in rows if row.get("book")})
+            print(
+                f"book-locked fetch ({', '.join(sorted(locked))}): "
+                f"{len(payload)} event(s), {len(rows)} quote(s), books={books or ['(none)']}"
+            )
         if not rows:
             print("No live WNBA lines returned.")
+            # A locked-book miss must not keep yesterday's other-book snapshot as "latest".
+            if locked:
+                store(rows, replace_latest=True)
             return rows
         store(rows, replace_latest=True)
     if _LAST_USAGE:
@@ -193,15 +238,15 @@ def _normalize_outcome(base: dict, book: str, market_key: str, outcome: dict) ->
 
 
 def store(rows: list[dict], *, replace_latest: bool = False) -> None:
-    if not rows:
-        return
     ODDS_DIR.mkdir(parents=True, exist_ok=True)
     frame = pd.DataFrame(rows, columns=COLUMNS)
-
-    if ODDS_HISTORY_CSV.exists():
-        frame.to_csv(ODDS_HISTORY_CSV, mode="a", header=False, index=False)
-    else:
-        frame.to_csv(ODDS_HISTORY_CSV, index=False)
+    if rows:
+        if ODDS_HISTORY_CSV.exists():
+            frame.to_csv(ODDS_HISTORY_CSV, mode="a", header=False, index=False)
+        else:
+            frame.to_csv(ODDS_HISTORY_CSV, index=False)
+    elif not replace_latest:
+        return
 
     if replace_latest or not ODDS_LATEST_CSV.exists():
         latest = frame.astype(str)
@@ -211,7 +256,8 @@ def store(rows: list[dict], *, replace_latest: bool = False) -> None:
         keep = previous[~previous.apply(lambda row: (row["away"], row["home"]) in fetched_games, axis=1)]
         latest = pd.concat([keep, frame.astype(str)], ignore_index=True)
     latest.to_csv(ODDS_LATEST_CSV, index=False)
-    print(f"Stored {len(frame)} WNBA odds rows across {frame.groupby(['away', 'home']).ngroups} game(s).")
+    games = 0 if frame.empty or "away" not in frame.columns else int(frame.groupby(["away", "home"]).ngroups)
+    print(f"Stored {len(frame)} WNBA odds rows across {games} game(s).")
 
 
 def _quote_age_hours(fetched_at: str) -> float | None:
@@ -254,6 +300,9 @@ def best_price_player_prop(
     if not ODDS_LATEST_CSV.exists():
         return None
     frame = pd.read_csv(ODDS_LATEST_CSV, dtype=str).fillna("")
+    frame = filter_odds_to_requested_books(frame)
+    if frame is None or frame.empty:
+        return None
     rows = _prop_rows(frame, player, market, side, line)
     if rows.empty:
         return None
