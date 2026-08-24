@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import sys
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
@@ -47,7 +48,24 @@ ROOT = _PKG_ROOT if (_PKG_ROOT / "data").exists() else Path.cwd()
 DATA = ROOT / "data"
 
 
+def _use_utf8_stdout() -> None:
+    """Keep non-ASCII output (sigma in a basis string, accented names) from killing a command.
+
+    Windows consoles default to cp1252, which cannot encode characters the model prints, and
+    an UnicodeEncodeError there aborts the whole command after its work is already done.
+    """
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if reconfigure is None:
+            continue
+        try:
+            reconfigure(encoding="utf-8", errors="replace")
+        except (OSError, ValueError):
+            pass
+
+
 def main() -> None:
+    _use_utf8_stdout()
     parser = argparse.ArgumentParser(prog="wnba-edges")
     subparsers = parser.add_subparsers(dest="command", required=True)
 

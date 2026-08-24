@@ -295,3 +295,62 @@ def test_voided_game_is_regraded_when_the_result_arrives(tmp_path):
     assert summary["markets"]["moneyline"]["wins"] == 1
     assert summary["markets"]["spread"]["wins"] == 1
     assert summary["markets"]["total"]["wins"] == 1
+
+
+def test_repeated_snapshots_of_one_prop_count_once_in_the_record(tmp_path):
+    """Every run logs the whole slate, so one prop accumulates a snapshot per run.
+
+    Those rows settle against a single real outcome, so counting them all would inflate n
+    (and skew the hit rate toward whichever props stayed on the board longest).
+    """
+    # The same prop, re-forecast three times as the line drifted.
+    _log_prop(tmp_path, line=23.5)
+    _log_prop(tmp_path, line=24.0)
+    _log_prop(tmp_path, line=24.5)
+
+    today = datetime(2026, 7, 20, tzinfo=timezone.utc)
+    outcome = grade_props(tmp_path, _player_logs(), today=today)
+    assert outcome["graded"] == 3, "every snapshot still grades — the audit trail is intact"
+
+    record = results_summary(tmp_path)["props"]["player_points"]
+    assert record["wins"] + record["losses"] == 1, "one prop, one row in the public record"
+    assert record["wins"] == 1
+    assert record["hit_rate"] == 100.0
+
+
+def test_repeated_snapshots_of_one_game_market_count_once(tmp_path):
+    """Re-running the slate re-logs each game market; the public record must not multiply."""
+    from wnba_edges.predictions import grade_markets, log_market_predictions_batch
+    from wnba_edges.prop_projections import build_game_market_slate
+
+    base = {
+        "date": "2026-07-10", "away": "CHI", "home": "MIN",
+        "projected_away_pts": 78.0, "projected_home_pts": 88.0,
+        "projected_total": 166.0, "projected_home_spread": 10.0,
+        "home_win_prob": 0.75, "win_prob_basis": "test",
+        "book_total_line": 160.5, "book_spread_line": -4.5,
+        "book_home_ml": -200, "book_away_ml": 170,
+        "book_spread_odds": -110, "book_spread_opposite": -110,
+        "book_total_over_odds": -110, "book_total_under_odds": -110,
+        "book_ml_book": "draftkings", "book_spread_book": "draftkings",
+        "book_total_book": "draftkings",
+    }
+    # Three separate runs of the same slate, as a daily refresh would produce.
+    for run_id, stamp in (
+        ("r1", "2026-07-08T12:00:00+00:00"),
+        ("r2", "2026-07-09T12:00:00+00:00"),
+        ("r3", "2026-07-10T12:00:00+00:00"),
+    ):
+        game = pd.DataFrame([{**base, "run_id": run_id, "generated_at": stamp}])
+        log_game_projections(tmp_path, game, "2026-27")
+        assert log_market_predictions_batch(tmp_path, build_game_market_slate(game), "2026-27") == 3
+
+    results = pd.DataFrame(
+        [{"date": "2026-07-10", "away": "CHI", "home": "MIN", "awayPts": 80, "homePts": 90, "winner": "MIN"}]
+    )
+    assert grade_markets(tmp_path, results)["graded"] == 9, "all 9 rows stay in the audit log"
+
+    markets = results_summary(tmp_path)["markets"]
+    moneyline = markets["moneyline"]
+    assert moneyline["wins"] + moneyline["losses"] == 1, "one game, one moneyline row"
+    assert moneyline["wins"] == 1

@@ -709,6 +709,24 @@ def _backfill_total_grade(frame: pd.DataFrame, idx, row: pd.Series) -> None:
     ]
 
 
+def _latest_forecast_per(frame: pd.DataFrame, keys: list[str]) -> pd.DataFrame:
+    """Collapse repeated snapshots of one prediction down to its most recent forecast.
+
+    Every run logs the whole upcoming slate, so a game forecast on four runs settles four
+    times against one real outcome. Those rows are perfectly correlated: counting them all
+    inflates n (and tightens Brier) without adding evidence. The full log is still the audit
+    trail — only the public record is collapsed.
+    """
+    if frame.empty or not set(keys).issubset(frame.columns):
+        return frame
+    ordered = frame.copy()
+    ordered["_recorded_sort"] = pd.to_datetime(
+        ordered["recorded_at"], errors="coerce", utc=True
+    )
+    ordered = ordered.sort_values([*keys, "_recorded_sort"]).drop_duplicates(keys, keep="last")
+    return ordered.drop(columns=["_recorded_sort"])
+
+
 def results_summary(root: Path) -> dict:
     """Aggregate graded prediction performance for the CLI and dashboard."""
     props = _load(prop_log_path(root), PROP_COLUMNS)
@@ -718,6 +736,7 @@ def results_summary(root: Path) -> dict:
     settled = props[props["settled"].astype(str).str.lower() == "true"]
     reason = settled["ungraded_reason"].fillna("").astype(str).str.strip()
     tracked = settled[reason.isin(["", "nan", "<NA>"])]
+    tracked = _latest_forecast_per(tracked, ["game_date", "player", "market"])
     for market, group in tracked.groupby("market"):
         wins = (group["won"].astype(str) == "True").sum()
         losses = (group["won"].astype(str) == "False").sum()
@@ -743,6 +762,9 @@ def results_summary(root: Path) -> dict:
     settled_markets = markets[markets["settled"].astype(str).str.lower() == "true"]
     market_reason = settled_markets["ungraded_reason"].fillna("").astype(str).str.strip()
     tracked_markets = settled_markets[market_reason.isin(["", "nan", "<NA>"])]
+    tracked_markets = _latest_forecast_per(
+        tracked_markets, ["game_date", "away", "home", "market"]
+    )
     for market, group in tracked_markets.groupby("market"):
         wins = (group["won"].astype(str) == "True").sum()
         losses = (group["won"].astype(str) == "False").sum()
@@ -764,11 +786,9 @@ def results_summary(root: Path) -> dict:
         # Preserve every run in the CSV, but score the production record from the most
         # recent forecast available for each actual game.  A game refreshed three times
         # should produce three audit rows, not triple the public W-L record.
-        scored["_recorded_sort"] = pd.to_datetime(scored["recorded_at"], errors="coerce", utc=True)
-        latest = (
-            scored.sort_values(["date", "away", "home", "_recorded_sort"])
-            .drop_duplicates(["date", "away", "home"], keep="last")
-            .copy()
+        latest = _latest_forecast_per(scored, ["date", "away", "home"]).copy()
+        latest["_recorded_sort"] = pd.to_datetime(
+            latest["recorded_at"], errors="coerce", utc=True
         )
         latest = latest.sort_values(["date", "_recorded_sort"], ascending=[False, False])
         correct = (latest["winner_correct"].astype(str) == "True").sum()
