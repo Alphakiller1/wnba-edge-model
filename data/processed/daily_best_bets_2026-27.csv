@@ -1,1 +1,11 @@
 rank,slate_date,family,market,game_date,away,home,matchup,selection,player,side,line,odds,book,model_prob,hist_n,hist_wins,hist_losses,hist_hit_rate,hist_band,hit_likelihood,edge,tier,verdict
+1,2026-08-24,prop,player_threes,2026-08-24,ATL,LAS,ATL @ LAS,Jordin Canada OVER 0.5 3PM,Jordin Canada,OVER,0.5,-169.0,betonlineag,0.7786,24,17,7,70.8,70%+,0.7211,0.1876,Review,REVIEW
+2,2026-08-24,prop,player_points,2026-08-24,ATL,LAS,ATL @ LAS,Angel Reese UNDER 17.5 PTS,Angel Reese,UNDER,17.5,-114.0,betonlineag,0.7276,8,6,2,75.0,70%+,0.7166,0.2276,Review,REVIEW
+3,2026-08-24,prop,player_threes,2026-08-24,ATL,LAS,ATL @ LAS,Nneka Ogwumike OVER 0.5 3PM,Nneka Ogwumike,OVER,0.5,-215.0,betrivers,0.733,24,17,7,70.8,70%+,0.7059,0.0781,Standard,PLAY
+4,2026-08-24,prop,player_rebounds,2026-08-24,GSV,MIN,GSV @ MIN,Nia Coffey OVER 2.5 REB,Nia Coffey,OVER,2.5,-128.0,betonlineag,0.7324,10,7,3,70.0,70%+,0.7025,0.2047,Review,REVIEW
+5,2026-08-24,moneyline,moneyline,2026-08-24,ATL,LAS,ATL @ LAS,ATL ML,,ATL,,-560.0,betus,0.6115,12,8,4,66.7,60–69%,0.6272,-0.212,Pass,PASS
+6,2026-08-24,moneyline,moneyline,2026-08-24,GSV,MIN,GSV @ MIN,MIN ML,,MIN,,-208.0,mybookieag,0.576,18,12,6,66.7,50–59%,0.6204,-0.0829,Pass,PASS
+7,2026-08-24,spread,spread,2026-08-24,GSV,MIN,GSV @ MIN,GSV +4.5,,GSV,-4.5,100.0,bovada,0.5727,9,5,4,55.6,50–59%,0.561,0.0844,Strong,PLAY
+8,2026-08-24,spread,spread,2026-08-24,ATL,LAS,ATL @ LAS,LAS +10.5,,LAS,10.5,-108.0,draftkings,0.723,20,9,11,45.0,all,0.5552,0.2172,Review,REVIEW
+9,2026-08-24,total,total,2026-08-24,GSV,MIN,GSV @ MIN,Over 161.5,,OVER,161.5,-105.0,fanduel,0.6973,11,4,7,36.4,60–69%,0.5478,0.2029,Review,REVIEW
+10,2026-08-24,total,total,2026-08-24,ATL,LAS,ATL @ LAS,Under 181.5,,UNDER,181.5,-103.0,mybookieag,0.6083,11,4,7,36.4,60–69%,0.5013,0.1163,Strong,PLAY
