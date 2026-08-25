@@ -60,8 +60,9 @@ wnba-edges best-bets --season 2026-27
 # Fit per-market prop volatility from real game logs
 wnba-edges fit-sigma --season 2026-27
 
-# Optional: pull live player-prop quotes (quota-heavy; requires ODDS_API_KEY)
-python -m wnba_edges.market_data --fetch-slate --props
+# Pull only the four modeled player-prop markets and preserve stored game lines.
+# Locking to FanDuel avoids mixing books in the slate (requires ODDS_API_KEY).
+python -m wnba_edges.market_data --fetch-slate --props --bookmakers fanduel
 wnba-edges build-prop-projections --season 2026-27
 
 # Price a prop (evaluation is logged for grading; quotes >12h old are refused)

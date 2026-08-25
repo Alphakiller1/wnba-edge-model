@@ -54,7 +54,7 @@ def filter_odds_to_requested_books(frame: pd.DataFrame | None) -> pd.DataFrame |
 ODDS_GAME_MARKETS = "h2h,spreads,totals"
 ODDS_PROP_MARKETS = os.getenv(
     "WNBA_PROP_MARKETS",
-    "player_points,player_rebounds,player_assists,player_threes,player_blocks,player_steals",
+    "player_points,player_rebounds,player_assists,player_threes",
 )
 
 # Quotes older than this are refused unless the caller explicitly allows stale
@@ -107,8 +107,14 @@ def list_events() -> dict[tuple[str, str], str]:
     return out
 
 
-def fetch_event_odds(event_id: str, props: bool = False) -> list[dict]:
-    markets = ODDS_GAME_MARKETS + ("," + ODDS_PROP_MARKETS if props else "")
+def fetch_event_odds(
+    event_id: str,
+    props: bool = False,
+    *,
+    props_only: bool = False,
+) -> list[dict]:
+    """Fetch one event without paying twice for markets already in the snapshot."""
+    markets = ODDS_PROP_MARKETS if props_only else ODDS_GAME_MARKETS + ("," + ODDS_PROP_MARKETS if props else "")
     params = {"regions": ODDS_REGIONS, "markets": markets, "oddsFormat": ODDS_FORMAT}
     if _bookmakers():
         params["bookmakers"] = _bookmakers()
@@ -127,8 +133,18 @@ def fetch_slate(*, props: bool = False) -> list[dict]:
     if props:
         events = list_events()
         rows: list[dict] = []
+        failed_events = 0
         for event_id in events.values():
-            rows.extend(fetch_event_odds(event_id, props=True))
+            try:
+                # Player props are billed per event and market. Game lines came from
+                # the bulk endpoint already, so requesting them here wastes quota.
+                rows.extend(fetch_event_odds(event_id, props_only=True))
+            except SystemExit as exc:
+                # Keep quotes from successful calls if quota/network failure happens
+                # part-way through the slate. The old implementation discarded them.
+                failed_events += 1
+                print(f"WARNING: prop fetch stopped after a failed event: {exc}")
+                break
         locked = requested_bookmakers()
         if locked:
             books = sorted({str(row.get("book") or "").lower() for row in rows if row.get("book")})
@@ -138,12 +154,12 @@ def fetch_slate(*, props: bool = False) -> list[dict]:
             )
         if not rows:
             print("No live WNBA lines returned.")
-            if locked:
-                store(rows, replace_latest=True)
             if _LAST_USAGE:
                 print(f"API quota: used {_LAST_USAGE.get('used')}, remaining {_LAST_USAGE.get('remaining')}.")
             return rows
-        store(rows, replace_latest=True)
+        store(rows, replace_markets=_market_names(ODDS_PROP_MARKETS))
+        prop_games = len({row.get("event_id") for row in rows if str(row.get("market", "")).startswith("player_")})
+        print(f"player-prop coverage: {prop_games}/{len(events)} event(s)" + (f"; {failed_events} failed" if failed_events else ""))
     else:
         params = {"regions": ODDS_REGIONS, "markets": ODDS_GAME_MARKETS, "oddsFormat": ODDS_FORMAT}
         if _bookmakers():
@@ -237,7 +253,16 @@ def _normalize_outcome(base: dict, book: str, market_key: str, outcome: dict) ->
     }
 
 
-def store(rows: list[dict], *, replace_latest: bool = False) -> None:
+def _market_names(markets: str) -> set[str]:
+    return {market.strip() for market in markets.split(",") if market.strip()}
+
+
+def store(
+    rows: list[dict],
+    *,
+    replace_latest: bool = False,
+    replace_markets: set[str] | None = None,
+) -> None:
     ODDS_DIR.mkdir(parents=True, exist_ok=True)
     frame = pd.DataFrame(rows, columns=COLUMNS)
     if rows:
@@ -253,7 +278,12 @@ def store(rows: list[dict], *, replace_latest: bool = False) -> None:
     else:
         fetched_games = set(zip(frame["away"], frame["home"]))
         previous = pd.read_csv(ODDS_LATEST_CSV, dtype=str).fillna("")
-        keep = previous[~previous.apply(lambda row: (row["away"], row["home"]) in fetched_games, axis=1)]
+        same_game = previous.apply(lambda row: (row["away"], row["home"]) in fetched_games, axis=1)
+        if replace_markets:
+            replaced_market = previous["market"].isin(replace_markets)
+            keep = previous[~(same_game & replaced_market)]
+        else:
+            keep = previous[~same_game]
         latest = pd.concat([keep, frame.astype(str)], ignore_index=True)
     latest.to_csv(ODDS_LATEST_CSV, index=False)
     games = 0 if frame.empty or "away" not in frame.columns else int(frame.groupby(["away", "home"]).ngroups)
@@ -355,7 +385,11 @@ def main() -> None:
         action="store_true",
         help="Pull ML/spread/total for every live WNBA game (one API call).",
     )
-    parser.add_argument("--props", action="store_true")
+    parser.add_argument(
+        "--props",
+        action="store_true",
+        help="Pull only the modeled player props for each event, preserving stored game lines.",
+    )
     parser.add_argument(
         "--bookmakers",
         default=None,

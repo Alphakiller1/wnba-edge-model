@@ -1,0 +1,69 @@
+name: daily WNBA model
+
+on:
+  schedule:
+    # 2:15 PM Eastern during daylight time, after most same-day prop boards open.
+    - cron: "15 18 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-wnba-model
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    env:
+      ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+      ODDS_BOOKMAKERS: fanduel
+      WNBA_PROP_MARKETS: player_points,player_rebounds,player_assists,player_threes
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install model
+        run: pip install .
+      - name: Fetch FanDuel game and modeled prop lines
+        run: |
+          test -n "$ODDS_API_KEY" || { echo "ODDS_API_KEY secret is missing"; exit 1; }
+          python -m wnba_edges.market_data --fetch-slate --bookmakers fanduel
+          python -m wnba_edges.market_data --fetch-slate --props --bookmakers fanduel
+      - name: Grade prior forecasts and run current slate
+        run: |
+          python -m wnba_edges.cli grade-predictions --season 2026-27
+          python -m wnba_edges.cli build-game-projections --season 2026-27 --days 2
+      - name: Require available FanDuel props to reach Best Bets
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import pandas as pd
+
+          props = pd.read_csv(Path("data/processed/prop_projections_2026-27.csv"))
+          bets = pd.read_csv(Path("data/processed/daily_best_bets_2026-27.csv"))
+          priced = props[props["priced"].astype(str).str.lower().isin({"true", "1"})]
+          prop_bets = bets[bets["family"].astype(str).str.lower().eq("prop")]
+          print(f"priced player props: {len(priced)}; player props in Best Bets: {len(prop_bets)}")
+          if not priced.empty and prop_bets.empty:
+              raise SystemExit("Priced FanDuel player props exist but Daily Best Bets contains none")
+          PY
+      - name: Build dashboard
+        run: python -m wnba_edges.cli build-site --season 2026-27 --out docs/index.html
+      - name: Commit the timestamped run and grading state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data docs/index.html
+          if git diff --cached --quiet; then
+            echo "No model data changed"
+            exit 0
+          fi
+          git commit -m "Run daily WNBA model with FanDuel props"
+          git pull --rebase origin main
+          git push origin HEAD:main
