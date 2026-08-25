@@ -32,6 +32,19 @@ def _bookmakers() -> str:
     return os.getenv("ODDS_BOOKMAKERS", "").strip()
 
 
+def odds_scope_params() -> dict[str, str]:
+    """Region/bookmaker params for one Odds API odds call.
+
+    The Odds API bills ``markets x regions`` and the ``bookmakers`` parameter stands in
+    for ``regions`` (each 10 books counts as one region). Sending both would price a
+    book-locked pull at the full region rate for quotes we immediately filter away, so a
+    locked run sends ``bookmakers`` alone — the cheapest pull that still returns both
+    sides of a market.
+    """
+    books = _bookmakers()
+    return {"bookmakers": books} if books else {"regions": ODDS_REGIONS}
+
+
 def requested_bookmakers() -> set[str]:
     """Odds API book keys the caller locked this run to (empty = any book)."""
     return {part.strip().lower() for part in _bookmakers().split(",") if part.strip()}
@@ -109,9 +122,7 @@ def list_events() -> dict[tuple[str, str], str]:
 
 def fetch_event_odds(event_id: str, props: bool = False) -> list[dict]:
     markets = ODDS_GAME_MARKETS + ("," + ODDS_PROP_MARKETS if props else "")
-    params = {"regions": ODDS_REGIONS, "markets": markets, "oddsFormat": ODDS_FORMAT}
-    if _bookmakers():
-        params["bookmakers"] = _bookmakers()
+    params = {**odds_scope_params(), "markets": markets, "oddsFormat": ODDS_FORMAT}
     event = _get(f"/sports/{ODDS_SPORT_KEY}/events/{event_id}/odds", params)
     return _normalize_event(event, datetime.now(timezone.utc).isoformat(timespec="seconds"))
 
@@ -145,9 +156,7 @@ def fetch_slate(*, props: bool = False) -> list[dict]:
             return rows
         store(rows, replace_latest=True)
     else:
-        params = {"regions": ODDS_REGIONS, "markets": ODDS_GAME_MARKETS, "oddsFormat": ODDS_FORMAT}
-        if _bookmakers():
-            params["bookmakers"] = _bookmakers()
+        params = {**odds_scope_params(), "markets": ODDS_GAME_MARKETS, "oddsFormat": ODDS_FORMAT}
         payload = _get(f"/sports/{ODDS_SPORT_KEY}/odds", params)
         if not isinstance(payload, list):
             raise SystemExit(f"Unexpected Odds API payload: {type(payload).__name__}")

@@ -267,9 +267,6 @@ LAS,Los Angeles Sparks,77,2026-08-18,1787011200000.0,35.0,CON,Connecticut Sun,85
 NYL,New York Liberty,86,2026-08-18,1787011200000.0,54.0,CHI,Chicago Sky,93,1022600265.0,NYL,7,Aug,False,88.0,2026-27,regular_season,"N. Cloud — 35 pts, 9 reb",CHI,179,7,L,W,
 MIN,Minnesota Lynx,77,2026-08-19,1787097600000.0,16.0,GSV,Golden State Valkyries,66,1022600268.0,GSV,11,Aug,False,73.0,2026-27,regular_season,"O. Miles — 20 pts, 7 ast",MIN,143,-11,W,L,
 TOR,Toronto Tempo,82,2026-08-19,1787097600000.0,28.0,WAS,Washington Mystics,93,1022600267.0,TOR,11,Aug,False,77.5,2026-27,regular_season,"K. Iriafen — 21 pts, 13 reb",WAS,175,11,L,W,
-GSV,,70,2026-08-21,,,CHI,,73,,GSV,3,,,,2026-27,,,CHI,143,3,L,W,espn_scoreboard
-MIN,,94,2026-08-21,,,WAS,,84,,WAS,10,,,,2026-27,,,MIN,178,-10,W,L,espn_scoreboard
-PDX,,79,2026-08-21,,,TOR,,82,,PDX,3,,,,2026-27,,,TOR,161,3,L,W,espn_scoreboard
 ATL,,99,2026-08-22,,,PHX,,89,,PHX,10,,,,2026-27,,,ATL,188,-10,W,L,espn_scoreboard
 CON,,68,2026-08-22,,,LAS,,77,,CON,9,,,,2026-27,,,LAS,145,9,L,W,espn_scoreboard
 IND,,102,2026-08-22,,,NYL,,109,,IND,7,,,,2026-27,,,NYL,211,7,L,W,espn_scoreboard
@@ -277,3 +274,5 @@ IND,,113,2026-08-23,,,CHI,,90,,CHI,23,,,,2026-27,,,IND,203,-23,W,L,espn_scoreboa
 LVA,,88,2026-08-23,,,TOR,,78,,TOR,10,,,,2026-27,,,LVA,166,-10,W,L,espn_scoreboard
 SEA,,70,2026-08-23,,,DAL,,92,,SEA,22,,,,2026-27,,,DAL,162,22,L,W,espn_scoreboard
 WAS,,105,2026-08-23,,,PDX,,100,,PDX,5,,,,2026-27,,,WAS,205,-5,W,L,espn_scoreboard
+ATL,,78,2026-08-24,,,LAS,,71,,LAS,7,,,,2026-27,,,ATL,149,-7,W,L,espn_scoreboard
+GSV,,80,2026-08-24,,,MIN,,66,,MIN,14,,,,2026-27,,,GSV,146,-14,W,L,espn_scoreboard

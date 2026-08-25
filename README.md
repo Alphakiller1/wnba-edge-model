@@ -61,7 +61,11 @@ wnba-edges best-bets --season 2026-27
 wnba-edges fit-sigma --season 2026-27
 
 # Optional: pull live player-prop quotes (quota-heavy; requires ODDS_API_KEY)
-python -m wnba_edges.market_data --fetch-slate --props
+# Lock the pull to one book with --bookmakers (or $env:ODDS_BOOKMAKERS). The Odds API
+# bills markets x regions and `bookmakers` stands in for `regions`, so a single-book
+# pull is the cheapest one that still returns both sides for de-vigging — and stored
+# quotes from other books are ignored rather than silently mixed into the pricing.
+python -m wnba_edges.market_data --fetch-slate --props --bookmakers fanduel
 wnba-edges build-prop-projections --season 2026-27
 
 # Price a prop (evaluation is logged for grading; quotes >12h old are refused)
