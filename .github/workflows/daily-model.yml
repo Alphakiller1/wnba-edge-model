@@ -5,9 +5,17 @@ on:
     # 2:15 PM Eastern during daylight time, after most same-day prop boards open.
     - cron: "15 18 * * *"
   workflow_dispatch:
+    inputs:
+      refresh_model:
+        description: Fetch odds and run the model before publishing
+        required: true
+        type: boolean
+        default: true
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 concurrency:
   group: daily-wnba-model
@@ -16,6 +24,9 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     env:
       ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
       ODDS_BOOKMAKERS: fanduel
@@ -31,15 +42,18 @@ jobs:
       - name: Install model
         run: pip install .
       - name: Fetch FanDuel game and modeled prop lines
+        if: github.event_name == 'schedule' || inputs.refresh_model
         run: |
           test -n "$ODDS_API_KEY" || { echo "ODDS_API_KEY secret is missing"; exit 1; }
           python -m wnba_edges.market_data --fetch-slate --bookmakers fanduel
           python -m wnba_edges.market_data --fetch-slate --props --bookmakers fanduel
       - name: Grade prior forecasts and run current slate
+        if: github.event_name == 'schedule' || inputs.refresh_model
         run: |
           python -m wnba_edges.cli grade-predictions --season 2026-27
           python -m wnba_edges.cli build-game-projections --season 2026-27 --days 2
       - name: Require available FanDuel props to reach Best Bets
+        if: github.event_name == 'schedule' || inputs.refresh_model
         run: |
           python - <<'PY'
           from pathlib import Path
@@ -67,3 +81,12 @@ jobs:
           git commit -m "Run daily WNBA model with FanDuel props"
           git pull --rebase origin main
           git push origin HEAD:main
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
