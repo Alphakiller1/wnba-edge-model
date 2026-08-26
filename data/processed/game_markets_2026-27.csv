@@ -1,13 +1,13 @@
 run_id,generated_at,game_date,away,home,market,projection,projection_basis,side,line,odds,opposite_odds,book,model_prob,implied_prob,vig_free,edge,tier,verdict,priced
-fcd8a48d4b72,2026-08-26T17:34:56+00:00,2026-08-26,GSV,CON,moneyline,0.6826,Normal CDF of projected margin (σ=12),GSV,,-950,680,fanduel,0.6826,0.8759,True,-0.1933,Pass,PASS,True
-fcd8a48d4b72,2026-08-26T17:34:56+00:00,2026-08-26,GSV,CON,spread,-5.7,projected home margin,CON,13.5,-104,-105,fanduel,0.7422,0.4988,True,0.2433,Review,REVIEW,True
-fcd8a48d4b72,2026-08-26T17:34:56+00:00,2026-08-26,GSV,CON,total,162.9,projected total,OVER,151.5,-110,-110,fanduel,0.8289,0.5,True,0.3289,Review,REVIEW,True
-fcd8a48d4b72,2026-08-26T17:34:56+00:00,2026-08-26,TOR,SEA,moneyline,0.5727,Normal CDF of projected margin (σ=12),SEA,,-194,225,fanduel,0.5727,0.682,True,-0.1093,Pass,PASS,True
-fcd8a48d4b72,2026-08-26T17:34:56+00:00,2026-08-26,TOR,SEA,spread,2.2,projected home margin,TOR,-6.5,-104,-118,fanduel,0.64,0.485,True,0.1549,Review,REVIEW,True
-fcd8a48d4b72,2026-08-26T17:34:56+00:00,2026-08-26,TOR,SEA,total,174.4,projected total,UNDER,175.5,-112,-108,fanduel,0.5365,0.5043,True,0.0322,Lean,PLAY,True
-fcd8a48d4b72,2026-08-26T17:34:56+00:00,2026-08-27,GSV,NYL,moneyline,0.5166,Normal CDF of projected margin (σ=12),GSV,,104,-128,fanduel,0.5166,0.4661,True,0.0505,Standard,PLAY,True
-fcd8a48d4b72,2026-08-26T17:34:56+00:00,2026-08-27,GSV,NYL,spread,-0.5,projected home margin,GSV,-1.5,-106,-114,fanduel,0.5662,0.4913,True,0.0748,Standard,PLAY,True
-fcd8a48d4b72,2026-08-26T17:34:56+00:00,2026-08-27,GSV,NYL,total,168.3,projected total,OVER,163.5,-106,-114,fanduel,0.6554,0.4913,True,0.1641,Review,REVIEW,True
-fcd8a48d4b72,2026-08-26T17:34:56+00:00,2026-08-27,WAS,PHX,moneyline,0.5033,Normal CDF of projected margin (σ=12),WAS,,-138,112,fanduel,0.5033,0.5514,True,-0.0481,Pass,PASS,True
-fcd8a48d4b72,2026-08-26T17:34:56+00:00,2026-08-27,WAS,PHX,spread,-0.1,projected home margin,PHX,2.5,-108,-112,fanduel,0.5793,0.4957,True,0.0836,Strong,PLAY,True
-fcd8a48d4b72,2026-08-26T17:34:56+00:00,2026-08-27,WAS,PHX,total,167.9,projected total,UNDER,168.5,-106,-114,fanduel,0.5199,0.4913,True,0.0286,Lean,PLAY,True
+510cd7299524,2026-08-26T20:02:00+00:00,2026-08-26,GSV,CON,moneyline,0.6826,Normal CDF of projected margin (σ=12),GSV,,-950,680,fanduel,0.6826,0.8759,True,-0.1933,Pass,PASS,True
+510cd7299524,2026-08-26T20:02:00+00:00,2026-08-26,GSV,CON,spread,-5.7,projected home margin,CON,13.5,-104,-105,fanduel,0.7422,0.4988,True,0.2433,Review,REVIEW,True
+510cd7299524,2026-08-26T20:02:00+00:00,2026-08-26,GSV,CON,total,162.9,projected total,OVER,151.5,-110,-108,fanduel,0.8289,0.5022,True,0.3267,Review,REVIEW,True
+510cd7299524,2026-08-26T20:02:00+00:00,2026-08-26,TOR,SEA,moneyline,0.5727,Normal CDF of projected margin (σ=12),SEA,,-194,225,fanduel,0.5727,0.682,True,-0.1093,Pass,PASS,True
+510cd7299524,2026-08-26T20:02:00+00:00,2026-08-26,TOR,SEA,spread,2.2,projected home margin,TOR,-6.5,-104,-110,fanduel,0.64,0.4932,True,0.1467,Strong,PLAY,True
+510cd7299524,2026-08-26T20:02:00+00:00,2026-08-26,TOR,SEA,total,174.4,projected total,UNDER,174.5,-108,-112,fanduel,0.5033,0.4957,True,0.0077,Pass,PASS,True
+510cd7299524,2026-08-26T20:02:00+00:00,2026-08-27,GSV,NYL,moneyline,0.5166,Normal CDF of projected margin (σ=12),GSV,,112,-128,fanduel,0.5166,0.4566,True,0.06,Standard,PLAY,True
+510cd7299524,2026-08-26T20:02:00+00:00,2026-08-27,GSV,NYL,spread,-0.5,projected home margin,GSV,-2.5,-114,-106,fanduel,0.5987,0.5087,True,0.09,Strong,PLAY,True
+510cd7299524,2026-08-26T20:02:00+00:00,2026-08-27,GSV,NYL,total,168.3,projected total,OVER,163.5,-106,-114,fanduel,0.6554,0.4913,True,0.1641,Review,REVIEW,True
+510cd7299524,2026-08-26T20:02:00+00:00,2026-08-27,WAS,PHX,moneyline,0.5033,Normal CDF of projected margin (σ=12),WAS,,-138,112,fanduel,0.5033,0.5514,True,-0.0481,Pass,PASS,True
+510cd7299524,2026-08-26T20:02:00+00:00,2026-08-27,WAS,PHX,spread,-0.1,projected home margin,PHX,2.5,-108,-112,fanduel,0.5793,0.4957,True,0.0836,Strong,PLAY,True
+510cd7299524,2026-08-26T20:02:00+00:00,2026-08-27,WAS,PHX,total,167.9,projected total,UNDER,168.5,-106,-110,fanduel,0.5199,0.4955,True,0.0244,Lean,PLAY,True
