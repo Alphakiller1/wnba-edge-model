@@ -7,14 +7,14 @@ import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
-from pathlib import Path
 from typing import Any
 
 import pandas as pd
 
+from .paths import repository_root
 from .teams import TEAM_NAME_TO_ABBR, team_abbr  # noqa: F401 — re-exported for compat
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = repository_root(__file__)
 DATA_DIR = ROOT / "data"
 ODDS_DIR = DATA_DIR / "odds"
 ODDS_LATEST_CSV = ODDS_DIR / "odds_latest.csv"

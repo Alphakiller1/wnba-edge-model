@@ -15,6 +15,7 @@ from .espnanalytics import fetch_box, write_box
 from .features import MIN_GAMES_FOR_BOARD, MIN_MPG_FOR_BOARD, board_eligible, build_player_features, load_jsonl
 from .herhoopstats import fetch_research_table, write_table
 from .market_data import MAX_QUOTE_AGE_HOURS, best_price_player_prop, filter_odds_to_requested_books
+from .paths import repository_root
 from .predictions import (
     backfill_logged_game_lines,
     grade_games,
@@ -43,8 +44,7 @@ from .wnbanalytics import scrape_players, write_jsonl
 # Repo root when running from a source checkout (editable install); for a
 # regular install __file__ resolves into site-packages, so fall back to the
 # working directory — CI installs with `pip install .` and runs from the repo.
-_PKG_ROOT = Path(__file__).resolve().parents[2]
-ROOT = _PKG_ROOT if (_PKG_ROOT / "data").exists() else Path.cwd()
+ROOT = repository_root(__file__)
 DATA = ROOT / "data"
 
 
