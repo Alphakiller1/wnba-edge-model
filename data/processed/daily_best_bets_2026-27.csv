@@ -1,10 +1,11 @@
 rank,slate_date,family,market,game_date,away,home,matchup,selection,player,side,line,odds,book,model_prob,hist_n,hist_wins,hist_losses,hist_hit_rate,hist_band,hit_likelihood,edge,tier,verdict
-1,2026-08-26,prop,player_rebounds,2026-08-26,TOR,SEA,TOR @ SEA,Kiki Rice UNDER 4.5 REB,Kiki Rice,UNDER,4.5,122.0,fanduel,0.804,12,9,3,75.0,70%+,0.7591,0.3777,Review,REVIEW
-2,2026-08-26,prop,player_rebounds,2026-08-26,TOR,SEA,TOR @ SEA,Laura Juskaite UNDER 5.5 REB,Laura Juskaite,UNDER,5.5,122.0,fanduel,0.7947,12,9,3,75.0,70%+,0.7545,0.3671,Review,REVIEW
-3,2026-08-26,prop,player_threes,2026-08-26,TOR,SEA,TOR @ SEA,Kiki Rice UNDER 1.5 3PM,Kiki Rice,UNDER,1.5,194.0,fanduel,0.8532,31,22,9,71.0,70%+,0.7406,0.5294,Review,REVIEW
-4,2026-08-26,prop,player_points,2026-08-26,TOR,SEA,TOR @ SEA,Kiki Rice UNDER 15.5 PTS,Kiki Rice,UNDER,15.5,-130.0,fanduel,0.7925,10,7,3,70.0,70%+,0.7353,0.2618,Review,REVIEW
-5,2026-08-26,moneyline,moneyline,2026-08-26,GSV,CON,GSV @ CON,GSV ML,,GSV,,-950.0,fanduel,0.6826,14,10,4,71.4,60–69%,0.6852,-0.1933,Pass,PASS
-6,2026-08-26,moneyline,moneyline,2026-08-26,TOR,SEA,TOR @ SEA,SEA ML,,SEA,,-194.0,fanduel,0.5727,21,13,8,61.9,50–59%,0.5956,-0.1093,Pass,PASS
-7,2026-08-26,total,total,2026-08-26,GSV,CON,GSV @ CON,Over 151.5,,OVER,151.5,-110.0,fanduel,0.8289,25,12,13,48.0,all,0.5942,0.3267,Review,REVIEW
-8,2026-08-26,spread,spread,2026-08-26,GSV,CON,GSV @ CON,CON +13.5,,CON,13.5,-104.0,fanduel,0.7422,25,12,13,48.0,all,0.566,0.2433,Review,REVIEW
-9,2026-08-26,spread,spread,2026-08-26,TOR,SEA,TOR @ SEA,TOR +6.5,,TOR,-6.5,-104.0,fanduel,0.64,11,4,7,36.4,60–69%,0.5179,0.1467,Strong,PLAY
+1,2026-08-28,moneyline,moneyline,2026-08-28,CON,IND,CON @ IND,IND ML,,IND,,-2000.0,fanduel,0.7502,31,27,4,87.1,70%+,0.8211,-0.1565,Pass,PASS
+2,2026-08-28,prop,player_rebounds,2026-08-28,CON,IND,CON @ IND,Makayla Timpson UNDER 7.5 REB,Makayla Timpson,UNDER,7.5,116.0,fanduel,0.8746,17,12,5,70.6,70%+,0.763,0.4416,Review,REVIEW
+3,2026-08-28,prop,player_threes,2026-08-28,TOR,LVA,TOR @ LVA,Kiki Rice UNDER 1.5 3PM,Kiki Rice,UNDER,1.5,168.0,fanduel,0.8532,35,26,9,74.3,70%+,0.7613,0.5045,Review,REVIEW
+4,2026-08-28,prop,player_points,2026-08-28,TOR,LVA,TOR @ LVA,Kiki Rice UNDER 16.5 PTS,Kiki Rice,UNDER,16.5,100.0,fanduel,0.8314,13,9,4,69.2,70%+,0.7457,0.362,Review,REVIEW
+5,2026-08-28,prop,player_threes,2026-08-28,PDX,ATL,PDX @ ATL,Carla Leite OVER 0.5 3PM,Carla Leite,OVER,0.5,-245.0,fanduel,0.7676,35,26,9,74.3,70%+,0.7394,0.1038,Strong,PLAY
+6,2026-08-28,moneyline,moneyline,2026-08-28,TOR,LVA,TOR @ LVA,LVA ML,,LVA,,-1200.0,fanduel,0.6915,15,11,4,73.3,60–69%,0.6995,-0.1865,Pass,PASS
+7,2026-08-28,moneyline,moneyline,2026-08-28,PDX,ATL,PDX @ ATL,ATL ML,,ATL,,-850.0,fanduel,0.6796,15,11,4,73.3,60–69%,0.6942,-0.1717,Pass,PASS
+8,2026-08-28,total,total,2026-08-28,PDX,ATL,PDX @ ATL,Under 179.5,,UNDER,179.5,-108.0,fanduel,0.589,9,7,2,77.8,50–59%,0.6483,0.0933,Strong,PLAY
+9,2026-08-28,total,total,2026-08-28,TOR,LVA,TOR @ LVA,Over 176.5,,OVER,176.5,-110.0,fanduel,0.5365,9,7,2,77.8,50–59%,0.6183,0.0365,Lean,PLAY
+10,2026-08-28,moneyline,moneyline,2026-08-28,WAS,LAS,WAS @ LAS,WAS ML,,WAS,,-205.0,fanduel,0.5266,23,15,8,65.2,50–59%,0.6011,-0.113,Pass,PASS
