@@ -9748,3 +9748,183 @@ fetched_at,commence_time,event_id,away,home,book,market,side,line,odds,player
 2026-08-28T02:09:36+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_threes,Erica Wheeler|under,1.5,-188,Erica Wheeler
 2026-08-28T02:09:36+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_threes,Ariel Atkins|over,1.5,164,Ariel Atkins
 2026-08-28T02:09:36+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_threes,Ariel Atkins|under,1.5,-225,Ariel Atkins
+2026-08-29T01:44:15+00:00,2026-08-28T23:34:00Z,c006f8c7eb0093bcd146ea746609a5c1,PDX,ATL,fanduel,spread,ATL,14.5,270,
+2026-08-29T01:44:15+00:00,2026-08-28T23:34:00Z,c006f8c7eb0093bcd146ea746609a5c1,PDX,ATL,fanduel,spread,PDX,-14.5,-400,
+2026-08-29T01:44:15+00:00,2026-08-28T23:34:00Z,c006f8c7eb0093bcd146ea746609a5c1,PDX,ATL,fanduel,total,over,183.5,102,
+2026-08-29T01:44:15+00:00,2026-08-28T23:34:00Z,c006f8c7eb0093bcd146ea746609a5c1,PDX,ATL,fanduel,total,under,183.5,-136,
+2026-08-29T01:44:15+00:00,2026-08-28T23:34:00Z,bf890f553715b7954a44f36770b69830,CON,IND,fanduel,spread,CON,20.5,-198,
+2026-08-29T01:44:15+00:00,2026-08-28T23:34:00Z,bf890f553715b7954a44f36770b69830,CON,IND,fanduel,spread,IND,-20.5,146,
+2026-08-29T01:44:15+00:00,2026-08-28T23:34:00Z,bf890f553715b7954a44f36770b69830,CON,IND,fanduel,total,over,204.5,128,
+2026-08-29T01:44:15+00:00,2026-08-28T23:34:00Z,bf890f553715b7954a44f36770b69830,CON,IND,fanduel,total,under,204.5,-172,
+2026-08-29T01:44:15+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,ml,LVA,,-2500,
+2026-08-29T01:44:15+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,ml,TOR,,1040,
+2026-08-29T01:44:15+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,spread,LVA,-16.5,-110,
+2026-08-29T01:44:15+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,spread,TOR,16.5,-110,
+2026-08-29T01:44:15+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,total,over,175.5,-112,
+2026-08-29T01:44:15+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,total,under,175.5,-108,
+2026-08-29T01:44:15+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,ml,LAS,,176,
+2026-08-29T01:44:15+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,ml,WAS,,-220,
+2026-08-29T01:44:15+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,spread,LAS,5.5,-115,
+2026-08-29T01:44:15+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,spread,WAS,-5.5,-105,
+2026-08-29T01:44:15+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,total,over,167.5,-106,
+2026-08-29T01:44:15+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,total,under,167.5,-114,
+2026-08-29T01:44:15+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,ml,CHI,,310,
+2026-08-29T01:44:15+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,ml,NYL,,-420,
+2026-08-29T01:44:15+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,spread,CHI,9.5,-115,
+2026-08-29T01:44:15+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,spread,NYL,-9.5,-105,
+2026-08-29T01:44:15+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,total,over,179.5,-112,
+2026-08-29T01:44:15+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,total,under,179.5,-108,
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_assists,Laura Juskaite|over,2.5,-138,Laura Juskaite
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_assists,Laura Juskaite|under,2.5,104,Laura Juskaite
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_assists,A'ja Wilson|over,3.5,134,A'ja Wilson
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_assists,A'ja Wilson|under,3.5,-180,A'ja Wilson
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_assists,Kiki Rice|over,5.5,124,Kiki Rice
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_assists,Kiki Rice|under,5.5,-166,Kiki Rice
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_points,Kiki Rice|over,16.5,-106,Kiki Rice
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_points,Kiki Rice|under,16.5,-122,Kiki Rice
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_points,A'ja Wilson|over,25.5,-122,A'ja Wilson
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_points,A'ja Wilson|under,25.5,-106,A'ja Wilson
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_points,Isabelle Harrison|over,14.5,-110,Isabelle Harrison
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_points,Isabelle Harrison|under,14.5,-118,Isabelle Harrison
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_points,Laura Juskaite|over,12.5,-130,Laura Juskaite
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_points,Laura Juskaite|under,12.5,100,Laura Juskaite
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_points,Kia Nurse|over,9.5,100,Kia Nurse
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_points,Kia Nurse|under,9.5,-130,Kia Nurse
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_points,Temi Fagbenle|over,8.5,-114,Temi Fagbenle
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_points,Temi Fagbenle|under,8.5,-114,Temi Fagbenle
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_rebounds,Kiki Rice|over,4.5,-106,Kiki Rice
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_rebounds,Kiki Rice|under,4.5,-125,Kiki Rice
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_rebounds,A'ja Wilson|over,9.5,-108,A'ja Wilson
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_rebounds,A'ja Wilson|under,9.5,-122,A'ja Wilson
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_rebounds,Laura Juskaite|over,5.5,-114,Laura Juskaite
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_rebounds,Laura Juskaite|under,5.5,-114,Laura Juskaite
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_rebounds,Isabelle Harrison|over,7.5,-104,Isabelle Harrison
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_rebounds,Isabelle Harrison|under,7.5,-128,Isabelle Harrison
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_rebounds,Temi Fagbenle|over,4.5,-125,Temi Fagbenle
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_rebounds,Temi Fagbenle|under,4.5,-106,Temi Fagbenle
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_threes,Kiki Rice|over,1.5,164,Kiki Rice
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_threes,Kiki Rice|under,1.5,-225,Kiki Rice
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_threes,A'ja Wilson|over,0.5,-235,A'ja Wilson
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_threes,A'ja Wilson|under,0.5,172,A'ja Wilson
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_threes,Kia Nurse|over,1.5,-168,Kia Nurse
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,a59eb5f96bbf1e45008e6ab59d21db23,TOR,LVA,fanduel,player_threes,Kia Nurse|under,1.5,126,Kia Nurse
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_assists,Sonia Citron|over,5.5,118,Sonia Citron
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_assists,Sonia Citron|under,5.5,-158,Sonia Citron
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_assists,Kiki Iriafen|over,1.5,-130,Kiki Iriafen
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_assists,Kiki Iriafen|under,1.5,-102,Kiki Iriafen
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_assists,Nneka Ogwumike|over,2.5,-114,Nneka Ogwumike
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_assists,Nneka Ogwumike|under,2.5,-114,Nneka Ogwumike
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_assists,Rae Burrell|over,2.5,-102,Rae Burrell
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_assists,Rae Burrell|under,2.5,-130,Rae Burrell
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_assists,Erica Wheeler|over,3.5,-152,Erica Wheeler
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_assists,Erica Wheeler|under,3.5,114,Erica Wheeler
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_assists,Shakira Austin|over,2.5,102,Shakira Austin
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_assists,Shakira Austin|under,2.5,-136,Shakira Austin
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_assists,Dearica Hamby|over,2.5,116,Dearica Hamby
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_assists,Dearica Hamby|under,2.5,-154,Dearica Hamby
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_assists,Ariel Atkins|over,2.5,110,Ariel Atkins
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_assists,Ariel Atkins|under,2.5,-146,Ariel Atkins
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_points,Cameron Brink|over,9.5,100,Cameron Brink
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_points,Cameron Brink|under,9.5,-130,Cameron Brink
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_points,Ariel Atkins|over,7.5,-108,Ariel Atkins
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_points,Ariel Atkins|under,7.5,-120,Ariel Atkins
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_points,Kiki Iriafen|over,15.5,-128,Kiki Iriafen
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_points,Kiki Iriafen|under,15.5,-102,Kiki Iriafen
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_points,Erica Wheeler|over,8.5,104,Erica Wheeler
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_points,Erica Wheeler|under,8.5,-135,Erica Wheeler
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_points,Nneka Ogwumike|over,15.5,102,Nneka Ogwumike
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_points,Nneka Ogwumike|under,15.5,-132,Nneka Ogwumike
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_points,Rae Burrell|over,14.5,-110,Rae Burrell
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_points,Rae Burrell|under,14.5,-118,Rae Burrell
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_points,Sonia Citron|over,16.5,-128,Sonia Citron
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_points,Sonia Citron|under,16.5,-102,Sonia Citron
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_points,Michaela Onyenwere|over,8.5,100,Michaela Onyenwere
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_points,Michaela Onyenwere|under,8.5,-130,Michaela Onyenwere
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_points,Shakira Austin|over,17.5,-128,Shakira Austin
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_points,Shakira Austin|under,17.5,-102,Shakira Austin
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_points,Dearica Hamby|over,12.5,-132,Dearica Hamby
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_points,Dearica Hamby|under,12.5,102,Dearica Hamby
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_points,Lauren Betts|over,6.5,-130,Lauren Betts
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_points,Lauren Betts|under,6.5,100,Lauren Betts
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_points,Georgia Amoore|over,7.5,102,Georgia Amoore
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_points,Georgia Amoore|under,7.5,-132,Georgia Amoore
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_rebounds,Sonia Citron|over,3.5,-114,Sonia Citron
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_rebounds,Sonia Citron|under,3.5,-114,Sonia Citron
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_rebounds,Kiki Iriafen|over,9.5,-122,Kiki Iriafen
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_rebounds,Kiki Iriafen|under,9.5,-108,Kiki Iriafen
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_rebounds,Cameron Brink|over,5.5,110,Cameron Brink
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_rebounds,Cameron Brink|under,5.5,-146,Cameron Brink
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_rebounds,Nneka Ogwumike|over,7.5,-122,Nneka Ogwumike
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_rebounds,Nneka Ogwumike|under,7.5,-108,Nneka Ogwumike
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_rebounds,Rae Burrell|over,2.5,148,Rae Burrell
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_rebounds,Rae Burrell|under,2.5,-200,Rae Burrell
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_rebounds,Shakira Austin|over,9.5,-130,Shakira Austin
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_rebounds,Shakira Austin|under,9.5,-102,Shakira Austin
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_rebounds,Michaela Onyenwere|over,2.5,108,Michaela Onyenwere
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_rebounds,Michaela Onyenwere|under,2.5,-144,Michaela Onyenwere
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_rebounds,Lauren Betts|over,4.5,-158,Lauren Betts
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_rebounds,Lauren Betts|under,4.5,118,Lauren Betts
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_rebounds,Ariel Atkins|over,2.5,-114,Ariel Atkins
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_rebounds,Ariel Atkins|under,2.5,-114,Ariel Atkins
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_rebounds,Dearica Hamby|over,5.5,-158,Dearica Hamby
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_rebounds,Dearica Hamby|under,5.5,118,Dearica Hamby
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_threes,Sonia Citron|over,1.5,102,Sonia Citron
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_threes,Sonia Citron|under,1.5,-136,Sonia Citron
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_threes,Ariel Atkins|over,1.5,164,Ariel Atkins
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_threes,Ariel Atkins|under,1.5,-225,Ariel Atkins
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_threes,Rae Burrell|over,1.5,102,Rae Burrell
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_threes,Rae Burrell|under,1.5,-136,Rae Burrell
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_threes,Erica Wheeler|over,1.5,140,Erica Wheeler
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_threes,Erica Wheeler|under,1.5,-188,Erica Wheeler
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_threes,Michaela Onyenwere|over,1.5,-106,Michaela Onyenwere
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_threes,Michaela Onyenwere|under,1.5,-125,Michaela Onyenwere
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_threes,Georgia Amoore|over,1.5,-130,Georgia Amoore
+2026-08-29T01:44:16+00:00,2026-08-29T02:00:00Z,1b26020bcb94ee4afa6296071e87834f,WAS,LAS,fanduel,player_threes,Georgia Amoore|under,1.5,-102,Georgia Amoore
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_assists,Jonquel Jones|over,2.5,-138,Jonquel Jones
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_assists,Jonquel Jones|under,2.5,104,Jonquel Jones
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_assists,Kamilla Cardoso|over,2.5,-132,Kamilla Cardoso
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_assists,Kamilla Cardoso|under,2.5,100,Kamilla Cardoso
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_assists,Sabrina Ionescu|over,4.5,-146,Sabrina Ionescu
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_assists,Sabrina Ionescu|under,4.5,110,Sabrina Ionescu
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_assists,Courtney Vandersloot|over,5.5,-114,Courtney Vandersloot
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_assists,Courtney Vandersloot|under,5.5,-114,Courtney Vandersloot
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_assists,Breanna Stewart|over,3.5,-104,Breanna Stewart
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_assists,Breanna Stewart|under,3.5,-128,Breanna Stewart
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_points,Leonie Fiebich|over,10.5,-110,Leonie Fiebich
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_points,Leonie Fiebich|under,10.5,-118,Leonie Fiebich
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_points,Breanna Stewart|over,19.5,-128,Breanna Stewart
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_points,Breanna Stewart|under,19.5,-102,Breanna Stewart
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_points,Jonquel Jones|over,14.5,-120,Jonquel Jones
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_points,Jonquel Jones|under,14.5,-108,Jonquel Jones
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_points,Kamilla Cardoso|over,16.5,-108,Kamilla Cardoso
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_points,Kamilla Cardoso|under,16.5,-120,Kamilla Cardoso
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_points,Sabrina Ionescu|over,16.5,102,Sabrina Ionescu
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_points,Sabrina Ionescu|under,16.5,-132,Sabrina Ionescu
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_points,Sydney Taylor|over,12.5,-114,Sydney Taylor
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_points,Sydney Taylor|under,12.5,-114,Sydney Taylor
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_points,Azura Stevens|over,10.5,-130,Azura Stevens
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_points,Azura Stevens|under,10.5,100,Azura Stevens
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_points,Courtney Vandersloot|over,8.5,-122,Courtney Vandersloot
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_points,Courtney Vandersloot|under,8.5,-106,Courtney Vandersloot
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_rebounds,Breanna Stewart|over,7.5,-130,Breanna Stewart
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_rebounds,Breanna Stewart|under,7.5,-102,Breanna Stewart
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_rebounds,Kamilla Cardoso|over,9.5,-130,Kamilla Cardoso
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_rebounds,Kamilla Cardoso|under,9.5,-102,Kamilla Cardoso
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_rebounds,Sabrina Ionescu|over,4.5,132,Sabrina Ionescu
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_rebounds,Sabrina Ionescu|under,4.5,-178,Sabrina Ionescu
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_rebounds,Leonie Fiebich|over,2.5,-174,Leonie Fiebich
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_rebounds,Leonie Fiebich|under,2.5,130,Leonie Fiebich
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_rebounds,Courtney Vandersloot|over,3.5,120,Courtney Vandersloot
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_rebounds,Courtney Vandersloot|under,3.5,-160,Courtney Vandersloot
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_rebounds,Azura Stevens|over,7.5,110,Azura Stevens
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_rebounds,Azura Stevens|under,7.5,-146,Azura Stevens
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_rebounds,Jonquel Jones|over,9.5,102,Jonquel Jones
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_rebounds,Jonquel Jones|under,9.5,-136,Jonquel Jones
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_threes,Leonie Fiebich|over,1.5,-130,Leonie Fiebich
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_threes,Leonie Fiebich|under,1.5,-102,Leonie Fiebich
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_threes,Sabrina Ionescu|over,1.5,-200,Sabrina Ionescu
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_threes,Sabrina Ionescu|under,1.5,148,Sabrina Ionescu
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_threes,Sydney Taylor|over,2.5,124,Sydney Taylor
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_threes,Sydney Taylor|under,2.5,-166,Sydney Taylor
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_threes,Jonquel Jones|over,1.5,-166,Jonquel Jones
+2026-08-29T01:44:16+00:00,2026-08-29T17:00:00Z,0de4387925b67939993839b06126ed1f,CHI,NYL,fanduel,player_threes,Jonquel Jones|under,1.5,124,Jonquel Jones
