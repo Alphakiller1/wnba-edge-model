@@ -1,8 +1,11 @@
 rank,slate_date,family,market,game_date,away,home,matchup,selection,player,side,line,odds,book,model_prob,hist_n,hist_wins,hist_losses,hist_hit_rate,hist_band,hit_likelihood,edge,tier,verdict
-1,2026-08-29,prop,player_threes,2026-08-29,CHI,NYL,CHI @ NYL,Sydney Taylor UNDER 2.5 3PM,Sydney Taylor,UNDER,2.5,124.0,fanduel,0.7861,38,27,11,71.1,70%+,0.7207,0.3691,Review,REVIEW
-2,2026-08-29,prop,player_threes,2026-08-29,CHI,NYL,CHI @ NYL,Leonie Fiebich UNDER 1.5 3PM,Leonie Fiebich,UNDER,1.5,-130.0,fanduel,0.7435,38,27,11,71.1,70%+,0.7104,0.2154,Review,REVIEW
-3,2026-08-29,prop,player_points,2026-08-29,CHI,NYL,CHI @ NYL,Leonie Fiebich UNDER 10.5 PTS,Leonie Fiebich,UNDER,10.5,-110.0,fanduel,0.764,15,10,5,66.7,70%+,0.699,0.2722,Review,REVIEW
-4,2026-08-29,moneyline,moneyline,2026-08-29,CHI,NYL,CHI @ NYL,NYL ML,,NYL,,-420.0,fanduel,0.6179,16,11,5,68.8,60–69%,0.6458,-0.1502,Pass,PASS
-5,2026-08-29,total,total,2026-08-29,CHI,NYL,CHI @ NYL,Under 179.5,,UNDER,179.5,-108.0,fanduel,0.5695,11,8,3,72.7,50–59%,0.6282,0.0738,Standard,PLAY
-6,2026-08-29,prop,player_rebounds,2026-08-29,CHI,NYL,CHI @ NYL,Leonie Fiebich UNDER 2.5 REB,Leonie Fiebich,UNDER,2.5,-174.0,fanduel,0.6952,64,39,25,60.9,60–69%,0.6201,0.1016,Strong,PLAY
-7,2026-08-29,spread,spread,2026-08-29,CHI,NYL,CHI @ NYL,CHI +9.5,,CHI,-9.5,-115.0,fanduel,0.6885,12,4,8,33.3,60–69%,0.5228,0.1777,Review,REVIEW
+1,2026-08-29,prop,player_threes,2026-08-29,CHI,NYL,CHI @ NYL,Courtney Vandersloot UNDER 1.5 3PM,Courtney Vandersloot,UNDER,1.5,164.0,fanduel,0.8494,38,27,11,71.1,70%+,0.7359,0.4957,Review,REVIEW
+2,2026-08-29,prop,player_threes,2026-08-29,CHI,NYL,CHI @ NYL,Sydney Taylor UNDER 2.5 3PM,Sydney Taylor,UNDER,2.5,124.0,fanduel,0.7861,38,27,11,71.1,70%+,0.7207,0.3691,Review,REVIEW
+3,2026-08-29,prop,player_threes,2026-08-29,CHI,NYL,CHI @ NYL,Leonie Fiebich UNDER 1.5 3PM,Leonie Fiebich,UNDER,1.5,-130.0,fanduel,0.7435,38,27,11,71.1,70%+,0.7104,0.2154,Review,REVIEW
+4,2026-08-29,prop,player_points,2026-08-29,CHI,NYL,CHI @ NYL,Leonie Fiebich UNDER 10.5 PTS,Leonie Fiebich,UNDER,10.5,-110.0,fanduel,0.764,15,10,5,66.7,70%+,0.699,0.2722,Review,REVIEW
+5,2026-08-29,moneyline,moneyline,2026-08-29,CHI,NYL,CHI @ NYL,NYL ML,,NYL,,-420.0,fanduel,0.6179,17,12,5,70.6,60–69%,0.6568,-0.1502,Pass,PASS
+6,2026-08-29,moneyline,moneyline,2026-08-29,TOR,PHX,TOR @ PHX,PHX ML,,PHX,,-420.0,fanduel,0.5955,25,16,9,64.0,50–59%,0.6186,-0.1726,Pass,PASS
+7,2026-08-29,total,total,2026-08-29,CHI,NYL,CHI @ NYL,Under 179.5,,UNDER,179.5,-105.0,fanduel,0.5695,12,8,4,66.7,50–59%,0.6062,0.0772,Standard,PLAY
+8,2026-08-29,total,total,2026-08-29,TOR,PHX,TOR @ PHX,Under 177.5,,UNDER,177.5,-110.0,fanduel,0.5266,12,8,4,66.7,50–59%,0.5847,0.0266,Lean,PLAY
+9,2026-08-29,spread,spread,2026-08-29,TOR,PHX,TOR @ PHX,TOR +9.5,,TOR,-9.5,-118.0,fanduel,0.7088,33,15,18,45.5,all,0.5243,0.1939,Review,REVIEW
+10,2026-08-29,spread,spread,2026-08-29,CHI,NYL,CHI @ NYL,CHI +8.5,,CHI,-8.5,-104.0,fanduel,0.6585,13,5,8,38.5,60–69%,0.5241,0.1735,Review,REVIEW
