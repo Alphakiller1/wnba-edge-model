@@ -1,11 +1,11 @@
 rank,slate_date,family,market,game_date,away,home,matchup,selection,player,side,line,odds,book,model_prob,hist_n,hist_wins,hist_losses,hist_hit_rate,hist_band,hit_likelihood,edge,tier,verdict
 1,2026-08-30,moneyline,moneyline,2026-08-30,CON,DAL,CON @ DAL,DAL ML,,DAL,,-1200.0,draftkings,0.7174,32,28,4,87.5,70%+,0.816,-0.1696,Pass,PASS
-2,2026-08-30,prop,player_threes,2026-08-30,LAS,SEA,LAS @ SEA,Jade Melbourne OVER 0.5 3PM,Jade Melbourne,OVER,0.5,-217.0,draftkings,0.8235,43,31,12,72.1,70%+,0.7356,0.1859,Review,REVIEW
-3,2026-08-30,prop,player_threes,2026-08-30,MIN,ATL,MIN @ ATL,Napheesa Collier UNDER 1.5 3PM,Napheesa Collier,UNDER,1.5,-137.0,draftkings,0.7625,43,31,12,72.1,70%+,0.7223,0.225,Review,REVIEW
-4,2026-08-30,prop,player_threes,2026-08-30,LAS,SEA,LAS @ SEA,Nneka Ogwumike UNDER 1.5 3PM,Nneka Ogwumike,UNDER,1.5,-234.0,draftkings,0.7188,43,31,12,72.1,70%+,0.7128,0.0654,Standard,PLAY
-5,2026-08-30,moneyline,moneyline,2026-08-30,GSV,PDX,GSV @ PDX,GSV ML,,GSV,,-218.0,draftkings,0.64,18,13,5,72.2,60–69%,0.676,-0.0175,Pass,PASS
-6,2026-08-30,prop,player_points,2026-08-30,GSV,PDX,GSV @ PDX,Tiffany Hayes UNDER 13.5 PTS,Tiffany Hayes,UNDER,13.5,-118.0,draftkings,0.7699,18,11,7,61.1,70%+,0.668,0.2649,Review,REVIEW
-7,2026-08-30,total,total,2026-08-30,MIN,ATL,MIN @ ATL,Under 177.5,,UNDER,177.5,-115.0,draftkings,0.5596,13,9,4,69.2,50–59%,0.6153,0.0488,Standard,PLAY
-8,2026-08-30,moneyline,moneyline,2026-08-30,LAS,SEA,LAS @ SEA,SEA ML,,SEA,,-105.0,draftkings,0.5464,26,17,9,65.4,50–59%,0.6124,0.0572,Standard,PLAY
-9,2026-08-30,total,total,2026-08-30,LAS,SEA,LAS @ SEA,Under 174.5,,UNDER,174.5,-105.0,draftkings,0.5497,13,9,4,69.2,50–59%,0.6105,0.0606,Standard,PLAY
-10,2026-08-30,spread,spread,2026-08-30,CON,DAL,CON @ DAL,CON +14.5,,CON,14.5,-108.0,draftkings,0.7367,8,3,5,37.5,70%+,0.602,0.2411,Review,REVIEW
+2,2026-08-30,prop,player_threes,2026-08-30,LAS,SEA,LAS @ SEA,Jade Melbourne OVER 0.5 3PM,Jade Melbourne,OVER,0.5,-240.0,draftkings,0.8235,43,31,12,72.1,70%+,0.7356,0.1651,Review,REVIEW
+3,2026-08-30,prop,player_threes,2026-08-30,LAS,SEA,LAS @ SEA,Nneka Ogwumike UNDER 1.5 3PM,Nneka Ogwumike,UNDER,1.5,-224.0,draftkings,0.7188,43,31,12,72.1,70%+,0.7128,0.0745,Standard,PLAY
+4,2026-08-30,prop,player_points,2026-08-30,GSV,PDX,GSV @ PDX,Tiffany Hayes UNDER 14.5 PTS,Tiffany Hayes,UNDER,14.5,-114.0,draftkings,0.821,18,11,7,61.1,70%+,0.6884,0.324,Review,REVIEW
+5,2026-08-30,moneyline,moneyline,2026-08-30,GSV,PDX,GSV @ PDX,GSV ML,,GSV,,-230.0,draftkings,0.64,18,13,5,72.2,60–69%,0.676,-0.029,Pass,PASS
+6,2026-08-30,prop,player_points,2026-08-30,CON,DAL,CON @ DAL,Awak Kuier UNDER 9.5 PTS,Awak Kuier,UNDER,9.5,-109.0,draftkings,0.7598,18,11,7,61.1,70%+,0.6639,0.2729,Review,REVIEW
+7,2026-08-30,moneyline,moneyline,2026-08-30,LAS,SEA,LAS @ SEA,SEA ML,,SEA,,100.0,draftkings,0.5464,26,17,9,65.4,50–59%,0.6124,0.0681,Standard,PLAY
+8,2026-08-30,total,total,2026-08-30,LAS,SEA,LAS @ SEA,Under 174.5,,UNDER,174.5,-112.0,draftkings,0.5497,13,9,4,69.2,50–59%,0.6105,0.0454,Standard,PLAY
+9,2026-08-30,spread,spread,2026-08-30,CON,DAL,CON @ DAL,CON +14.5,,CON,14.5,-105.0,draftkings,0.7367,8,3,5,37.5,70%+,0.602,0.2476,Review,REVIEW
+10,2026-08-30,total,total,2026-08-30,GSV,PDX,GSV @ PDX,Over 158.5,,OVER,158.5,-110.0,draftkings,0.7881,35,17,18,48.6,all,0.5635,0.2881,Review,REVIEW
