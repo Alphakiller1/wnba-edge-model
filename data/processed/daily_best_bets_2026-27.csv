@@ -1,8 +1,1 @@
 rank,slate_date,family,market,game_date,away,home,matchup,selection,player,side,line,odds,book,model_prob,hist_n,hist_wins,hist_losses,hist_hit_rate,hist_band,hit_likelihood,edge,tier,verdict
-1,2026-08-29,prop,player_threes,2026-08-29,TOR,PHX,TOR @ PHX,Kiki Rice UNDER 1.5 3PM,Kiki Rice,UNDER,1.5,194.0,fanduel,0.8532,41,29,12,70.7,70%+,0.7329,0.5353,Review,REVIEW
-2,2026-08-29,prop,player_threes,2026-08-29,TOR,PHX,TOR @ PHX,Laura Juskaite UNDER 1.5 3PM,Laura Juskaite,UNDER,1.5,194.0,fanduel,0.8255,41,29,12,70.7,70%+,0.7266,0.5076,Review,REVIEW
-3,2026-08-29,prop,player_points,2026-08-29,TOR,PHX,TOR @ PHX,Kiki Rice UNDER 15.5 PTS,Kiki Rice,UNDER,15.5,-118.0,fanduel,0.7925,16,10,6,62.5,70%+,0.6888,0.2842,Review,REVIEW
-4,2026-08-29,prop,player_points,2026-08-29,TOR,PHX,TOR @ PHX,Kahleah Copper UNDER 22.5 PTS,Kahleah Copper,UNDER,22.5,-108.0,fanduel,0.7628,16,10,6,62.5,70%+,0.6761,0.2751,Review,REVIEW
-5,2026-08-29,moneyline,moneyline,2026-08-29,TOR,PHX,TOR @ PHX,PHX ML,,PHX,,-420.0,fanduel,0.5987,25,16,9,64.0,50–59%,0.6196,-0.1736,Pass,PASS
-6,2026-08-29,spread,spread,2026-08-29,TOR,PHX,TOR @ PHX,TOR +9.5,,TOR,-9.5,-115.0,fanduel,0.706,34,15,19,44.1,all,0.5127,0.194,Review,REVIEW
-7,2026-08-29,total,total,2026-08-29,TOR,PHX,TOR @ PHX,Over 173.5,,OVER,173.5,-110.0,fanduel,0.6019,17,6,11,35.3,60–69%,0.465,0.1019,Strong,PLAY

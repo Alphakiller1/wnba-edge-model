@@ -19,6 +19,7 @@ DATA_DIR = ROOT / "data"
 ODDS_DIR = DATA_DIR / "odds"
 ODDS_LATEST_CSV = ODDS_DIR / "odds_latest.csv"
 ODDS_HISTORY_CSV = ODDS_DIR / "odds_history.csv"
+ODDS_STATUS_JSON = ODDS_DIR / "odds_status.json"
 
 ODDS_API_BASE = "https://api.the-odds-api.com/v4"
 ODDS_API_KEY = os.getenv("ODDS_API_KEY", "")
@@ -146,6 +147,7 @@ def fetch_slate(*, props: bool = False) -> list[dict]:
                 print(f"WARNING: prop fetch stopped after a failed event: {exc}")
                 break
         locked = requested_bookmakers()
+        _record_fetch_status("props", fetched_at, len(events), rows)
         if locked:
             books = sorted({str(row.get("book") or "").lower() for row in rows if row.get("book")})
             print(
@@ -170,6 +172,7 @@ def fetch_slate(*, props: bool = False) -> list[dict]:
         rows = []
         for event in payload:
             rows.extend(_normalize_event(event, fetched_at))
+        _record_fetch_status("game", fetched_at, len(payload), rows)
         locked = requested_bookmakers()
         if locked:
             books = sorted({str(row.get("book") or "").lower() for row in rows if row.get("book")})
@@ -187,6 +190,29 @@ def fetch_slate(*, props: bool = False) -> list[dict]:
     if _LAST_USAGE:
         print(f"API quota: used {_LAST_USAGE.get('used')}, remaining {_LAST_USAGE.get('remaining')}.")
     return rows
+
+
+def _record_fetch_status(scope: str, fetched_at: str, events: int, rows: list[dict]) -> None:
+    """Persist the requested book even when it returns zero quotes.
+
+    An empty CSV cannot say whether no fetch ran or a locked sportsbook returned
+    no board. This sidecar lets the dashboard state the latter precisely.
+    """
+    ODDS_DIR.mkdir(parents=True, exist_ok=True)
+    try:
+        status = json.loads(ODDS_STATUS_JSON.read_text(encoding="utf-8"))
+    except (FileNotFoundError, json.JSONDecodeError):
+        status = {}
+    status["requested_bookmakers"] = sorted(requested_bookmakers())
+    status[scope] = {
+        "fetched_at": fetched_at,
+        "events": int(events),
+        "quotes": len(rows),
+        "returned_books": sorted({str(row.get("book") or "").lower() for row in rows if row.get("book")}),
+        "api_used": _LAST_USAGE.get("used"),
+        "api_remaining": _LAST_USAGE.get("remaining"),
+    }
+    ODDS_STATUS_JSON.write_text(json.dumps(status, indent=2) + "\n", encoding="utf-8")
 
 
 def fetch_game(away: str, home: str, props: bool = False) -> list[dict]:
@@ -288,6 +314,66 @@ def store(
     latest.to_csv(ODDS_LATEST_CSV, index=False)
     games = 0 if frame.empty or "away" not in frame.columns else int(frame.groupby(["away", "home"]).ngroups)
     print(f"Stored {len(frame)} WNBA odds rows across {games} game(s).")
+
+
+def validate_latest_snapshot(book: str, *, max_age_hours: float = MAX_QUOTE_AGE_HOURS) -> dict[str, int]:
+    """Fail closed unless the latest snapshot is a fresh, internally paired book board.
+
+    This validates the exact rows the projection engine will load. It prevents a
+    book-locked run from silently publishing an empty board, another book's
+    leftovers, one-sided prices, or spread/total sides quoted at different lines.
+    """
+    expected = book.strip().lower()
+    if not expected:
+        raise SystemExit("Snapshot validation requires one explicit bookmaker key.")
+    if not ODDS_LATEST_CSV.exists():
+        raise SystemExit(f"No latest odds snapshot exists for {expected}.")
+    frame = pd.read_csv(ODDS_LATEST_CSV, dtype=str).fillna("")
+    if frame.empty:
+        raise SystemExit(f"Fanatics validation failed: the {expected} snapshot is empty.")
+    books = {value.strip().lower() for value in frame["book"] if value.strip()}
+    if books != {expected}:
+        raise SystemExit(
+            f"Book-lock validation failed: expected only {expected}, found {sorted(books)}."
+        )
+    numeric_odds = pd.to_numeric(frame["odds"], errors="coerce")
+    if numeric_odds.isna().any():
+        raise SystemExit("Odds snapshot contains a non-numeric price.")
+    ages = frame["fetched_at"].map(_quote_age_hours)
+    if ages.isna().any() or (ages > max_age_hours).any():
+        raise SystemExit(f"Odds snapshot contains a quote older than {max_age_hours:g} hours.")
+
+    errors: list[str] = []
+    for (event_id, market), rows in frame.groupby(["event_id", "market"], dropna=False):
+        if market == "ml":
+            expected_sides = {rows.iloc[0]["away"], rows.iloc[0]["home"]}
+            if len(rows) != 2 or set(rows["side"]) != expected_sides:
+                errors.append(f"{event_id} ml is not a paired away/home quote")
+        elif market == "spread":
+            lines = pd.to_numeric(rows["line"], errors="coerce")
+            expected_sides = {rows.iloc[0]["away"], rows.iloc[0]["home"]}
+            if (len(rows) != 2 or set(rows["side"]) != expected_sides
+                    or lines.isna().any() or abs(float(lines.sum())) > 1e-6):
+                errors.append(f"{event_id} spread sides/lines do not pair")
+        elif market == "total":
+            lines = pd.to_numeric(rows["line"], errors="coerce")
+            if (len(rows) != 2 or set(rows["side"].str.lower()) != {"over", "under"}
+                    or lines.isna().any() or lines.nunique() != 1):
+                errors.append(f"{event_id} total sides/lines do not pair")
+        elif str(market).startswith("player_"):
+            for (player, line), pair in rows.groupby(["player", "line"], dropna=False):
+                sides = {str(value).rsplit("|", 1)[-1].lower() for value in pair["side"]}
+                if len(pair) != 2 or sides != {"over", "under"}:
+                    errors.append(f"{event_id} {market} {player} {line} is not paired")
+    if errors:
+        preview = "; ".join(errors[:5])
+        raise SystemExit(f"Odds snapshot integrity failed ({len(errors)} issue(s)): {preview}")
+    return {
+        "rows": len(frame),
+        "events": int(frame["event_id"].nunique()),
+        "game_rows": int(frame["market"].isin(["ml", "spread", "total"]).sum()),
+        "prop_rows": int(frame["market"].str.startswith("player_").sum()),
+    }
 
 
 def _quote_age_hours(fetched_at: str) -> float | None:
@@ -395,11 +481,26 @@ def main() -> None:
         default=None,
         help="Comma-separated Odds API book keys, e.g. fanatics. Overrides ODDS_BOOKMAKERS.",
     )
+    parser.add_argument(
+        "--validate-latest",
+        action="store_true",
+        help="Require a fresh, single-book snapshot with correctly paired market sides.",
+    )
     args = parser.parse_args()
     if args.bookmakers:
         os.environ["ODDS_BOOKMAKERS"] = args.bookmakers
 
-    if args.fetch_slate:
+    if args.validate_latest:
+        books = requested_bookmakers()
+        if len(books) != 1:
+            raise SystemExit("--validate-latest requires exactly one --bookmakers key.")
+        summary = validate_latest_snapshot(next(iter(books)))
+        print(
+            "validated latest snapshot: "
+            f"{summary['rows']} rows, {summary['events']} events, "
+            f"{summary['game_rows']} game rows, {summary['prop_rows']} prop rows"
+        )
+    elif args.fetch_slate:
         fetch_slate(props=args.props)
     elif args.fetch_game:
         away, home = (part.strip().upper() for part in args.fetch_game.split("@", 1))

@@ -1,0 +1,21 @@
+{
+  "requested_bookmakers": [
+    "fanatics"
+  ],
+  "game": {
+    "fetched_at": "2026-08-30T17:52:19+00:00",
+    "events": 4,
+    "quotes": 0,
+    "returned_books": [],
+    "api_used": "9",
+    "api_remaining": "491"
+  },
+  "props": {
+    "fetched_at": "2026-08-30T17:52:21+00:00",
+    "events": 4,
+    "quotes": 0,
+    "returned_books": [],
+    "api_used": "9",
+    "api_remaining": "491"
+  }
+}

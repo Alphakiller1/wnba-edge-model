@@ -14,6 +14,7 @@ state when its data does not exist yet.
 from __future__ import annotations
 
 import html
+import json
 from datetime import date, datetime, timezone
 from pathlib import Path
 
@@ -84,6 +85,10 @@ def build_site(root: Path, season: str, out: Path) -> Path:
     props = _read_csv(prop_slate_path(root, season))
     game_markets = _read_csv(game_market_slate_path(root, season))
     odds = _read_csv(root / "data" / "odds" / "odds_latest.csv")
+    try:
+        odds_status = json.loads((root / "data" / "odds" / "odds_status.json").read_text(encoding="utf-8"))
+    except (FileNotFoundError, json.JSONDecodeError):
+        odds_status = None
     sigmas = load_market_sigmas(root, season)
     summary = results_summary(root)
 
@@ -112,7 +117,7 @@ def build_site(root: Path, season: str, out: Path) -> Path:
 <main class="wrap">
   {_best_bets_section(root, season)}
   {_projections_section(projections, features, odds, data_date, props, game_markets)}
-  {_market_section(odds)}
+  {_market_section(odds, odds_status)}
   {_board_section(features)}
   {_results_section(summary)}
   {_methodology_section(sigmas)}
@@ -492,7 +497,7 @@ def _tipoff(raw: str) -> str:
 
 # ── layer 2 · market ─────────────────────────────────────────────────────────
 
-def _market_section(odds: pd.DataFrame | None) -> str:
+def _market_section(odds: pd.DataFrame | None, status: dict | None = None) -> str:
     head = _section_head(
         "market", "3", "Market Snapshot", "Market layer",
         "Stored odds with book attribution and quote timestamps. Edges are only ever priced "
@@ -500,6 +505,18 @@ def _market_section(odds: pd.DataFrame | None) -> str:
         "without a market price is a projection, not an edge.",
     )
     if odds is None:
+        if status:
+            books = status.get("requested_bookmakers") or []
+            game = status.get("game") or {}
+            props = status.get("props") or {}
+            label = ", ".join(str(book).title() for book in books) or "Requested sportsbook"
+            fetched = game.get("fetched_at") or props.get("fetched_at") or "unknown time"
+            events = max(int(game.get("events") or 0), int(props.get("events") or 0))
+            quotes = int(game.get("quotes") or 0) + int(props.get("quotes") or 0)
+            return f"""<section>{head}<div class="empty"><b>{esc(label)} returned no posted WNBA lines.</b><br>
+            The locked feed was checked at {esc(fetched)} across {events} event(s) and returned
+            {quotes} quote(s). The model is deliberately unpriced; no other sportsbook or stale
+            snapshot was substituted.</div></section>"""
         return f"""<section>{head}<div class="empty"><b>No odds snapshot stored.</b><br>
         Fetch one with <code>python -m wnba_edges.market_data --fetch-game AWY@HOM --props</code>
         (requires <code>ODDS_API_KEY</code>). Nothing on this page pretends to be an edge

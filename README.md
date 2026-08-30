@@ -61,8 +61,8 @@ wnba-edges best-bets --season 2026-27
 wnba-edges fit-sigma --season 2026-27
 
 # Pull only the four modeled player-prop markets and preserve stored game lines.
-# Locking to FanDuel avoids mixing books in the slate (requires ODDS_API_KEY).
-python -m wnba_edges.market_data --fetch-slate --props --bookmakers fanduel
+# Locking to one requested book avoids mixing books in the slate (requires ODDS_API_KEY).
+python -m wnba_edges.market_data --fetch-slate --props --bookmakers fanatics
 wnba-edges build-prop-projections --season 2026-27
 
 # Price a prop (evaluation is logged for grading; quotes >12h old are refused)

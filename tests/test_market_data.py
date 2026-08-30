@@ -1,4 +1,5 @@
 import pandas as pd
+import pytest
 
 from wnba_edges import market_data
 from wnba_edges.market_data import COLUMNS, filter_odds_to_requested_books
@@ -37,6 +38,7 @@ def test_prop_slate_fetch_requests_only_modeled_prop_markets(monkeypatch):
     calls = []
     monkeypatch.setattr(market_data, "list_events", lambda: {("A", "B"): "event-1"})
     monkeypatch.setattr(market_data, "store", lambda rows, **kwargs: calls.append((rows, kwargs)))
+    monkeypatch.setattr(market_data, "_record_fetch_status", lambda *args, **kwargs: None)
     monkeypatch.setattr(
         market_data,
         "fetch_event_odds",
@@ -76,3 +78,55 @@ def test_prop_store_preserves_game_lines(monkeypatch, tmp_path):
     stored = pd.read_csv(latest, dtype=str).fillna("")
     assert list(stored["market"]) == ["ml", "player_points"]
     assert list(stored["player"]) == ["", "New"]
+
+
+def _valid_fanatics_rows(now):
+    base = dict.fromkeys(COLUMNS, "")
+    common = {
+        **base, "fetched_at": now, "event_id": "evt", "away": "MIN",
+        "home": "ATL", "book": "fanatics",
+    }
+    return [
+        {**common, "market": "ml", "side": "MIN", "odds": "-110"},
+        {**common, "market": "ml", "side": "ATL", "odds": "-110"},
+        {**common, "market": "spread", "side": "MIN", "line": "2.5", "odds": "-110"},
+        {**common, "market": "spread", "side": "ATL", "line": "-2.5", "odds": "-110"},
+        {**common, "market": "total", "side": "over", "line": "165.5", "odds": "-110"},
+        {**common, "market": "total", "side": "under", "line": "165.5", "odds": "-110"},
+    ]
+
+
+def test_validate_latest_snapshot_accepts_exact_paired_book(monkeypatch, tmp_path):
+    from datetime import datetime, timezone
+
+    latest = tmp_path / "latest.csv"
+    monkeypatch.setattr(market_data, "ODDS_LATEST_CSV", latest)
+    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    pd.DataFrame(_valid_fanatics_rows(now), columns=COLUMNS).to_csv(latest, index=False)
+
+    summary = market_data.validate_latest_snapshot("fanatics")
+
+    assert summary == {"rows": 6, "events": 1, "game_rows": 6, "prop_rows": 0}
+
+
+def test_validate_latest_snapshot_rejects_empty_locked_board(monkeypatch, tmp_path):
+    latest = tmp_path / "latest.csv"
+    monkeypatch.setattr(market_data, "ODDS_LATEST_CSV", latest)
+    pd.DataFrame(columns=COLUMNS).to_csv(latest, index=False)
+
+    with pytest.raises(SystemExit, match="snapshot is empty"):
+        market_data.validate_latest_snapshot("fanatics")
+
+
+def test_validate_latest_snapshot_rejects_unpaired_line(monkeypatch, tmp_path):
+    from datetime import datetime, timezone
+
+    latest = tmp_path / "latest.csv"
+    monkeypatch.setattr(market_data, "ODDS_LATEST_CSV", latest)
+    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    rows = _valid_fanatics_rows(now)
+    rows[-1]["line"] = "166.5"
+    pd.DataFrame(rows, columns=COLUMNS).to_csv(latest, index=False)
+
+    with pytest.raises(SystemExit, match="total sides/lines do not pair"):
+        market_data.validate_latest_snapshot("fanatics")
