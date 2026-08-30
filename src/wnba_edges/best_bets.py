@@ -392,8 +392,7 @@ def _game_selection(row: pd.Series) -> str:
     if market == "moneyline":
         return f"{side} ML"
     if market == "spread" and pd.notna(line):
-        pick_line = float(line) if side == home else -float(line)
-        return f"{side} {pick_line:+.1f}"
+        return f"{side} {float(line):+.1f}"
     if market == "total" and pd.notna(line):
         return f"{side.title()} {float(line):g}"
     if market == "spread":

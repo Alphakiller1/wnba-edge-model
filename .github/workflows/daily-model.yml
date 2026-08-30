@@ -29,7 +29,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     env:
       ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
-      ODDS_BOOKMAKERS: fanatics
+      ODDS_BOOKMAKERS: draftkings
       WNBA_PROP_MARKETS: player_points,player_rebounds,player_assists,player_threes
     steps:
       - uses: actions/checkout@v4
@@ -46,19 +46,19 @@ jobs:
         run: |
           python -m wnba_edges.cli refresh-season --season 2026-27
           python -m wnba_edges.cli build-features --season 2026-27
-      - name: Fetch Fanatics game and modeled prop lines
+      - name: Fetch DraftKings game and modeled prop lines
         if: github.event_name == 'schedule' || inputs.refresh_model
         run: |
           test -n "$ODDS_API_KEY" || { echo "ODDS_API_KEY secret is missing"; exit 1; }
-          python -m wnba_edges.market_data --fetch-slate --bookmakers fanatics
-          python -m wnba_edges.market_data --fetch-slate --props --bookmakers fanatics
-          python -m wnba_edges.market_data --validate-latest --bookmakers fanatics
+          python -m wnba_edges.market_data --fetch-slate --bookmakers draftkings
+          python -m wnba_edges.market_data --fetch-slate --props --bookmakers draftkings
+          python -m wnba_edges.market_data --validate-latest --bookmakers draftkings
       - name: Grade prior forecasts and run current slate
         if: github.event_name == 'schedule' || inputs.refresh_model
         run: |
           python -m wnba_edges.cli grade-predictions --season 2026-27
           python -m wnba_edges.cli build-game-projections --season 2026-27 --days 2
-      - name: Require available Fanatics props to reach Best Bets
+      - name: Require available DraftKings props to reach Best Bets
         if: github.event_name == 'schedule' || inputs.refresh_model
         run: |
           python - <<'PY'
@@ -71,7 +71,7 @@ jobs:
           prop_bets = bets[bets["family"].astype(str).str.lower().eq("prop")]
           print(f"priced player props: {len(priced)}; player props in Best Bets: {len(prop_bets)}")
           if not priced.empty and prop_bets.empty:
-              raise SystemExit("Priced Fanatics player props exist but Daily Best Bets contains none")
+              raise SystemExit("Priced DraftKings player props exist but Daily Best Bets contains none")
           PY
       - name: Build dashboard
         run: python -m wnba_edges.cli build-site --season 2026-27 --out docs/index.html
@@ -84,7 +84,7 @@ jobs:
             echo "No model data changed"
             exit 0
           fi
-          git commit -m "Run daily WNBA model with Fanatics props"
+          git commit -m "Run daily WNBA model with DraftKings props"
           git pull --rebase origin main
           git push origin HEAD:main
       - name: Configure Pages

@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from wnba_edges import market_data
+from wnba_edges import cli, market_data
 from wnba_edges.market_data import COLUMNS, filter_odds_to_requested_books
 
 
@@ -130,3 +130,19 @@ def test_validate_latest_snapshot_rejects_unpaired_line(monkeypatch, tmp_path):
 
     with pytest.raises(SystemExit, match="total sides/lines do not pair"):
         market_data.validate_latest_snapshot("fanatics")
+
+
+def test_projection_loader_uses_exact_latest_snapshot_not_history(monkeypatch, tmp_path):
+    latest = tmp_path / "latest.csv"
+    history = tmp_path / "history.csv"
+    monkeypatch.setattr(market_data, "ODDS_LATEST_CSV", latest)
+    monkeypatch.setattr(market_data, "ODDS_HISTORY_CSV", history)
+    monkeypatch.setenv("ODDS_BOOKMAKERS", "draftkings")
+    pd.DataFrame([{"book": "draftkings", "market": "total", "line": 177.5}]).to_csv(latest, index=False)
+    pd.DataFrame([{"book": "draftkings", "market": "total", "line": 175.5}]).to_csv(history, index=False)
+
+    current = cli._load_odds()
+    grading = cli._load_odds(latest_only=False)
+
+    assert list(current["line"]) == [177.5]
+    assert sorted(grading["line"].tolist()) == [175.5, 177.5]

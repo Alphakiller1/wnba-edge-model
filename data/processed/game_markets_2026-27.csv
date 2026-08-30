@@ -1,13 +1,13 @@
 run_id,generated_at,game_date,away,home,market,projection,projection_basis,side,line,odds,opposite_odds,book,model_prob,implied_prob,vig_free,edge,tier,verdict,priced
-b4fd4aeb5516,2026-08-30T17:48:54+00:00,2026-08-30,MIN,ATL,moneyline,0.5033,Normal CDF of projected margin (σ=12),ATL,,,,,,,False,,,PROJ,False
-b4fd4aeb5516,2026-08-30T17:48:54+00:00,2026-08-30,MIN,ATL,spread,0.1,projected home margin,ATL,,,,,,,False,,,PROJ,False
-b4fd4aeb5516,2026-08-30T17:48:54+00:00,2026-08-30,MIN,ATL,total,175.7,projected total,,,,,,,,False,,,PROJ,False
-b4fd4aeb5516,2026-08-30T17:48:54+00:00,2026-08-30,LAS,SEA,moneyline,0.5464,Normal CDF of projected margin (σ=12),SEA,,,,,,,False,,,PROJ,False
-b4fd4aeb5516,2026-08-30T17:48:54+00:00,2026-08-30,LAS,SEA,spread,1.4,projected home margin,SEA,,,,,,,False,,,PROJ,False
-b4fd4aeb5516,2026-08-30T17:48:54+00:00,2026-08-30,LAS,SEA,total,173.0,projected total,,,,,,,,False,,,PROJ,False
-b4fd4aeb5516,2026-08-30T17:48:54+00:00,2026-08-30,GSV,PDX,moneyline,0.64,Normal CDF of projected margin (σ=12),GSV,,,,,,,False,,,PROJ,False
-b4fd4aeb5516,2026-08-30T17:48:54+00:00,2026-08-30,GSV,PDX,spread,-4.3,projected home margin,GSV,,,,,,,False,,,PROJ,False
-b4fd4aeb5516,2026-08-30T17:48:54+00:00,2026-08-30,GSV,PDX,total,168.1,projected total,,,,,,,,False,,,PROJ,False
-b4fd4aeb5516,2026-08-30T17:48:54+00:00,2026-08-30,CON,DAL,moneyline,0.7174,Normal CDF of projected margin (σ=12),DAL,,,,,,,False,,,PROJ,False
-b4fd4aeb5516,2026-08-30T17:48:54+00:00,2026-08-30,CON,DAL,spread,6.9,projected home margin,DAL,,,,,,,False,,,PROJ,False
-b4fd4aeb5516,2026-08-30T17:48:54+00:00,2026-08-30,CON,DAL,total,170.1,projected total,,,,,,,,False,,,PROJ,False
+713d944a784f,2026-08-30T18:06:13+00:00,2026-08-30,MIN,ATL,moneyline,0.5033,Normal CDF of projected margin (σ=12),ATL,,120,-142,draftkings,0.5033,0.4365,True,0.0668,Standard,PLAY,True
+713d944a784f,2026-08-30T18:06:13+00:00,2026-08-30,MIN,ATL,spread,0.1,projected home margin,ATL,2.5,-110,-110,draftkings,0.5858,0.5,True,0.0858,Strong,PLAY,True
+713d944a784f,2026-08-30T18:06:13+00:00,2026-08-30,MIN,ATL,total,175.7,projected total,UNDER,177.5,-115,-105,draftkings,0.5596,0.5108,True,0.0488,Standard,PLAY,True
+713d944a784f,2026-08-30T18:06:13+00:00,2026-08-30,LAS,SEA,moneyline,0.5464,Normal CDF of projected margin (σ=12),SEA,,-105,-115,draftkings,0.5464,0.4892,True,0.0572,Standard,PLAY,True
+713d944a784f,2026-08-30T18:06:13+00:00,2026-08-30,LAS,SEA,spread,1.4,projected home margin,SEA,1.5,-115,-105,draftkings,0.5955,0.5108,True,0.0846,Strong,PLAY,True
+713d944a784f,2026-08-30T18:06:13+00:00,2026-08-30,LAS,SEA,total,173.0,projected total,UNDER,174.5,-105,-115,draftkings,0.5497,0.4892,True,0.0606,Standard,PLAY,True
+713d944a784f,2026-08-30T18:06:13+00:00,2026-08-30,GSV,PDX,moneyline,0.64,Normal CDF of projected margin (σ=12),GSV,,-218,180,draftkings,0.64,0.6575,True,-0.0175,Pass,PASS,True
+713d944a784f,2026-08-30T18:06:13+00:00,2026-08-30,GSV,PDX,spread,-4.3,projected home margin,PDX,5.5,-112,-108,draftkings,0.5398,0.5043,True,0.0355,Lean,PLAY,True
+713d944a784f,2026-08-30T18:06:13+00:00,2026-08-30,GSV,PDX,total,168.1,projected total,OVER,158.5,-110,-110,draftkings,0.7881,0.5,True,0.2881,Review,REVIEW,True
+713d944a784f,2026-08-30T18:06:13+00:00,2026-08-30,CON,DAL,moneyline,0.7174,Normal CDF of projected margin (σ=12),DAL,,-1200,750,draftkings,0.7174,0.887,True,-0.1696,Pass,PASS,True
+713d944a784f,2026-08-30T18:06:13+00:00,2026-08-30,CON,DAL,spread,6.9,projected home margin,CON,14.5,-108,-112,draftkings,0.7367,0.4957,True,0.2411,Review,REVIEW,True
+713d944a784f,2026-08-30T18:06:13+00:00,2026-08-30,CON,DAL,total,170.1,projected total,OVER,165.5,-110,-110,draftkings,0.6493,0.5,True,0.1493,Strong,PLAY,True

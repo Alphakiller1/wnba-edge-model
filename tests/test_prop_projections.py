@@ -207,6 +207,44 @@ def test_build_slate_prop_projections_prices_when_a_quote_exists():
     assert unpriced["verdict"] == "PROJ"
 
 
+def test_prop_projection_uses_the_selected_under_price():
+    features = pd.DataFrame(
+        [
+            {
+                "name": "Star Player", "id": 1, "team": "MIN",
+                "ppg": 20.0, "rpg": 8.0, "apg": 3.0, "mpg": 32.0,
+                "projectedMinutes": 32.0, "projectedPoints": 20.0, "low_sample": False,
+            }
+        ]
+    )
+    schedule = pd.DataFrame([{"date": "2026-08-18", "away": "CHI", "home": "MIN"}])
+    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    odds = pd.DataFrame(
+        [
+            {
+                "away": "CHI", "home": "MIN", "player": "Star Player",
+                "market": "player_points", "side": "Star Player|over",
+                "line": 21.5, "odds": -125, "book": "draftkings", "fetched_at": now,
+            },
+            {
+                "away": "CHI", "home": "MIN", "player": "Star Player",
+                "market": "player_points", "side": "Star Player|under",
+                "line": 21.5, "odds": 105, "book": "draftkings", "fetched_at": now,
+            },
+        ]
+    )
+
+    slate = build_slate_prop_projections(
+        features, schedule, None, odds,
+        season="2026-27", run_id="r1", generated_at=now,
+    )
+    points = slate[slate["market"] == "player_points"].iloc[0]
+
+    assert points["side"] == "under"
+    assert points["odds"] == 105
+    assert points["opposite_odds"] == -125
+
+
 def test_prop_batch_log_is_idempotent(tmp_path):
     now = datetime.now(timezone.utc).isoformat(timespec="seconds")
     slate = pd.DataFrame(
@@ -262,6 +300,34 @@ def test_build_game_market_slate_records_ml_spread_and_total():
     total = slate.iloc[2]
     assert total["side"] == "OVER"
     assert total["line"] == 160.5
+
+
+def test_game_market_spread_stores_the_selected_away_line():
+    from wnba_edges.prop_projections import build_game_market_slate
+
+    game = pd.DataFrame(
+        [
+            {
+                "run_id": "r1", "generated_at": "2026-08-20T12:00:00+00:00",
+                "date": "2026-08-20", "away": "CON", "home": "DAL",
+                "projected_away_pts": 82.0, "projected_home_pts": 89.0,
+                "projected_total": 171.0, "projected_home_spread": 7.0,
+                "home_win_prob": 0.72, "win_prob_basis": "normal CDF",
+                "book_total_line": 165.5, "book_spread_line": -14.5,
+                "book_home_ml": -1200, "book_away_ml": 750,
+                "book_spread_odds": -112, "book_spread_opposite": -108,
+                "book_total_over_odds": -110, "book_total_under_odds": -110,
+                "book_ml_book": "draftkings", "book_spread_book": "draftkings",
+                "book_total_book": "draftkings",
+            }
+        ]
+    )
+
+    spread = build_game_market_slate(game).iloc[1]
+
+    assert spread["side"] == "CON"
+    assert spread["line"] == 14.5
+    assert spread["odds"] == -108
 
 
 def test_unpriced_game_markets_still_log_projections_without_a_side_wl():

@@ -273,11 +273,12 @@ def main() -> None:
         print(f"wrote dashboard to {path}")
 
 
-def _load_odds() -> pd.DataFrame | None:
+def _load_odds(*, latest_only: bool = True) -> pd.DataFrame | None:
     from .market_data import ODDS_HISTORY_CSV, ODDS_LATEST_CSV
 
+    paths = (ODDS_LATEST_CSV,) if latest_only else (ODDS_LATEST_CSV, ODDS_HISTORY_CSV)
     frames = []
-    for path in (ODDS_LATEST_CSV, ODDS_HISTORY_CSV):
+    for path in paths:
         if path.exists():
             frame = pd.read_csv(path)
             if not frame.empty:
@@ -417,7 +418,7 @@ def _fit_sigma(season: str) -> None:
 def _grade(season: str) -> None:
     logs_path = DATA / "processed" / f"player_game_logs_{season}.csv"
     results_path = DATA / "processed" / f"game_results_{season}.csv"
-    odds = _load_odds()
+    odds = _load_odds(latest_only=False)
     if odds is not None:
         filled = backfill_logged_game_lines(ROOT, odds)
         if filled:

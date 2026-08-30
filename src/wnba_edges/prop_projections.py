@@ -261,20 +261,27 @@ def build_slate_prop_projections(
                     }
                     if price is not None:
                         side = "over" if projection >= price["line"] else "under"
+                        pick_odds = price["odds"]
+                        opposite_odds = price.get("opposite_odds")
+                        if side == "under":
+                            pick_odds, opposite_odds = opposite_odds, pick_odds
+                        if pick_odds is None:
+                            rows.append(row)
+                            continue
                         value = evaluate_over_under(
                             projection=projection,
                             line=price["line"],
-                            odds=int(price["odds"]),
+                            odds=int(pick_odds),
                             side=side,
                             sigma=sigma,
-                            opposite_odds=price.get("opposite_odds"),
+                            opposite_odds=opposite_odds,
                         )
                         row.update(
                             {
                                 "line": price["line"],
                                 "side": side,
-                                "odds": int(price["odds"]),
-                                "opposite_odds": price.get("opposite_odds"),
+                                "odds": int(pick_odds),
+                                "opposite_odds": opposite_odds,
                                 "book": price["book"],
                                 "model_prob": value.model_prob,
                                 "implied_prob": value.implied_prob,
@@ -427,7 +434,9 @@ def _spread_row(game: pd.Series) -> dict:
             row["side"] = "PUSH"
         else:
             row["side"] = home if cover > 0 else away
-        row["line"] = float(book_line)
+        # Store the selected side's posted line. ``book_spread_line`` is the
+        # home-team line, but game-market rows are selection-centric.
+        row["line"] = float(book_line) if row["side"] == home else -float(book_line)
         home_covers = estimate_over_probability(float(projected), -float(book_line), sigma=_GAME_SIGMA)
         model_prob = home_covers if row["side"] == home else (1.0 - home_covers if row["side"] == away else 0.5)
         odds = pd.to_numeric(game.get("book_spread_odds"), errors="coerce")
