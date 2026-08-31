@@ -1,10 +1,1 @@
 run_id,generated_at,game_date,away,home,market,projection,projection_basis,side,line,odds,opposite_odds,book,model_prob,implied_prob,vig_free,edge,tier,verdict,priced
-b7fbac8e57aa,2026-08-30T21:01:52+00:00,2026-08-30,LAS,SEA,moneyline,0.5464,Normal CDF of projected margin (σ=12),SEA,,100,-120,draftkings,0.5464,0.4783,True,0.0681,Standard,PLAY,True
-b7fbac8e57aa,2026-08-30T21:01:52+00:00,2026-08-30,LAS,SEA,spread,1.4,projected home margin,SEA,1.5,-110,-110,draftkings,0.5955,0.5,True,0.0955,Strong,PLAY,True
-b7fbac8e57aa,2026-08-30T21:01:52+00:00,2026-08-30,LAS,SEA,total,173.0,projected total,UNDER,174.5,-112,-108,draftkings,0.5497,0.5043,True,0.0454,Standard,PLAY,True
-b7fbac8e57aa,2026-08-30T21:01:52+00:00,2026-08-30,GSV,PDX,moneyline,0.64,Normal CDF of projected margin (σ=12),GSV,,-230,190,draftkings,0.64,0.669,True,-0.029,Pass,PASS,True
-b7fbac8e57aa,2026-08-30T21:01:52+00:00,2026-08-30,GSV,PDX,spread,-4.3,projected home margin,PDX,6.5,-115,-105,draftkings,0.5727,0.5108,True,0.0619,Standard,PLAY,True
-b7fbac8e57aa,2026-08-30T21:01:52+00:00,2026-08-30,GSV,PDX,total,168.1,projected total,OVER,158.5,-110,-110,draftkings,0.7881,0.5,True,0.2881,Review,REVIEW,True
-b7fbac8e57aa,2026-08-30T21:01:52+00:00,2026-08-30,CON,DAL,moneyline,0.7174,Normal CDF of projected margin (σ=12),DAL,,-1200,750,draftkings,0.7174,0.887,True,-0.1696,Pass,PASS,True
-b7fbac8e57aa,2026-08-30T21:01:52+00:00,2026-08-30,CON,DAL,spread,6.9,projected home margin,CON,14.5,-105,-115,draftkings,0.7367,0.4892,True,0.2476,Review,REVIEW,True
-b7fbac8e57aa,2026-08-30T21:01:52+00:00,2026-08-30,CON,DAL,total,170.1,projected total,OVER,165.5,-110,-110,draftkings,0.6493,0.5,True,0.1493,Strong,PLAY,True

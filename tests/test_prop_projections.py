@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 import pandas as pd
 import pytest
 
+from wnba_edges import cli
 from wnba_edges.cli import _projection_for_market
 from wnba_edges.predictions import log_prop_predictions_batch, prop_log_path
 from wnba_edges.prop_projections import (
@@ -328,6 +329,28 @@ def test_game_market_spread_stores_the_selected_away_line():
     assert spread["side"] == "CON"
     assert spread["line"] == 14.5
     assert spread["odds"] == -108
+
+
+def test_empty_schedule_clears_replaceable_market_prop_and_best_bet_slates(monkeypatch, tmp_path):
+    processed = tmp_path / "data" / "processed"
+    processed.mkdir(parents=True)
+    monkeypatch.setattr(cli, "ROOT", tmp_path)
+    monkeypatch.setattr(cli, "DATA", tmp_path / "data")
+    season = "2026-27"
+    market_path = processed / f"game_markets_{season}.csv"
+    prop_path = processed / f"prop_projections_{season}.csv"
+    best_path = processed / f"daily_best_bets_{season}.csv"
+    pd.DataFrame([{"market": "moneyline", "book": "draftkings"}]).to_csv(market_path, index=False)
+    pd.DataFrame([{"player": "Stale Player", "book": "draftkings"}]).to_csv(prop_path, index=False)
+    pd.DataFrame([{"selection": "STALE"}]).to_csv(best_path, index=False)
+
+    cli._write_game_markets(season, pd.DataFrame())
+    cli._write_prop_slate(season, pd.DataFrame(), pd.DataFrame(), None)
+    cli._write_best_bets(season)
+
+    assert pd.read_csv(market_path).empty
+    assert pd.read_csv(prop_path).empty
+    assert pd.read_csv(best_path).empty
 
 
 def test_unpriced_game_markets_still_log_projections_without_a_side_wl():

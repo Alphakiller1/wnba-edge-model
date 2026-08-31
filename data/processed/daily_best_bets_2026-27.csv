@@ -1,11 +1,1 @@
 rank,slate_date,family,market,game_date,away,home,matchup,selection,player,side,line,odds,book,model_prob,hist_n,hist_wins,hist_losses,hist_hit_rate,hist_band,hit_likelihood,edge,tier,verdict
-1,2026-08-30,moneyline,moneyline,2026-08-30,CON,DAL,CON @ DAL,DAL ML,,DAL,,-1200.0,draftkings,0.7174,33,29,4,87.9,70%+,0.8199,-0.1696,Pass,PASS
-2,2026-08-30,prop,player_threes,2026-08-30,LAS,SEA,LAS @ SEA,Jade Melbourne OVER 0.5 3PM,Jade Melbourne,OVER,0.5,-240.0,draftkings,0.8235,46,32,14,69.6,70%+,0.7156,0.1651,Review,REVIEW
-3,2026-08-30,prop,player_threes,2026-08-30,LAS,SEA,LAS @ SEA,Nneka Ogwumike UNDER 1.5 3PM,Nneka Ogwumike,UNDER,1.5,-224.0,draftkings,0.7188,46,32,14,69.6,70%+,0.694,0.0745,Standard,PLAY
-4,2026-08-30,moneyline,moneyline,2026-08-30,GSV,PDX,GSV @ PDX,GSV ML,,GSV,,-230.0,draftkings,0.64,19,14,5,73.7,60–69%,0.6855,-0.029,Pass,PASS
-5,2026-08-30,prop,player_points,2026-08-30,GSV,PDX,GSV @ PDX,Tiffany Hayes UNDER 14.5 PTS,Tiffany Hayes,UNDER,14.5,-114.0,draftkings,0.821,22,13,9,59.1,70%+,0.6672,0.324,Review,REVIEW
-6,2026-08-30,prop,player_rebounds,2026-08-30,LAS,SEA,LAS @ SEA,Ezi Magbegor UNDER 5.5 REB,Ezi Magbegor,UNDER,5.5,-143.0,draftkings,0.7606,25,15,10,60.0,70%+,0.6471,0.2126,Review,REVIEW
-7,2026-08-30,total,total,2026-08-30,LAS,SEA,LAS @ SEA,Under 174.5,,UNDER,174.5,-112.0,draftkings,0.5497,15,11,4,73.3,50–59%,0.6365,0.0454,Standard,PLAY
-8,2026-08-30,moneyline,moneyline,2026-08-30,LAS,SEA,LAS @ SEA,SEA ML,,SEA,,100.0,draftkings,0.5464,28,18,10,64.3,50–59%,0.6073,0.0681,Standard,PLAY
-9,2026-08-30,total,total,2026-08-30,GSV,PDX,GSV @ PDX,Over 158.5,,OVER,158.5,-110.0,draftkings,0.7881,39,20,19,51.3,all,0.5771,0.2881,Review,REVIEW
-10,2026-08-30,spread,spread,2026-08-30,CON,DAL,CON @ DAL,CON +14.5,,CON,14.5,-105.0,draftkings,0.7367,9,3,6,33.3,70%+,0.5768,0.2476,Review,REVIEW

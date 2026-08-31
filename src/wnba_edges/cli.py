@@ -29,6 +29,7 @@ from .predictions import (
 )
 from .projections import UnknownTeamsError, build_game_projections, load_schedule
 from .prop_projections import (
+    PROP_SLATE_COLUMNS,
     attach_game_market_lines,
     build_game_market_slate,
     build_slate_prop_projections,
@@ -344,11 +345,11 @@ def _build_prop_projections(args) -> None:
 def _write_game_markets(season: str, projections: pd.DataFrame) -> None:
     markets = build_game_market_slate(projections)
     out_path = game_market_slate_path(ROOT, season)
-    if markets.empty:
-        print("no moneyline/spread/total rows to record")
-        return
     out_path.parent.mkdir(parents=True, exist_ok=True)
     markets.to_csv(out_path, index=False)
+    if markets.empty:
+        print(f"no moneyline/spread/total rows to record; cleared stale slate at {out_path}")
+        return
     logged = log_market_predictions_batch(ROOT, markets, season)
     priced = int(markets["priced"].astype(str).str.lower().isin(["true", "1"]).sum())
     print(
@@ -365,8 +366,11 @@ def _write_prop_slate(
 ) -> None:
     features_path = DATA / "processed" / f"player_features_{season}.csv"
     logs_path = DATA / "processed" / f"player_game_logs_{season}.csv"
+    out_path = prop_slate_path(ROOT, season)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
     if not features_path.exists():
-        print("skipping player-prop projections: player features not built")
+        pd.DataFrame(columns=PROP_SLATE_COLUMNS).to_csv(out_path, index=False)
+        print(f"skipping player-prop projections: player features not built; cleared stale slate at {out_path}")
         return
     run_id = ""
     generated_at = ""
@@ -388,12 +392,11 @@ def _write_prop_slate(
         generated_at=generated_at,
         root=ROOT,
     )
-    out_path = prop_slate_path(ROOT, season)
-    if props.empty:
-        print("no player-prop projections produced (empty rotation or missing priors)")
-        return
-    out_path.parent.mkdir(parents=True, exist_ok=True)
+    props = props.reindex(columns=PROP_SLATE_COLUMNS)
     props.to_csv(out_path, index=False)
+    if props.empty:
+        print(f"no player-prop projections produced; cleared stale slate at {out_path}")
+        return
     logged = log_prop_predictions_batch(ROOT, props, season)
     priced = int(props["priced"].astype(str).str.lower().isin(["true", "1"]).sum())
     print(
