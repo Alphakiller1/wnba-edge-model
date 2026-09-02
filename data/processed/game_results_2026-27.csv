@@ -285,8 +285,6 @@ GSV,Golden State Valkyries,80,2026-08-24,1787529600000.0,8.0,MIN,Minnesota Lynx,
 CHI,Chicago Sky,81,2026-08-25,1787616000000.0,39.0,CON,Connecticut Sun,87,1022600284.0,CHI,6,Aug,False,79.0,2026-27,regular_season,"A. Edwards — 26 pts, 10 reb",CON,168,6,L,W,
 PDX,Portland Fire,78,2026-08-25,1787616000000.0,11.0,DAL,Dallas Wings,96,1022600285.0,PDX,18,Aug,False,74.0,2026-27,regular_season,"P. Bueckers — 22 pts, 11 ast",DAL,174,18,L,W,
 WAS,Washington Mystics,94,2026-08-25,1787616000000.0,32.0,PHX,Phoenix Mercury,84,1022600286.0,PHX,10,Aug,False,77.5,2026-27,regular_season,"N. Mack — 19 pts, 8 reb",WAS,178,-10,W,L,
-CHI,,66,2026-08-29,,,NYL,,85,,CHI,19,,,,2026-27,,,NYL,151,19,L,W,espn_scoreboard
-TOR,,69,2026-08-29,,,PHX,,101,,TOR,32,,,,2026-27,,,PHX,170,32,L,W,espn_scoreboard
 CON,,71,2026-08-30,,,DAL,,97,,CON,26,,,,2026-27,,,DAL,168,26,L,W,espn_scoreboard
 GSV,,86,2026-08-30,,,PDX,,69,,PDX,17,,,,2026-27,,,GSV,155,-17,W,L,espn_scoreboard
 LAS,,90,2026-08-30,,,SEA,,74,,SEA,16,,,,2026-27,,,LAS,164,-16,W,L,espn_scoreboard
