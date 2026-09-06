@@ -1,8 +1,8 @@
 market,stat,sigma,n_games,n_players
-player_points,pts,5.407,6790,209
-player_rebounds,reb,2.229,6790,209
-player_assists,ast,1.576,6790,209
-player_threes,fg3m,0.964,6790,209
-player_steals,stl,0.831,6790,209
-player_blocks,blk,0.627,6790,209
-player_pra,pra,7.379,6790,209
+player_points,pts,5.408,7145,213
+player_rebounds,reb,2.23,7145,213
+player_assists,ast,1.573,7145,213
+player_threes,fg3m,0.966,7145,213
+player_steals,stl,0.834,7145,213
+player_blocks,blk,0.625,7145,213
+player_pra,pra,7.383,7145,213
