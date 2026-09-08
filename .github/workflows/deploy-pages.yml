@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - main
+  schedule:
+    # Daily slate: afternoon ET after same-day boards open, plus a late-night
+    # rebuild after West Coast tips. Rebuilds from committed CSVs only — this
+    # workflow does not call --fetch-odds (that spend lives in daily-model.yml).
+    - cron: "15 18 * * *"
+    - cron: "30 4 * * *"
   workflow_dispatch:
 
 permissions:
@@ -49,6 +55,26 @@ jobs:
               lines = projection_path.read_text(encoding='utf-8').splitlines()
               assert len(lines) == 1 and 'book_total_line' in lines[0], 'unexpected empty projection state'
           print(f"OK: {len(html)//1024} KB")
+          EOF
+          python - <<'EOF'
+          import json
+          from pathlib import Path
+          board = json.loads(Path('_site/board.json').read_text(encoding='utf-8'))
+          build = json.loads(Path('_site/build.json').read_text(encoding='utf-8'))
+          record = json.loads(Path('_site/record.json').read_text(encoding='utf-8'))
+          assert board['schema'] == 'wnba-edge-model/board/1'
+          assert board['authority'] == 'RESEARCH_ONLY'
+          assert board['may_bet'] is False
+          assert 'unmet_gates' in board
+          assert 'games' in board and 'player_projections' in board
+          assert 'state' in build and 'generated_at' in build and 'odds' in build
+          assert 'issues' in build and 'sources' in build
+          assert record['authority'] == 'shadow_only'
+          assert record['may_bet'] is False
+          for key in ('games_graded', 'pending_snapshots', 'model_mae', 'consensus_mae',
+                      'book_mae', 'ats', 'totals'):
+              assert key in record, key
+          print('OK: board/build/record JSON contract')
           EOF
       - name: Configure Pages
         uses: actions/configure-pages@v5

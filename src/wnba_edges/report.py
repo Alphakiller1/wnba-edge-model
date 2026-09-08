@@ -142,6 +142,9 @@ def build_site(root: Path, season: str, out: Path) -> Path:
             .replace("__SCRIPT__", BOARD_JS))
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(document, encoding="utf-8")
+    from .export import write_bundle
+
+    write_bundle(root, out.parent, season)
     return out
 
 
