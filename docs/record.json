@@ -1,0 +1,26 @@
+{
+  "scope": "latest pregame forecast per game from data/predictions/game_predictions.csv",
+  "authority": "shadow_only",
+  "may_bet": false,
+  "unmet_gates": [],
+  "season": "2026-27",
+  "games_graded": 80,
+  "pending_snapshots": 0,
+  "model_mae": 9.42,
+  "consensus_mae": null,
+  "book_mae": null,
+  "ats": {
+    "win": 16,
+    "loss": 23,
+    "push": 0
+  },
+  "model_total_mae": 15.11,
+  "book_total_mae": null,
+  "totals": {
+    "win": 20,
+    "loss": 19,
+    "push": 0
+  },
+  "winner_hit_rate": 76.2,
+  "brier": 0.1795
+}

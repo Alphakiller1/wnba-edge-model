@@ -1,0 +1,57 @@
+{
+  "state": "degraded",
+  "generated_at": "2026-09-08 21:11 UTC",
+  "season": "2026-27",
+  "sources": [
+    {
+      "name": "game_projections",
+      "path": "data/processed/game_projections_2026-27.csv",
+      "exists": true,
+      "rows": 0,
+      "state": "fresh"
+    },
+    {
+      "name": "prop_projections",
+      "path": "data/processed/prop_projections_2026-27.csv",
+      "exists": true,
+      "rows": 0,
+      "state": "fresh"
+    },
+    {
+      "name": "game_results",
+      "path": "data/processed/game_results_2026-27.csv",
+      "exists": true,
+      "rows": 300,
+      "state": "fresh"
+    },
+    {
+      "name": "game_markets",
+      "path": "data/processed/game_markets_2026-27.csv",
+      "exists": true,
+      "rows": 0,
+      "state": "fresh"
+    },
+    {
+      "name": "player_features",
+      "path": "data/processed/player_features_2026-27.csv",
+      "exists": true,
+      "rows": 231,
+      "state": "fresh"
+    }
+  ],
+  "odds": {
+    "requested_book": "draftkings",
+    "state": "fresh",
+    "fetched_at": "2026-09-08T21:11:15+00:00",
+    "events": 0,
+    "matched": 0,
+    "slate_games": 0,
+    "slate_matched": 0,
+    "remaining": null,
+    "age_seconds": 3,
+    "quotes_csv_rows": 0
+  },
+  "issues": [
+    "game_projections CSV has no slate rows"
+  ]
+}

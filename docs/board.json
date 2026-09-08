@@ -1,0 +1,13 @@
+{
+  "schema": "wnba-edge-model/board/1",
+  "sport": "wnba",
+  "generated_at_utc": "2026-09-08T21:11:18Z",
+  "season": "2026-27",
+  "authority": "RESEARCH_ONLY",
+  "may_bet": false,
+  "unmet_gates": [],
+  "evidence": "METHODOLOGY.md \u2014 analytics research, not betting advice. No output is a wager instruction.",
+  "note": "Research software. priced player props carry a matched book line; unpriced rows are model-only and never a pick.",
+  "games": [],
+  "player_projections": []
+}

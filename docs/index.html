@@ -135,11 +135,12 @@
   --board-bottom:var(--ca-board-bottom);
 }
 /*
- * Board kernel styles — the shared slate surface (see report/board.py).
+ * Board kernel styles — WNBA slate surface (see board.py).
  *
- * Vendored verbatim alongside board.py into every sport model. Every value here comes
- * from chase_tokens.css; do not introduce new colours or fonts. Elevation is hairline
- * borders + layered shadow, never a uniform violet outline.
+ * Sport-specific. chase_tokens.css is the shared brand file across model repos;
+ * do not treat this stylesheet as byte-identical to MLB/NFL/CFB board.css.
+ * Every value here comes from chase_tokens.css; do not introduce new colours or fonts.
+ * Elevation is hairline borders + layered shadow, never a uniform violet outline.
  */
 
 .bd {
@@ -1047,8 +1048,8 @@ footer p+p{margin-top:10px}
     Research software, not betting advice.</p>
     <div class="hero-meta">
       <span class="pill">data through 2026-08-30</span>
-      <span class="pill pill-warn">STALE &mdash; last refresh 8 days ago</span>
-      <span class="pill pill-dim">built Sep 07 · 21:29 UTC</span>
+      <span class="pill pill-warn">STALE &mdash; last refresh 9 days ago</span>
+      <span class="pill pill-dim">built Sep 08 · 21:11 UTC</span>
     </div>
     <div class="tiles"><div class="tile"><span class="tile-v">231</span><span class="tile-l">Players modeled</span></div><div class="tile"><span class="tile-v">300</span><span class="tile-l">Finished games</span></div><div class="tile"><span class="tile-v">0</span><span class="tile-l">Games projected</span></div><div class="tile"><span class="tile-v">0</span><span class="tile-l">Game markets</span></div><div class="tile"><span class="tile-v">0</span><span class="tile-l">Prop projections</span></div></div>
   </div>
@@ -1074,11 +1075,10 @@ footer p+p{margin-top:10px}
   <div class="sec-eyebrow">Market layer &middot; 3 / 5</div>
   <h2 class="sec-title">Market Snapshot</h2>
   <p class="sec-blurb">Stored odds with book attribution and quote timestamps. Edges are only ever priced against de-vigged market probabilities from these snapshots &mdash; a model number without a market price is a projection, not an edge.</p>
-</div>
-<p class="basis-note">Latest snapshot 2026-09-07T21:28:56+00:00 &nbsp;&middot;&nbsp; 1 book(s) &nbsp;&middot;&nbsp; 48 quotes</p>
-<div class="board"><div class="tablewrap"><table>
-<thead><tr><th>Market</th><th class="num">Quotes</th></tr></thead>
-<tbody><tr><td>ml</td><td class="num">16</td></tr><tr><td>spread</td><td class="num">16</td></tr><tr><td>total</td><td class="num">16</td></tr></tbody></table></div></div></section>
+</div><div class="empty"><b>Draftkings returned no posted WNBA lines.</b><br>
+            The locked feed was checked at 2026-09-08T21:11:15+00:00 across 8 event(s) and returned
+            0 quote(s). The model is deliberately unpriced; no other sportsbook or stale
+            snapshot was substituted.</div></section>
   <section>
 <div class="sec-head" id="watchboard">
   <div class="sec-eyebrow">Review queue &middot; 4 / 5</div>
