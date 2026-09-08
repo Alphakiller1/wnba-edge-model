@@ -45,6 +45,8 @@ jobs:
           # Shared brand contract: vendored Chase tokens + board kernel must reach the page.
           for key in ('#08090F', '#9A6BFF', 'DM Sans', 'Roboto Condensed', 'bd-card'):
               assert key in html, key
+          for forked in ('#B794FF', 'IBM Plex', '#BA008E', 'Barlow'):
+              assert forked not in html, f'off-brand token resurfaced: {forked}'
           # Features must always resolve. Projections may honestly be empty when
           # there is no game inside the current schedule window, so distinguish
           # that header-only slate from a missing data root.
