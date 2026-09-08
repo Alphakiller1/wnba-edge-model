@@ -1,3 +1,5 @@
+import json
+
 import pandas as pd
 import pytest
 
@@ -112,10 +114,58 @@ def test_validate_latest_snapshot_accepts_exact_paired_book(monkeypatch, tmp_pat
 def test_validate_latest_snapshot_rejects_empty_locked_board(monkeypatch, tmp_path):
     latest = tmp_path / "latest.csv"
     monkeypatch.setattr(market_data, "ODDS_LATEST_CSV", latest)
+    monkeypatch.setattr(market_data, "ODDS_STATUS_JSON", tmp_path / "odds_status.json")
     pd.DataFrame(columns=COLUMNS).to_csv(latest, index=False)
 
     with pytest.raises(SystemExit, match="snapshot is empty"):
         market_data.validate_latest_snapshot("fanatics")
+
+
+def test_odds_quota_error_is_recoverable():
+    err = market_data._odds_http_error(
+        401,
+        '{"message":"Usage quota has been reached.","error_code":"OUT_OF_USAGE_CREDITS"}',
+    )
+    assert isinstance(err, market_data.OddsQuotaError)
+    other = market_data._odds_http_error(401, '{"message":"Invalid API key"}')
+    assert isinstance(other, SystemExit)
+
+
+def test_fetch_slate_quota_miss_clears_locked_snapshot(monkeypatch, tmp_path):
+    latest = tmp_path / "odds_latest.csv"
+    status = tmp_path / "odds_status.json"
+    monkeypatch.setattr(market_data, "ODDS_LATEST_CSV", latest)
+    monkeypatch.setattr(market_data, "ODDS_HISTORY_CSV", tmp_path / "odds_history.csv")
+    monkeypatch.setattr(market_data, "ODDS_DIR", tmp_path)
+    monkeypatch.setattr(market_data, "ODDS_STATUS_JSON", status)
+    monkeypatch.setenv("ODDS_BOOKMAKERS", "draftkings")
+    pd.DataFrame(
+        [{**dict.fromkeys(COLUMNS, ""), "book": "draftkings", "market": "ml", "odds": "-110"}],
+        columns=COLUMNS,
+    ).to_csv(latest, index=False)
+
+    def _boom(path, params):
+        market_data._LAST_USAGE["quota_exhausted"] = "1"
+        raise market_data.OddsQuotaError("quota")
+
+    monkeypatch.setattr(market_data, "_get", _boom)
+    rows = market_data.fetch_slate(props=False)
+    assert rows == []
+    stored = pd.read_csv(latest)
+    assert stored.empty
+    recorded = json.loads(status.read_text())
+    assert recorded["game"]["quota_exhausted"] is True
+
+
+def test_validate_latest_allows_empty_after_quota_miss(monkeypatch, tmp_path):
+    latest = tmp_path / "latest.csv"
+    status = tmp_path / "odds_status.json"
+    monkeypatch.setattr(market_data, "ODDS_LATEST_CSV", latest)
+    monkeypatch.setattr(market_data, "ODDS_STATUS_JSON", status)
+    pd.DataFrame(columns=COLUMNS).to_csv(latest, index=False)
+    status.write_text('{"game": {"quota_exhausted": true}}', encoding="utf-8")
+    summary = market_data.validate_latest_snapshot("draftkings", allow_quota_miss=True)
+    assert summary["rows"] == 0
 
 
 def test_validate_latest_snapshot_rejects_unpaired_line(monkeypatch, tmp_path):

@@ -52,7 +52,17 @@ jobs:
           test -n "$ODDS_API_KEY" || { echo "ODDS_API_KEY secret is missing"; exit 1; }
           python -m wnba_edges.market_data --fetch-slate --bookmakers draftkings
           python -m wnba_edges.market_data --fetch-slate --props --bookmakers draftkings
-          python -m wnba_edges.market_data --validate-latest --bookmakers draftkings
+          python -m wnba_edges.market_data --validate-latest --bookmakers draftkings --allow-quota-miss
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path = Path("data/odds/odds_status.json")
+          if not path.exists():
+              raise SystemExit(0)
+          status = json.loads(path.read_text())
+          if any((status.get(scope) or {}).get("quota_exhausted") for scope in ("game", "props")):
+              print("::warning::Odds API quota exhausted. Slate is unpriced; grading still published.")
+          PY
       - name: Grade prior forecasts and run current slate
         if: github.event_name == 'schedule' || inputs.refresh_model
         run: |

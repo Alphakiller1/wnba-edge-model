@@ -79,6 +79,17 @@ COLUMNS = [
 _LAST_USAGE: dict[str, str] = {}
 
 
+class OddsQuotaError(RuntimeError):
+    """The Odds API key has no remaining usage credits."""
+
+
+def _odds_http_error(code: int, body: str) -> Exception:
+    """Map Odds API HTTP failures. Quota misses are recoverable; other errors abort."""
+    if code in {401, 429} and "OUT_OF_USAGE_CREDITS" in body:
+        return OddsQuotaError(f"Odds API quota exhausted ({code}): {body}")
+    return SystemExit(f"Odds API error {code}: {body}")
+
+
 def _get(path: str, params: dict[str, Any]) -> Any:
     api_key = os.getenv("ODDS_API_KEY", "") or ODDS_API_KEY
     if not api_key:
@@ -92,10 +103,14 @@ def _get(path: str, params: dict[str, Any]) -> Any:
         with urllib.request.urlopen(url, timeout=30) as response:
             _LAST_USAGE["remaining"] = response.headers.get("x-requests-remaining", "?")
             _LAST_USAGE["used"] = response.headers.get("x-requests-used", "?")
+            _LAST_USAGE.pop("quota_exhausted", None)
             return json.loads(response.read().decode("utf-8"))
     except urllib.error.HTTPError as exc:
         body = exc.read().decode("utf-8", "ignore")
-        raise SystemExit(f"Odds API error {exc.code}: {body}") from exc
+        error = _odds_http_error(exc.code, body)
+        if isinstance(error, OddsQuotaError):
+            _LAST_USAGE["quota_exhausted"] = "1"
+        raise error from exc
 
 
 def list_events() -> dict[tuple[str, str], str]:
@@ -132,7 +147,11 @@ def fetch_slate(*, props: bool = False) -> list[dict]:
     """
     fetched_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
     if props:
-        events = list_events()
+        try:
+            events = list_events()
+        except OddsQuotaError as exc:
+            print(f"WARNING: {exc}")
+            return _quota_miss_snapshot("props", fetched_at)
         rows: list[dict] = []
         failed_events = 0
         for event_id in events.values():
@@ -140,6 +159,10 @@ def fetch_slate(*, props: bool = False) -> list[dict]:
                 # Player props are billed per event and market. Game lines came from
                 # the bulk endpoint already, so requesting them here wastes quota.
                 rows.extend(fetch_event_odds(event_id, props_only=True))
+            except OddsQuotaError as exc:
+                failed_events += 1
+                print(f"WARNING: prop fetch stopped after quota miss: {exc}")
+                break
             except SystemExit as exc:
                 # Keep quotes from successful calls if quota/network failure happens
                 # part-way through the slate. The old implementation discarded them.
@@ -166,7 +189,11 @@ def fetch_slate(*, props: bool = False) -> list[dict]:
         params = {"regions": ODDS_REGIONS, "markets": ODDS_GAME_MARKETS, "oddsFormat": ODDS_FORMAT}
         if _bookmakers():
             params["bookmakers"] = _bookmakers()
-        payload = _get(f"/sports/{ODDS_SPORT_KEY}/odds", params)
+        try:
+            payload = _get(f"/sports/{ODDS_SPORT_KEY}/odds", params)
+        except OddsQuotaError as exc:
+            print(f"WARNING: {exc}")
+            return _quota_miss_snapshot("game", fetched_at)
         if not isinstance(payload, list):
             raise SystemExit(f"Unexpected Odds API payload: {type(payload).__name__}")
         rows = []
@@ -192,6 +219,36 @@ def fetch_slate(*, props: bool = False) -> list[dict]:
     return rows
 
 
+def _quota_exhausted() -> bool:
+    return _LAST_USAGE.get("quota_exhausted") == "1"
+
+
+def quota_miss_recorded() -> bool:
+    """True when the latest fetch sidecar says The Odds API was out of credits."""
+    try:
+        status = json.loads(ODDS_STATUS_JSON.read_text(encoding="utf-8"))
+    except (FileNotFoundError, json.JSONDecodeError):
+        return False
+    for scope in ("game", "props"):
+        block = status.get(scope) or {}
+        if block.get("quota_exhausted"):
+            return True
+    return False
+
+
+def _quota_miss_snapshot(scope: str, fetched_at: str) -> list[dict]:
+    """Empty locked board: do not keep yesterday's quotes or mix other books."""
+    print(
+        "Odds API quota exhausted. Publishing an unpriced locked-book snapshot "
+        "instead of aborting grading or mixing other books."
+    )
+    rows: list[dict] = []
+    _record_fetch_status(scope, fetched_at, 0, rows)
+    if requested_bookmakers():
+        store(rows, replace_latest=True)
+    return rows
+
+
 def _record_fetch_status(scope: str, fetched_at: str, events: int, rows: list[dict]) -> None:
     """Persist the requested book even when it returns zero quotes.
 
@@ -211,6 +268,7 @@ def _record_fetch_status(scope: str, fetched_at: str, events: int, rows: list[di
         "returned_books": sorted({str(row.get("book") or "").lower() for row in rows if row.get("book")}),
         "api_used": _LAST_USAGE.get("used"),
         "api_remaining": _LAST_USAGE.get("remaining"),
+        "quota_exhausted": _quota_exhausted(),
     }
     ODDS_STATUS_JSON.write_text(json.dumps(status, indent=2) + "\n", encoding="utf-8")
 
@@ -316,7 +374,12 @@ def store(
     print(f"Stored {len(frame)} WNBA odds rows across {games} game(s).")
 
 
-def validate_latest_snapshot(book: str, *, max_age_hours: float = MAX_QUOTE_AGE_HOURS) -> dict[str, int]:
+def validate_latest_snapshot(
+    book: str,
+    *,
+    max_age_hours: float = MAX_QUOTE_AGE_HOURS,
+    allow_quota_miss: bool = False,
+) -> dict[str, int]:
     """Fail closed unless the latest snapshot is a fresh, internally paired book board.
 
     This validates the exact rows the projection engine will load. It prevents a
@@ -327,10 +390,16 @@ def validate_latest_snapshot(book: str, *, max_age_hours: float = MAX_QUOTE_AGE_
     if not expected:
         raise SystemExit("Snapshot validation requires one explicit bookmaker key.")
     if not ODDS_LATEST_CSV.exists():
+        if allow_quota_miss and quota_miss_recorded():
+            print(f"validated empty {expected} snapshot after Odds API quota miss")
+            return {"rows": 0, "events": 0, "game_rows": 0, "prop_rows": 0}
         raise SystemExit(f"No latest odds snapshot exists for {expected}.")
     frame = pd.read_csv(ODDS_LATEST_CSV, dtype=str).fillna("")
     if frame.empty:
-        raise SystemExit(f"Fanatics validation failed: the {expected} snapshot is empty.")
+        if allow_quota_miss and quota_miss_recorded():
+            print(f"validated empty {expected} snapshot after Odds API quota miss")
+            return {"rows": 0, "events": 0, "game_rows": 0, "prop_rows": 0}
+        raise SystemExit(f"Book-lock validation failed: the {expected} snapshot is empty.")
     books = {value.strip().lower() for value in frame["book"] if value.strip()}
     if books != {expected}:
         raise SystemExit(
@@ -486,6 +555,11 @@ def main() -> None:
         action="store_true",
         help="Require a fresh, single-book snapshot with correctly paired market sides.",
     )
+    parser.add_argument(
+        "--allow-quota-miss",
+        action="store_true",
+        help="With --validate-latest, accept an empty snapshot when The Odds API was out of credits.",
+    )
     args = parser.parse_args()
     if args.bookmakers:
         os.environ["ODDS_BOOKMAKERS"] = args.bookmakers
@@ -494,7 +568,10 @@ def main() -> None:
         books = requested_bookmakers()
         if len(books) != 1:
             raise SystemExit("--validate-latest requires exactly one --bookmakers key.")
-        summary = validate_latest_snapshot(next(iter(books)))
+        summary = validate_latest_snapshot(
+            next(iter(books)),
+            allow_quota_miss=args.allow_quota_miss,
+        )
         print(
             "validated latest snapshot: "
             f"{summary['rows']} rows, {summary['events']} events, "
