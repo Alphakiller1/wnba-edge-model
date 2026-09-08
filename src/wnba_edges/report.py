@@ -57,9 +57,9 @@ _LOCAL_ALIASES = """
 def brand_css() -> str:
     """Fonts + chase_tokens.css + the board kernel — the shared Chase identity.
 
-    chase_tokens.css and board.css are vendored byte-identical from mlb-model; a drift test
-    (tests/test_board_contract.py) fails the build if they diverge. That is what keeps the
-    MLB, WNBA and NFL products looking like one brand.
+    chase_tokens.css is the shared brand file (byte-identical across sports). board.css
+    is WNBA-specific. tests/test_board_contract.py pins both locally and asserts the
+    token seed.
     """
     tokens = (_STATIC / "chase_tokens.css").read_text(encoding="utf-8")
     board = (_STATIC / "board.css").read_text(encoding="utf-8")
@@ -142,6 +142,9 @@ def build_site(root: Path, season: str, out: Path) -> Path:
             .replace("__SCRIPT__", BOARD_JS))
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(document, encoding="utf-8")
+    from .export import write_bundle
+
+    write_bundle(root, out.parent, season)
     return out
 
 
