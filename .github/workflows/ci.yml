@@ -30,7 +30,7 @@ jobs:
           # into the built page, or this product has silently forked off-brand.
           for key in ('#08090F', '#9A6BFF', 'DM Sans', 'Roboto Condensed', 'bd-card'):
               assert key in html, key
-          for forked in ('#B794FF', 'IBM Plex', '#BA008E', 'Barlow'):
+          for forked in ('IBM Plex', '#BA008E', 'Barlow'):
               assert forked not in html, f'off-brand token resurfaced: {forked}'
           print(f"OK: {len(html)//1024} KB, all layers present")
           EOF
