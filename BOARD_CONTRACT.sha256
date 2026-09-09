@@ -1,8 +1,11 @@
 # Chase Analytics board pin for THIS repo.
-# chase_tokens.css is the only file shared byte-identical across sports
-# (seed 13014f566ee570d283b12859a6578d12d179a4cc39aecf8845518700fb85e911).
+# chase_tokens.css aliases are byte-identical across sports
+# (sha256 d2a929732e081ed8d2d5208aa915829e693c767f2f14fb29e2bffafc188a1fcd).
+# chase-tokens-v1.css is TIER 1 primitives
+# (sha256 3cd1f89f4e00618e1f006d2434fadc2f50617e7e220f8509b64be016598e03cf).
 # board.css is sport-specific. board.py copies may diverge.
 # Hashes are over LF-normalised bytes (see tests/test_board_contract.py).
 5b85a422f0bca9568bcd9c336b40326c292d6b3d4e45f0fc4b087979e7dc40e6  board.py
 ee7f6caa5c2489aa5b3c536af4f0b2d9d392074c33f0c2a106696f436db345f6  board.css
-13014f566ee570d283b12859a6578d12d179a4cc39aecf8845518700fb85e911  chase_tokens.css
+d2a929732e081ed8d2d5208aa915829e693c767f2f14fb29e2bffafc188a1fcd  chase_tokens.css
+3cd1f89f4e00618e1f006d2434fadc2f50617e7e220f8509b64be016598e03cf  chase-tokens-v1.css
