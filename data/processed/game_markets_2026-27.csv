@@ -1,7 +1,7 @@
 run_id,generated_at,game_date,away,home,market,projection,projection_basis,side,line,odds,opposite_odds,book,model_prob,implied_prob,vig_free,edge,tier,verdict,priced
-ead1b0dc70f9,2026-10-01T11:35:36+00:00,2026-10-01,IND,LVA,moneyline,0.5464,Normal CDF of projected margin (σ=12),LVA,,-198,164,draftkings,0.5464,0.6369,True,-0.0905,Pass,PASS,True
-ead1b0dc70f9,2026-10-01T11:35:36+00:00,2026-10-01,IND,LVA,spread,1.4,projected home margin,IND,4.5,-110,-110,draftkings,0.6019,0.5,True,0.1019,Strong,PLAY,True
-ead1b0dc70f9,2026-10-01T11:35:36+00:00,2026-10-01,IND,LVA,total,179.8,projected total,UNDER,180.5,-108,-112,draftkings,0.5233,0.4957,True,0.0276,Lean,PLAY,True
-ead1b0dc70f9,2026-10-01T11:35:36+00:00,2026-10-02,DAL,GSV,moneyline,0.6019,Normal CDF of projected margin (σ=12),GSV,,-325,260,draftkings,0.6019,0.7335,True,-0.1316,Pass,PASS,True
-ead1b0dc70f9,2026-10-01T11:35:36+00:00,2026-10-02,DAL,GSV,spread,3.1,projected home margin,DAL,7.5,-105,-115,draftkings,0.6431,0.4892,True,0.1539,Review,REVIEW,True
-ead1b0dc70f9,2026-10-01T11:35:36+00:00,2026-10-02,DAL,GSV,total,165.9,projected total,OVER,157.5,-110,-110,draftkings,0.758,0.5,True,0.258,Review,REVIEW,True
+76a2d8cf74ab,2026-10-01T22:38:47+00:00,2026-10-01,IND,LVA,moneyline,0.5464,Normal CDF of projected margin (σ=12),LVA,,-198,164,draftkings,0.5464,0.6369,True,-0.0905,Pass,PASS,True
+76a2d8cf74ab,2026-10-01T22:38:47+00:00,2026-10-01,IND,LVA,spread,1.4,projected home margin,IND,4.5,-105,-115,draftkings,0.6019,0.4892,True,0.1128,Strong,PLAY,True
+76a2d8cf74ab,2026-10-01T22:38:47+00:00,2026-10-01,IND,LVA,total,179.8,projected total,UNDER,181.5,-112,-108,draftkings,0.5563,0.5043,True,0.052,Standard,PLAY,True
+76a2d8cf74ab,2026-10-01T22:38:47+00:00,2026-10-02,DAL,GSV,moneyline,0.6019,Normal CDF of projected margin (σ=12),GSV,,-355,280,draftkings,0.6019,0.7478,True,-0.1459,Pass,PASS,True
+76a2d8cf74ab,2026-10-01T22:38:47+00:00,2026-10-02,DAL,GSV,spread,3.1,projected home margin,DAL,8.5,-115,-105,draftkings,0.6736,0.5108,True,0.1628,Review,REVIEW,True
+76a2d8cf74ab,2026-10-01T22:38:47+00:00,2026-10-02,DAL,GSV,total,165.9,projected total,OVER,157.5,-115,-105,draftkings,0.758,0.5108,True,0.2472,Review,REVIEW,True
