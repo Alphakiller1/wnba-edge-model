@@ -1,1 +1,8 @@
 rank,slate_date,family,market,game_date,away,home,matchup,selection,player,side,line,odds,book,model_prob,hist_n,hist_wins,hist_losses,hist_hit_rate,hist_band,hit_likelihood,edge,tier,verdict
+1,2026-10-01,prop,player_threes,2026-10-01,IND,LVA,IND @ LVA,Jewell Loyd OVER 1.5 3PM,Jewell Loyd,OVER,1.5,-104.0,draftkings,0.7259,46,32,14,69.6,70%+,0.6954,0.2525,Review,REVIEW
+2,2026-10-01,prop,player_threes,2026-10-01,IND,LVA,IND @ LVA,Aliyah Boston OVER 0.5 3PM,Aliyah Boston,OVER,0.5,-220.0,draftkings,0.7031,46,32,14,69.6,70%+,0.6907,0.0618,Standard,PLAY
+3,2026-10-01,prop,player_rebounds,2026-10-01,IND,LVA,IND @ LVA,A'ja Wilson UNDER 10.5 REB,A'ja Wilson,UNDER,10.5,-110.0,draftkings,0.7212,25,15,10,60.0,70%+,0.6343,0.2342,Review,REVIEW
+4,2026-10-01,prop,player_points,2026-10-01,IND,LVA,IND @ LVA,A'ja Wilson UNDER 28.5 PTS,A'ja Wilson,UNDER,28.5,-111.0,draftkings,0.7048,22,13,9,59.1,70%+,0.6262,0.2129,Review,REVIEW
+5,2026-10-01,total,total,2026-10-01,IND,LVA,IND @ LVA,Under 180.5,,UNDER,180.5,-108.0,draftkings,0.5233,15,11,4,73.3,50–59%,0.6247,0.0276,Lean,PLAY
+6,2026-10-01,moneyline,moneyline,2026-10-01,IND,LVA,IND @ LVA,LVA ML,,LVA,,-198.0,draftkings,0.5464,28,18,10,64.3,50–59%,0.6073,-0.0905,Pass,PASS
+7,2026-10-01,spread,spread,2026-10-01,IND,LVA,IND @ LVA,IND +4.5,,IND,4.5,-110.0,draftkings,0.6019,14,5,9,35.7,60–69%,0.4797,0.1019,Strong,PLAY

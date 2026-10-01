@@ -3,20 +3,25 @@
     "draftkings"
   ],
   "game": {
-    "fetched_at": "2026-09-08T21:11:15+00:00",
-    "events": 0,
-    "quotes": 0,
-    "returned_books": [],
-    "api_used": null,
-    "api_remaining": null,
-    "quota_exhausted": true
+    "fetched_at": "2026-10-01T11:28:50+00:00",
+    "events": 4,
+    "quotes": 18,
+    "returned_books": [
+      "draftkings"
+    ],
+    "api_used": "11",
+    "api_remaining": "489",
+    "quota_exhausted": false
   },
   "props": {
-    "fetched_at": "2026-09-07T21:28:56+00:00",
-    "events": 8,
-    "quotes": 0,
-    "returned_books": [],
-    "api_used": "498",
-    "api_remaining": "2"
+    "fetched_at": "2026-10-01T11:28:51+00:00",
+    "events": 3,
+    "quotes": 224,
+    "returned_books": [
+      "draftkings"
+    ],
+    "api_used": "23",
+    "api_remaining": "477",
+    "quota_exhausted": false
   }
 }
