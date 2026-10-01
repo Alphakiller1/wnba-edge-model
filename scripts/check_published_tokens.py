@@ -25,7 +25,10 @@ FALLBACK_TIER1 = (
     "master/design/chase-tokens-v1.css"
 )
 
-IDENTITY = ("#08090F", "#9A6BFF", "DM Sans", "Roboto Condensed")
+# The 2026-09-15 premium pass renamed the families (DM Sans / Roboto Condensed ->
+# Chase Sans / Chase Display); a stale name here fails every PR for a font the
+# live site deliberately replaced. Same fix as mlb-model #36.
+IDENTITY = ("#08090F", "#9A6BFF", "Chase Sans", "Chase Display")
 
 _CRLF = b"\r\n"
 _LF = b"\n"
