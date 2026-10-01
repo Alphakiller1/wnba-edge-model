@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import json
 from datetime import UTC, datetime
+from zoneinfo import ZoneInfo
 from pathlib import Path
 
 import pandas as pd
@@ -78,22 +79,27 @@ def _read_csv(path: Path) -> pd.DataFrame:
 
 
 def _kickoff(row: pd.Series) -> tuple[str | None, str | None]:
-    """Human tip-off plus UTC ISO when the CSV carries a parseable stamp."""
+    """Human tip-off and the UTC ISO start.
+
+    The schedule's ``time`` is ESPN's event start (ISO, UTC). It used to be
+    ignored and ``generated_at`` - when the board was built - published as
+    the tip-off, so every game sorted and displayed at the build time.
+    """
     raw_time = _text(row.get("time"))
     raw_date = _text(row.get("date") or row.get("game_date"))
-    generated = _text(row.get("generated_at"))
-    kickoff = " ".join(part for part in (raw_date, raw_time) if part) or None
-    for candidate in (generated,):
-        if not candidate:
-            continue
+    if raw_time:
         try:
-            stamp = datetime.fromisoformat(candidate.replace("Z", "+00:00"))
+            stamp = datetime.fromisoformat(raw_time.replace("Z", "+00:00"))
             if stamp.tzinfo is None:
                 stamp = stamp.replace(tzinfo=UTC)
-            return kickoff, stamp.astimezone(UTC).isoformat(timespec="seconds").replace("+00:00", "Z")
+            stamp = stamp.astimezone(UTC)
+            et = stamp.astimezone(ZoneInfo("America/New_York"))
+            hour = et.hour % 12 or 12
+            human = f"{raw_date or et.date().isoformat()} {hour}:{et.minute:02d} {'PM' if et.hour >= 12 else 'AM'} ET"
+            return human, stamp.isoformat(timespec="seconds").replace("+00:00", "Z")
         except ValueError:
-            continue
-    return kickoff, None
+            pass
+    return (" ".join(part for part in (raw_date, raw_time) if part) or None), None
 
 
 def _game(row: pd.Series) -> dict | None:
