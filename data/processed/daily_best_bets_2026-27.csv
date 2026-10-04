@@ -1,10 +1,1 @@
 rank,slate_date,family,market,game_date,away,home,matchup,selection,player,side,line,odds,book,model_prob,hist_n,hist_wins,hist_losses,hist_hit_rate,hist_band,hit_likelihood,edge,tier,verdict
-1,2026-10-04,prop,player_threes,2026-10-04,NYL,ATL,NYL @ ATL,Naz Hillmon OVER 0.5 3PM,Naz Hillmon,OVER,0.5,-245.0,draftkings,0.8269,50,34,16,68.0,70%+,0.7028,0.1647,Review,REVIEW
-2,2026-10-04,prop,player_threes,2026-10-04,NYL,ATL,NYL @ ATL,Rhyne Howard UNDER 3.5 3PM,Rhyne Howard,UNDER,3.5,-171.0,draftkings,0.7344,50,34,16,68.0,70%+,0.6849,0.1477,Strong,PLAY
-3,2026-10-04,prop,player_threes,2026-10-04,LVA,GSV,LVA @ GSV,Jewell Loyd OVER 1.5 3PM,Jewell Loyd,OVER,1.5,114.0,draftkings,0.7259,50,34,16,68.0,70%+,0.6833,0.2912,Review,REVIEW
-4,2026-10-04,prop,player_threes,2026-10-04,NYL,ATL,NYL @ ATL,Sabrina Ionescu UNDER 2.5 3PM,Sabrina Ionescu,UNDER,2.5,-173.0,draftkings,0.7236,50,34,16,68.0,70%+,0.6829,0.1348,Strong,PLAY
-5,2026-10-04,moneyline,moneyline,2026-10-04,NYL,ATL,NYL @ ATL,ATL ML,,ATL,,-170.0,draftkings,0.6083,20,15,5,75.0,60–69%,0.6827,0.0045,Pass,PASS
-6,2026-10-04,total,total,2026-10-04,NYL,ATL,NYL @ ATL,Over 173.5,,OVER,173.5,-108.0,draftkings,0.5727,16,12,4,75.0,50–59%,0.6581,0.0771,Standard,PLAY
-7,2026-10-04,moneyline,moneyline,2026-10-04,LVA,GSV,LVA @ GSV,GSV ML,,GSV,,-115.0,draftkings,0.576,29,19,10,65.5,50–59%,0.6249,0.0652,Standard,PLAY
-8,2026-10-04,spread,spread,2026-10-04,LVA,GSV,LVA @ GSV,GSV -1.5,,GSV,-1.5,-102.0,draftkings,0.5266,16,8,8,50.0,50–59%,0.5114,0.0439,Lean,PLAY
-9,2026-10-04,total,total,2026-10-04,LVA,GSV,LVA @ GSV,Over 161.5,,OVER,161.5,-110.0,draftkings,0.6243,19,7,12,36.8,60–69%,0.4752,0.1243,Strong,PLAY
