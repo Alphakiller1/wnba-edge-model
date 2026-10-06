@@ -329,6 +329,5 @@ GSV,Golden State Valkyries,76,2026-09-24,1790208000000.0,41.0,LAS,Los Angeles Sp
 IND,Indiana Fever,66,2026-09-24,1790208000000.0,6.0,MIN,Minnesota Lynx,86,1022600328.0,IND,20,Sep,False,80.0,2026-27,regular_season,"K. McBride — 22 pts, 3 ast",MIN,152,20,L,W,
 LVA,Las Vegas Aces,100,2026-09-24,1790208000000.0,23.0,PHX,Phoenix Mercury,82,1022600330.0,PHX,18,Sep,False,81.5,2026-27,regular_season,"A. Wilson — 34 pts, 10 reb",LVA,182,-18,W,L,
 TOR,Toronto Tempo,81,2026-09-24,1790208000000.0,32.0,CON,Connecticut Sun,95,1022600326.0,TOR,14,Sep,False,83.5,2026-27,regular_season,"K. Rice — 28 pts, 8 reb",CON,176,14,L,W,
-IND,,83,2026-10-01,,,LVA,,94,,IND,11,,,,2026-27,,,LVA,177,11,L,W,espn_scoreboard
-DAL,,73,2026-10-02,,,GSV,,77,,DAL,4,,,,2026-27,,,GSV,150,4,L,W,espn_scoreboard
+LVA,,60,2026-10-04,,,GSV,,71,,LVA,11,,,,2026-27,,,GSV,131,11,L,W,espn_scoreboard
 NYL,,82,2026-10-04,,,ATL,,92,,NYL,10,,,,2026-27,,,ATL,174,10,L,W,espn_scoreboard

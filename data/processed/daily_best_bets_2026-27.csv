@@ -1,1 +1,10 @@
 rank,slate_date,family,market,game_date,away,home,matchup,selection,player,side,line,odds,book,model_prob,hist_n,hist_wins,hist_losses,hist_hit_rate,hist_band,hit_likelihood,edge,tier,verdict
+1,2026-10-07,moneyline,moneyline,2026-10-07,NYL,ATL,NYL @ ATL,ATL ML,,ATL,,-142.0,draftkings,0.6083,21,16,5,76.2,60–69%,0.6916,0.0448,Lean,PLAY
+2,2026-10-07,prop,player_threes,2026-10-07,NYL,ATL,NYL @ ATL,Naz Hillmon OVER 0.5 3PM,Naz Hillmon,OVER,0.5,-241.0,draftkings,0.8269,54,36,18,66.7,70%+,0.6909,0.1674,Review,REVIEW
+3,2026-10-07,prop,player_points,2026-10-07,LVA,GSV,LVA @ GSV,Gabby Williams UNDER 19.5 PTS,Gabby Williams,UNDER,19.5,-127.0,draftkings,0.8547,28,17,11,60.7,70%+,0.6764,0.3315,Review,REVIEW
+4,2026-10-07,prop,player_threes,2026-10-07,NYL,ATL,NYL @ ATL,Sabrina Ionescu UNDER 2.5 3PM,Sabrina Ionescu,UNDER,2.5,-175.0,draftkings,0.7236,54,36,18,66.7,70%+,0.6721,0.1317,Strong,PLAY
+5,2026-10-07,prop,player_threes,2026-10-07,NYL,ATL,NYL @ ATL,Jordin Canada OVER 0.5 3PM,Jordin Canada,OVER,0.5,-206.0,draftkings,0.709,54,36,18,66.7,70%+,0.6695,0.0817,Strong,PLAY
+6,2026-10-07,moneyline,moneyline,2026-10-07,LVA,GSV,LVA @ GSV,GSV ML,,GSV,,-125.0,draftkings,0.576,30,20,10,66.7,50–59%,0.6333,0.0435,Lean,PLAY
+7,2026-10-07,total,total,2026-10-07,LVA,GSV,LVA @ GSV,Over 157.5,,OVER,157.5,-110.0,draftkings,0.7422,43,22,21,51.2,all,0.5615,0.2422,Review,REVIEW
+8,2026-10-07,spread,spread,2026-10-07,LVA,GSV,LVA @ GSV,GSV -1.5,,GSV,-1.5,-112.0,draftkings,0.5266,18,9,9,50.0,50–59%,0.5106,0.0222,Lean,PASS
+9,2026-10-07,total,total,2026-10-07,NYL,ATL,NYL @ ATL,Over 170.5,,OVER,170.5,-110.0,draftkings,0.6676,20,7,13,35.0,60–69%,0.4776,0.1676,Review,REVIEW
