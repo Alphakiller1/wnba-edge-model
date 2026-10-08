@@ -1,7 +1,7 @@
 run_id,generated_at,game_date,away,home,market,projection,projection_basis,side,line,odds,opposite_odds,book,model_prob,implied_prob,vig_free,edge,tier,verdict,priced
-4384d8fe8a98,2026-10-07T23:02:58+00:00,2026-10-07,NYL,ATL,moneyline,0.6083,Normal CDF of projected margin (σ=12),ATL,,-130,110,draftkings,0.6083,0.5427,True,0.0656,Standard,PLAY,True
-4384d8fe8a98,2026-10-07T23:02:58+00:00,2026-10-07,NYL,ATL,spread,3.3,projected home margin,ATL,-2.5,-105,-115,draftkings,0.5266,0.4892,True,0.0374,Lean,PLAY,True
-4384d8fe8a98,2026-10-07T23:02:58+00:00,2026-10-07,NYL,ATL,total,175.7,projected total,OVER,170.5,-110,-110,draftkings,0.6676,0.5,True,0.1676,Review,REVIEW,True
-4384d8fe8a98,2026-10-07T23:02:58+00:00,2026-10-07,LVA,GSV,moneyline,0.576,Normal CDF of projected margin (σ=12),GSV,,-120,100,draftkings,0.576,0.5217,True,0.0543,Standard,PLAY,True
-4384d8fe8a98,2026-10-07T23:02:58+00:00,2026-10-07,LVA,GSV,spread,2.3,projected home margin,GSV,-1.5,-115,-105,draftkings,0.5266,0.5108,True,0.0157,Pass,PASS,True
-4384d8fe8a98,2026-10-07T23:02:58+00:00,2026-10-07,LVA,GSV,total,165.3,projected total,OVER,157.5,-105,-115,draftkings,0.7422,0.4892,True,0.253,Review,REVIEW,True
+f6f4c0cfb279,2026-10-08T23:18:34+00:00,2026-10-09,ATL,NYL,moneyline,0.5166,Normal CDF of projected margin (σ=12),ATL,,130,-155,draftkings,0.5166,0.417,True,0.0996,Strong,PLAY,True
+f6f4c0cfb279,2026-10-08T23:18:34+00:00,2026-10-09,ATL,NYL,spread,-0.5,projected home margin,ATL,2.5,-105,-115,draftkings,0.5987,0.4892,True,0.1095,Strong,PLAY,True
+f6f4c0cfb279,2026-10-08T23:18:34+00:00,2026-10-09,ATL,NYL,total,175.7,projected total,OVER,172.5,-112,-108,draftkings,0.6051,0.5043,True,0.1008,Strong,PLAY,True
+f6f4c0cfb279,2026-10-08T23:18:34+00:00,2026-10-09,GSV,LVA,moneyline,0.5166,Normal CDF of projected margin (σ=12),LVA,,-180,150,draftkings,0.5166,0.6164,True,-0.0998,Pass,PASS,True
+f6f4c0cfb279,2026-10-08T23:18:34+00:00,2026-10-09,GSV,LVA,spread,0.5,projected home margin,GSV,3.5,-105,-115,draftkings,0.5987,0.4892,True,0.1095,Strong,PLAY,True
+f6f4c0cfb279,2026-10-08T23:18:34+00:00,2026-10-09,GSV,LVA,total,165.3,projected total,OVER,156.5,-115,-105,draftkings,0.7683,0.5108,True,0.2575,Review,REVIEW,True

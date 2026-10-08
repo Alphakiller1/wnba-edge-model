@@ -1,11 +1,9 @@
 rank,slate_date,family,market,game_date,away,home,matchup,selection,player,side,line,odds,book,model_prob,hist_n,hist_wins,hist_losses,hist_hit_rate,hist_band,hit_likelihood,edge,tier,verdict
-1,2026-10-07,moneyline,moneyline,2026-10-07,NYL,ATL,NYL @ ATL,ATL ML,,ATL,,-130.0,draftkings,0.6083,21,16,5,76.2,60–69%,0.6916,0.0656,Standard,PLAY
-2,2026-10-07,prop,player_threes,2026-10-07,NYL,ATL,NYL @ ATL,Sabrina Ionescu UNDER 2.5 3PM,Sabrina Ionescu,UNDER,2.5,-173.0,draftkings,0.7236,54,36,18,66.7,70%+,0.6721,0.1337,Strong,PLAY
-3,2026-10-07,prop,player_threes,2026-10-07,LVA,GSV,LVA @ GSV,Gabby Williams UNDER 2.5 3PM,Gabby Williams,UNDER,2.5,-184.0,draftkings,0.7059,54,36,18,66.7,70%+,0.6689,0.1034,Strong,PLAY
-4,2026-10-07,prop,player_points,2026-10-07,LVA,GSV,LVA @ GSV,Gabby Williams UNDER 18.5 PTS,Gabby Williams,UNDER,18.5,-118.0,draftkings,0.8177,28,17,11,60.7,70%+,0.6653,0.3117,Review,REVIEW
-5,2026-10-07,prop,player_assists,2026-10-07,LVA,GSV,LVA @ GSV,Jackie Young OVER 5.5 AST,Jackie Young,OVER,5.5,-143.0,draftkings,0.7997,34,20,14,58.8,70%+,0.6398,0.2529,Review,REVIEW
-6,2026-10-07,moneyline,moneyline,2026-10-07,LVA,GSV,LVA @ GSV,GSV ML,,GSV,,-120.0,draftkings,0.576,30,20,10,66.7,50–59%,0.6333,0.0543,Standard,PLAY
-7,2026-10-07,total,total,2026-10-07,LVA,GSV,LVA @ GSV,Over 157.5,,OVER,157.5,-105.0,draftkings,0.7422,43,22,21,51.2,all,0.5615,0.253,Review,REVIEW
-8,2026-10-07,spread,spread,2026-10-07,NYL,ATL,NYL @ ATL,ATL -2.5,,ATL,-2.5,-105.0,draftkings,0.5266,18,9,9,50.0,50–59%,0.5106,0.0374,Lean,PLAY
-9,2026-10-07,spread,spread,2026-10-07,LVA,GSV,LVA @ GSV,GSV -1.5,,GSV,-1.5,-115.0,draftkings,0.5266,18,9,9,50.0,50–59%,0.5106,0.0157,Pass,PASS
-10,2026-10-07,total,total,2026-10-07,NYL,ATL,NYL @ ATL,Over 170.5,,OVER,170.5,-110.0,draftkings,0.6676,20,7,13,35.0,60–69%,0.4776,0.1676,Review,REVIEW
+1,2026-10-09,prop,player_threes,2026-10-09,GSV,LVA,GSV @ LVA,Jewell Loyd OVER 1.5 3PM,Jewell Loyd,OVER,1.5,-112.0,draftkings,0.7259,56,37,19,66.1,70%+,0.6677,0.2348,Review,REVIEW
+2,2026-10-09,prop,player_threes,2026-10-09,ATL,NYL,ATL @ NYL,Sabrina Ionescu UNDER 2.5 3PM,Sabrina Ionescu,UNDER,2.5,-163.0,draftkings,0.7236,56,37,19,66.1,70%+,0.6672,0.1479,Strong,PLAY
+3,2026-10-09,prop,player_threes,2026-10-09,GSV,LVA,GSV @ LVA,Cecilia Zandalasini OVER 0.5 3PM,Cecilia Zandalasini,OVER,0.5,-232.0,draftkings,0.7089,56,37,19,66.1,70%+,0.6647,0.0579,Standard,PLAY
+4,2026-10-09,prop,player_threes,2026-10-09,GSV,LVA,GSV @ LVA,Gabby Williams UNDER 2.5 3PM,Gabby Williams,UNDER,2.5,-165.0,draftkings,0.7059,56,37,19,66.1,70%+,0.6641,0.1268,Strong,PLAY
+5,2026-10-09,total,total,2026-10-09,GSV,LVA,GSV @ LVA,Over 156.5,,OVER,156.5,-115.0,draftkings,0.7683,45,24,21,53.3,all,0.5817,0.2575,Review,REVIEW
+6,2026-10-09,spread,spread,2026-10-09,ATL,NYL,ATL @ NYL,ATL +2.5,,ATL,2.5,-105.0,draftkings,0.5987,20,11,9,55.0,50–59%,0.5654,0.1095,Strong,PLAY
+7,2026-10-09,spread,spread,2026-10-09,GSV,LVA,GSV @ LVA,GSV +3.5,,GSV,3.5,-105.0,draftkings,0.5987,20,11,9,55.0,50–59%,0.5654,0.1095,Strong,PLAY
+8,2026-10-09,total,total,2026-10-09,ATL,NYL,ATL @ NYL,Over 172.5,,OVER,172.5,-112.0,draftkings,0.6051,21,8,13,38.1,60–69%,0.469,0.1008,Strong,PLAY
