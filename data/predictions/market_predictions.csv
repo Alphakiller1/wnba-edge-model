@@ -935,3 +935,6 @@ e90e73eb5a1e4cf8a53f731ff61484b9,16254f7e1dec,wnba,2026-27,2026-10-09T22:35:22+0
 7daded615f1045b382eace59d19df21f,16254f7e1dec,wnba,2026-27,2026-10-09T22:35:22+00:00,2026-10-09,GSV,LVA,moneyline,LVA,,,,,0.5166,Normal CDF of projected margin (σ=12),,,False,,,PROJ,False,True,False,False,0.0,,2026-10-10T21:37:49+00:00
 95d20b07b5b34bfb862829875f14a71a,16254f7e1dec,wnba,2026-27,2026-10-09T22:35:22+00:00,2026-10-09,GSV,LVA,spread,LVA,,,,,0.5,projected home margin,,,False,,,PROJ,False,True,,False,-10.0,,2026-10-10T21:37:49+00:00
 6623859017364496ad919aba9d5ecbfe,16254f7e1dec,wnba,2026-27,2026-10-09T22:35:22+00:00,2026-10-09,GSV,LVA,total,,,,,,165.3,projected total,,,False,,,PROJ,False,True,,False,164.0,,2026-10-10T21:37:49+00:00
+866b27368772441186f5b584008fd8c8,89253bb8d58b,wnba,2026-27,2026-10-16T21:03:13+00:00,2026-10-17,ATL,GSV,moneyline,GSV,,,,,0.553,Normal CDF of projected margin (σ=12),,,False,,,PROJ,False,False,,,,,
+0c42fe10b6284e08ac1c656a4815df69,89253bb8d58b,wnba,2026-27,2026-10-16T21:03:13+00:00,2026-10-17,ATL,GSV,spread,GSV,,,,,1.6,projected home margin,,,False,,,PROJ,False,False,,,,,
+ac9bf76d6f3c4b9bacf7d8a6574d0e23,89253bb8d58b,wnba,2026-27,2026-10-16T21:03:13+00:00,2026-10-17,ATL,GSV,total,,,,,,166.4,projected total,,,False,,,PROJ,False,False,,,,,
