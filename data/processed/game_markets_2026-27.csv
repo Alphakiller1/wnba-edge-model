@@ -1,4 +1,4 @@
 run_id,generated_at,game_date,away,home,market,projection,projection_basis,side,line,odds,opposite_odds,book,model_prob,implied_prob,vig_free,edge,tier,verdict,priced
-e7509050192f,2026-10-18T20:37:17+00:00,2026-10-19,ATL,GSV,moneyline,0.553,Normal CDF of projected margin (σ=12),GSV,,,,,,,False,,,PROJ,False
-e7509050192f,2026-10-18T20:37:17+00:00,2026-10-19,ATL,GSV,spread,1.6,projected home margin,GSV,,,,,,,False,,,PROJ,False
-e7509050192f,2026-10-18T20:37:17+00:00,2026-10-19,ATL,GSV,total,166.4,projected total,,,,,,,,False,,,PROJ,False
+a4beac0397db,2026-10-19T22:19:04+00:00,2026-10-19,ATL,GSV,moneyline,0.553,Normal CDF of projected margin (σ=12),GSV,,,,,,,False,,,PROJ,False
+a4beac0397db,2026-10-19T22:19:04+00:00,2026-10-19,ATL,GSV,spread,1.6,projected home margin,GSV,,,,,,,False,,,PROJ,False
+a4beac0397db,2026-10-19T22:19:04+00:00,2026-10-19,ATL,GSV,total,166.4,projected total,,,,,,,,False,,,PROJ,False
