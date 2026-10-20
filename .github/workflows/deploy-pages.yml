@@ -4,11 +4,18 @@ on:
   push:
     branches:
       - main
+  # The daily model commits the slate with GITHUB_TOKEN, which raises no push
+  # event. Both workflows used to share the 18:15 cron, so this build always
+  # published the PREVIOUS run's data: on 2026-10-20 the board showed the
+  # finished Finals Game 2 while Game 3 sat committed. Deploy once the daily
+  # run has finished instead (checkout then reads its commit).
+  workflow_run:
+    workflows: ["daily WNBA model"]
+    types: [completed]
   schedule:
-    # Daily slate: afternoon ET after same-day boards open, plus a late-night
-    # rebuild after West Coast tips. Rebuilds from committed CSVs only — this
-    # workflow does not call --fetch-odds (that spend lives in daily-model.yml).
-    - cron: "15 18 * * *"
+    # Late-night rebuild after West Coast tips. Rebuilds from committed CSVs
+    # only - this workflow does not call --fetch-odds (that spend lives in
+    # daily-model.yml).
     - cron: "30 4 * * *"
   workflow_dispatch:
 
