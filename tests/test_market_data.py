@@ -149,6 +149,8 @@ def test_fetch_slate_quota_miss_clears_locked_snapshot(monkeypatch, tmp_path):
         raise market_data.OddsQuotaError("quota")
 
     monkeypatch.setattr(market_data, "_get", _boom)
+    # ESPN's DraftKings fallback has nothing either (tests/test_espn_lines.py covers it).
+    monkeypatch.setattr(market_data.espn_lines, "fetch_events", lambda **kw: [])
     rows = market_data.fetch_slate(props=False)
     assert rows == []
     stored = pd.read_csv(latest)
