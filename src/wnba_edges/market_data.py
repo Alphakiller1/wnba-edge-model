@@ -11,6 +11,7 @@ from typing import Any
 
 import pandas as pd
 
+from . import espn_lines
 from .paths import repository_root
 from .teams import TEAM_NAME_TO_ABBR, team_abbr  # noqa: F401 — re-exported for compat
 
@@ -193,7 +194,8 @@ def fetch_slate(*, props: bool = False) -> list[dict]:
             payload = _get(f"/sports/{ODDS_SPORT_KEY}/odds", params)
         except OddsQuotaError as exc:
             print(f"WARNING: {exc}")
-            return _quota_miss_snapshot("game", fetched_at)
+            rows = _espn_game_rows(fetched_at)
+            return rows if rows else _quota_miss_snapshot("game", fetched_at)
         if not isinstance(payload, list):
             raise SystemExit(f"Unexpected Odds API payload: {type(payload).__name__}")
         rows = []
@@ -208,6 +210,9 @@ def fetch_slate(*, props: bool = False) -> list[dict]:
                 f"{len(payload)} event(s), {len(rows)} quote(s), books={books or ['(none)']}"
             )
         if not rows:
+            rows = _espn_game_rows(fetched_at)
+            if rows:
+                return rows
             print("No live WNBA lines returned.")
             # A locked-book miss must not keep yesterday's other-book snapshot as "latest".
             if locked:
@@ -216,6 +221,29 @@ def fetch_slate(*, props: bool = False) -> list[dict]:
         store(rows, replace_latest=True)
     if _LAST_USAGE:
         print(f"API quota: used {_LAST_USAGE.get('used')}, remaining {_LAST_USAGE.get('remaining')}.")
+    return rows
+
+
+def _espn_game_rows(fetched_at: str) -> list[dict]:
+    """DraftKings game lines from ESPN's scoreboard when the paid feed has none.
+
+    Only used for a DraftKings-locked board (or an unlocked one): ESPN carries
+    no other book, and mixing books on one slate is what the lock prevents.
+    """
+    locked = requested_bookmakers()
+    if locked and espn_lines.BOOK_KEY not in locked:
+        return []
+    try:
+        events = espn_lines.fetch_events()
+    except Exception as exc:  # a free fallback must never break the run
+        print(f"WARNING: ESPN DraftKings lines unavailable: {exc}")
+        return []
+    rows = [row for event in events for row in _normalize_event(event, fetched_at)]
+    _record_fetch_status("game", fetched_at, len(events), rows, source="espn")
+    if rows:
+        store(rows, replace_latest=True)
+        print(f"game lines: {len(events)} event(s), {len(rows)} DraftKings quote(s) from ESPN "
+              "(Odds API had none)")
     return rows
 
 
@@ -249,7 +277,8 @@ def _quota_miss_snapshot(scope: str, fetched_at: str) -> list[dict]:
     return rows
 
 
-def _record_fetch_status(scope: str, fetched_at: str, events: int, rows: list[dict]) -> None:
+def _record_fetch_status(scope: str, fetched_at: str, events: int, rows: list[dict],
+                         source: str = "odds_api") -> None:
     """Persist the requested book even when it returns zero quotes.
 
     An empty CSV cannot say whether no fetch ran or a locked sportsbook returned
@@ -269,6 +298,7 @@ def _record_fetch_status(scope: str, fetched_at: str, events: int, rows: list[di
         "api_used": _LAST_USAGE.get("used"),
         "api_remaining": _LAST_USAGE.get("remaining"),
         "quota_exhausted": _quota_exhausted(),
+        "source": source,
     }
     ODDS_STATUS_JSON.write_text(json.dumps(status, indent=2) + "\n", encoding="utf-8")
 
