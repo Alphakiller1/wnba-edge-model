@@ -12936,3 +12936,9 @@ fetched_at,commence_time,event_id,away,home,book,market,side,line,odds,player
 2026-10-08T23:18:29+00:00,2026-10-10T01:30:00Z,3a63e90ff835f691f1c2b4df7d0c9dde,GSV,LVA,draftkings,player_threes,Cecilia Zandalasini|under,0.5,167,Cecilia Zandalasini
 2026-10-08T23:18:29+00:00,2026-10-10T01:30:00Z,3a63e90ff835f691f1c2b4df7d0c9dde,GSV,LVA,draftkings,player_threes,A'ja Wilson|over,0.5,-164,A'ja Wilson
 2026-10-08T23:18:29+00:00,2026-10-10T01:30:00Z,3a63e90ff835f691f1c2b4df7d0c9dde,GSV,LVA,draftkings,player_threes,A'ja Wilson|under,0.5,120,A'ja Wilson
+2026-10-20T22:59:59+00:00,2026-10-22T00:00Z,espn-401918307,GSV,ATL,draftkings,ml,ATL,,-162,
+2026-10-20T22:59:59+00:00,2026-10-22T00:00Z,espn-401918307,GSV,ATL,draftkings,ml,GSV,,136,
+2026-10-20T22:59:59+00:00,2026-10-22T00:00Z,espn-401918307,GSV,ATL,draftkings,spread,ATL,-3.5,-110,
+2026-10-20T22:59:59+00:00,2026-10-22T00:00Z,espn-401918307,GSV,ATL,draftkings,spread,GSV,3.5,-110,
+2026-10-20T22:59:59+00:00,2026-10-22T00:00Z,espn-401918307,GSV,ATL,draftkings,total,over,151.5,-108,
+2026-10-20T22:59:59+00:00,2026-10-22T00:00Z,espn-401918307,GSV,ATL,draftkings,total,under,151.5,-112,
