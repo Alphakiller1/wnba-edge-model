@@ -330,3 +330,4 @@ IND,Indiana Fever,66,2026-09-24,1790208000000.0,6.0,MIN,Minnesota Lynx,86,102260
 LVA,Las Vegas Aces,100,2026-09-24,1790208000000.0,23.0,PHX,Phoenix Mercury,82,1022600330.0,PHX,18,Sep,False,81.5,2026-27,regular_season,"A. Wilson — 34 pts, 10 reb",LVA,182,-18,W,L,
 TOR,Toronto Tempo,81,2026-09-24,1790208000000.0,32.0,CON,Connecticut Sun,95,1022600326.0,TOR,14,Sep,False,83.5,2026-27,regular_season,"K. Rice — 28 pts, 8 reb",CON,176,14,L,W,
 GSV,,71,2026-10-21,,,ATL,,97,,GSV,26,,,,2026-27,,,ATL,168,26,L,W,espn_scoreboard
+GSV,,67,2026-10-24,,,ATL,,62,,ATL,5,,,,2026-27,,,GSV,129,-5,W,L,espn_scoreboard
