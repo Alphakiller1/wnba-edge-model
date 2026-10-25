@@ -3,7 +3,7 @@
     "draftkings"
   ],
   "game": {
-    "fetched_at": "2026-10-24T20:43:39+00:00",
+    "fetched_at": "2026-10-25T20:47:02+00:00",
     "events": 1,
     "quotes": 6,
     "returned_books": [
@@ -15,7 +15,7 @@
     "source": "espn"
   },
   "props": {
-    "fetched_at": "2026-10-24T20:43:40+00:00",
+    "fetched_at": "2026-10-25T20:47:03+00:00",
     "events": 1,
     "quotes": 0,
     "returned_books": [],
