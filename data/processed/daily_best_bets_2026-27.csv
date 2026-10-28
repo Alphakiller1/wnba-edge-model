@@ -1,1 +1,4 @@
 rank,slate_date,family,market,game_date,away,home,matchup,selection,player,side,line,odds,book,model_prob,hist_n,hist_wins,hist_losses,hist_hit_rate,hist_band,hit_likelihood,edge,tier,verdict
+1,2026-10-29,total,total,2026-10-29,GSV,ATL,GSV @ ATL,Over 147.5,,OVER,147.5,-105,draftkings,0.9424,11,5,6,45.5,70%+,0.7124,0.4532,Review,REVIEW
+2,2026-10-29,moneyline,moneyline,2026-10-29,GSV,ATL,GSV @ ATL,ATL ML,,ATL,,-192,draftkings,0.5332,38,25,13,65.8,50–59%,0.622,-0.0977,Pass,PASS
+3,2026-10-29,spread,spread,2026-10-29,GSV,ATL,GSV @ ATL,GSV +4.5,,GSV,4.5,-105,draftkings,0.6147,18,8,10,44.4,60–69%,0.5159,0.1256,Strong,PLAY
